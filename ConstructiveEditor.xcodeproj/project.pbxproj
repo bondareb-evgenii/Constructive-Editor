@@ -38,21 +38,21 @@
 		84EA63AD1514C4AF00C7177E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		84EA63AF1514C4AF00C7177E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		84EA63B11514C4AF00C7177E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		84EA63B51514C4AF00C7177E /* ConstructiveEditor-Info.plist */ = {isa = PBXFileReference; path = "ConstructiveEditor-Info.plist"; sourceTree = "<group>"; };
+		84EA63B51514C4AF00C7177E /* ConstructiveEditor-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ConstructiveEditor-Info.plist"; sourceTree = "<group>"; };
 		84EA63B71514C4AF00C7177E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		84EA63B91514C4AF00C7177E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		84EA63BB1514C4AF00C7177E /* ConstructiveEditor-Prefix.pch */ = {isa = PBXFileReference; path = "ConstructiveEditor-Prefix.pch"; sourceTree = "<group>"; };
-		84EA63BC1514C4AF00C7177E /* AppDelegate.h */ = {isa = PBXFileReference; path = AppDelegate.h; sourceTree = "<group>"; };
+		84EA63BB1514C4AF00C7177E /* ConstructiveEditor-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ConstructiveEditor-Prefix.pch"; sourceTree = "<group>"; };
+		84EA63BC1514C4AF00C7177E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		84EA63BD1514C4AF00C7177E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		84EA63C01514C4AF00C7177E /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		84EA63C31514C4AF00C7177E /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
-		84EA63C51514C4AF00C7177E /* ViewController.h */ = {isa = PBXFileReference; path = ViewController.h; sourceTree = "<group>"; };
+		84EA63C51514C4AF00C7177E /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		84EA63C61514C4AF00C7177E /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		84EA63CD1514C4AF00C7177E /* ConstructiveEditorTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ConstructiveEditorTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		84EA63CE1514C4AF00C7177E /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		84EA63D61514C4AF00C7177E /* ConstructiveEditorTests-Info.plist */ = {isa = PBXFileReference; path = "ConstructiveEditorTests-Info.plist"; sourceTree = "<group>"; };
+		84EA63D61514C4AF00C7177E /* ConstructiveEditorTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ConstructiveEditorTests-Info.plist"; sourceTree = "<group>"; };
 		84EA63D81514C4AF00C7177E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		84EA63DA1514C4AF00C7177E /* ConstructiveEditorTests.h */ = {isa = PBXFileReference; path = ConstructiveEditorTests.h; sourceTree = "<group>"; };
+		84EA63DA1514C4AF00C7177E /* ConstructiveEditorTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConstructiveEditorTests.h; sourceTree = "<group>"; };
 		84EA63DB1514C4AF00C7177E /* ConstructiveEditorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConstructiveEditorTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
