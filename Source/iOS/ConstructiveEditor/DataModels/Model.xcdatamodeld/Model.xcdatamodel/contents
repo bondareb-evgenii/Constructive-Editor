@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1170" systemVersion="11D50" minimumToolsVersion="Xcode 4.1" macOSVersion="Automatic" iOSVersion="Automatic">
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1171" systemVersion="11D50" minimumToolsVersion="Xcode 4.1" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Assembly" representedClassName="Assembly" syncable="YES">
-        <attribute name="level" attributeType="Integer 16" minValueString="0" maxValueString="2" defaultValueString="0" syncable="YES"/>
         <attribute name="picture" attributeType="Transformable" valueTransformerName="UIImageToDataTransformer" syncable="YES"/>
     </entity>
     <entity name="Detail" representedClassName="Detail" syncable="YES">
@@ -16,8 +15,8 @@
         <attribute name="scalePictureSize" optional="YES" attributeType="Transformable" valueTransformerName="UIISizeToDataTransformer" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Assembly" positionX="-63" positionY="-18" width="128" height="75"/>
-        <element name="DetailType" positionX="-45" positionY="18" width="128" height="135"/>
+        <element name="Assembly" positionX="-63" positionY="-18" width="128" height="60"/>
         <element name="Detail" positionX="160" positionY="192" width="128" height="60"/>
+        <element name="DetailType" positionX="-45" positionY="18" width="128" height="135"/>
     </elements>
 </model>
