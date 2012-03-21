@@ -12,7 +12,7 @@
         <attribute name="length" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="picture" optional="YES" attributeType="Transformable" valueTransformerName="UIImageToDataTransformer" syncable="YES"/>
         <attribute name="scalePicture" optional="YES" attributeType="Transformable" valueTransformerName="UIImageToDataTransformer" syncable="YES"/>
-        <attribute name="scalePictureSize" optional="YES" attributeType="Transformable" valueTransformerName="UIISizeToDataTransformer" syncable="YES"/>
+        <attribute name="scalePictureSize" optional="YES" attributeType="Transformable" valueTransformerName="NSValueToDataTransformer" syncable="YES"/>
     </entity>
     <elements>
         <element name="Assembly" positionX="-63" positionY="-18" width="128" height="60"/>
