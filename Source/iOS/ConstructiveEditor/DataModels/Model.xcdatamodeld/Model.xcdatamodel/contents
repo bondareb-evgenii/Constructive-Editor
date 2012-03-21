@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1171" systemVersion="11D50" minimumToolsVersion="Xcode 4.1" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Assembly" representedClassName="Assembly" syncable="YES">
+        <attribute name="connectionPoint" optional="YES" attributeType="Transformable" valueTransformerName="NSValueToDataTransformer" syncable="YES"/>
         <attribute name="picture" optional="YES" attributeType="Transformable" valueTransformerName="UIImageToDataTransformer" syncable="YES"/>
+        <relationship name="assemblies" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Assembly" syncable="YES"/>
+        <relationship name="details" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Detail" syncable="YES"/>
+        <relationship name="parent" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Assembly" syncable="YES"/>
     </entity>
     <entity name="Detail" representedClassName="Detail" syncable="YES">
+        <attribute name="connectionPoint" optional="YES" attributeType="Transformable" valueTransformerName="NSValueToDataTransformer" syncable="YES"/>
+        <relationship name="parent" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Assembly" syncable="YES"/>
         <relationship name="type" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="DetailType" syncable="YES"/>
     </entity>
     <entity name="DetailType" representedClassName="DetailType" syncable="YES">
@@ -15,8 +21,8 @@
         <attribute name="scalePictureSize" optional="YES" attributeType="Transformable" valueTransformerName="NSValueToDataTransformer" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Assembly" positionX="-63" positionY="-18" width="128" height="60"/>
-        <element name="Detail" positionX="160" positionY="192" width="128" height="60"/>
+        <element name="Assembly" positionX="-63" positionY="-18" width="128" height="120"/>
+        <element name="Detail" positionX="160" positionY="192" width="128" height="90"/>
         <element name="DetailType" positionX="-45" positionY="18" width="128" height="135"/>
     </elements>
 </model>
