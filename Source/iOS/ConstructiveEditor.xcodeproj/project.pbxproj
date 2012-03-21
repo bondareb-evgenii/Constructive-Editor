@@ -20,6 +20,7 @@
 		7529F96C15199C3200C13C90 /* StartMenuViewControler.m in Sources */ = {isa = PBXBuildFile; fileRef = 7529F95F15199C3200C13C90 /* StartMenuViewControler.m */; };
 		7529F96E15199CBD00C13C90 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7529F96D15199CBD00C13C90 /* CoreData.framework */; };
 		7529F97115199D3B00C13C90 /* Assembly.m in Sources */ = {isa = PBXBuildFile; fileRef = 7529F97015199D3B00C13C90 /* Assembly.m */; };
+		7529F9741519A33A00C13C90 /* RootAssemblesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7529F9731519A33A00C13C90 /* RootAssemblesViewController.m */; };
 		84EA63AE1514C4AF00C7177E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EA63AD1514C4AF00C7177E /* UIKit.framework */; };
 		84EA63B01514C4AF00C7177E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EA63AF1514C4AF00C7177E /* Foundation.framework */; };
 		84EA63B21514C4AF00C7177E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EA63B11514C4AF00C7177E /* CoreGraphics.framework */; };
@@ -63,6 +64,8 @@
 		7529F96D15199CBD00C13C90 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		7529F96F15199D3B00C13C90 /* Assembly.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Assembly.h; sourceTree = "<group>"; };
 		7529F97015199D3B00C13C90 /* Assembly.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Assembly.m; sourceTree = "<group>"; };
+		7529F9721519A33A00C13C90 /* RootAssemblesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootAssemblesViewController.h; sourceTree = "<group>"; };
+		7529F9731519A33A00C13C90 /* RootAssemblesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootAssemblesViewController.m; sourceTree = "<group>"; };
 		84EA63A91514C4AF00C7177E /* ConstructiveEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ConstructiveEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84EA63AD1514C4AF00C7177E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		84EA63AF1514C4AF00C7177E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -145,6 +148,8 @@
 		7529F95D15199C3200C13C90 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				7529F9721519A33A00C13C90 /* RootAssemblesViewController.h */,
+				7529F9731519A33A00C13C90 /* RootAssemblesViewController.m */,
 				7529F95E15199C3200C13C90 /* StartMenuViewControler.h */,
 				7529F95F15199C3200C13C90 /* StartMenuViewControler.m */,
 			);
@@ -348,6 +353,7 @@
 				7529F96715199C3200C13C90 /* UIImageToDataTransformer.m in Sources */,
 				7529F96C15199C3200C13C90 /* StartMenuViewControler.m in Sources */,
 				7529F97115199D3B00C13C90 /* Assembly.m in Sources */,
+				7529F9741519A33A00C13C90 /* RootAssemblesViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -459,6 +465,7 @@
 				GCC_PREFIX_HEADER = "ConstructiveEditor/ConstructiveEditor-Prefix.pch";
 				INFOPLIST_FILE = "ConstructiveEditor/ConstructiveEditor-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -470,6 +477,7 @@
 				GCC_PREFIX_HEADER = "ConstructiveEditor/ConstructiveEditor-Prefix.pch";
 				INFOPLIST_FILE = "ConstructiveEditor/ConstructiveEditor-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
