@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7529F96115199C3200C13C90 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7529F94615199C3200C13C90 /* AppDelegate.m */; };
-		7529F96215199C3200C13C90 /* CGSizeToDataTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7529F94915199C3200C13C90 /* CGSizeToDataTransformer.m */; };
+		7529F96215199C3200C13C90 /* NSValueToDataTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7529F94915199C3200C13C90 /* NSValueToDataTransformer.m */; };
 		7529F96315199C3200C13C90 /* Detail.m in Sources */ = {isa = PBXBuildFile; fileRef = 7529F94B15199C3200C13C90 /* Detail.m */; };
 		7529F96415199C3200C13C90 /* DetailType.m in Sources */ = {isa = PBXBuildFile; fileRef = 7529F94D15199C3200C13C90 /* DetailType.m */; };
 		7529F96515199C3200C13C90 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7529F94E15199C3200C13C90 /* Model.xcdatamodeld */; };
@@ -45,8 +45,8 @@
 /* Begin PBXFileReference section */
 		7529F94515199C3200C13C90 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		7529F94615199C3200C13C90 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		7529F94815199C3200C13C90 /* CGSizeToDataTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGSizeToDataTransformer.h; sourceTree = "<group>"; };
-		7529F94915199C3200C13C90 /* CGSizeToDataTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CGSizeToDataTransformer.m; sourceTree = "<group>"; };
+		7529F94815199C3200C13C90 /* NSValueToDataTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; path = NSValueToDataTransformer.h; sourceTree = "<group>"; };
+		7529F94915199C3200C13C90 /* NSValueToDataTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSValueToDataTransformer.m; sourceTree = "<group>"; };
 		7529F94A15199C3200C13C90 /* Detail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Detail.h; sourceTree = "<group>"; };
 		7529F94B15199C3200C13C90 /* Detail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Detail.m; sourceTree = "<group>"; };
 		7529F94C15199C3200C13C90 /* DetailType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailType.h; sourceTree = "<group>"; };
@@ -125,8 +125,8 @@
 				7529F94B15199C3200C13C90 /* Detail.m */,
 				7529F94C15199C3200C13C90 /* DetailType.h */,
 				7529F94D15199C3200C13C90 /* DetailType.m */,
-				7529F94815199C3200C13C90 /* CGSizeToDataTransformer.h */,
-				7529F94915199C3200C13C90 /* CGSizeToDataTransformer.m */,
+				7529F94815199C3200C13C90 /* NSValueToDataTransformer.h */,
+				7529F94915199C3200C13C90 /* NSValueToDataTransformer.m */,
 				7529F95015199C3200C13C90 /* UIColorToDataTransformer.h */,
 				7529F95115199C3200C13C90 /* UIColorToDataTransformer.m */,
 				7529F95215199C3200C13C90 /* UIImageToDataTransformer.h */,
@@ -345,7 +345,7 @@
 			files = (
 				84EA63BA1514C4AF00C7177E /* main.m in Sources */,
 				7529F96115199C3200C13C90 /* AppDelegate.m in Sources */,
-				7529F96215199C3200C13C90 /* CGSizeToDataTransformer.m in Sources */,
+				7529F96215199C3200C13C90 /* NSValueToDataTransformer.m in Sources */,
 				7529F96315199C3200C13C90 /* Detail.m in Sources */,
 				7529F96415199C3200C13C90 /* DetailType.m in Sources */,
 				7529F96515199C3200C13C90 /* Model.xcdatamodeld in Sources */,
