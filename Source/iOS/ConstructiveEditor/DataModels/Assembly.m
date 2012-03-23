@@ -1,16 +1,23 @@
 //
 //  Assembly.m
-//  CoreDataTest1
+//  Constructive
 //
-//  Created by Evgenii Bondarev on 3/8/12.
+//  Created by Evgenii Bondarev on 3/22/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
 #import "Assembly.h"
+#import "Assembly.h"
+#import "Detail.h"
 
 
 @implementation Assembly
 
 @dynamic picture;
+@dynamic connectionPoint;
+@dynamic parent;
+@dynamic assemblies;
+@dynamic details;
+@dynamic mainChild;
 
 @end

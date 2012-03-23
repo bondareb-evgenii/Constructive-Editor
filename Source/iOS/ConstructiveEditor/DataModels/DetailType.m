@@ -1,8 +1,8 @@
 //
 //  DetailType.m
-//  CoreDataTest1
+//  Constructive
 //
-//  Created by Evgenii Bondarev on 3/9/12.
+//  Created by Evgenii Bondarev on 3/22/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
@@ -11,10 +11,10 @@
 
 @implementation DetailType
 
-@dynamic picture;
+@dynamic color;
 @dynamic identifier;
 @dynamic length;
-@dynamic color;
+@dynamic picture;
 @dynamic scalePicture;
 @dynamic scalePictureSize;
 

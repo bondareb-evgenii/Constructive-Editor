@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		7529F96115199C3200C13C90 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7529F94615199C3200C13C90 /* AppDelegate.m */; };
 		7529F96215199C3200C13C90 /* NSValueToDataTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7529F94915199C3200C13C90 /* NSValueToDataTransformer.m */; };
-		7529F96315199C3200C13C90 /* Detail.m in Sources */ = {isa = PBXBuildFile; fileRef = 7529F94B15199C3200C13C90 /* Detail.m */; };
-		7529F96415199C3200C13C90 /* DetailType.m in Sources */ = {isa = PBXBuildFile; fileRef = 7529F94D15199C3200C13C90 /* DetailType.m */; };
 		7529F96515199C3200C13C90 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7529F94E15199C3200C13C90 /* Model.xcdatamodeld */; };
 		7529F96615199C3200C13C90 /* UIColorToDataTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7529F95115199C3200C13C90 /* UIColorToDataTransformer.m */; };
 		7529F96715199C3200C13C90 /* UIImageToDataTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7529F95315199C3200C13C90 /* UIImageToDataTransformer.m */; };
@@ -19,8 +17,10 @@
 		7529F96B15199C3200C13C90 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7529F95B15199C3200C13C90 /* MainStoryboard_iPhone.storyboard */; };
 		7529F96C15199C3200C13C90 /* StartMenuViewControler.m in Sources */ = {isa = PBXBuildFile; fileRef = 7529F95F15199C3200C13C90 /* StartMenuViewControler.m */; };
 		7529F96E15199CBD00C13C90 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7529F96D15199CBD00C13C90 /* CoreData.framework */; };
-		7529F97115199D3B00C13C90 /* Assembly.m in Sources */ = {isa = PBXBuildFile; fileRef = 7529F97015199D3B00C13C90 /* Assembly.m */; };
 		7529F9741519A33A00C13C90 /* RootAssemblesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7529F9731519A33A00C13C90 /* RootAssemblesViewController.m */; };
+		7529F97A151AE69B00C13C90 /* DetailType.m in Sources */ = {isa = PBXBuildFile; fileRef = 7529F979151AE69A00C13C90 /* DetailType.m */; };
+		7529F97D151AE73100C13C90 /* Detail.m in Sources */ = {isa = PBXBuildFile; fileRef = 7529F97C151AE73100C13C90 /* Detail.m */; };
+		7529F983151B0C2A00C13C90 /* Assembly.m in Sources */ = {isa = PBXBuildFile; fileRef = 7529F982151B0C2A00C13C90 /* Assembly.m */; };
 		84EA63AE1514C4AF00C7177E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EA63AD1514C4AF00C7177E /* UIKit.framework */; };
 		84EA63B01514C4AF00C7177E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EA63AF1514C4AF00C7177E /* Foundation.framework */; };
 		84EA63B21514C4AF00C7177E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EA63B11514C4AF00C7177E /* CoreGraphics.framework */; };
@@ -47,10 +47,6 @@
 		7529F94615199C3200C13C90 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		7529F94815199C3200C13C90 /* NSValueToDataTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSValueToDataTransformer.h; sourceTree = "<group>"; };
 		7529F94915199C3200C13C90 /* NSValueToDataTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSValueToDataTransformer.m; sourceTree = "<group>"; };
-		7529F94A15199C3200C13C90 /* Detail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Detail.h; sourceTree = "<group>"; };
-		7529F94B15199C3200C13C90 /* Detail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Detail.m; sourceTree = "<group>"; };
-		7529F94C15199C3200C13C90 /* DetailType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailType.h; sourceTree = "<group>"; };
-		7529F94D15199C3200C13C90 /* DetailType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailType.m; sourceTree = "<group>"; };
 		7529F94F15199C3200C13C90 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		7529F95015199C3200C13C90 /* UIColorToDataTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIColorToDataTransformer.h; sourceTree = "<group>"; };
 		7529F95115199C3200C13C90 /* UIColorToDataTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIColorToDataTransformer.m; sourceTree = "<group>"; };
@@ -62,10 +58,14 @@
 		7529F95E15199C3200C13C90 /* StartMenuViewControler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartMenuViewControler.h; sourceTree = "<group>"; };
 		7529F95F15199C3200C13C90 /* StartMenuViewControler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartMenuViewControler.m; sourceTree = "<group>"; };
 		7529F96D15199CBD00C13C90 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		7529F96F15199D3B00C13C90 /* Assembly.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Assembly.h; sourceTree = "<group>"; };
-		7529F97015199D3B00C13C90 /* Assembly.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Assembly.m; sourceTree = "<group>"; };
 		7529F9721519A33A00C13C90 /* RootAssemblesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootAssemblesViewController.h; sourceTree = "<group>"; };
 		7529F9731519A33A00C13C90 /* RootAssemblesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootAssemblesViewController.m; sourceTree = "<group>"; };
+		7529F978151AE69A00C13C90 /* DetailType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailType.h; sourceTree = "<group>"; };
+		7529F979151AE69A00C13C90 /* DetailType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailType.m; sourceTree = "<group>"; };
+		7529F97B151AE73100C13C90 /* Detail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Detail.h; sourceTree = "<group>"; };
+		7529F97C151AE73100C13C90 /* Detail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Detail.m; sourceTree = "<group>"; };
+		7529F981151B0C2A00C13C90 /* Assembly.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Assembly.h; sourceTree = "<group>"; };
+		7529F982151B0C2A00C13C90 /* Assembly.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Assembly.m; sourceTree = "<group>"; };
 		84EA63A91514C4AF00C7177E /* ConstructiveEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ConstructiveEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84EA63AD1514C4AF00C7177E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		84EA63AF1514C4AF00C7177E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -119,12 +119,12 @@
 			isa = PBXGroup;
 			children = (
 				7529F94E15199C3200C13C90 /* Model.xcdatamodeld */,
-				7529F96F15199D3B00C13C90 /* Assembly.h */,
-				7529F97015199D3B00C13C90 /* Assembly.m */,
-				7529F94A15199C3200C13C90 /* Detail.h */,
-				7529F94B15199C3200C13C90 /* Detail.m */,
-				7529F94C15199C3200C13C90 /* DetailType.h */,
-				7529F94D15199C3200C13C90 /* DetailType.m */,
+				7529F981151B0C2A00C13C90 /* Assembly.h */,
+				7529F982151B0C2A00C13C90 /* Assembly.m */,
+				7529F97B151AE73100C13C90 /* Detail.h */,
+				7529F97C151AE73100C13C90 /* Detail.m */,
+				7529F978151AE69A00C13C90 /* DetailType.h */,
+				7529F979151AE69A00C13C90 /* DetailType.m */,
 				7529F94815199C3200C13C90 /* NSValueToDataTransformer.h */,
 				7529F94915199C3200C13C90 /* NSValueToDataTransformer.m */,
 				7529F95015199C3200C13C90 /* UIColorToDataTransformer.h */,
@@ -346,14 +346,14 @@
 				84EA63BA1514C4AF00C7177E /* main.m in Sources */,
 				7529F96115199C3200C13C90 /* AppDelegate.m in Sources */,
 				7529F96215199C3200C13C90 /* NSValueToDataTransformer.m in Sources */,
-				7529F96315199C3200C13C90 /* Detail.m in Sources */,
-				7529F96415199C3200C13C90 /* DetailType.m in Sources */,
 				7529F96515199C3200C13C90 /* Model.xcdatamodeld in Sources */,
 				7529F96615199C3200C13C90 /* UIColorToDataTransformer.m in Sources */,
 				7529F96715199C3200C13C90 /* UIImageToDataTransformer.m in Sources */,
 				7529F96C15199C3200C13C90 /* StartMenuViewControler.m in Sources */,
-				7529F97115199D3B00C13C90 /* Assembly.m in Sources */,
 				7529F9741519A33A00C13C90 /* RootAssemblesViewController.m in Sources */,
+				7529F97A151AE69B00C13C90 /* DetailType.m in Sources */,
+				7529F97D151AE73100C13C90 /* Detail.m in Sources */,
+				7529F983151B0C2A00C13C90 /* Assembly.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,6 +1,6 @@
 //
 //  RootAssemblesViewController.m
-//  CoreDataTest1
+//  ConstructiveEditor
 //
 //  Created by Evgenii Bondarev on 3/4/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
@@ -121,6 +121,8 @@
   _rootAssembliesTable.dataSource = self;
   
   _managedObjectContext = [self managedObjectContext];
+  _rootAssembliesArray = nil;
+  _rootAssembliesArray = [[NSMutableArray alloc] initWithCapacity:10];
   /*
 	 Fetch existing assemblies.
 	 Create a fetch request, add a sort descriptor, then execute the fetch.
@@ -128,17 +130,37 @@
 	NSFetchRequest *assembliesRequest = [[NSFetchRequest alloc] init];
 	NSEntityDescription *assemblyEntity = [NSEntityDescription entityForName:@"Assembly" inManagedObjectContext:_managedObjectContext];
 	[assembliesRequest setEntity:assemblyEntity];
-	
-	// Order the assemblies by creation date, most recent first.
-	/*NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"creationDate" ascending:NO];
-	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
-	[request setSortDescriptors:sortDescriptors];*/
+  [assembliesRequest setPredicate:[NSPredicate predicateWithFormat:@"connectionPoint = nil"]];
 	
 	// Execute the fetch -- create a mutable copy of the result.
 	NSError *assembliesError = nil;
-	_rootAssembliesArray = [[_managedObjectContext executeFetchRequest:assembliesRequest error:&assembliesError] mutableCopy];
-  if (_rootAssembliesArray == nil)
+	NSArray* assembliesWithNoConnectionPoint = [[_managedObjectContext executeFetchRequest:assembliesRequest error:&assembliesError] mutableCopy];
+  if (assembliesWithNoConnectionPoint == nil)
+    {
 		NSLog(@"Error: %@", assembliesError.debugDescription);
+    return;
+    }
+
+  NSArray* assembliesWithNoParent = [assembliesWithNoConnectionPoint filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings)
+    {
+    return nil == [evaluatedObject parent];
+    }]];
+  if (0 == assembliesWithNoParent.count)
+    return;
+  if (1 < assembliesWithNoParent.count)
+    {
+    NSLog(@"There is more then one assembly with no parent in array: %@", assembliesWithNoParent);
+    return;
+    }
+  Assembly* rootLevelAssembly = [assembliesWithNoParent objectAtIndex:0];
+  [_rootAssembliesArray addObject:rootLevelAssembly];
+  for (NSUInteger i = 0; i < assembliesWithNoConnectionPoint.count; ++i)
+    {
+    rootLevelAssembly = rootLevelAssembly.mainChild;
+    if (nil == rootLevelAssembly)
+      break;
+    [_rootAssembliesArray insertObject:rootLevelAssembly atIndex:0];
+    }
   }
 
 - (void)viewDidUnload
@@ -343,12 +365,43 @@
     if (!afterAddItem)
       --_addItemIndex;
     
-    NSManagedObject *assemblyToDelete = [_rootAssembliesArray objectAtIndex:assemblyIndex];
+    Assembly* assemblyToDelete = [_rootAssembliesArray objectAtIndex:assemblyIndex];
+    if (nil != assemblyToDelete.parent)
+      assemblyToDelete.parent.mainChild = assemblyToDelete.mainChild;
+    else
+      assemblyToDelete.mainChild.parent = assemblyToDelete.parent;
     [_managedObjectContext deleteObject:assemblyToDelete];
     
     // Update the array and table view.
-    [_rootAssembliesArray removeObjectAtIndex:indexPath.row];
+    [_rootAssembliesArray removeObjectAtIndex:assemblyIndex];
+    
+    
+    
+    //dependencies checking code
+    for (NSUInteger i = 0; i < _rootAssembliesArray.count; ++i)
+        {
+        Assembly* currentAssembly = [_rootAssembliesArray objectAtIndex:i];
+        BOOL mainChildOK = _rootAssembliesArray.count < 2 ||
+                           (i == 0 && nil == currentAssembly.mainChild) ||
+                           (i != 0 && [_rootAssembliesArray objectAtIndex:i-1] == currentAssembly.mainChild);
+        BOOL parentOK = _rootAssembliesArray.count < 2 ||
+                        (i+1 == _rootAssembliesArray.count && nil == currentAssembly.parent) ||
+                        (i+1 != _rootAssembliesArray.count && [_rootAssembliesArray objectAtIndex:i+1] == currentAssembly.parent);
+        if(!mainChildOK || !parentOK)
+          {
+          NSLog(@"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+          NSLog(@"_rootAssembliesArray = %@", _rootAssembliesArray);
+          break;
+          }
+        }
+        
+        
+    
     [_rootAssembliesTable deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    NSMutableArray* indexPathsToUpdate = [NSMutableArray arrayWithCapacity:indexPath.row];
+    for (NSUInteger index = 0; index < indexPath.row; ++index)
+      [indexPathsToUpdate addObject:[NSIndexPath indexPathForRow:index inSection:0]];
+    [_rootAssembliesTable reloadRowsAtIndexPaths:indexPathsToUpdate withRowAnimation:UITableViewRowAnimationFade];
     
     // Commit the change.
     NSError *error = nil;
@@ -357,8 +410,48 @@
     }
   else if (editingStyle == UITableViewCellEditingStyleInsert)
     {
-    [_rootAssembliesArray insertObject:[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:self.managedObjectContext] atIndex:_addItemIndex];
-    [_rootAssembliesTable insertRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:_addItemIndex +1 inSection:0], nil] withRowAnimation:UITableViewRowAnimationFade];
+    Assembly* assembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:self.managedObjectContext];
+    assembly.parent = nil;
+    assembly.mainChild = nil;
+    if (_addItemIndex < _rootAssembliesArray.count)
+      {
+      Assembly* parent = [_rootAssembliesArray objectAtIndex:_addItemIndex];
+      Assembly* parentPreviousMainChild = parent.mainChild;
+      assembly.parent = parent;
+      assembly.mainChild = parentPreviousMainChild;
+      }
+    else if (_addItemIndex > 0)
+      assembly.mainChild = [_rootAssembliesArray objectAtIndex:_addItemIndex-1];
+    
+    [_rootAssembliesArray insertObject:assembly atIndex:_addItemIndex];
+    
+    
+    
+    //dependencies checking code
+    for (NSUInteger i = 0; i < _rootAssembliesArray.count; ++i)
+        {
+        Assembly* currentAssembly = [_rootAssembliesArray objectAtIndex:i];
+        BOOL mainChildOK = _rootAssembliesArray.count < 2 ||
+                           (i == 0 && nil == currentAssembly.mainChild) ||
+                           (i != 0 && [_rootAssembliesArray objectAtIndex:i-1] == currentAssembly.mainChild);
+        BOOL parentOK = _rootAssembliesArray.count < 2 ||
+                        (i+1 == _rootAssembliesArray.count && nil == currentAssembly.parent) ||
+                        (i+1 != _rootAssembliesArray.count && [_rootAssembliesArray objectAtIndex:i+1] == currentAssembly.parent);
+        if(!mainChildOK || !parentOK)
+          {
+          NSLog(@"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+          NSLog(@"_rootAssembliesArray = %@", _rootAssembliesArray);
+          break;
+          }
+        }
+        
+        
+    
+    [_rootAssembliesTable insertRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:_addItemIndex+1 inSection:0], nil] withRowAnimation:UITableViewRowAnimationFade];
+    NSMutableArray* indexPathsToUpdate = [NSMutableArray arrayWithCapacity:_addItemIndex];
+    for (NSUInteger index = 0; index < _addItemIndex; ++index)
+      [indexPathsToUpdate addObject:[NSIndexPath indexPathForRow:index inSection:0]];
+    [_rootAssembliesTable reloadRowsAtIndexPaths:indexPathsToUpdate withRowAnimation:UITableViewRowAnimationFade];
     // Commit the change.
     NSError *error = nil;
     if (![_managedObjectContext save:&error])
@@ -391,14 +484,52 @@
       ++_addItemIndex;
     else if (!initialPosIsAfterAddItem && resutingPosIsAfterAddItem)
       --_addItemIndex;
-      
+    
     if (indexToDeleteFrom == indexToAddTo)
       return;
     else
       {
       Assembly* assemblyToMove = [_rootAssembliesArray objectAtIndex:indexToDeleteFrom];
+      Assembly* previousChild = assemblyToMove.mainChild;
+      Assembly* previousParent = assemblyToMove.parent;
+      
       [_rootAssembliesArray removeObjectAtIndex:indexToDeleteFrom];
+      
+      Assembly* newChild = 0 == indexToAddTo
+                         ? nil
+                         : [_rootAssembliesArray objectAtIndex:indexToAddTo-1];
+                         
+      Assembly* newParent = _rootAssembliesArray.count == indexToAddTo
+                          ? nil
+                          : [_rootAssembliesArray objectAtIndex:indexToAddTo];
+                          
+      assemblyToMove.parent = newParent;
+      assemblyToMove.mainChild = newChild;
+      previousChild.parent = previousParent;
+      
       [_rootAssembliesArray insertObject:assemblyToMove atIndex:indexToAddTo];
+      
+      
+      //dependencies checking code
+      for (NSUInteger i = 0; i < _rootAssembliesArray.count; ++i)
+        {
+        Assembly* currentAssembly = [_rootAssembliesArray objectAtIndex:i];
+        BOOL mainChildOK = _rootAssembliesArray.count < 2 ||
+                           (i == 0 && nil == currentAssembly.mainChild) ||
+                           (i != 0 && [_rootAssembliesArray objectAtIndex:i-1] == currentAssembly.mainChild);
+        BOOL parentOK = _rootAssembliesArray.count < 2 ||
+                        (i+1 == _rootAssembliesArray.count && nil == currentAssembly.parent) ||
+                        (i+1 != _rootAssembliesArray.count && [_rootAssembliesArray objectAtIndex:i+1] == currentAssembly.parent);
+        if(!mainChildOK || !parentOK)
+          {
+          NSLog(@"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+          NSLog(@"_rootAssembliesArray = %@", _rootAssembliesArray);
+          break;
+          }
+        }
+    
+    
+    
       // Commit the change.
       NSError *error = nil;
       if (![_managedObjectContext save:&error])

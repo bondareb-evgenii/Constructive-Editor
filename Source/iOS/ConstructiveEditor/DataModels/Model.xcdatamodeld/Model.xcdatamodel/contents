@@ -5,7 +5,8 @@
         <attribute name="picture" optional="YES" attributeType="Transformable" valueTransformerName="UIImageToDataTransformer" syncable="YES"/>
         <relationship name="assemblies" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Assembly" syncable="YES"/>
         <relationship name="details" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Detail" syncable="YES"/>
-        <relationship name="parent" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Assembly" syncable="YES"/>
+        <relationship name="mainChild" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Assembly" inverseName="parent" inverseEntity="Assembly" syncable="YES"/>
+        <relationship name="parent" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Assembly" inverseName="mainChild" inverseEntity="Assembly" syncable="YES"/>
     </entity>
     <entity name="Detail" representedClassName="Detail" syncable="YES">
         <attribute name="connectionPoint" optional="YES" attributeType="Transformable" valueTransformerName="NSValueToDataTransformer" syncable="YES"/>
@@ -21,8 +22,8 @@
         <attribute name="scalePictureSize" optional="YES" attributeType="Transformable" valueTransformerName="NSValueToDataTransformer" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Assembly" positionX="-63" positionY="-18" width="128" height="120"/>
-        <element name="Detail" positionX="160" positionY="192" width="128" height="90"/>
+        <element name="Assembly" positionX="-63" positionY="-18" width="128" height="60"/>
+        <element name="Detail" positionX="160" positionY="192" width="128" height="60"/>
         <element name="DetailType" positionX="-45" positionY="18" width="128" height="135"/>
     </elements>
 </model>

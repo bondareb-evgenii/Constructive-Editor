@@ -1,6 +1,6 @@
 //
 //  RootAssemblesViewController.h
-//  CoreDataTest1
+//  ConstructiveEditor
 //
 //  Created by Evgenii Bondarev on 3/4/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
