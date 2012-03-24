@@ -310,14 +310,14 @@
       else
         assemblyIndex = indexPath.row;
       Assembly *assembly = (Assembly*)[_rootAssembliesArray objectAtIndex:assemblyIndex];
-      cell.textLabel.text = [NSString stringWithFormat:@"%d", _rootAssembliesArray.count - assemblyIndex];
+      cell.textLabel.text = [NSString stringWithFormat:@"%d", assemblyIndex+1];
       cell.imageView.image = assembly.picture;
       }
     }
   else
     {
     Assembly *assembly = (Assembly*)[_rootAssembliesArray objectAtIndex:indexPath.row];
-    cell.textLabel.text = [NSString stringWithFormat:@"%d", _rootAssembliesArray.count - indexPath.row];
+    cell.textLabel.text = [NSString stringWithFormat:@"%d", indexPath.row+1];
     cell.imageView.image = assembly.picture;
     }
     
