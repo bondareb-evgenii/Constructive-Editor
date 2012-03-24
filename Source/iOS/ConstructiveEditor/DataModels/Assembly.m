@@ -15,9 +15,9 @@
 
 @dynamic picture;
 @dynamic connectionPoint;
-@dynamic parent;
+@dynamic extendedAssembly;
 @dynamic assemblies;
 @dynamic details;
-@dynamic mainChild;
+@dynamic baseAssembly;
 
 @end

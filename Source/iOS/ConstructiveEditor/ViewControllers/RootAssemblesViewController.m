@@ -141,22 +141,22 @@
     return;
     }
 
-  NSArray* assembliesWithNoParent = [assembliesWithNoConnectionPoint filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings)
+  NSArray* assembliesWithNoextendedAssembly = [assembliesWithNoConnectionPoint filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings)
     {
-    return nil == [evaluatedObject parent];
+    return nil == [evaluatedObject extendedAssembly];
     }]];
-  if (0 == assembliesWithNoParent.count)
+  if (0 == assembliesWithNoextendedAssembly.count)
     return;
-  if (1 < assembliesWithNoParent.count)
+  if (1 < assembliesWithNoextendedAssembly.count)
     {
-    NSLog(@"There is more then one assembly with no parent in array: %@", assembliesWithNoParent);
+    NSLog(@"There is more then one assembly with no extendedAssembly in array: %@", assembliesWithNoextendedAssembly);
     return;
     }
-  Assembly* rootLevelAssembly = [assembliesWithNoParent objectAtIndex:0];
+  Assembly* rootLevelAssembly = [assembliesWithNoextendedAssembly objectAtIndex:0];
   [_rootAssembliesArray addObject:rootLevelAssembly];
   for (NSUInteger i = 0; i < assembliesWithNoConnectionPoint.count; ++i)
     {
-    rootLevelAssembly = rootLevelAssembly.mainChild;
+    rootLevelAssembly = rootLevelAssembly.baseAssembly;
     if (nil == rootLevelAssembly)
       break;
     [_rootAssembliesArray insertObject:rootLevelAssembly atIndex:0];
@@ -366,10 +366,10 @@
       --_addItemIndex;
     
     Assembly* assemblyToDelete = [_rootAssembliesArray objectAtIndex:assemblyIndex];
-    if (nil != assemblyToDelete.parent)
-      assemblyToDelete.parent.mainChild = assemblyToDelete.mainChild;
+    if (nil != assemblyToDelete.extendedAssembly)
+      assemblyToDelete.extendedAssembly.baseAssembly = assemblyToDelete.baseAssembly;
     else
-      assemblyToDelete.mainChild.parent = assemblyToDelete.parent;
+      assemblyToDelete.baseAssembly.extendedAssembly = assemblyToDelete.extendedAssembly;
     [_managedObjectContext deleteObject:assemblyToDelete];
     
     // Update the array and table view.
@@ -381,13 +381,13 @@
     for (NSUInteger i = 0; i < _rootAssembliesArray.count; ++i)
         {
         Assembly* currentAssembly = [_rootAssembliesArray objectAtIndex:i];
-        BOOL mainChildOK = _rootAssembliesArray.count < 2 ||
-                           (i == 0 && nil == currentAssembly.mainChild) ||
-                           (i != 0 && [_rootAssembliesArray objectAtIndex:i-1] == currentAssembly.mainChild);
-        BOOL parentOK = _rootAssembliesArray.count < 2 ||
-                        (i+1 == _rootAssembliesArray.count && nil == currentAssembly.parent) ||
-                        (i+1 != _rootAssembliesArray.count && [_rootAssembliesArray objectAtIndex:i+1] == currentAssembly.parent);
-        if(!mainChildOK || !parentOK)
+        BOOL baseAssemblyOK = _rootAssembliesArray.count < 2 ||
+                           (i == 0 && nil == currentAssembly.baseAssembly) ||
+                           (i != 0 && [_rootAssembliesArray objectAtIndex:i-1] == currentAssembly.baseAssembly);
+        BOOL extendedAssemblyOK = _rootAssembliesArray.count < 2 ||
+                        (i+1 == _rootAssembliesArray.count && nil == currentAssembly.extendedAssembly) ||
+                        (i+1 != _rootAssembliesArray.count && [_rootAssembliesArray objectAtIndex:i+1] == currentAssembly.extendedAssembly);
+        if(!baseAssemblyOK || !extendedAssemblyOK)
           {
           NSLog(@"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
           NSLog(@"_rootAssembliesArray = %@", _rootAssembliesArray);
@@ -411,17 +411,17 @@
   else if (editingStyle == UITableViewCellEditingStyleInsert)
     {
     Assembly* assembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:self.managedObjectContext];
-    assembly.parent = nil;
-    assembly.mainChild = nil;
+    assembly.extendedAssembly = nil;
+    assembly.baseAssembly = nil;
     if (_addItemIndex < _rootAssembliesArray.count)
       {
-      Assembly* parent = [_rootAssembliesArray objectAtIndex:_addItemIndex];
-      Assembly* parentPreviousMainChild = parent.mainChild;
-      assembly.parent = parent;
-      assembly.mainChild = parentPreviousMainChild;
+      Assembly* extendedAssembly = [_rootAssembliesArray objectAtIndex:_addItemIndex];
+      Assembly* extendedAssemblyPreviousbaseAssembly = extendedAssembly.baseAssembly;
+      assembly.extendedAssembly = extendedAssembly;
+      assembly.baseAssembly = extendedAssemblyPreviousbaseAssembly;
       }
     else if (_addItemIndex > 0)
-      assembly.mainChild = [_rootAssembliesArray objectAtIndex:_addItemIndex-1];
+      assembly.baseAssembly = [_rootAssembliesArray objectAtIndex:_addItemIndex-1];
     
     [_rootAssembliesArray insertObject:assembly atIndex:_addItemIndex];
     
@@ -431,13 +431,13 @@
     for (NSUInteger i = 0; i < _rootAssembliesArray.count; ++i)
         {
         Assembly* currentAssembly = [_rootAssembliesArray objectAtIndex:i];
-        BOOL mainChildOK = _rootAssembliesArray.count < 2 ||
-                           (i == 0 && nil == currentAssembly.mainChild) ||
-                           (i != 0 && [_rootAssembliesArray objectAtIndex:i-1] == currentAssembly.mainChild);
-        BOOL parentOK = _rootAssembliesArray.count < 2 ||
-                        (i+1 == _rootAssembliesArray.count && nil == currentAssembly.parent) ||
-                        (i+1 != _rootAssembliesArray.count && [_rootAssembliesArray objectAtIndex:i+1] == currentAssembly.parent);
-        if(!mainChildOK || !parentOK)
+        BOOL baseAssemblyOK = _rootAssembliesArray.count < 2 ||
+                           (i == 0 && nil == currentAssembly.baseAssembly) ||
+                           (i != 0 && [_rootAssembliesArray objectAtIndex:i-1] == currentAssembly.baseAssembly);
+        BOOL extendedAssemblyOK = _rootAssembliesArray.count < 2 ||
+                        (i+1 == _rootAssembliesArray.count && nil == currentAssembly.extendedAssembly) ||
+                        (i+1 != _rootAssembliesArray.count && [_rootAssembliesArray objectAtIndex:i+1] == currentAssembly.extendedAssembly);
+        if(!baseAssemblyOK || !extendedAssemblyOK)
           {
           NSLog(@"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
           NSLog(@"_rootAssembliesArray = %@", _rootAssembliesArray);
@@ -495,8 +495,8 @@
     else
       {
       Assembly* assemblyToMove = [_rootAssembliesArray objectAtIndex:indexToDeleteFrom];
-      Assembly* previousChild = assemblyToMove.mainChild;
-      Assembly* previousParent = assemblyToMove.parent;
+      Assembly* previousChild = assemblyToMove.baseAssembly;
+      Assembly* previousextendedAssembly = assemblyToMove.extendedAssembly;
       
       [_rootAssembliesArray removeObjectAtIndex:indexToDeleteFrom];
       
@@ -504,13 +504,13 @@
                          ? nil
                          : [_rootAssembliesArray objectAtIndex:indexToAddTo-1];
                          
-      Assembly* newParent = _rootAssembliesArray.count == indexToAddTo
+      Assembly* newextendedAssembly = _rootAssembliesArray.count == indexToAddTo
                           ? nil
                           : [_rootAssembliesArray objectAtIndex:indexToAddTo];
                           
-      assemblyToMove.parent = newParent;
-      assemblyToMove.mainChild = newChild;
-      previousChild.parent = previousParent;
+      assemblyToMove.extendedAssembly = newextendedAssembly;
+      assemblyToMove.baseAssembly = newChild;
+      previousChild.extendedAssembly = previousextendedAssembly;
       
       [_rootAssembliesArray insertObject:assemblyToMove atIndex:indexToAddTo];
       
@@ -520,13 +520,13 @@
       for (NSUInteger i = 0; i < _rootAssembliesArray.count; ++i)
         {
         Assembly* currentAssembly = [_rootAssembliesArray objectAtIndex:i];
-        BOOL mainChildOK = _rootAssembliesArray.count < 2 ||
-                           (i == 0 && nil == currentAssembly.mainChild) ||
-                           (i != 0 && [_rootAssembliesArray objectAtIndex:i-1] == currentAssembly.mainChild);
-        BOOL parentOK = _rootAssembliesArray.count < 2 ||
-                        (i+1 == _rootAssembliesArray.count && nil == currentAssembly.parent) ||
-                        (i+1 != _rootAssembliesArray.count && [_rootAssembliesArray objectAtIndex:i+1] == currentAssembly.parent);
-        if(!mainChildOK || !parentOK)
+        BOOL baseAssemblyOK = _rootAssembliesArray.count < 2 ||
+                           (i == 0 && nil == currentAssembly.baseAssembly) ||
+                           (i != 0 && [_rootAssembliesArray objectAtIndex:i-1] == currentAssembly.baseAssembly);
+        BOOL extendedAssemblyOK = _rootAssembliesArray.count < 2 ||
+                        (i+1 == _rootAssembliesArray.count && nil == currentAssembly.extendedAssembly) ||
+                        (i+1 != _rootAssembliesArray.count && [_rootAssembliesArray objectAtIndex:i+1] == currentAssembly.extendedAssembly);
+        if(!baseAssemblyOK || !extendedAssemblyOK)
           {
           NSLog(@"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
           NSLog(@"_rootAssembliesArray = %@", _rootAssembliesArray);

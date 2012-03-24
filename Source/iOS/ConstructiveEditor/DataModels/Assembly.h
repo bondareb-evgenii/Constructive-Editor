@@ -15,10 +15,10 @@
 
 @property (nonatomic, retain) UIImage* picture;
 @property (nonatomic, retain) NSValue* connectionPoint;
-@property (nonatomic, retain) Assembly *parent;
+@property (nonatomic, retain) Assembly *extendedAssembly;
 @property (nonatomic, retain) NSSet *assemblies;
 @property (nonatomic, retain) NSSet *details;
-@property (nonatomic, retain) Assembly *mainChild;
+@property (nonatomic, retain) Assembly *baseAssembly;
 @end
 
 @interface Assembly (CoreDataGeneratedAccessors)
