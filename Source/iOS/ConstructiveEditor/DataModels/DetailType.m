@@ -2,11 +2,12 @@
 //  DetailType.m
 //  Constructive
 //
-//  Created by Evgenii Bondarev on 3/22/12.
+//  Created by Evgenii Bondarev on 3/24/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
 #import "DetailType.h"
+#import "Detail.h"
 
 
 @implementation DetailType
@@ -17,5 +18,6 @@
 @dynamic picture;
 @dynamic scalePicture;
 @dynamic scalePictureSize;
+@dynamic details;
 
 @end

@@ -3,15 +3,16 @@
     <entity name="Assembly" representedClassName="Assembly" syncable="YES">
         <attribute name="connectionPoint" optional="YES" attributeType="Transformable" valueTransformerName="NSValueToDataTransformer" syncable="YES"/>
         <attribute name="picture" optional="YES" attributeType="Transformable" valueTransformerName="UIImageToDataTransformer" syncable="YES"/>
-        <relationship name="assemblies" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Assembly" syncable="YES"/>
+        <relationship name="assembliesInstalled" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Assembly" inverseName="assemblyToInstallTo" inverseEntity="Assembly" syncable="YES"/>
+        <relationship name="assemblyToInstallTo" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Assembly" inverseName="assembliesInstalled" inverseEntity="Assembly" syncable="YES"/>
         <relationship name="baseAssembly" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Assembly" inverseName="extendedAssembly" inverseEntity="Assembly" syncable="YES"/>
-        <relationship name="details" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Detail" syncable="YES"/>
+        <relationship name="detailsInstalled" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Detail" inverseName="assemblyToInstallTo" inverseEntity="Detail" syncable="YES"/>
         <relationship name="extendedAssembly" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Assembly" inverseName="baseAssembly" inverseEntity="Assembly" syncable="YES"/>
     </entity>
     <entity name="Detail" representedClassName="Detail" syncable="YES">
         <attribute name="connectionPoint" optional="YES" attributeType="Transformable" valueTransformerName="NSValueToDataTransformer" syncable="YES"/>
-        <relationship name="extendedAssembly" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Assembly" syncable="YES"/>
-        <relationship name="type" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="DetailType" syncable="YES"/>
+        <relationship name="assemblyToInstallTo" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Assembly" inverseName="detailsInstalled" inverseEntity="Assembly" syncable="YES"/>
+        <relationship name="type" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="DetailType" inverseName="details" inverseEntity="DetailType" syncable="YES"/>
     </entity>
     <entity name="DetailType" representedClassName="DetailType" syncable="YES">
         <attribute name="color" optional="YES" attributeType="Transformable" valueTransformerName="UIIColorToDataTransformer" syncable="YES"/>
@@ -20,10 +21,11 @@
         <attribute name="picture" optional="YES" attributeType="Transformable" valueTransformerName="UIImageToDataTransformer" syncable="YES"/>
         <attribute name="scalePicture" optional="YES" attributeType="Transformable" valueTransformerName="UIImageToDataTransformer" syncable="YES"/>
         <attribute name="scalePictureSize" optional="YES" attributeType="Transformable" valueTransformerName="NSValueToDataTransformer" syncable="YES"/>
+        <relationship name="details" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Detail" inverseName="type" inverseEntity="Detail" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Assembly" positionX="-63" positionY="-18" width="128" height="135"/>
+        <element name="Assembly" positionX="-63" positionY="-18" width="128" height="60"/>
         <element name="Detail" positionX="160" positionY="192" width="128" height="60"/>
-        <element name="DetailType" positionX="-45" positionY="18" width="128" height="135"/>
+        <element name="DetailType" positionX="-45" positionY="18" width="128" height="150"/>
     </elements>
 </model>

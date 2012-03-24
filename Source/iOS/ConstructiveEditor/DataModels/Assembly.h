@@ -2,7 +2,7 @@
 //  Assembly.h
 //  Constructive
 //
-//  Created by Evgenii Bondarev on 3/22/12.
+//  Created by Evgenii Bondarev on 3/24/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
@@ -13,24 +13,25 @@
 
 @interface Assembly : NSManagedObject
 
-@property (nonatomic, retain) UIImage* picture;
 @property (nonatomic, retain) NSValue* connectionPoint;
-@property (nonatomic, retain) Assembly *extendedAssembly;
-@property (nonatomic, retain) NSSet *assemblies;
-@property (nonatomic, retain) NSSet *details;
+@property (nonatomic, retain) UIImage* picture;
+@property (nonatomic, retain) NSSet *assembliesInstalled;
+@property (nonatomic, retain) NSSet *detailsInstalled;
 @property (nonatomic, retain) Assembly *baseAssembly;
+@property (nonatomic, retain) Assembly *extendedAssembly;
+@property (nonatomic, retain) Assembly *assemblyToInstallTo;
 @end
 
 @interface Assembly (CoreDataGeneratedAccessors)
 
-- (void)addAssembliesObject:(Assembly *)value;
-- (void)removeAssembliesObject:(Assembly *)value;
-- (void)addAssemblies:(NSSet *)values;
-- (void)removeAssemblies:(NSSet *)values;
+- (void)addAssembliesInstalledObject:(Assembly *)value;
+- (void)removeAssembliesInstalledObject:(Assembly *)value;
+- (void)addAssembliesInstalled:(NSSet *)values;
+- (void)removeAssembliesInstalled:(NSSet *)values;
 
-- (void)addDetailsObject:(Detail *)value;
-- (void)removeDetailsObject:(Detail *)value;
-- (void)addDetails:(NSSet *)values;
-- (void)removeDetails:(NSSet *)values;
+- (void)addDetailsInstalledObject:(Detail *)value;
+- (void)removeDetailsInstalledObject:(Detail *)value;
+- (void)addDetailsInstalled:(NSSet *)values;
+- (void)removeDetailsInstalled:(NSSet *)values;
 
 @end

@@ -2,7 +2,7 @@
 //  Assembly.m
 //  Constructive
 //
-//  Created by Evgenii Bondarev on 3/22/12.
+//  Created by Evgenii Bondarev on 3/24/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
@@ -13,11 +13,12 @@
 
 @implementation Assembly
 
-@dynamic picture;
 @dynamic connectionPoint;
-@dynamic extendedAssembly;
-@dynamic assemblies;
-@dynamic details;
+@dynamic picture;
+@dynamic assembliesInstalled;
+@dynamic detailsInstalled;
 @dynamic baseAssembly;
+@dynamic extendedAssembly;
+@dynamic assemblyToInstallTo;
 
 @end
