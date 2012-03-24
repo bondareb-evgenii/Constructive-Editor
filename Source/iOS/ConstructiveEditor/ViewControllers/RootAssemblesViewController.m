@@ -310,15 +310,15 @@
       else
         assemblyIndex = indexPath.row;
       Assembly *assembly = (Assembly*)[_rootAssembliesArray objectAtIndex:assemblyIndex];
-      cell.textLabel.text = @"";//[NSString stringWithFormat:@"%d", [assembly.level intValue]+1];
+      cell.textLabel.text = [NSString stringWithFormat:@"%d", _rootAssembliesArray.count - assemblyIndex];
       cell.imageView.image = assembly.picture;
       }
     }
   else
     {
     Assembly *assembly = (Assembly*)[_rootAssembliesArray objectAtIndex:indexPath.row];
-      cell.textLabel.text = @"";//[NSString stringWithFormat:@"%d", [assembly.level intValue]+1];
-      cell.imageView.image = assembly.picture;
+    cell.textLabel.text = [NSString stringWithFormat:@"%d", _rootAssembliesArray.count - indexPath.row];
+    cell.imageView.image = assembly.picture;
     }
     
   return cell;
@@ -464,6 +464,11 @@
   return YES;
   }
 
+- (void)reloadMainSection
+  {
+  [_rootAssembliesTable reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+  }
+  
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath 
 	  toIndexPath:(NSIndexPath *)toIndexPath 
   {
@@ -510,6 +515,7 @@
       [_rootAssembliesArray insertObject:assemblyToMove atIndex:indexToAddTo];
       
       
+      
       //dependencies checking code
       for (NSUInteger i = 0; i < _rootAssembliesArray.count; ++i)
         {
@@ -527,8 +533,9 @@
           break;
           }
         }
-    
-    
+      
+      //not effective but looks like no other partial ways to update work correctly
+      [self performSelector:@selector(reloadMainSection) withObject:nil afterDelay:0.3];
     
       // Commit the change.
       NSError *error = nil;
