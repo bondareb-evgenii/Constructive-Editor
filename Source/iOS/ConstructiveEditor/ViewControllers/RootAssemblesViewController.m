@@ -9,15 +9,13 @@
 #import "RootAssemblesViewController.h"
 
 #import "Assembly.h"
+#import "AssemblyCellView.h"
 #import "Detail.h"
 #import "DetailType.h"
-//#import "EditAssemblyViewController.h"
+#import "EditAssemblyViewController.h"
 //#import "EditDetailTypeViewController.h"
 //#import "SelectDetailTypeViewController.h"
 #import "CoreData/CoreData.h"
-
-//@interface RootAssemblesViewController () <EditAssemblyViewControllerDelegate, SelectDetailTypeViewControllerDelegate>
-//@end
 
 @interface RootAssemblesViewController (UITableViewDataSource) <UITableViewDataSource>
 @end
@@ -197,18 +195,6 @@
 {
   return YES;
 }
-
-- (IBAction)addAssembly:(id)sender
-  {
-  //_selectedIndexPath = nil;
-  [self performSegueWithIdentifier:@"EntitiesToEditAssembly" sender:self];
-  }
-  
-- (IBAction)addDetail:(id)sender
-  {
-  //_selectedIndexPath = nil;
-  [self performSegueWithIdentifier:@"EntitiesToSelectDetailType" sender:self];
-  }
   
 - (IBAction)EditRootLevel:(id)sender
   {
@@ -229,19 +215,28 @@
 		[_editOrDoneButton setStyle:UIBarButtonItemStyleDone];
     }
   }
-
-/*- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+  
+- (IBAction)editAssembly:(id)sender
   {
-  if ([@"EntitiesToEditAssembly" isEqualToString:segue.identifier])
+  NSUInteger row = [[_rootAssembliesTable indexPathForCell:(UITableViewCell*)[[sender superview] superview]] row];
+  NSUInteger assemblyIndex;
+  if (_rootAssembliesTable.editing && row > _addItemIndex)
+    assemblyIndex = row - 1;
+  else
+    assemblyIndex = row;
+    
+  _selectedIndexPath = [NSIndexPath indexPathForRow:assemblyIndex inSection:0];
+  [self performSegueWithIdentifier:@"RootAssembliesToEditAssembly" sender:self];
+  }
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+  {
+  if ([@"RootAssembliesToEditAssembly" isEqualToString:segue.identifier])
     {
     EditAssemblyViewController* editAssemblyVC = ((EditAssemblyViewController*)segue.destinationViewController);
-    editAssemblyVC.delegate = self;
-    editAssemblyVC.managedObjectContext = _managedObjectContext;
-    if (nil == _selectedIndexPath)
-      return;
     editAssemblyVC.assembly = [_rootAssembliesArray objectAtIndex:_selectedIndexPath.row];
     }
-  else if ([@"EntitiesToSelectDetailType" isEqualToString:segue.identifier])
+  /*else if ([@"EntitiesToSelectDetailType" isEqualToString:segue.identifier])
     {
     SelectDetailTypeViewController* selectDetailVC = ((SelectDetailTypeViewController*)segue.destinationViewController);
     selectDetailVC.delegate = self;
@@ -249,9 +244,9 @@
     if (nil == _selectedIndexPath)
       return;
     selectDetailVC.detail = [_detailsArray objectAtIndex:_selectedIndexPath.row];
-    }
+    }*/
   _selectedIndexPath = nil;
-  }*/
+  }
   
 @end
 
@@ -287,19 +282,15 @@
   if (tableView != _rootAssembliesTable)
     return nil;
     
-  static NSString *CellIdentifier = @"AssembliesCell";
-  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-  if (cell == nil)
-    {
-    cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    }
+  AssemblyCellView* cell = (AssemblyCellView*)[tableView dequeueReusableCellWithIdentifier:@"AssemblyCell"];
     
+  cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
   if (_rootAssembliesTable.editing)
     {
     if(indexPath.row == _addItemIndex)
       {
-      cell.textLabel.text = @"ADD";
+      cell.stepNumberLabel.text = NSLocalizedString(@"Add assembly", @"root assemblies table view");
+      cell.picture.image = nil;
       return cell;
       }
     else
@@ -310,15 +301,25 @@
       else
         assemblyIndex = indexPath.row;
       Assembly *assembly = (Assembly*)[_rootAssembliesArray objectAtIndex:assemblyIndex];
-      cell.textLabel.text = [NSString stringWithFormat:@"%d", assemblyIndex+1];
-      cell.imageView.image = assembly.picture;
+      cell.stepNumberLabel.text = [NSString stringWithFormat:@"%d", assemblyIndex+1];
+      CGRect pictureRect = cell.picture.frame;
+      pictureRect.size.width = pictureRect.size.height;
+      cell.picture.frame = pictureRect;
+      cell.picture.image = assembly.picture
+                         ? assembly.picture
+                         : [UIImage imageNamed:@"camera.png"];
       }
     }
   else
     {
     Assembly *assembly = (Assembly*)[_rootAssembliesArray objectAtIndex:indexPath.row];
-    cell.textLabel.text = [NSString stringWithFormat:@"%d", indexPath.row+1];
-    cell.imageView.image = assembly.picture;
+    cell.stepNumberLabel.text = [NSString stringWithFormat:@"%d", indexPath.row+1];
+    CGRect pictureRect = cell.picture.frame;
+    pictureRect.size.width = pictureRect.size.height;
+    cell.picture.frame = pictureRect;
+    cell.picture.image = assembly.picture
+                       ? assembly.picture
+                       : [UIImage imageNamed:@"camera.png"];
     }
     
   return cell;

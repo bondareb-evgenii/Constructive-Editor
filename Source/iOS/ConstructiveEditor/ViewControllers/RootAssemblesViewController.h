@@ -14,7 +14,7 @@
     NSManagedObjectModel*             _managedObjectModel;
     NSManagedObjectContext*           _managedObjectContext;
     
-    //NSIndexPath*                      _selectedIndexPath;
+    NSIndexPath*                      _selectedIndexPath;
     NSMutableArray*                   _rootAssembliesArray;
     NSUInteger                        _addItemIndex;
     __weak IBOutlet UITableView*      _rootAssembliesTable;
