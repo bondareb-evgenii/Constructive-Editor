@@ -33,6 +33,7 @@
 		84EA63D11514C4AF00C7177E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EA63AF1514C4AF00C7177E /* Foundation.framework */; };
 		84EA63D91514C4AF00C7177E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 84EA63D71514C4AF00C7177E /* InfoPlist.strings */; };
 		84EA63DC1514C4AF00C7177E /* ConstructiveEditorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EA63DB1514C4AF00C7177E /* ConstructiveEditorTests.m */; };
+		84F883EB1535B53A00EA0438 /* AssemblesAndDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84F883EA1535B53A00EA0438 /* AssemblesAndDetailsViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +88,8 @@
 		84EA63D81514C4AF00C7177E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		84EA63DA1514C4AF00C7177E /* ConstructiveEditorTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConstructiveEditorTests.h; sourceTree = "<group>"; };
 		84EA63DB1514C4AF00C7177E /* ConstructiveEditorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConstructiveEditorTests.m; sourceTree = "<group>"; };
+		84F883E91535B53A00EA0438 /* AssemblesAndDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; path = AssemblesAndDetailsViewController.h; sourceTree = "<group>"; };
+		84F883EA1535B53A00EA0438 /* AssemblesAndDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AssemblesAndDetailsViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,6 +158,8 @@
 		7529F95D15199C3200C13C90 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				84F883E91535B53A00EA0438 /* AssemblesAndDetailsViewController.h */,
+				84F883EA1535B53A00EA0438 /* AssemblesAndDetailsViewController.m */,
 				7517F5A815217494000EF32F /* EditAssemblyViewController.h */,
 				7517F5A915217494000EF32F /* EditAssemblyViewController.m */,
 				7529F9721519A33A00C13C90 /* RootAssemblesViewController.h */,
@@ -386,6 +391,7 @@
 				7529F983151B0C2A00C13C90 /* Assembly.m in Sources */,
 				7517F5AA15217494000EF32F /* EditAssemblyViewController.m in Sources */,
 				75B7DA441521796100C02F18 /* AssemblyCellView.m in Sources */,
+				84F883EB1535B53A00EA0438 /* AssemblesAndDetailsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
