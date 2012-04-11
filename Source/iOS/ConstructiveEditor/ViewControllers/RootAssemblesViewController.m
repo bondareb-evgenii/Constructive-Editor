@@ -27,6 +27,20 @@
 
 //@synthesize detailToAdd = _detailToAdd;
 //@synthesize assemblyToAdd = _assemblyToAdd;
+
+/**
+ Returns the managed object model for the application.
+ If the model doesn't already exist, it is created by merging all of the models found in the application bundle.
+ */
+- (NSManagedObjectModel *)managedObjectModel {
+	
+    if (_managedObjectModel != nil) {
+        return _managedObjectModel;
+    }
+    _managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];    
+    return _managedObjectModel;
+}
+
 /**
  Returns the persistent store coordinator for the application.
  If the coordinator doesn't already exist, it is created and the application's store added to it.
@@ -72,20 +86,6 @@
         [_managedObjectContext setPersistentStoreCoordinator: coordinator];
     }
     return _managedObjectContext;
-}
-
-
-/**
- Returns the managed object model for the application.
- If the model doesn't already exist, it is created by merging all of the models found in the application bundle.
- */
-- (NSManagedObjectModel *)managedObjectModel {
-	
-    if (_managedObjectModel != nil) {
-        return _managedObjectModel;
-    }
-    _managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];    
-    return _managedObjectModel;
 }
 
 - (NSString *)applicationDocumentsDirectory {
@@ -282,46 +282,40 @@
   if (tableView != _rootAssembliesTable)
     return nil;
     
+  UITableViewCell* addItemCell = [tableView dequeueReusableCellWithIdentifier:@"AddItemCell"];
+  if (_rootAssembliesTable.editing && indexPath.row == _addItemIndex)
+    {
+    addItemCell.textLabel.text = NSLocalizedString(@"Add assembly", @"root assemblies table view");
+    return addItemCell;
+    }
+    
   AssemblyCellView* cell = (AssemblyCellView*)[tableView dequeueReusableCellWithIdentifier:@"AssemblyCell"];
     
   cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
   if (_rootAssembliesTable.editing)
     {
-    if(indexPath.row == _addItemIndex)
-      {
-      cell.stepNumberLabel.text = NSLocalizedString(@"Add assembly", @"root assemblies table view");
-      cell.picture.image = nil;
-      return cell;
-      }
+    NSUInteger assemblyIndex;
+    if (indexPath.row > _addItemIndex)
+      assemblyIndex = indexPath.row - 1;
     else
-      {
-      NSUInteger assemblyIndex;
-      if (indexPath.row > _addItemIndex)
-        assemblyIndex = indexPath.row - 1;
-      else
-        assemblyIndex = indexPath.row;
-      Assembly *assembly = (Assembly*)[_rootAssembliesArray objectAtIndex:assemblyIndex];
-      cell.stepNumberLabel.text = [NSString stringWithFormat:@"%d", assemblyIndex+1];
-      CGRect pictureRect = cell.picture.frame;
-      pictureRect.size.width = pictureRect.size.height;
-      cell.picture.frame = pictureRect;
-      cell.picture.image = assembly.picture
-                         ? assembly.picture
-                         : [UIImage imageNamed:@"camera.png"];
-      }
+      assemblyIndex = indexPath.row;
+    Assembly *assembly = (Assembly*)[_rootAssembliesArray objectAtIndex:assemblyIndex];
+    cell.stepNumberLabel.text = [NSString stringWithFormat:@"%d", assemblyIndex+1];
+    cell.picture.autoresizingMask = UIViewAutoresizingNone;
+    cell.picture.image = assembly.picture
+                       ? assembly.picture
+                       : [UIImage imageNamed:@"camera.png"];
     }
   else
     {
     Assembly *assembly = (Assembly*)[_rootAssembliesArray objectAtIndex:indexPath.row];
     cell.stepNumberLabel.text = [NSString stringWithFormat:@"%d", indexPath.row+1];
-    CGRect pictureRect = cell.picture.frame;
-    pictureRect.size.width = pictureRect.size.height;
-    cell.picture.frame = pictureRect;
+    cell.picture.autoresizingMask = UIViewAutoresizingNone;
     cell.picture.image = assembly.picture
                        ? assembly.picture
                        : [UIImage imageNamed:@"camera.png"];
     }
-    
+
   return cell;
   }
   
@@ -352,6 +346,26 @@
   else 
 		return UITableViewCellEditingStyleDelete;
   return UITableViewCellEditingStyleNone;
+  }
+  
+- (void)reloadVisibleAssembliesCells
+  {
+  [_rootAssembliesTable reloadRowsAtIndexPaths:[_rootAssembliesTable indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationNone];
+  //next code may be useful if we use another animation where the user can see what cells are updating (of course we should not update all the visible cells every time though)
+  /*NSArray* indexPathsForVisibleRows = [_rootAssembliesTable indexPathsForVisibleRows];
+  NSUInteger visibleCellsCount = indexPathsForVisibleRows.count;
+  NSMutableArray* visibleAssembliesCellsIndexPaths = [NSMutableArray arrayWithCapacity:visibleCellsCount];
+  [visibleAssembliesCellsIndexPaths addObjectsFromArray:indexPathsForVisibleRows];
+  for (NSUInteger i = 0; i < visibleCellsCount; ++i)
+    {
+    NSIndexPath* indexPath = [visibleAssembliesCellsIndexPaths objectAtIndex:i];
+    if (![[_rootAssembliesTable cellForRowAtIndexPath:indexPath] isKindOfClass:[AssemblyCellView class]])
+      {
+      [visibleAssembliesCellsIndexPaths removeObjectAtIndex:i];
+      break;
+      }
+    }
+  [_rootAssembliesTable reloadRowsAtIndexPaths:visibleAssembliesCellsIndexPaths withRowAnimation:UITableViewRowAnimationNone];*/
   }
   
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -399,10 +413,7 @@
         
     
     [_rootAssembliesTable deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    NSMutableArray* indexPathsToUpdate = [NSMutableArray arrayWithCapacity:indexPath.row];
-    for (NSUInteger index = 0; index < indexPath.row; ++index)
-      [indexPathsToUpdate addObject:[NSIndexPath indexPathForRow:index inSection:0]];
-    [_rootAssembliesTable reloadRowsAtIndexPaths:indexPathsToUpdate withRowAnimation:UITableViewRowAnimationFade];
+    [self performSelector:@selector(reloadVisibleAssembliesCells) withObject:nil afterDelay:0.3];
     
     // Commit the change.
     NSError *error = nil;
@@ -444,15 +455,13 @@
           NSLog(@"_rootAssembliesArray = %@", _rootAssembliesArray);
           break;
           }
-        }
+        }	
         
         
     
     [_rootAssembliesTable insertRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:_addItemIndex+1 inSection:0], nil] withRowAnimation:UITableViewRowAnimationFade];
-    NSMutableArray* indexPathsToUpdate = [NSMutableArray arrayWithCapacity:_addItemIndex];
-    for (NSUInteger index = 0; index < _addItemIndex; ++index)
-      [indexPathsToUpdate addObject:[NSIndexPath indexPathForRow:index inSection:0]];
-    [_rootAssembliesTable reloadRowsAtIndexPaths:indexPathsToUpdate withRowAnimation:UITableViewRowAnimationFade];
+    [self performSelector:@selector(reloadVisibleAssembliesCells) withObject:nil afterDelay:0.3];
+    
     // Commit the change.
     NSError *error = nil;
     if (![_managedObjectContext save:&error])
@@ -463,11 +472,6 @@
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
   {
   return YES;
-  }
-
-- (void)reloadMainSection
-  {
-  [_rootAssembliesTable reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
   }
   
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath 
@@ -536,7 +540,7 @@
         }
       
       //not effective but looks like no other partial ways to update work correctly
-      [self performSelector:@selector(reloadMainSection) withObject:nil afterDelay:0.3];
+      [self performSelector:@selector(reloadVisibleAssembliesCells) withObject:nil afterDelay:0.3];
     
       // Commit the change.
       NSError *error = nil;

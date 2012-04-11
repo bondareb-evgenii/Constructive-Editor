@@ -46,7 +46,11 @@
   
 - (IBAction)addPhoto:(id)sender
   {
-  UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+//  UIImagePickerControllerSourceType desiredSourceType = [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]
+//                                                      ? UIImagePickerControllerSourceTypeCamera
+//                                                      : UIImagePickerControllerSourceTypePhotoLibrary;
+  UIImagePickerController *imagePicker = [UIImagePickerController new];
+//  imagePicker.sourceType = desiredSourceType;
 	imagePicker.delegate = self;
 	[self presentModalViewController:imagePicker animated:YES];
   }
@@ -57,6 +61,7 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)selectedImage editingInfo:(NSDictionary *)editingInfo
   {	
+  //WORKS REALLY LONG TIME: check the photo picker example to see how we can speed it up
 	_assembly.picture = selectedImage;
   // Commit the change.
 	NSError *error = nil;

@@ -1,12 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.1" toolsVersion="2182" systemVersion="11D50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="2">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.0" toolsVersion="1938" systemVersion="10K549" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="2">
     <dependencies>
-        <deployment defaultVersion="1296" identifier="iOS"/>
+        <deployment defaultVersion="1280" identifier="iOS"/>
         <development defaultVersion="4200" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1181"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="933"/>
     </dependencies>
     <scenes>
-        <!--Start Menu View Controler-->
         <scene sceneID="5">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4" sceneMemberID="firstResponder"/>
@@ -37,7 +36,6 @@
             </objects>
             <point key="canvasLocation" x="137" y="76"/>
         </scene>
-        <!--Root Assembles View Controller-->
         <scene sceneID="1Mh-JW-XLS">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eCM-zr-hOc" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -76,7 +74,7 @@
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="tbo-ir-Dxb">
                                                     <rect key="frame" x="83" y="1" width="229" height="59"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
@@ -103,6 +101,24 @@
                                             <outlet property="stepNumberLabel" destination="tbo-ir-Dxb" id="eUL-YG-Bbb"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="AddItemCell" textLabel="9w7-p9-DPf" style="IBUITableViewCellStyleDefault" id="k9U-Lr-LCN">
+                                        <rect key="frame" x="0.0" y="84" width="320" height="62"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="61"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9w7-p9-DPf">
+                                                    <rect key="frame" x="10" y="0.0" width="300" height="61"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </tableViewCell>
                                 </prototypes>
                             </tableView>
                         </subviews>
@@ -118,7 +134,6 @@
             </objects>
             <point key="canvasLocation" x="582" y="76"/>
         </scene>
-        <!--View Controller-->
         <scene sceneID="jAV-rP-D26">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="n45-Wy-QvQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -132,7 +147,6 @@
             </objects>
             <point key="canvasLocation" x="1122" y="386"/>
         </scene>
-        <!--Edit Assembly View Controller-->
         <scene sceneID="lMe-pe-rjT">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JBy-8E-SYP" userLabel="First Responder" sceneMemberID="firstResponder"/>
