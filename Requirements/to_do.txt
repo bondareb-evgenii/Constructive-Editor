@@ -1,8 +1,4 @@
-При нажатии на картинку в Add asssembly тоже запускается едитор: исправить и всандалить туда другую картинку либо просто удалить ее вместе с кнопкой (можно просто деактивировать кнопку)
-Что за лажа с размерами картинок?
-Нумерация шагов при добавлении не пересчитывается…
-Размеры фоток огромные, так что надо показывать индетерминейт прогресс при их открывании
-Возможно имеет смысл возвращаться в таблицу сразу после того как мы выбрали новую картинку
-
-Сделать подуровни многосекционными и разрешить перетаскивание деталей и сборок между секциями, однако запретить перемещение полей для добавления между секциями так как это не имеет смысла
-На любом подуровне всегда должна быть незаполненная секция с полем для добавлния: если любая из существующих секций становится пустой, то дополнительная секция удаляется а при добавлении первого элемента в пустую секцию создается новая пустая секция
+- Every assemblies sub level but the root one should always have one additional section with only one "add item" cell. If any of existing sections becomes void then the additional one should be automatically removed and added again when the first element is added to existing void section.
+Movements of cells between sections should be possible but the "add item" cells which should always stay inside their initial section. Every section header should contain a "Set connection point" button to connect its result to a parent assembly. Void sections header should not contain such a button or it should be disabled and activated on the first cell adding event.
+- Check how to optimize images loading time (5 seconds on iPhone 4). See PhotoPicker example project. Is it possible to show indeterminate progress there?
+- Should we get back to the table view after selecting a picture or not
