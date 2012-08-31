@@ -55,7 +55,7 @@
 
 - (IBAction)Back:(id)sender
   {
-  [_assembly.managedObjectContext saveAndHandleError];
+  [_detail.managedObjectContext saveAndHandleError];
   [self dismissModalViewControllerAnimated:YES];
   }
     
