@@ -2,8 +2,7 @@
 //  DetailType.h
 //  ConstructiveEditor
 //
-//  Created by Evgenii Bondarev on 3/24/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 Openminded. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -17,6 +16,7 @@
 @property (nonatomic, retain) NSString * identifier;
 @property (nonatomic, retain) NSNumber * length;
 @property (nonatomic, retain) UIImage* picture;
+@property (nonatomic, retain) UIImage* picturePrepared;
 @property (nonatomic, retain) UIImage* scalePicture;
 @property (nonatomic, retain) NSValue* scalePictureSize;
 @property (nonatomic, retain) NSSet *details;
@@ -24,6 +24,7 @@
 
 @interface DetailType (CoreDataGeneratedAccessors)
 
+- (UIImage*)pictureToShow;
 - (void)addDetailsObject:(Detail *)value;
 - (void)removeDetailsObject:(Detail *)value;
 - (void)addDetails:(NSSet *)values;

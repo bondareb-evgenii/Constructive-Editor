@@ -1,9 +1,8 @@
 //
 //  Detail.m
-//  Constructive
+//  ConstructiveEditor
 //
-//  Created by Evgenii Bondarev on 3/24/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 Openminded. All rights reserved.
 //
 
 #import "Detail.h"
@@ -17,4 +16,21 @@
 @dynamic assemblyToInstallTo;
 @dynamic type;
 
+- (void)awakeFromInsert
+  {
+  NSLog(@"[Detail awakeFromInsert]:   0x%x", self);
+  [super awakeFromInsert];
+  }
+  
+- (void)didTurnIntoFault
+  {
+  NSLog(@"[Detail didTurnIntoFault]:   0x%x", self);
+  [super didTurnIntoFault];
+  }
+  
+- (void)dealloc
+  {
+  NSLog(@"[Detail dealloc]:   0x%x", self);
+  }
+  
 @end

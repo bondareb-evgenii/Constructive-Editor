@@ -2,12 +2,12 @@
 //  ViewController.m
 //  ConstructiveEditor
 //
-//  Created by Evgenii Bondarev on 3/4/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 Openminded. All rights reserved.
 //
 
 #import "EditAssemblyViewController.h"
 #import "Assembly.h"
+#import "NSManagedObjectContextExtension.h"
 
 @interface EditAssemblyViewController (UIImagePickerControllerDelegate) <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 @end
@@ -32,17 +32,6 @@
   {
   return YES;
   }
-
-- (IBAction)goBack:(id)sender
-  {
-  NSError *error = nil;
-	if (![_assembly.managedObjectContext save:&error])
-    {
-		NSLog(@"Error: %@", error.debugDescription);
-    }
-  
-  [self dismissModalViewControllerAnimated:YES];
-  }
   
 - (IBAction)addPhoto:(id)sender
   {
@@ -64,11 +53,7 @@
   //WORKS REALLY LONG TIME: check the photo picker example to see how we can speed it up
 	_assembly.picture = selectedImage;
   // Commit the change.
-	NSError *error = nil;
-	if (![_assembly.managedObjectContext save:&error])
-    {
-		NSLog(@"Error: %@", error.debugDescription);
-    }
+	[_assembly.managedObjectContext saveAndHandleError];
   imageView.image = _assembly.picture;
 
   [self dismissModalViewControllerAnimated:YES];

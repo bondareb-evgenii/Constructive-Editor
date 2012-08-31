@@ -16,7 +16,6 @@
   }
 
   @property (nonatomic, weak) IBOutlet UIImageView* picture;
-  @property (nonatomic, weak) IBOutlet UILabel* stepNumberLabel;
   
 
 @end

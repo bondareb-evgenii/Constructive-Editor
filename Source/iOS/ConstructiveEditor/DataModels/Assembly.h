@@ -1,9 +1,8 @@
 //
 //  Assembly.h
-//  Constructive
+//  ConstructiveEditor
 //
-//  Created by Evgenii Bondarev on 3/24/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 Openminded. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -15,15 +14,21 @@
 
 @property (nonatomic, retain) NSValue* connectionPoint;
 @property (nonatomic, retain) UIImage* picture;
+@property (nonatomic, retain) UIImage* picturePrepared;
 @property (nonatomic, retain) NSSet *assembliesInstalled;
 @property (nonatomic, retain) NSSet *detailsInstalled;
-@property (nonatomic, retain) Assembly *baseAssembly;
-@property (nonatomic, retain) Assembly *extendedAssembly;
+@property (nonatomic, retain) Assembly *assemblyBase;
+@property (nonatomic, retain) Assembly *assemblyExtended;
 @property (nonatomic, retain) Assembly *assemblyToInstallTo;
+@property (nonatomic, retain) Assembly *assemblyTransformed;
+@property (nonatomic, retain) Assembly *assemblyBeforeTransformation;
+@property (nonatomic, retain) Assembly *assemblyRotated;
+@property (nonatomic, retain) Assembly *assemblyBeforeRotation;
 @end
 
 @interface Assembly (CoreDataGeneratedAccessors)
 
+- (UIImage*)pictureToShow;
 - (void)addAssembliesInstalledObject:(Assembly *)value;
 - (void)removeAssembliesInstalledObject:(Assembly *)value;
 - (void)addAssembliesInstalled:(NSSet *)values;

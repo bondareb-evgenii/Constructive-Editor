@@ -14,6 +14,5 @@
 @implementation AssemblyCellView
 
 @synthesize picture = _picture;
-@synthesize stepNumberLabel = _stepNumberLabel;
 
 @end

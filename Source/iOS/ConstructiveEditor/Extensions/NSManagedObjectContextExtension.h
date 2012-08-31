@@ -1,13 +1,12 @@
 //
-//  CGSizeToDataTransformer.h
-//  Constructive
+//  NSManagedObjectContextExtension.h
+//  ConstructiveEditor
 //
-//  Created by Evgenii Bondarev on 3/5/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 Openminded. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "CoreData/CoreData.h"
 
-@interface CGSizeToDataTransformer : NSValueTransformer
-
+@interface NSManagedObjectContext (Extension)
+  - (void)saveAndHandleError;
 @end
