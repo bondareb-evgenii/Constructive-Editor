@@ -1,0 +1,27 @@
+Preferences
+
+- Ask me about implicit deletion of parts: bool
+- Action on reinterpret split assemblies as assemblies with detached parts:
+	- Ask me
+	- Split newly created base assembly to existing details
+	- Use existing details as parts detached from the newly created assembly
+	- Remove existing details
+- Action on reinterpret split assemblies as rotated or transformed ones:
+	- Ask me
+	- Split newly created rotated(transformed) assembly to existing details
+	- Remove existing details
+- Action on reinterpret assemblies with detached parts as rotated or transformed ones:
+	- Ask me
+	- Detach existing parts from the newly created rotated(transformed) assembly
+	- Use a base assembly as an rotated(transformed) assembly and remove smaller parts
+	- Remove the existing base assembly and smaller parts
+- Action on reinterpret rotated and transformed assemblies as ones with smaller parts detached:
+	- Ask me
+	- Use rotated(transformed) assembly as a base one
+	- Rotate(transform) a newly created base assembly
+	- Remove the rotated(transformed) assembly
+- Action on reinterpret rotated assemblies as transformed ones and vise versa:
+	- Ask me
+	- Use rotated(transformed) assembly as transformed(rotated) one
+	- Transform(rotate) a newly created rotated(transformed) assembly
+	- Remove the existing rotated(transformed) assembly

@@ -1,0 +1,29 @@
+What to do on reinterpret:
+
+Split->Detach:
+	- Split newly created base assembly to existing details
+	- Use existing details as parts detached from the newly created assembly
+	- Remove existing details after prompt
+
+Split->Rotate(Transform):
+	- Split newly created rotated(transformed) assembly to existing details
+	- Remove existing details after prompt
+
+Detach->Split: remove base assembly and smaller assemblies after prompt; leave details as is and inform user about it in the prompt (if it should be shown according to preferences)
+
+Detach->Rotate(transform):
+	- Detach existing parts from the newly created rotated(transformed) assembly
+	- Use a base assembly as a rotated(transformed) assembly and remove smaller parts after prompt
+	- Remove the existing base assembly and smaller parts after prompt
+
+Rotate(transform)->Split: remove the rotated(transformed) assembly after prompt
+
+Rotate(transform)->Detach:
+	- Use rotated(transformed) assembly as a base one
+	- Rotate(transform) a newly created base assembly
+	- Remove the rotated(transformed) assembly after prompt
+
+Rotate(transform)->Transform(rotate):
+	- Use rotated(transformed) assembly as transformed(rotated) one
+	- Transform(rotate) a newly created rotated(transformed)
+	- Remove the existing rotated(transformed) assembly after prompt
