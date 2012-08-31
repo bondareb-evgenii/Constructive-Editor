@@ -2,8 +2,7 @@
 //  EditAssemblyViewController.h
 //  ConstructiveEditor
 //
-//  Created by Evgenii Bondarev on 3/4/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 Openminded. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

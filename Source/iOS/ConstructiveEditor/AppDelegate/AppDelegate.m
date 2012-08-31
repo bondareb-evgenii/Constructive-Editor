@@ -2,8 +2,7 @@
 //  AppDelegate.m
 //  ConstructiveEditor
 //
-//  Created by bond on 3/17/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 Openminded. All rights reserved.
 //
 
 #import "AppDelegate.h"
