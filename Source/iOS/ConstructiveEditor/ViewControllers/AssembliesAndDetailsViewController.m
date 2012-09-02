@@ -13,6 +13,7 @@
 #import "DetailType.h"
 #import "DetailCellView.h"
 #import "EditAssemblyViewController.h"
+#import "EditDetailViewController.h"
 #import "DetailTypesViewController.h"
 #import "NSManagedObjectContextExtension.h"
 #import "ReinterpretActionHandler.h"
@@ -91,12 +92,34 @@
 //    return nil;//this is a details section
   return nil;
   }
+  
+- (Detail*)detailForRowAtIndexPath:(NSIndexPath*)indexPath
+  {
+  if (( self.assembly.assemblyBase && 2 == indexPath.section) ||
+      (!self.assembly.assemblyBase && _details.count && 0 == indexPath.section))
+    {
+    if (_assembliesAndDetailsTable.editing && indexPath.row == _addDetailIndex)
+      {
+      return nil;
+      }
+      
+    NSUInteger detailIndex = indexPath.row;
+    if (_assembliesAndDetailsTable.editing && indexPath.row > _addDetailIndex)
+      --detailIndex;
+    return (Detail*)[_details objectAtIndex:detailIndex];
+    }
+  return nil;
+  }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
   {
   if ([@"EditAssemblyInterpreted"     isEqualToString:segue.identifier] ||
       [@"EditAssemblyNotInterpreted"  isEqualToString:segue.identifier])
     ((EditAssemblyViewController*)segue.destinationViewController).assembly = [self assemblyForRowAtIndexPath:[_assembliesAndDetailsTable indexPathForCell:(UITableViewCell*)((UIView*)sender).superview.superview]];
+  else if([@"EditDetail" isEqualToString:segue.identifier])
+    {
+    ((EditDetailViewController*)segue.destinationViewController).detail = [self detailForRowAtIndexPath:[_assembliesAndDetailsTable indexPathForCell:(UITableViewCell*)((UIView*)sender).superview.superview]];
+    }
   else if([@"ShowAssemblyDetails" isEqualToString:segue.identifier])
     {
     Assembly* assembly = nil == sender
@@ -164,58 +187,55 @@
     return NSLocalizedString(@"Rotated assembly", @"Assemblies and details: section header");
   return nil;
   }
-
-- (UITableViewCell*)cellForAssembly:(Assembly*)assembly
-  {
-  if (!assembly)
-    return nil;
-    
-  BOOL isAssemblyInterpreted = assembly.detailsInstalled.count ||
-                               nil != assembly.assemblyBase ||
-                               nil != assembly.assemblyBeforeTransformation ||
-                               nil != assembly.assemblyBeforeRotation;
-  AssemblyCellView* cell = (AssemblyCellView*)[_assembliesAndDetailsTable dequeueReusableCellWithIdentifier: isAssemblyInterpreted
-                         ? @"AssemblyInterpretedCell"
-                         : @"AssemblyNotInterpretedCell"];
-  cell.picture.image = [assembly pictureToShow]
-                     ? [assembly pictureToShow]
-                     : [UIImage imageNamed:@"camera.png"];
-  return cell;
-  }
     
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
   {
   if (tableView != _assembliesAndDetailsTable)
     return nil;
   
-  if (( self.assembly.assemblyBase && 2 == indexPath.section) ||
-      (!self.assembly.assemblyBase && _details.count && 0 == indexPath.section))
+  BOOL shouldPutAddDetailCellForIndexPath = _assembliesAndDetailsTable.editing && indexPath.row == _addDetailIndex && (( self.assembly.assemblyBase && 2 == indexPath.section) || (!self.assembly.assemblyBase && _details.count && 0 == indexPath.section));
+  if (shouldPutAddDetailCellForIndexPath)
     {
-    if (_assembliesAndDetailsTable.editing && indexPath.row == _addDetailIndex)
-      {
-      UITableViewCell* addItemCell = [tableView dequeueReusableCellWithIdentifier:@"AddItemCell"];
-      addItemCell.textLabel.text = NSLocalizedString(@"Add detail", @"Assemblies and details: cell label");
-      return addItemCell;
-      }
-      
-    NSUInteger detailIndex = indexPath.row;
-    if (_assembliesAndDetailsTable.editing && indexPath.row > _addDetailIndex)
-      --detailIndex;
-    Detail* detail = (Detail*)[_details objectAtIndex:detailIndex];
+    UITableViewCell* addItemCell = [tableView dequeueReusableCellWithIdentifier:@"AddItemCell"];
+    addItemCell.textLabel.text = NSLocalizedString(@"Add detail", @"Assemblies and details: cell label");
+    return addItemCell;
+    }
+  
+  BOOL shouldPutAddAssemblyCellForIndexPath = self.assembly.assemblyBase && 1 == indexPath.section &&_assembliesAndDetailsTable.editing && indexPath.row == _addAssemblyIndex;
+  if (shouldPutAddAssemblyCellForIndexPath)
+    {
+    UITableViewCell* addItemCell = [tableView dequeueReusableCellWithIdentifier:@"AddItemCell"];
+    addItemCell.textLabel.text = NSLocalizedString(@"Add assembly", @"Assemblies and details: cell label");
+    return addItemCell;
+    }
+  
+  Assembly* assembly = [self assemblyForRowAtIndexPath:indexPath];
+  if (assembly)
+    {
+    BOOL isAssemblyInterpreted = assembly.detailsInstalled.count ||
+                                 nil != assembly.assemblyBase ||
+                                 nil != assembly.assemblyBeforeTransformation ||
+                                 nil != assembly.assemblyBeforeRotation;
+    AssemblyCellView* cell = (AssemblyCellView*)[_assembliesAndDetailsTable dequeueReusableCellWithIdentifier: isAssemblyInterpreted
+                           ? @"AssemblyInterpretedCell"
+                           : @"AssemblyNotInterpretedCell"];
+    cell.picture.image = [assembly pictureToShow]
+                       ? [assembly pictureToShow]
+                       : [UIImage imageNamed:@"camera.png"];
+    return cell;
+    }
+    
+  Detail* detail = [self detailForRowAtIndexPath:indexPath];
+  if (detail)
+    {
     DetailCellView* cell = (DetailCellView*)[tableView dequeueReusableCellWithIdentifier:@"DetailCell"];
     cell.picture.image = [detail.type pictureToShow]
                        ? [detail.type pictureToShow]
                        : [UIImage imageNamed:@"camera.png"];
     return cell;
     }
-  if (self.assembly.assemblyBase && 1 == indexPath.section &&_assembliesAndDetailsTable.editing && indexPath.row == _addAssemblyIndex)
-    {
-    UITableViewCell* addItemCell = [tableView dequeueReusableCellWithIdentifier:@"AddItemCell"];
-    addItemCell.textLabel.text = NSLocalizedString(@"Add assembly", @"Assemblies and details: cell label");
-    return addItemCell;
-    }
     
-  return [self cellForAssembly:[self assemblyForRowAtIndexPath:indexPath]];
+  return nil;
   }
   
 @end

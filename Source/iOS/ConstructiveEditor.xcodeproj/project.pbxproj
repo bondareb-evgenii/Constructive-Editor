@@ -32,6 +32,7 @@
 		757EBCEF15F0E7B8004218D2 /* NoPhotoBig.png in Resources */ = {isa = PBXBuildFile; fileRef = 757EBCEE15F0E7B8004218D2 /* NoPhotoBig.png */; };
 		757F600A15EF8F490022FC67 /* ReinterpretActionHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 757F600915EF8F490022FC67 /* ReinterpretActionHandler.m */; };
 		75823399154177BF009BBA8B /* NSManagedObjectContextExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 75823398154177BF009BBA8B /* NSManagedObjectContextExtension.m */; };
+		758520D215F395C50071A662 /* EditDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 758520D115F395C50071A662 /* EditDetailViewController.m */; };
 		75A26DA215218B2200449686 /* camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 75A26D9E15218B2200449686 /* camera.png */; };
 		75B7DA441521796100C02F18 /* AssemblyCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 75B7DA431521796100C02F18 /* AssemblyCellView.m */; };
 		84EA63AE1514C4AF00C7177E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EA63AD1514C4AF00C7177E /* UIKit.framework */; };
@@ -100,6 +101,8 @@
 		757F600915EF8F490022FC67 /* ReinterpretActionHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReinterpretActionHandler.m; path = Utilities/ReinterpretActionHandler.m; sourceTree = "<group>"; };
 		75823397154177BF009BBA8B /* NSManagedObjectContextExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSManagedObjectContextExtension.h; sourceTree = "<group>"; };
 		75823398154177BF009BBA8B /* NSManagedObjectContextExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSManagedObjectContextExtension.m; sourceTree = "<group>"; };
+		758520D015F395C50071A662 /* EditDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditDetailViewController.h; sourceTree = "<group>"; };
+		758520D115F395C50071A662 /* EditDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditDetailViewController.m; sourceTree = "<group>"; };
 		75A26D9E15218B2200449686 /* camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera.png; sourceTree = "<group>"; };
 		75B7DA421521796100C02F18 /* AssemblyCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AssemblyCellView.h; sourceTree = "<group>"; };
 		75B7DA431521796100C02F18 /* AssemblyCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AssemblyCellView.m; sourceTree = "<group>"; };
@@ -186,6 +189,8 @@
 		7529F95D15199C3200C13C90 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				758520D015F395C50071A662 /* EditDetailViewController.h */,
+				758520D115F395C50071A662 /* EditDetailViewController.m */,
 				7529F95E15199C3200C13C90 /* StartMenuViewControler.h */,
 				7529F95F15199C3200C13C90 /* StartMenuViewControler.m */,
 				7529F9721519A33A00C13C90 /* RootAssemblyViewController.h */,
@@ -480,6 +485,7 @@
 				757A153C15ED256E00E89FBC /* PreferencesKeys.m in Sources */,
 				757A153F15EE77B400E89FBC /* ActionSheet.m in Sources */,
 				757F600A15EF8F490022FC67 /* ReinterpretActionHandler.m in Sources */,
+				758520D215F395C50071A662 /* EditDetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
