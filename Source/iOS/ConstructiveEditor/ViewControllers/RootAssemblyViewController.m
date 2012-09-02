@@ -177,16 +177,6 @@
   [_interpreter reinterpretAssembly:_rootAssembly];
   }
   
-- (IBAction)goBackFromEditAssembly:(UIStoryboardSegue*)segue
-  {
-  [_managedObjectContext saveAndHandleError];
-  }
-  
-- (IBAction)goBackFromAssembliesAndDetails:(UIStoryboardSegue*)segue
-  {
-  [_managedObjectContext saveAndHandleError];
-  }
-  
 @end
 
 @implementation RootAssemblyViewController (UITableViewDataSource)

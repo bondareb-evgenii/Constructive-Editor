@@ -36,12 +36,6 @@
 //  _assembliesAndDetailsTable.dataSource = self;
   }
 
-- (void)viewDidUnload
-  {
-  _assembliesAndDetailsTable = nil;
-  [super viewDidUnload];
-  }
-
 - (void)viewWillAppear:(BOOL)animated
   {
 	[super viewWillAppear:animated];

@@ -52,13 +52,6 @@
   _interpreter = [[ReinterpretActionHandler alloc] initWithViewController:self andSegueToNextViewControllerName:@"ShowAssemblyDetails"];
   }
 
-- (void)viewDidUnload
-  {
-  //looks like this function is never called in iOS 6 (deprecated)
-  _assembliesAndDetailsTable = nil;
-  [super viewDidUnload];
-  }
-
 - (void)viewWillAppear:(BOOL)animated
   {
 	[super viewWillAppear:animated];
@@ -69,17 +62,6 @@
   {
   return YES;
   }
-  
-- (IBAction)goBackFromEditAssembly:(UIStoryboardSegue*)segue
-  {
-  [_assembly.managedObjectContext saveAndHandleError];
-  }
-
-- (IBAction)goBackFromAssembliesAndDetails:(UIStoryboardSegue*)segue
-  {
-  [_assembly.managedObjectContext saveAndHandleError];
-  }
-  
   
 - (Assembly*)assemblyForRowAtIndexPath:(NSIndexPath*)indexPath
   {
@@ -316,7 +298,7 @@
       // Commit the change.
       [_assembly.managedObjectContext saveAndHandleError];
       //go to previous screen
-      [self performSegueWithIdentifier:@"BackFromAssembliesAndDetails" sender:nil];
+      [self.navigationController popViewControllerAnimated:YES];
       }
     
     if ( self.assembly.assemblyBase && indexPath.section == 1)
@@ -353,7 +335,7 @@
       
       //no updates, just go to previous screen
       if (!self.assembly.assemblyBase && !_details.count)
-        [self performSegueWithIdentifier:@"BackFromAssembliesAndDetails" sender:nil];
+        [self.navigationController popViewControllerAnimated:YES];
       else //update UI
         {
         [_assembliesAndDetailsTable deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];

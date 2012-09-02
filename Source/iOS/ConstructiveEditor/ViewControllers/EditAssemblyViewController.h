@@ -10,10 +10,6 @@
 @class Assembly;
   
 @interface EditAssemblyViewController : UIViewController
-  {
-  @private
-    __weak IBOutlet UIImageView *imageView;
-  }
 
 @property (nonatomic, strong) Assembly* assembly;
 

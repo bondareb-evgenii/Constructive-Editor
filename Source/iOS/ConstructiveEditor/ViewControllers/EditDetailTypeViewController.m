@@ -19,13 +19,9 @@
 - (void)viewDidLoad
   {
   [super viewDidLoad];
-  imageView.image = _assembly.picture;
-  }
-
-- (void)viewDidUnload
-  {
-  imageView = nil;
-  [super viewDidUnload];
+  imageView.image = [_assembly pictureToShow]
+                  ? [_assembly pictureToShow]
+                  : [UIImage imageNamed:@"NoPhotoBig.png"];
   }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -60,7 +56,9 @@
 	_assembly.picture = selectedImage;
   // Commit the change.
 	[_assembly.managedObjectContext saveAndHandleError];
-  imageView.image = _assembly.picture;
+  imageView.image = [_assembly pictureToShow]
+                  ? [_assembly pictureToShow]
+                  : [UIImage imageNamed:@"NoPhotoBig.png"];
 
   [self dismissModalViewControllerAnimated:YES];
   }
