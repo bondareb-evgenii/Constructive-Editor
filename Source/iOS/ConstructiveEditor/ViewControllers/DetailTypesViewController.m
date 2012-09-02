@@ -9,6 +9,8 @@
 
 #import "Detail.h"
 #import "DetailType.h"
+#import "EditDetailTypeViewController.h"
+#import "DetailTypeCellView.h"
 #import "NSManagedObjectContextExtension.h"
 #import "CoreData/CoreData.h"
 
@@ -20,7 +22,9 @@
 
 @interface DetailTypesViewController ()
   {
-  __weak IBOutlet UITableView*      _assembliesAndDetailsTable;
+  NSUInteger                        _addDetailTypeIndex;
+  __weak IBOutlet UITableView*      _detailTypesTable;
+  NSMutableArray*                   _detailTypes;
   }
 @end
 
@@ -32,14 +36,41 @@
   {
   [super viewDidLoad];
   
-//  _assembliesAndDetailsTable.delegate = self;
-//  _assembliesAndDetailsTable.dataSource = self;
+  NSFetchRequest *detailTypesRequest = [[NSFetchRequest alloc] init];
+	NSEntityDescription *detailTypeEntity = [NSEntityDescription entityForName:@"DetailType" inManagedObjectContext:self.detail.managedObjectContext];
+	[detailTypesRequest setEntity:detailTypeEntity];
+  //[detailTypesRequest setPredicate:[NSPredicate predicateWithFormat:@"(picture != nil)"]];
+	
+	// Execute the fetch -- create a mutable copy of the result.
+	NSError *detailTypesError = nil;
+	NSArray* detailTypes = [[self.detail.managedObjectContext executeFetchRequest:detailTypesRequest error:&detailTypesError] mutableCopy];
+  if (detailTypes == nil)
+    {
+		NSLog(@"Error: %@", detailTypesError.debugDescription);
+    return;
+    }
+
+  _detailTypes = [detailTypes mutableCopy];
+  
+  _detailTypesTable.delegate = self;
+  _detailTypesTable.dataSource = self;
+  _detailTypesTable.editing = YES;//this is ConstructiveEditor :)
   }
 
 - (void)viewWillAppear:(BOOL)animated
   {
 	[super viewWillAppear:animated];
-	[_assembliesAndDetailsTable reloadData];
+	[_detailTypesTable reloadData];
+  
+  DetailType* selectedDetailType = self.detail.type;
+  if (nil != selectedDetailType)
+    {
+    NSUInteger detailTypeIndex = [_detailTypes indexOfObject:selectedDetailType];
+    if (detailTypeIndex >= _addDetailTypeIndex)
+      ++detailTypeIndex;
+    [_detailTypesTable selectRowAtIndexPath:[NSIndexPath indexPathForRow:detailTypeIndex inSection:0] animated:NO scrollPosition:UITableViewScrollPositionNone];
+    }
+
   }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -47,20 +78,16 @@
   return YES;
   }
 
-- (IBAction)Back:(id)sender
-  {
-  [_detail.managedObjectContext saveAndHandleError];
-  [self dismissModalViewControllerAnimated:YES];
-  }
-    
-- (IBAction)editDetailType:(id)sender
-  {
-  //TODO:Implement
-  }
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
   {
-  //TODO:Implement
+  if ([@"EditDetailTypeByAccessoryPressed"     isEqualToString:segue.identifier] ||
+      [@"EditDetailTypeByPicturePressed"  isEqualToString:segue.identifier])
+    {
+    NSUInteger detailTypeIndex = [_detailTypesTable indexPathForCell:(UITableViewCell*)((UIView*)sender).superview.superview].row;
+    if (_detailTypesTable.editing &&  detailTypeIndex > _addDetailTypeIndex)
+      --detailTypeIndex;
+    ((EditDetailTypeViewController*)segue.destinationViewController).detailType = [_detailTypes objectAtIndex:detailTypeIndex];
+    }
   }
   
 @end
@@ -69,31 +96,48 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
   {
-  if (tableView != _assembliesAndDetailsTable)
+  if (tableView != _detailTypesTable)
     return 0;
-  //TODO:Implement
-  return 0;
+  return 1;
   }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
   {
-  if (tableView != _assembliesAndDetailsTable)
+  if (tableView != _detailTypesTable)
     return 0;
-  //TODO:Implement
-  return 0;
+  return _detailTypesTable.editing ? _detailTypes.count + 1 : _detailTypes.count;
   }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
   {
-  //TODO:Implement
-  return nil;
+  if (tableView != _detailTypesTable)
+    return 0;
+  return NSLocalizedString(@"Detail types", @"Table view section header");
   }
   
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
   {
-  if (tableView != _assembliesAndDetailsTable)
+  if (tableView != _detailTypesTable)
     return nil;
-  //TODO:Implement
+  
+  if (_detailTypesTable.editing &&  indexPath.row == _addDetailTypeIndex)
+    {
+    UITableViewCell* addItemCell = [tableView dequeueReusableCellWithIdentifier:@"AddItemCell"];
+    addItemCell.textLabel.text = NSLocalizedString(@"Add detail", @"Assemblies and details: cell label");
+    return addItemCell;
+    }
+  else
+    {
+    NSUInteger detailTypeIndex = indexPath.row;
+    if (_detailTypesTable.editing &&  detailTypeIndex > _addDetailTypeIndex)
+      --detailTypeIndex;
+    DetailType* detailType = [_detailTypes objectAtIndex:detailTypeIndex];
+    DetailTypeCellView* cell = (DetailTypeCellView*)[tableView dequeueReusableCellWithIdentifier:@"DetailTypeCell"];
+    cell.picture.image = [detailType pictureToShow]
+                       ? [detailType pictureToShow]
+                       : [UIImage imageNamed:@"camera.png"];
+    return cell;
+    }
   return nil;
   }
   
@@ -101,100 +145,61 @@
 
 @implementation DetailTypesViewController (UITableViewDelegate)
 
-/*- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
   {
-  }*/
+  if (tableView != _detailTypesTable)
+    return;
+    
+  if (_detailTypesTable.editing &&  _addDetailTypeIndex == indexPath.row)
+    return;
   
-- (UITableViewCellEditingStyle)tableView:(UITableView *)aTableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath 
+  NSUInteger detailTypeIndex = indexPath.row;
+  if (_detailTypesTable.editing &&  detailTypeIndex > _addDetailTypeIndex)
+    --detailTypeIndex;
+  self.detail.type = [_detailTypes objectAtIndex:detailTypeIndex];
+  [self.detail.managedObjectContext saveAndHandleError];
+  }
+  
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
   {
-  //TODO:Implement
-  return UITableViewCellEditingStyleNone;
+  if (tableView != _detailTypesTable)
+    return UITableViewCellEditingStyleNone;
+    
+  if (_detailTypesTable.editing &&  _addDetailTypeIndex == indexPath.row)
+    return UITableViewCellEditingStyleInsert;
+  return UITableViewCellEditingStyleDelete;
   }
   
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
   {
-  //TODO:Implement
-  }
-  
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-  {
-  //should we really move anything?
-  return NO;
-  }
-  
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath 
-	  toIndexPath:(NSIndexPath *)toIndexPath 
-  {
-  if (tableView != _assembliesAndDetailsTable)
+  if (tableView != _detailTypesTable)
     return;
+  
+  if (editingStyle == UITableViewCellEditingStyleDelete) 
+    {
+    BOOL afterAddItem = indexPath.row > _addDetailTypeIndex;
+      NSUInteger detailTypeIndex = afterAddItem ? indexPath.row-1 : indexPath.row;
+      if (!afterAddItem)
+        --_addDetailTypeIndex;
+        
+      [_detail.managedObjectContext deleteObject:[_detailTypes objectAtIndex:detailTypeIndex]];
+      // Commit the change.
+      [_detail.managedObjectContext saveAndHandleError];
+
+      //update cache and UI
+      [_detailTypes removeObjectAtIndex:detailTypeIndex];
+      [_detailTypesTable deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    }
+  else if (editingStyle == UITableViewCellEditingStyleInsert)
+    {
+    DetailType* detailType = (DetailType*)[NSEntityDescription insertNewObjectForEntityForName:@"DetailType" inManagedObjectContext:self.detail.managedObjectContext];
+    // Commit the change.
+    [_detail.managedObjectContext saveAndHandleError];
     
-//  if (fromIndexPath.row == _addItemIndex)
-//    _addItemIndex = toIndexPath.row;
-//  else
-//    {
-//    BOOL initialPosIsAfterAddItem = fromIndexPath.row > _addItemIndex;
-//    BOOL resutingPosIsAfterAddItem = (toIndexPath.row > _addItemIndex) ||
-//                                     (toIndexPath.row == _addItemIndex && toIndexPath.row > fromIndexPath.row);
-//    NSUInteger indexToDeleteFrom = initialPosIsAfterAddItem ? fromIndexPath.row-1 : fromIndexPath.row;
-//    NSUInteger indexToAddTo = resutingPosIsAfterAddItem ? toIndexPath.row-1 : toIndexPath.row;
-//    
-//    if (initialPosIsAfterAddItem && !resutingPosIsAfterAddItem)
-//      ++_addItemIndex;
-//    else if (!initialPosIsAfterAddItem && resutingPosIsAfterAddItem)
-//      --_addItemIndex;
-//    
-//    if (indexToDeleteFrom == indexToAddTo)
-//      return;
-//    else
-//      {
-//      Assembly* assemblyToMove = [_rootAssembliesArray objectAtIndex:indexToDeleteFrom];
-//      Assembly* previousChild = assemblyToMove.assemblyBase;
-//      Assembly* previousassemblyExtended = assemblyToMove.assemblyExtended;
-//      
-//      [_rootAssembliesArray removeObjectAtIndex:indexToDeleteFrom];
-//      
-//      Assembly* newChild = 0 == indexToAddTo
-//                         ? nil
-//                         : [_rootAssembliesArray objectAtIndex:indexToAddTo-1];
-//                         
-//      Assembly* newassemblyExtended = _rootAssembliesArray.count == indexToAddTo
-//                          ? nil
-//                          : [_rootAssembliesArray objectAtIndex:indexToAddTo];
-//                          
-//      assemblyToMove.assemblyExtended = newassemblyExtended;
-//      assemblyToMove.assemblyBase = newChild;
-//      previousChild.assemblyExtended = previousassemblyExtended;
-//      
-//      [_rootAssembliesArray insertObject:assemblyToMove atIndex:indexToAddTo];
-//      
-//      
-//      
-//      //dependencies checking code
-//      for (NSUInteger i = 0; i < _rootAssembliesArray.count; ++i)
-//        {
-//        Assembly* currentAssembly = [_rootAssembliesArray objectAtIndex:i];
-//        BOOL assemblyBaseOK = _rootAssembliesArray.count < 2 ||
-//                           (i == 0 && nil == currentAssembly.assemblyBase) ||
-//                           (i != 0 && [_rootAssembliesArray objectAtIndex:i-1] == currentAssembly.assemblyBase);
-//        BOOL assemblyExtendedOK = _rootAssembliesArray.count < 2 ||
-//                        (i+1 == _rootAssembliesArray.count && nil == currentAssembly.assemblyExtended) ||
-//                        (i+1 != _rootAssembliesArray.count && [_rootAssembliesArray objectAtIndex:i+1] == currentAssembly.assemblyExtended);
-//        if(!assemblyBaseOK || !assemblyExtendedOK)
-//          {
-//          NSLog(@"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-//          NSLog(@"_rootAssembliesArray = %@", _rootAssembliesArray);
-//          break;
-//          }
-//        }
-//      
-//      //not effective but looks like no other partial ways to update work correctly
-//      [self performSelector:@selector(reloadVisibleAssembliesCells) withObject:nil afterDelay:0.3];
-//    
-//      // Commit the change.
-//      [_assembly.managedObjectContext saveAndHandleError];
-//      }
-//    }
+    //update cache and UI
+    [_detailTypes insertObject:detailType atIndex:_addDetailTypeIndex];
+    [_detailTypesTable insertRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:_addDetailTypeIndex+1 inSection:indexPath.section], nil] withRowAnimation:UITableViewRowAnimationFade];
+    }
   }
-
-
+  
 @end

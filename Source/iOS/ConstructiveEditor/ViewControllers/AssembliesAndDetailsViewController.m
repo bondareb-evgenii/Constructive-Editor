@@ -295,11 +295,6 @@
   {
   if (tableView != _assembliesAndDetailsTable)
     return;
-    
-    
-    //this is for smaller assemblies only; need the same for details;
-    //and also deletion for: assemblyBase; assemblyRotated and assemblyTransformed
-    
   
   if (editingStyle == UITableViewCellEditingStyleDelete) 
     {

@@ -24,7 +24,7 @@
   __weak IBOutlet UIImageView *_viewPin;
   __weak IBOutlet NSLayoutConstraint *_constraintViewPinX;
   __weak IBOutlet NSLayoutConstraint *_constraintViewPinY;
-    IBOutlet UITapGestureRecognizer *_tapGestureRecognizer;
+    IBOutlet UITapGestureRecognizer *_tapOnParentImageGestureRecognizer;
   }
 
 @end
@@ -85,20 +85,6 @@
 - (void)viewDidLoad
   {
   [super viewDidLoad];
-  _imageView.image = [self.detail.type pictureToShow]
-                   ? [self.detail.type pictureToShow]
-                   : [UIImage imageNamed:@"NoPhotoBig.png"];
-                   
-  UIImage* parentPicture = [self.detail.assemblyToInstallTo pictureToShow];
-  _imageViewParent.image = parentPicture
-                         ? parentPicture
-                         : [UIImage imageNamed:@"NoPhotoBig.png"];
-                        
-  _viewPin.alpha = 0;
-  _pinPointRelativeToParentImageSize = nil!= self.detail.connectionPoint
-                                     ? [self.detail.connectionPoint CGPointValue]
-                                     : CGPointZero;
-  _tapGestureRecognizer.enabled = nil != parentPicture;
   }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -118,25 +104,33 @@
   [self showPinAnimated:YES];
   }
   
+- (void)viewWillAppear:(BOOL)animated
+  {
+  //moved to here from viewDidLoad because detail type updates when go back from DetailTypesViewController
+  _imageView.image = [self.detail.type pictureToShow]
+                   ? [self.detail.type pictureToShow]
+                   : [UIImage imageNamed:@"NoPhotoBig.png"];
+                   
+  UIImage* parentPicture = [self.detail.assemblyToInstallTo pictureToShow];
+  _imageViewParent.image = parentPicture
+                         ? parentPicture
+                         : [UIImage imageNamed:@"NoPhotoBig.png"];
+                        
+  _viewPin.alpha = 0;
+  _pinPointRelativeToParentImageSize = nil!= self.detail.connectionPoint
+                                     ? [self.detail.connectionPoint CGPointValue]
+                                     : CGPointZero;
+  _tapOnParentImageGestureRecognizer.enabled = nil != parentPicture;
+  }
+  
 - (void)viewDidAppear:(BOOL)animated
   {
   [self updateConstraints];
   [self.view layoutIfNeeded];
   [self showPinAnimated:YES];
   }
-  
-- (IBAction)addPhoto:(id)sender
-  {
-//  UIImagePickerControllerSourceType desiredSourceType = [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]
-//                                                      ? UIImagePickerControllerSourceTypeCamera
-//                                                      : UIImagePickerControllerSourceTypePhotoLibrary;
-  UIImagePickerController *imagePicker = [UIImagePickerController new];
-//  imagePicker.sourceType = desiredSourceType;
-	imagePicker.delegate = self;
-	[self presentModalViewController:imagePicker animated:YES];
-  }
-  
-- (IBAction)onTap:(UITapGestureRecognizer *)gestureRecognizer
+
+- (IBAction)onTapOnParentImage:(UITapGestureRecognizer *)gestureRecognizer
   {
   CGPoint position = [gestureRecognizer locationInView:_viewAspectFit];
   _pinPointRelativeToParentImageSize = CGPointMake(position.x/_viewAspectFit.bounds.size.width, (_viewAspectFit.bounds.size.height-position.y)/_viewAspectFit.bounds.size.height);
@@ -145,6 +139,14 @@
   [self updateConstraints];
   [self.view layoutIfNeeded];
   [self showPinAnimated:NO];
+  }
+  
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+  {
+  if([@"SelectDetailType" isEqualToString:segue.identifier])
+    {
+    ((EditDetailViewController*)segue.destinationViewController).detail = self.detail;
+    }
   }
   
 @end

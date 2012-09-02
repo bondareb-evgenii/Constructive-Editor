@@ -25,7 +25,7 @@
   __weak IBOutlet UIImageView *_viewPin;
   __weak IBOutlet NSLayoutConstraint *_constraintViewPinX;
   __weak IBOutlet NSLayoutConstraint *_constraintViewPinY;
-    IBOutlet UITapGestureRecognizer *_tapGestureRecognizer;
+    IBOutlet UITapGestureRecognizer *_tapOnParentImageGestureRecognizer;
   }
 
 @end
@@ -109,7 +109,7 @@
   _pinPointRelativeToParentImageSize = nil!= self.assembly.connectionPoint
                                      ? [self.assembly.connectionPoint CGPointValue]
                                      : CGPointZero;
-  _tapGestureRecognizer.enabled = nil != parentPicture;
+  _tapOnParentImageGestureRecognizer.enabled = nil != parentPicture;
   }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -136,7 +136,7 @@
   [self showPinAnimated:YES];
   }
   
-- (IBAction)addPhoto:(id)sender
+- (void)selectPhoto
   {
 //  UIImagePickerControllerSourceType desiredSourceType = [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]
 //                                                      ? UIImagePickerControllerSourceTypeCamera
@@ -147,7 +147,12 @@
 	[self presentModalViewController:imagePicker animated:YES];
   }
   
-- (IBAction)onTap:(UITapGestureRecognizer *)gestureRecognizer
+- (IBAction)onTapOnImage:(UITapGestureRecognizer *)gestureRecognizer
+  {
+  [self selectPhoto];
+  }
+  
+- (IBAction)onTapOnParentImage:(UITapGestureRecognizer *)gestureRecognizer
   {
   CGPoint position = [gestureRecognizer locationInView:_viewAspectFit];
   _pinPointRelativeToParentImageSize = CGPointMake(position.x/_viewAspectFit.bounds.size.width, (_viewAspectFit.bounds.size.height-position.y)/_viewAspectFit.bounds.size.height);

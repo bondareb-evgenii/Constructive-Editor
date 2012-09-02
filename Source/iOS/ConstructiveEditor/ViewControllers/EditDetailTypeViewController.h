@@ -7,14 +7,10 @@
 
 #import <UIKit/UIKit.h>
 
-@class Assembly;
+@class DetailType;
   
 @interface EditDetailTypeViewController : UIViewController
-  {
-  @private
-    __weak IBOutlet UIImageView *imageView;
-  }
 
-@property (nonatomic, strong) Assembly* assembly;
+@property (nonatomic, strong) DetailType* detailType;
 
 @end

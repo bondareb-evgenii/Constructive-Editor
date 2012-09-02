@@ -6,21 +6,27 @@
 //
 
 #import "EditDetailTypeViewController.h"
-#import "Assembly.h"
+#import "DetailType.h"
 #import "NSManagedObjectContextExtension.h"
 
 @interface EditDetailTypeViewController (UIImagePickerControllerDelegate) <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 @end
 
+@interface EditDetailTypeViewController ()
+  {
+  __weak IBOutlet UIImageView* pictureImageView;
+  }
+@end
+  
 @implementation EditDetailTypeViewController
 
-@synthesize assembly = _assembly;
+@synthesize detailType = _detailType;
 
 - (void)viewDidLoad
   {
   [super viewDidLoad];
-  imageView.image = [_assembly pictureToShow]
-                  ? [_assembly pictureToShow]
+  pictureImageView.image = [_detailType pictureToShow]
+                  ? [_detailType pictureToShow]
                   : [UIImage imageNamed:@"NoPhotoBig.png"];
   }
 
@@ -28,14 +34,8 @@
   {
   return YES;
   }
-
-- (IBAction)goBack:(id)sender
-  {
-  [_assembly.managedObjectContext saveAndHandleError];
-  [self dismissModalViewControllerAnimated:YES];
-  }
   
-- (IBAction)addPhoto:(id)sender
+- (void)selectPicture
   {
 //  UIImagePickerControllerSourceType desiredSourceType = [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]
 //                                                      ? UIImagePickerControllerSourceTypeCamera
@@ -46,6 +46,11 @@
 	[self presentModalViewController:imagePicker animated:YES];
   }
   
+- (IBAction)onTapOnPicture:(id)sender
+  {
+  [self selectPicture];
+  }
+  
 @end
 
 @implementation EditDetailTypeViewController (UIImagePickerControllerDelegate)
@@ -53,11 +58,11 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)selectedImage editingInfo:(NSDictionary *)editingInfo
   {	
   //WORKS REALLY LONG TIME: check the photo picker example to see how we can speed it up
-	_assembly.picture = selectedImage;
+	_detailType.picture = selectedImage;
   // Commit the change.
-	[_assembly.managedObjectContext saveAndHandleError];
-  imageView.image = [_assembly pictureToShow]
-                  ? [_assembly pictureToShow]
+	[_detailType.managedObjectContext saveAndHandleError];
+  pictureImageView.image = [_detailType pictureToShow]
+                  ? [_detailType pictureToShow]
                   : [UIImage imageNamed:@"NoPhotoBig.png"];
 
   [self dismissModalViewControllerAnimated:YES];

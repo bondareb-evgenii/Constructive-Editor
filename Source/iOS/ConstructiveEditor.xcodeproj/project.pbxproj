@@ -33,6 +33,7 @@
 		757F600A15EF8F490022FC67 /* ReinterpretActionHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 757F600915EF8F490022FC67 /* ReinterpretActionHandler.m */; };
 		75823399154177BF009BBA8B /* NSManagedObjectContextExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 75823398154177BF009BBA8B /* NSManagedObjectContextExtension.m */; };
 		758520D215F395C50071A662 /* EditDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 758520D115F395C50071A662 /* EditDetailViewController.m */; };
+		758520D615F3A68D0071A662 /* DetailTypeCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 758520D515F3A68D0071A662 /* DetailTypeCellView.m */; };
 		75A26DA215218B2200449686 /* camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 75A26D9E15218B2200449686 /* camera.png */; };
 		75B7DA441521796100C02F18 /* AssemblyCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 75B7DA431521796100C02F18 /* AssemblyCellView.m */; };
 		84EA63AE1514C4AF00C7177E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EA63AD1514C4AF00C7177E /* UIKit.framework */; };
@@ -103,6 +104,8 @@
 		75823398154177BF009BBA8B /* NSManagedObjectContextExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSManagedObjectContextExtension.m; sourceTree = "<group>"; };
 		758520D015F395C50071A662 /* EditDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditDetailViewController.h; sourceTree = "<group>"; };
 		758520D115F395C50071A662 /* EditDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditDetailViewController.m; sourceTree = "<group>"; };
+		758520D415F3A68D0071A662 /* DetailTypeCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailTypeCellView.h; sourceTree = "<group>"; };
+		758520D515F3A68D0071A662 /* DetailTypeCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailTypeCellView.m; sourceTree = "<group>"; };
 		75A26D9E15218B2200449686 /* camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera.png; sourceTree = "<group>"; };
 		75B7DA421521796100C02F18 /* AssemblyCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AssemblyCellView.h; sourceTree = "<group>"; };
 		75B7DA431521796100C02F18 /* AssemblyCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AssemblyCellView.m; sourceTree = "<group>"; };
@@ -214,6 +217,8 @@
 				75B7DA431521796100C02F18 /* AssemblyCellView.m */,
 				7526384015DFAD4300E2A8A9 /* DetailCellView.h */,
 				7526384115DFAD4300E2A8A9 /* DetailCellView.m */,
+				758520D415F3A68D0071A662 /* DetailTypeCellView.h */,
+				758520D515F3A68D0071A662 /* DetailTypeCellView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -486,6 +491,7 @@
 				757A153F15EE77B400E89FBC /* ActionSheet.m in Sources */,
 				757F600A15EF8F490022FC67 /* ReinterpretActionHandler.m in Sources */,
 				758520D215F395C50071A662 /* EditDetailViewController.m in Sources */,
+				758520D615F3A68D0071A662 /* DetailTypeCellView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
