@@ -8,6 +8,7 @@
 #import "EditDetailTypeViewController.h"
 #import "DetailType.h"
 #import "NSManagedObjectContextExtension.h"
+#import "PreferencesKeys.h"
 
 @interface EditDetailTypeViewController (UIImagePickerControllerDelegate) <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 @end
@@ -37,13 +38,19 @@
   
 - (void)selectPicture
   {
-//  UIImagePickerControllerSourceType desiredSourceType = [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]
-//                                                      ? UIImagePickerControllerSourceTypeCamera
-//                                                      : UIImagePickerControllerSourceTypePhotoLibrary;
+  BOOL cameraModeIsPreferredByUser = YES;//default
+  NSString* picturesSourcePreferredByUser = [[NSUserDefaults standardUserDefaults] stringForKey:@"preferredPicturesSource"];
+  if (picturesSourcePreferredByUser && ![picturesSourcePreferredByUser isEqualToString:preferredPicturesSource_Camera])
+    cameraModeIsPreferredByUser = NO;
+  UIImagePickerControllerSourceType sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+  if (cameraModeIsPreferredByUser)
+    sourceType = [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]
+                                                      ? UIImagePickerControllerSourceTypeCamera
+                                                      : UIImagePickerControllerSourceTypePhotoLibrary;
   UIImagePickerController *imagePicker = [UIImagePickerController new];
-//  imagePicker.sourceType = desiredSourceType;
+  imagePicker.sourceType = sourceType;
 	imagePicker.delegate = self;
-	[self presentModalViewController:imagePicker animated:YES];
+	[self presentViewController:imagePicker animated:YES completion:nil];
   }
   
 - (IBAction)onTapOnPicture:(id)sender

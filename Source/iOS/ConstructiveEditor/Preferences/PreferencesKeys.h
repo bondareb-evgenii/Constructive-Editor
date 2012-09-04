@@ -9,6 +9,9 @@
 #define ConstructiveEditor_PreferencesKeys_h
 
 extern NSString* const preferredAskAboutImplicitPartsDeletion;
+extern NSString* const preferredPicturesSource;
+  extern NSString* const preferredPicturesSource_Camera;
+  extern NSString* const preferredPicturesSource_PhotoLibrary;
 extern NSString* const preferredActionOnReinterpretSplitAsDetached;
   extern NSString* const preferredActionOnReinterpretSplitAsDetached_AskMe;
   extern NSString* const preferredActionOnReinterpretSplitAsDetached_RemoveDetails;

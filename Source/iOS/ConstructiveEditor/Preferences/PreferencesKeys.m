@@ -6,6 +6,9 @@
 //
 
 NSString* const preferredAskAboutImplicitPartsDeletion = @"preferredAskAboutImplicitPartsDeletion";
+NSString* const preferredPicturesSource = @"preferredPicturesSource";
+  NSString* const preferredPicturesSource_Camera = @"preferredPicturesSource_Camera";
+  NSString* const preferredPicturesSource_PhotoLibrary = @"preferredPicturesSource_PhotoLibrary";
 NSString* const preferredActionOnReinterpretSplitAsDetached = @"preferredActionOnReinterpretSplitAsDetached";
   NSString* const preferredActionOnReinterpretSplitAsDetached_AskMe = @"preferredActionOnReinterpretSplitAsDetached_AskMe";
   NSString* const preferredActionOnReinterpretSplitAsDetached_RemoveDetails = @"preferredActionOnReinterpretSplitAsDetached_RemoveDetails";
