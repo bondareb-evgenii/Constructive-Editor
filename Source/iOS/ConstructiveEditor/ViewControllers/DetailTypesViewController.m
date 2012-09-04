@@ -123,7 +123,7 @@
   if (_detailTypesTable.editing &&  indexPath.row == _addDetailTypeIndex)
     {
     UITableViewCell* addItemCell = [tableView dequeueReusableCellWithIdentifier:@"AddItemCell"];
-    addItemCell.textLabel.text = NSLocalizedString(@"Add detail", @"Assemblies and details: cell label");
+    addItemCell.textLabel.text = NSLocalizedString(@"Add detail type", @"Assemblies and details: cell label");
     return addItemCell;
     }
   else
