@@ -17,7 +17,7 @@
 		7529F96915199C3200C13C90 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7529F95715199C3200C13C90 /* InfoPlist.strings */; };
 		7529F96A15199C3200C13C90 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7529F95915199C3200C13C90 /* MainStoryboard_iPad.storyboard */; };
 		7529F96B15199C3200C13C90 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7529F95B15199C3200C13C90 /* MainStoryboard_iPhone.storyboard */; };
-		7529F96C15199C3200C13C90 /* StartMenuViewControler.m in Sources */ = {isa = PBXBuildFile; fileRef = 7529F95F15199C3200C13C90 /* StartMenuViewControler.m */; };
+		7529F96C15199C3200C13C90 /* StartMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7529F95F15199C3200C13C90 /* StartMenuViewController.m */; };
 		7529F96E15199CBD00C13C90 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7529F96D15199CBD00C13C90 /* CoreData.framework */; };
 		7529F9741519A33A00C13C90 /* RootAssemblyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7529F9731519A33A00C13C90 /* RootAssemblyViewController.m */; };
 		7529F97A151AE69B00C13C90 /* DetailType.m in Sources */ = {isa = PBXBuildFile; fileRef = 7529F979151AE69A00C13C90 /* DetailType.m */; };
@@ -75,8 +75,8 @@
 		7529F95815199C3200C13C90 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7529F95A15199C3200C13C90 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		7529F95C15199C3200C13C90 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
-		7529F95E15199C3200C13C90 /* StartMenuViewControler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartMenuViewControler.h; sourceTree = "<group>"; };
-		7529F95F15199C3200C13C90 /* StartMenuViewControler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartMenuViewControler.m; sourceTree = "<group>"; };
+		7529F95E15199C3200C13C90 /* StartMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartMenuViewController.h; sourceTree = "<group>"; };
+		7529F95F15199C3200C13C90 /* StartMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartMenuViewController.m; sourceTree = "<group>"; };
 		7529F96D15199CBD00C13C90 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		7529F9721519A33A00C13C90 /* RootAssemblyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootAssemblyViewController.h; sourceTree = "<group>"; };
 		7529F9731519A33A00C13C90 /* RootAssemblyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootAssemblyViewController.m; sourceTree = "<group>"; };
@@ -194,8 +194,8 @@
 			children = (
 				758520D015F395C50071A662 /* EditDetailViewController.h */,
 				758520D115F395C50071A662 /* EditDetailViewController.m */,
-				7529F95E15199C3200C13C90 /* StartMenuViewControler.h */,
-				7529F95F15199C3200C13C90 /* StartMenuViewControler.m */,
+				7529F95E15199C3200C13C90 /* StartMenuViewController.h */,
+				7529F95F15199C3200C13C90 /* StartMenuViewController.m */,
 				7529F9721519A33A00C13C90 /* RootAssemblyViewController.h */,
 				7529F9731519A33A00C13C90 /* RootAssemblyViewController.m */,
 				84F883E91535B53A00EA0438 /* AssembliesAndDetailsViewController.h */,
@@ -474,7 +474,7 @@
 				7529F96515199C3200C13C90 /* Model.xcdatamodeld in Sources */,
 				7529F96615199C3200C13C90 /* UIColorToDataTransformer.m in Sources */,
 				7529F96715199C3200C13C90 /* UIImageToDataTransformer.m in Sources */,
-				7529F96C15199C3200C13C90 /* StartMenuViewControler.m in Sources */,
+				7529F96C15199C3200C13C90 /* StartMenuViewController.m in Sources */,
 				7529F9741519A33A00C13C90 /* RootAssemblyViewController.m in Sources */,
 				7529F97A151AE69B00C13C90 /* DetailType.m in Sources */,
 				7529F97D151AE73100C13C90 /* Detail.m in Sources */,

@@ -11,4 +11,6 @@
 
 @interface RootAssemblyViewController : UIViewController
 
+@property (nonatomic, strong) Assembly* rootAssembly;
+
 @end

@@ -47,5 +47,48 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSPersistentStoreTypeKey</key>
+	<string>NSSQLiteStoreType</string>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeName</key>
+			<string>Constructive Editor document</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>constr</string>
+			</array>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.Constructive.editor.sqlite</string>
+			</array>
+		</dict>
+	</array>
+	<key>LSMinimumSystemVersion</key>
+	<string>6.0</string>
+	<key>UIFileSharingEnabled</key>
+	<true/>
+	<key>UTExportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.database</string>
+			</array>
+			<key>UTTypeIdentifier</key>
+			<string>com.Constructive.editor.sqlite</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>constr</string>
+				</array>
+			</dict>
+			<key>UTTypeDescription</key>
+			<string>Constructive editor sqlite document</string>
+		</dict>
+	</array>
 </dict>
 </plist>

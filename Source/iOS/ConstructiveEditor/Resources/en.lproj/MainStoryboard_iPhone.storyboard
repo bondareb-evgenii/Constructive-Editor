@@ -4,34 +4,20 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1900"/>
     </dependencies>
     <scenes>
-        <!--Start Menu View Controler-->
+        <!--Start Menu View Controller-->
         <scene sceneID="5">
             <objects>
-                <viewController id="2" customClass="StartMenuViewControler" sceneMemberID="viewController">
+                <viewController id="2" customClass="StartMenuViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3">
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <button translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="JeJ-pi-QEI">
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
-                                <state key="normal" title="Open Last Saved Document">
-                                    <attributedString key="attributedTitle"/>
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <segue destination="Xve-Pe-Zkp" kind="push" id="To5-C5-nsY"/>
-                                </connections>
-                            </button>
-                            <button translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" hasAttributedTitle="NO" lineBreakMode="middleTruncation" id="nTy-Ce-hww">
+                            <button translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" hasAttributedTitle="NO" lineBreakMode="middleTruncation" id="6TC-oa-OX9">
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="220" id="elh-Ez-jTM"/>
+                                    <constraint firstAttribute="width" constant="71" id="I2c-V4-aBQ"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
-                                <state key="normal" title="Create new document">
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Create">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -39,22 +25,44 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="Xve-Pe-Zkp" kind="push" id="mXk-dg-R2o"/>
+                                    <action selector="onCreateNewDocument:" destination="2" eventType="touchUpInside" id="dQx-Vy-K56"/>
                                 </connections>
                             </button>
+                            <textField translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="New document name" minimumFontSize="17" clearButtonMode="always" text="" id="dqr-Bi-S7B">
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="alphabet" returnKeyType="go" enablesReturnKeyAutomatically="YES"/>
+                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <connections>
+                                    <outlet property="delegate" destination="2" id="AVB-PE-IOe"/>
+                                </connections>
+                            </textField>
+                            <tableView translatesAutoresizingMaskIntoConstraints="NO" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="dDB-YQ-21b">
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="2" id="HlU-v0-WJ0"/>
+                                    <outlet property="delegate" destination="2" id="BmS-qh-Yyo"/>
+                                </connections>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="JeJ-pi-QEI" firstAttribute="leading" secondItem="3" secondAttribute="leading" type="default" id="4Lg-P9-kyV"/>
-                            <constraint firstItem="JeJ-pi-QEI" firstAttribute="top" secondItem="nTy-Ce-hww" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="73R-O7-Mn5"/>
-                            <constraint firstItem="JeJ-pi-QEI" firstAttribute="trailing" secondItem="3" secondAttribute="trailing" type="default" id="IrC-w7-ckB"/>
-                            <constraint firstItem="nTy-Ce-hww" firstAttribute="trailing" secondItem="3" secondAttribute="trailing" type="default" id="PHf-ce-X37"/>
-                            <constraint firstItem="nTy-Ce-hww" firstAttribute="top" secondItem="3" secondAttribute="top" type="default" id="YXu-Oz-8gw"/>
-                            <constraint firstItem="JeJ-pi-QEI" firstAttribute="bottom" secondItem="3" secondAttribute="bottom" type="default" id="jNg-gW-Pft"/>
-                            <constraint firstItem="nTy-Ce-hww" firstAttribute="leading" secondItem="3" secondAttribute="leading" type="default" id="wge-NI-hyZ"/>
+                            <constraint firstItem="dDB-YQ-21b" firstAttribute="trailing" secondItem="3" secondAttribute="trailing" type="default" id="0HR-hX-6gZ"/>
+                            <constraint firstItem="dDB-YQ-21b" firstAttribute="bottom" secondItem="3" secondAttribute="bottom" type="default" id="3Ef-D1-nRe"/>
+                            <constraint firstItem="dDB-YQ-21b" firstAttribute="leading" secondItem="3" secondAttribute="leading" type="default" id="E7a-3r-Qnk"/>
+                            <constraint firstItem="dqr-Bi-S7B" firstAttribute="top" secondItem="3" secondAttribute="top" constant="20" symbolic="YES" type="default" id="SDE-ct-OF5"/>
+                            <constraint firstItem="6TC-oa-OX9" firstAttribute="leading" secondItem="dqr-Bi-S7B" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="Zi8-wS-Uxc"/>
+                            <constraint firstItem="6TC-oa-OX9" firstAttribute="baseline" secondItem="dqr-Bi-S7B" secondAttribute="baseline" type="default" id="h52-YA-xmK"/>
+                            <constraint firstItem="dqr-Bi-S7B" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="ir6-p0-3E0"/>
+                            <constraint firstItem="dDB-YQ-21b" firstAttribute="top" secondItem="6TC-oa-OX9" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="sgU-xJ-xCH"/>
+                            <constraint firstAttribute="trailing" secondItem="6TC-oa-OX9" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="wai-wb-M8p"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="IuO-60-hTk"/>
+                    <connections>
+                        <outlet property="_newDocumentCreateButton" destination="6TC-oa-OX9" id="CEw-lh-XgI"/>
+                        <outlet property="_newDocumentNameTextField" destination="dqr-Bi-S7B" id="aoG-9d-5sP"/>
+                        <segue destination="Xve-Pe-Zkp" kind="push" identifier="OpenURL" id="Ymg-eI-Dfi"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4" sceneMemberID="firstResponder"/>
             </objects>
@@ -200,6 +208,7 @@
                             <constraint firstItem="01n-pf-naR" firstAttribute="leading" secondItem="QWr-82-ktO" secondAttribute="leading" type="default" id="jVk-Si-fgv"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="Vs1-Z3-YT6"/>
                     <connections>
                         <outlet property="_rootAssemblyTable" destination="01n-pf-naR" id="bGG-UP-vbs"/>
                     </connections>
@@ -408,6 +417,7 @@
                             <constraint firstItem="04r-Sk-hix" firstAttribute="trailing" secondItem="Zpi-xA-e8I" secondAttribute="trailing" type="default" id="iTH-Up-xEf"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="b20-Ot-LZ0"/>
                     <connections>
                         <outlet property="_assembliesAndDetailsTable" destination="04r-Sk-hix" id="h3p-n1-MTy"/>
                     </connections>
@@ -766,13 +776,101 @@
         <image name="NoPhotoBig.png" width="320" height="200"/>
         <image name="pin.png" width="50" height="45"/>
     </resources>
+    <classes>
+        <class className="AssembliesAndDetailsViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/AssembliesAndDetailsViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="_assembliesAndDetailsTable" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="AssemblyCellView" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/AssemblyCellView.h"/>
+            <relationships>
+                <relationship kind="outlet" name="picture" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="DetailCellView" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/DetailCellView.h"/>
+            <relationships>
+                <relationship kind="outlet" name="picture" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="DetailTypeCellView" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/DetailTypeCellView.h"/>
+            <relationships>
+                <relationship kind="outlet" name="picture" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="DetailTypesViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/DetailTypesViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="_detailTypesTable" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="EditAssemblyViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EditAssemblyViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="_constraintViewAspectFitHeight" candidateClass="NSLayoutConstraint"/>
+                <relationship kind="outlet" name="_constraintViewAspectFitWidth" candidateClass="NSLayoutConstraint"/>
+                <relationship kind="outlet" name="_constraintViewPinX" candidateClass="NSLayoutConstraint"/>
+                <relationship kind="outlet" name="_constraintViewPinY" candidateClass="NSLayoutConstraint"/>
+                <relationship kind="outlet" name="_containerViewForParentImageView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="_imageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="_imageViewParent" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="_labelInstalledTo" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="_tapOnParentImageGestureRecognizer" candidateClass="UITapGestureRecognizer"/>
+                <relationship kind="outlet" name="_viewAspectFit" candidateClass="UIView"/>
+                <relationship kind="outlet" name="_viewPin" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="EditDetailTypeViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EditDetailTypeViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="pictureImageView" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="EditDetailViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EditDetailViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="_constraintViewAspectFitHeight" candidateClass="NSLayoutConstraint"/>
+                <relationship kind="outlet" name="_constraintViewAspectFitWidth" candidateClass="NSLayoutConstraint"/>
+                <relationship kind="outlet" name="_constraintViewPinX" candidateClass="NSLayoutConstraint"/>
+                <relationship kind="outlet" name="_constraintViewPinY" candidateClass="NSLayoutConstraint"/>
+                <relationship kind="outlet" name="_containerViewForParentImageView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="_imageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="_imageViewParent" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="_labelInstalledTo" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="_tapOnParentImageGestureRecognizer" candidateClass="UITapGestureRecognizer"/>
+                <relationship kind="outlet" name="_viewAspectFit" candidateClass="UIView"/>
+                <relationship kind="outlet" name="_viewPin" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="RootAssemblyViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/RootAssemblyViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="interpret:"/>
+                <relationship kind="action" name="reinterpret:"/>
+                <relationship kind="outlet" name="_rootAssemblyTable" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="StartMenuViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/StartMenuViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="onCreateNewDocument:"/>
+                <relationship kind="outlet" name="_newDocumentCreateButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="_newDocumentNameTextField" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="To5-C5-nsY"/>
         <segue reference="0yd-Dx-JbK"/>
         <segue reference="EUW-uI-c53"/>
         <segue reference="Vu2-Js-WPO"/>

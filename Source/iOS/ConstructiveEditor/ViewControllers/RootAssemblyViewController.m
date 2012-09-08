@@ -13,7 +13,6 @@
 #import "DetailType.h"
 #import "EditAssemblyViewController.h"
 #import "AssembliesAndDetailsViewController.h"
-#import "NSManagedObjectContextExtension.h"
 #import "ActionSheet.h"
 #import "PreferencesKeys.h"
 #import "ReinterpretActionHandler.h"
@@ -21,10 +20,6 @@
 
 @interface RootAssemblyViewController ()
   {
-  NSPersistentStoreCoordinator*           _persistentStoreCoordinator;
-  NSManagedObjectModel*                   _managedObjectModel;
-  NSManagedObjectContext*                 _managedObjectContext;
-  Assembly*                               _rootAssembly;
   ReinterpretActionHandler*               _interpreter;
   __weak IBOutlet UITableView*            _rootAssemblyTable;
   }
@@ -37,119 +32,21 @@
 @end
 
 @implementation RootAssemblyViewController
-/**
- Returns the managed object model for the application.
- If the model doesn't already exist, it is created by merging all of the models found in the application bundle.
- */
-- (NSManagedObjectModel *)managedObjectModel {
-	
-    if (_managedObjectModel != nil) {
-        return _managedObjectModel;
-    }
-    _managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];    
-    return _managedObjectModel;
-}
 
-/**
- Returns the persistent store coordinator for the application.
- If the coordinator doesn't already exist, it is created and the application's store added to it.
- */
-- (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
-	
-    if (_persistentStoreCoordinator != nil) {
-        return _persistentStoreCoordinator;
-    }
-	
-    NSURL *storeUrl = [NSURL fileURLWithPath: [[self applicationDocumentsDirectory] stringByAppendingPathComponent: @"Document.sqlite"]];
-	
-	NSError *error = nil;
-    _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: [self managedObjectModel]];
-
-	// Allow inferred migration from the original version of the application.
-	NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
-							 [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
-							 [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption, nil];
-	
-	if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:options error:&error])
-    {
-    NSLog(@"Error: %@", error.debugDescription);
-    }    
-	
-    return _persistentStoreCoordinator;
-}
-
-
-/**
- Returns the managed object context for the application.
- If the context doesn't already exist, it is created and bound to the persistent store coordinator for the application.
- */
-- (NSManagedObjectContext *) managedObjectContext {
-	
-    if (_managedObjectContext != nil) {
-        return _managedObjectContext;
-    }
-	
-    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-    if (coordinator != nil) {
-        _managedObjectContext = [[NSManagedObjectContext alloc] init];
-        [_managedObjectContext setPersistentStoreCoordinator: coordinator];
-    }
-    return _managedObjectContext;
-}
-
-- (NSString *)applicationDocumentsDirectory
-  {
-  NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-  NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
-  return basePath;
-  } 
+@synthesize rootAssembly = _rootAssembly;
 
 - (void)viewDidLoad
   {
   [super viewDidLoad];
-  
-  _managedObjectContext = [self managedObjectContext];
-  /*
-	 Fetch existing assemblies.
-	 Create a fetch request, add a sort descriptor, then execute the fetch.
-	 */
-	NSFetchRequest *assembliesRequest = [[NSFetchRequest alloc] init];
-	NSEntityDescription *assemblyEntity = [NSEntityDescription entityForName:@"Assembly" inManagedObjectContext:_managedObjectContext];
-	[assembliesRequest setEntity:assemblyEntity];
-  [assembliesRequest setPredicate:[NSPredicate predicateWithFormat:@"(assemblyToInstallTo = nil) AND (assemblyExtended = nil) AND (assemblyTransformed = nil) AND (assemblyRotated = nil)"]];
-	
-	// Execute the fetch -- create a mutable copy of the result.
-	NSError *assembliesError = nil;
-	NSArray* rootAssemblies = [[_managedObjectContext executeFetchRequest:assembliesRequest error:&assembliesError] mutableCopy];
-  if (rootAssemblies == nil)
-    {
-		NSLog(@"Error: %@", assembliesError.debugDescription);
-    return;
-    }
-
-  if (1 == rootAssemblies.count)
-    _rootAssembly = [rootAssemblies objectAtIndex:0];
-  else if (rootAssemblies.count > 1)
-    NSLog(@"There is more then one root assembly in model: %@", rootAssemblies);
-  else if (0 == rootAssemblies.count)
-    {
-    _rootAssembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:self.managedObjectContext];
-    _rootAssembly.assemblyExtended = nil;
-    _rootAssembly.assemblyBase = nil;
-    // Commit the change.
-    [_managedObjectContext saveAndHandleError];
-    }
-  rootAssemblies = nil;
-  
-  _rootAssemblyTable.delegate = self;
-  _rootAssemblyTable.dataSource = self;
-  [_rootAssemblyTable setEditing:NO animated:NO];//nothing to move, add or delete here
-  _interpreter = [[ReinterpretActionHandler alloc] initWithViewController:self andSegueToNextViewControllerName:@"ShowRootAssemblyDetails"];
   }
 
 - (void)viewWillAppear:(BOOL)animated
   {
-	[super viewWillAppear:animated]; 
+	[super viewWillAppear:animated];
+  _rootAssemblyTable.delegate = self;
+  _rootAssemblyTable.dataSource = self;
+  [_rootAssemblyTable setEditing:NO animated:NO];//nothing to move, add or delete here
+  _interpreter = [[ReinterpretActionHandler alloc] initWithViewController:self andSegueToNextViewControllerName:@"ShowRootAssemblyDetails"]; 
 	[_rootAssemblyTable reloadData];
   }
 
