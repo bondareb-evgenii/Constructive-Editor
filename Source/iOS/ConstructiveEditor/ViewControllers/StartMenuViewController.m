@@ -234,19 +234,17 @@
 	NSArray *documentsDirectoryContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:documentsDirectoryPath error:NULL];
     
 	for (NSString* curFileName in [documentsDirectoryContents objectEnumerator])
-	{
+    {
 		NSString *filePath = [documentsDirectoryPath stringByAppendingPathComponent:curFileName];
 		NSURL *fileURL = [NSURL fileURLWithPath:filePath];
 		
 		BOOL isDirectory;
-        [[NSFileManager defaultManager] fileExistsAtPath:filePath isDirectory:&isDirectory];
-		
-        // proceed to add the document URL to our list (ignore the "Inbox" folder)
-        if (!(isDirectory && [curFileName isEqualToString: @"Inbox"]))
-        {
-            [_documentURLs addObject:fileURL];
-        }
-	}
+    [[NSFileManager defaultManager] fileExistsAtPath:filePath isDirectory:&isDirectory];
+
+    // proceed to add the document URL to our list (ignore any folders including the "Inbox" and "Pictures" folder) and files with unsupported extensions
+    if (!isDirectory && [curFileName.pathExtension isEqualToString:constructiveEditorSQLiteDocumentExtension])
+      [_documentURLs addObject:fileURL];
+    }
 	
 	[_documentsTable reloadData];
   }
