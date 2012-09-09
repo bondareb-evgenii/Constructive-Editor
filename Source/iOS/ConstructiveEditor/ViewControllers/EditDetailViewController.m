@@ -33,6 +33,17 @@
 
 @synthesize detail = _detail;
 
+- (void)updateLabelText
+  {
+  BOOL areAllConnectionPointsSet = nil != self.detail.connectionPoint;
+  _labelInstalledTo.text = areAllConnectionPointsSet
+                         ? NSLocalizedString(@"Installed to:", @"Label text")
+                         : NSLocalizedString(@"Specify the nstallation point!!!", @"Label text");
+  _labelInstalledTo.textColor = areAllConnectionPointsSet
+                              ? [UIColor blackColor]
+                              : [UIColor redColor];
+  }
+  
 - (void)updateConstraints
   {
   float containerWidth = _containerViewForParentImageView.bounds.size.width;
@@ -107,6 +118,7 @@
 - (void)viewWillAppear:(BOOL)animated
   {
   //moved to here from viewDidLoad because detail type updates when go back from DetailTypesViewController
+  [self updateLabelText];
   _imageView.image = [self.detail.type pictureToShow]
                    ? [self.detail.type pictureToShow]
                    : [UIImage imageNamed:@"NoPhotoBig.png"];
@@ -137,6 +149,7 @@
   [self updateConstraints];
   [_viewAspectFit layoutIfNeeded];
   [self showPinAnimated:NO];
+  [self updateLabelText];
   }
   
 - (IBAction)onTapOnParentImage:(UITapGestureRecognizer *)gestureRecognizer

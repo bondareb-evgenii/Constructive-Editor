@@ -35,6 +35,17 @@
 
 @synthesize assembly = _assembly;
 
+- (void)updateLabelText
+  {
+  BOOL areAllConnectionPointsSet = nil != self.assembly.connectionPoint;
+  _labelInstalledTo.text = areAllConnectionPointsSet
+                         ? NSLocalizedString(@"Installed to:", @"Label text")
+                         : NSLocalizedString(@"Specify the nstallation point!!!", @"Label text");
+  _labelInstalledTo.textColor = areAllConnectionPointsSet
+                              ? [UIColor blackColor]
+                              : [UIColor redColor];
+  }
+  
 - (void)updateConstraints
   {
   float containerWidth = _containerViewForParentImageView.bounds.size.width;
@@ -87,6 +98,7 @@
 - (void)viewDidLoad
   {
   [super viewDidLoad];
+  [self updateLabelText];
   _imageView.image = [_assembly pictureToShow]
                    ? [_assembly pictureToShow]
                    : [UIImage imageNamed:@"NoPhotoBig.png"];
@@ -166,6 +178,7 @@
   [self updateConstraints];
   [_viewAspectFit layoutIfNeeded];
   [self showPinAnimated:NO];
+  [self updateLabelText];
   }
   
 - (IBAction)onTapOnParentImage:(UITapGestureRecognizer *)gestureRecognizer
