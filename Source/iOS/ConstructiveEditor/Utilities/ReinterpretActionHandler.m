@@ -61,8 +61,11 @@
           }
         case 1://Split to details
           {
-          Detail* detail = (Detail*)[NSEntityDescription insertNewObjectForEntityForName:@"Detail" inManagedObjectContext:_assembly.managedObjectContext];
-          [_assembly.type addDetailsInstalledObject:detail];
+          while (_assembly.type.detailsInstalled.count < 2)//at list two details should be present in split assembly
+            {
+            Detail* detail = (Detail*)[NSEntityDescription insertNewObjectForEntityForName:@"Detail" inManagedObjectContext:_assembly.managedObjectContext];
+            [_assembly.type addDetailsInstalledObject:detail];
+            }
           // Commit the change.
           [_assembly.managedObjectContext saveAndHandleError];
           [_viewController performSegueWithIdentifier:_segueName sender:nil];
@@ -397,7 +400,7 @@ destructiveButtonTitle: nil
           
         void (^deleteAllAssemblies)() = ^()
           {
-          if (!_assembly.type.detailsInstalled.count)//at list one detail should be present in split assembly
+          while (_assembly.type.detailsInstalled.count < 2)//at list two details should be present in split assembly
             {
             Detail* detail = (Detail*)[NSEntityDescription insertNewObjectForEntityForName:@"Detail" inManagedObjectContext:_assembly.managedObjectContext];
             [_assembly.type addDetailsInstalledObject:detail];
@@ -700,8 +703,11 @@ destructiveButtonTitle: nil
           
         void (^removeAssembly)() = ^()
           {
-          Detail* detail = (Detail*)[NSEntityDescription insertNewObjectForEntityForName:@"Detail" inManagedObjectContext:_assembly.managedObjectContext];
-          [_assembly.type addDetailsInstalledObject:detail];
+          while (_assembly.type.detailsInstalled.count < 2)//at list two details should be present in split assembly
+            {
+            Detail* detail = (Detail*)[NSEntityDescription insertNewObjectForEntityForName:@"Detail" inManagedObjectContext:_assembly.managedObjectContext];
+            [_assembly.type addDetailsInstalledObject:detail];
+            }
           [_assembly.managedObjectContext deleteObject:_assembly.type.assemblyBeforeRotation];
           commitReinterpret();
           };
@@ -887,8 +893,11 @@ destructiveButtonTitle: nil
         
         void (^removeAssembly)() = ^()
           {
-          Detail* detail = (Detail*)[NSEntityDescription insertNewObjectForEntityForName:@"Detail" inManagedObjectContext:_assembly.managedObjectContext];
-          [_assembly.type addDetailsInstalledObject:detail];
+          while (_assembly.type.detailsInstalled.count < 2)//at list two details should be present in split assembly
+            {
+            Detail* detail = (Detail*)[NSEntityDescription insertNewObjectForEntityForName:@"Detail" inManagedObjectContext:_assembly.managedObjectContext];
+            [_assembly.type addDetailsInstalledObject:detail];
+            }
           [_assembly.managedObjectContext deleteObject:_assembly.type.assemblyBeforeTransformation];
           commitReinterpret();
           };
