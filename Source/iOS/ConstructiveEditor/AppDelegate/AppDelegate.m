@@ -8,6 +8,7 @@
 #import "AppDelegate.h"
 #import "StartMenuViewController.h"
 #import "NSManagedObjectContextExtension.h"
+#import "PreferencesKeys.h"
 
 @interface AppDelegate ()
   {
@@ -117,8 +118,21 @@
   if ([url isEqual:_openedURL])
     return YES;
   
+  NSURL* copiedFileURL = nil;
+  NSFileManager* fileManager = [NSFileManager defaultManager];
+  if (![fileManager isWritableFileAtPath:url.path])
+    {
+    NSString* documentsDirectoryPath = [(AppDelegate*)[UIApplication sharedApplication].delegate applicationDocumentsDirectory];
+    NSString* copiedFilePath = [documentsDirectoryPath stringByAppendingPathComponent:[url.path lastPathComponent]];
+    while ([fileManager fileExistsAtPath:copiedFilePath])
+      {
+      copiedFilePath = [[copiedFilePath stringByDeletingPathExtension] stringByAppendingFormat:@" inbox.%@", constructiveEditorSQLiteDocumentExtension];
+      }
+    copiedFileURL = [NSURL fileURLWithPath:copiedFilePath];
+    [[NSFileManager defaultManager] copyItemAtURL:url toURL:copiedFileURL error:nil];
+    }
   [self closeCurrentDocument];
-  _openedURL = url;
+  _openedURL = copiedFileURL ? copiedFileURL : url;
   self.startMenuViewController.managedObjectContext = [self managedObjectContext];
   [self.startMenuViewController performSegueWithIdentifier:@"OpenURL" sender:nil];
   return YES;
