@@ -484,6 +484,7 @@
                                         </constraints>
                                         <connections>
                                             <outletCollection property="gestureRecognizers" destination="Qq1-IZ-4RD" appends="YES" id="Glq-K0-dXz"/>
+                                            <outletCollection property="gestureRecognizers" destination="lIF-kP-SyI" appends="YES" id="j0u-cO-ggE"/>
                                         </connections>
                                     </view>
                                 </subviews>
@@ -537,6 +538,11 @@
                         <action selector="onTapOnParentImage:" destination="i86-oC-str" id="Elf-pH-gpE"/>
                     </connections>
                 </tapGestureRecognizer>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="lIF-kP-SyI">
+                    <connections>
+                        <action selector="onDragOnParentImage:" destination="i86-oC-str" id="iHr-TR-zI5"/>
+                    </connections>
+                </panGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="2424" y="-207"/>
         </scene>
@@ -603,6 +609,7 @@
                                         </constraints>
                                         <connections>
                                             <outletCollection property="gestureRecognizers" destination="Oak-P0-8RX" appends="YES" id="QV2-1J-znT"/>
+                                            <outletCollection property="gestureRecognizers" destination="tqd-nU-sWJ" appends="YES" id="bPb-np-s4X"/>
                                         </connections>
                                     </view>
                                 </subviews>
@@ -657,6 +664,11 @@
                         <action selector="onTapOnParentImage:" destination="jXA-4O-VJV" id="Sej-Xx-MDw"/>
                     </connections>
                 </tapGestureRecognizer>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="tqd-nU-sWJ">
+                    <connections>
+                        <action selector="onDragOnParentImage:" destination="jXA-4O-VJV" id="zvw-rq-zBv"/>
+                    </connections>
+                </panGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="2424" y="379"/>
         </scene>
@@ -795,6 +807,99 @@
         <image name="NoPhotoBig.png" width="320" height="200"/>
         <image name="pin.png" width="50" height="45"/>
     </resources>
+    <classes>
+        <class className="AssembliesAndDetailsViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/AssembliesAndDetailsViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="interpret:"/>
+                <relationship kind="outlet" name="_assembliesAndDetailsTable" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="AssemblyCellView" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/AssemblyCellView.h"/>
+            <relationships>
+                <relationship kind="outlet" name="picture" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="DetailCellView" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/DetailCellView.h"/>
+            <relationships>
+                <relationship kind="outlet" name="picture" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="DetailTypeCellView" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/DetailTypeCellView.h"/>
+            <relationships>
+                <relationship kind="outlet" name="picture" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="DetailTypesViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/DetailTypesViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="_detailTypesTable" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="EditAssemblyViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EditAssemblyViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="onTapOnImage:" candidateClass="UITapGestureRecognizer"/>
+                <relationship kind="action" name="onTapOnParentImage:" candidateClass="UITapGestureRecognizer"/>
+                <relationship kind="outlet" name="_constraintViewAspectFitHeight" candidateClass="NSLayoutConstraint"/>
+                <relationship kind="outlet" name="_constraintViewAspectFitWidth" candidateClass="NSLayoutConstraint"/>
+                <relationship kind="outlet" name="_constraintViewPinX" candidateClass="NSLayoutConstraint"/>
+                <relationship kind="outlet" name="_constraintViewPinY" candidateClass="NSLayoutConstraint"/>
+                <relationship kind="outlet" name="_containerViewForParentImageView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="_imageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="_imageViewParent" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="_labelInstalledTo" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="_tapOnParentImageGestureRecognizer" candidateClass="UITapGestureRecognizer"/>
+                <relationship kind="outlet" name="_viewAspectFit" candidateClass="UIView"/>
+                <relationship kind="outlet" name="_viewPin" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="EditDetailTypeViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EditDetailTypeViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="pictureImageView" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="EditDetailViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EditDetailViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="onTapOnParentImage:" candidateClass="UITapGestureRecognizer"/>
+                <relationship kind="outlet" name="_constraintViewAspectFitHeight" candidateClass="NSLayoutConstraint"/>
+                <relationship kind="outlet" name="_constraintViewAspectFitWidth" candidateClass="NSLayoutConstraint"/>
+                <relationship kind="outlet" name="_constraintViewPinX" candidateClass="NSLayoutConstraint"/>
+                <relationship kind="outlet" name="_constraintViewPinY" candidateClass="NSLayoutConstraint"/>
+                <relationship kind="outlet" name="_containerViewForParentImageView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="_imageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="_imageViewParent" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="_labelInstalledTo" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="_tapOnParentImageGestureRecognizer" candidateClass="UITapGestureRecognizer"/>
+                <relationship kind="outlet" name="_viewAspectFit" candidateClass="UIView"/>
+                <relationship kind="outlet" name="_viewPin" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="RootAssemblyViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/RootAssemblyViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="interpret:"/>
+                <relationship kind="action" name="reinterpret:"/>
+                <relationship kind="outlet" name="_rootAssemblyTable" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="StartMenuViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/StartMenuViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="_documentsTable" candidateClass="UITableView"/>
+                <relationship kind="outlet" name="_newDocumentCreateButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="_newDocumentNameTextField" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

@@ -130,15 +130,32 @@
   [self showPinAnimated:YES];
   }
 
+- (void)movePinToPoint:(CGPoint)position
+  {
+  _pinPointRelativeToParentImageSize = CGPointMake(position.x/_viewAspectFit.bounds.size.width, (_viewAspectFit.bounds.size.height-position.y)/_viewAspectFit.bounds.size.height);
+  self.detail.connectionPoint = [NSValue valueWithCGPoint:_pinPointRelativeToParentImageSize];
+  [self updateConstraints];
+  [_viewAspectFit layoutIfNeeded];
+  [self showPinAnimated:NO];
+  }
+  
 - (IBAction)onTapOnParentImage:(UITapGestureRecognizer *)gestureRecognizer
   {
   CGPoint position = [gestureRecognizer locationInView:_viewAspectFit];
-  _pinPointRelativeToParentImageSize = CGPointMake(position.x/_viewAspectFit.bounds.size.width, (_viewAspectFit.bounds.size.height-position.y)/_viewAspectFit.bounds.size.height);
-  self.detail.connectionPoint = [NSValue valueWithCGPoint:_pinPointRelativeToParentImageSize];
+  [self movePinToPoint:position];
   [self.detail.managedObjectContext saveAndHandleError];
-  [self updateConstraints];
-  [self.view layoutIfNeeded];
-  [self showPinAnimated:NO];
+  }
+  
+- (IBAction)onDragOnParentImage:(UIPanGestureRecognizer*)gestureRecognizer
+  {
+  if (gestureRecognizer.state == UIGestureRecognizerStateBegan ||
+      gestureRecognizer.state == UIGestureRecognizerStateChanged)
+    {
+    CGPoint position = [gestureRecognizer locationInView:_viewAspectFit];
+    [self movePinToPoint:position];
+    }
+  else if (gestureRecognizer.state == UIGestureRecognizerStateEnded)
+    [self.detail.managedObjectContext saveAndHandleError];
   }
   
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
