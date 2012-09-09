@@ -7,6 +7,7 @@
 
 #import "ReinterpretActionHandler.h"
 #import "Assembly.h"
+#import "AssemblyType.h"
 #import "ActionSheet.h"
 #import "AlertView.h"
 #import "NSManagedObjectContextExtension.h"
@@ -50,7 +51,9 @@
         case 0://Detach smaller parts
           {
           Assembly* assembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:_assembly.managedObjectContext];
-          _assembly.assemblyBase = assembly;
+          AssemblyType* assemblyType = (AssemblyType*)[NSEntityDescription insertNewObjectForEntityForName:@"AssemblyType" inManagedObjectContext:self.assembly.managedObjectContext];
+          assembly.type = assemblyType;
+          _assembly.type.assemblyBase = assembly;
           // Commit the change.
           [_assembly.managedObjectContext saveAndHandleError];
           [_viewController performSegueWithIdentifier:_segueName sender:nil];
@@ -59,7 +62,7 @@
         case 1://Split to details
           {
           Detail* detail = (Detail*)[NSEntityDescription insertNewObjectForEntityForName:@"Detail" inManagedObjectContext:_assembly.managedObjectContext];
-          [_assembly addDetailsInstalledObject:detail];
+          [_assembly.type addDetailsInstalledObject:detail];
           // Commit the change.
           [_assembly.managedObjectContext saveAndHandleError];
           [_viewController performSegueWithIdentifier:_segueName sender:nil];
@@ -68,7 +71,9 @@
         case 2://Rotate
           {
           Assembly* assembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:_assembly.managedObjectContext];
-          _assembly.assemblyBeforeRotation = assembly;
+          AssemblyType* assemblyType = (AssemblyType*)[NSEntityDescription insertNewObjectForEntityForName:@"AssemblyType" inManagedObjectContext:self.assembly.managedObjectContext];
+          assembly.type = assemblyType;
+          _assembly.type.assemblyBeforeRotation = assembly;
           // Commit the change.
           [_assembly.managedObjectContext saveAndHandleError];
           [_viewController performSegueWithIdentifier:_segueName sender:nil];
@@ -77,7 +82,9 @@
         case 3://Transform
           {
           Assembly* assembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:_assembly.managedObjectContext];
-          _assembly.assemblyBeforeTransformation = assembly;
+          AssemblyType* assemblyType = (AssemblyType*)[NSEntityDescription insertNewObjectForEntityForName:@"AssemblyType" inManagedObjectContext:self.assembly.managedObjectContext];
+          assembly.type = assemblyType;
+          _assembly.type.assemblyBeforeTransformation = assembly;
           // Commit the change.
           [_assembly.managedObjectContext saveAndHandleError];
           [_viewController performSegueWithIdentifier:_segueName sender:nil];
@@ -101,10 +108,10 @@ destructiveButtonTitle: nil
 - (void)reinterpretAssembly:(Assembly*)assembly
   {
   _assembly = assembly;
-  BOOL isAssemblySplit = _assembly.detailsInstalled.count && !_assembly.assemblyBase;
-  BOOL arePartsDetachedFromAssembly = nil != _assembly.assemblyBase;
-  BOOL isAssemblyTransformed = nil != _assembly.assemblyBeforeTransformation;
-  BOOL isAssemblyRotated = nil != _assembly.assemblyBeforeRotation;
+  BOOL isAssemblySplit = _assembly.type.detailsInstalled.count && !_assembly.type.assemblyBase;
+  BOOL arePartsDetachedFromAssembly = nil != _assembly.type.assemblyBase;
+  BOOL isAssemblyTransformed = nil != _assembly.type.assemblyBeforeTransformation;
+  BOOL isAssemblyRotated = nil != _assembly.type.assemblyBeforeRotation;
   
   if (isAssemblySplit)
     {
@@ -166,10 +173,10 @@ destructiveButtonTitle: nil
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
   {
-  BOOL isAssemblySplit = _assembly.detailsInstalled.count && !_assembly.assemblyBase;
-  BOOL arePartsDetachedFromAssembly = nil != _assembly.assemblyBase;
-  BOOL isAssemblyTransformed = nil != _assembly.assemblyBeforeTransformation;
-  BOOL isAssemblyRotated = nil != _assembly.assemblyBeforeRotation;
+  BOOL isAssemblySplit = _assembly.type.detailsInstalled.count && !_assembly.type.assemblyBase;
+  BOOL arePartsDetachedFromAssembly = nil != _assembly.type.assemblyBase;
+  BOOL isAssemblyTransformed = nil != _assembly.type.assemblyBeforeTransformation;
+  BOOL isAssemblyRotated = nil != _assembly.type.assemblyBeforeRotation;
 
   NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
   
@@ -190,13 +197,15 @@ destructiveButtonTitle: nil
         void (^prepareReinterpret)() = ^()
           {
           Assembly* assembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:_assembly.managedObjectContext];
-          _assembly.assemblyBase = assembly;
+          AssemblyType* assemblyType = (AssemblyType*)[NSEntityDescription insertNewObjectForEntityForName:@"AssemblyType" inManagedObjectContext:self.assembly.managedObjectContext];
+          assembly.type = assemblyType;
+          _assembly.type.assemblyBase = assembly;
           };
           
         void (^removeDetails)() = ^()
           {
           prepareReinterpret();
-          [_assembly.detailsInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
+          [_assembly.type.detailsInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
             {
             [_assembly.managedObjectContext deleteObject:obj];
             }];
@@ -206,8 +215,8 @@ destructiveButtonTitle: nil
           void (^splitBaseAssembly)() = ^()
           {
           prepareReinterpret();
-          _assembly.assemblyBase.detailsInstalled = _assembly.detailsInstalled;
-          _assembly.detailsInstalled = nil;
+          _assembly.type.assemblyBase.type.detailsInstalled = _assembly.type.detailsInstalled;
+          _assembly.type.detailsInstalled = nil;
           commitReinterpret();
           };
           
@@ -258,13 +267,15 @@ destructiveButtonTitle: nil
         void (^prepareReinterpret)() = ^()
           {
           Assembly* assembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:_assembly.managedObjectContext];
-          _assembly.assemblyBeforeRotation = assembly;
+          AssemblyType* assemblyType = (AssemblyType*)[NSEntityDescription insertNewObjectForEntityForName:@"AssemblyType" inManagedObjectContext:self.assembly.managedObjectContext];
+          assembly.type = assemblyType;
+          _assembly.type.assemblyBeforeRotation = assembly;
           };
           
         void (^removeDetails)() = ^()
           {
           prepareReinterpret();
-          [_assembly.detailsInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
+          [_assembly.type.detailsInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
             {
             [_assembly.managedObjectContext deleteObject:obj];
             }];
@@ -274,8 +285,8 @@ destructiveButtonTitle: nil
         void (^splitAssembly)() = ^()
           {
           prepareReinterpret();
-          _assembly.assemblyBeforeRotation.detailsInstalled = _assembly.detailsInstalled;
-          _assembly.detailsInstalled = nil;
+          _assembly.type.assemblyBeforeRotation.type.detailsInstalled = _assembly.type.detailsInstalled;
+          _assembly.type.detailsInstalled = nil;
           commitReinterpret();
           };
           
@@ -316,13 +327,15 @@ destructiveButtonTitle: nil
         void (^prepareReinterpret)() = ^()
           {
           Assembly* assembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:_assembly.managedObjectContext];
-          _assembly.assemblyBeforeTransformation = assembly;
+          AssemblyType* assemblyType = (AssemblyType*)[NSEntityDescription insertNewObjectForEntityForName:@"AssemblyType" inManagedObjectContext:self.assembly.managedObjectContext];
+          assembly.type = assemblyType;
+          _assembly.type.assemblyBeforeTransformation = assembly;
           };
           
         void (^removeDetails)() = ^()
           {
           prepareReinterpret();
-          [_assembly.detailsInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
+          [_assembly.type.detailsInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
             {
             [_assembly.managedObjectContext deleteObject:obj];
             }];
@@ -332,8 +345,8 @@ destructiveButtonTitle: nil
         void (^splitAssembly)() = ^()
           {
           prepareReinterpret();
-          _assembly.assemblyBeforeTransformation.detailsInstalled = _assembly.detailsInstalled;
-          _assembly.detailsInstalled = nil;
+          _assembly.type.assemblyBeforeTransformation.type.detailsInstalled = _assembly.type.detailsInstalled;
+          _assembly.type.detailsInstalled = nil;
           commitReinterpret();
           };
           
@@ -384,13 +397,13 @@ destructiveButtonTitle: nil
           
         void (^deleteAllAssemblies)() = ^()
           {
-          if (!_assembly.detailsInstalled.count)//at list one detail should be present in split assembly
+          if (!_assembly.type.detailsInstalled.count)//at list one detail should be present in split assembly
             {
             Detail* detail = (Detail*)[NSEntityDescription insertNewObjectForEntityForName:@"Detail" inManagedObjectContext:_assembly.managedObjectContext];
-            [_assembly addDetailsInstalledObject:detail];
+            [_assembly.type addDetailsInstalledObject:detail];
             }
-          [_assembly.managedObjectContext deleteObject:_assembly.assemblyBase];
-          [_assembly.assembliesInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
+          [_assembly.managedObjectContext deleteObject:_assembly.type.assemblyBase];
+          [_assembly.type.assembliesInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
             {
             [_assembly.managedObjectContext deleteObject:obj];
             }];
@@ -425,46 +438,48 @@ destructiveButtonTitle: nil
         void (^prepareReinterpret)() = ^()
           {
           Assembly* assembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:_assembly.managedObjectContext];
-          _assembly.assemblyBeforeRotation = assembly;
+          AssemblyType* assemblyType = (AssemblyType*)[NSEntityDescription insertNewObjectForEntityForName:@"AssemblyType" inManagedObjectContext:self.assembly.managedObjectContext];
+          assembly.type = assemblyType;
+          _assembly.type.assemblyBeforeRotation = assembly;
           };
           
         void (^removeAllParts)() = ^()
           {
           prepareReinterpret();
-          [_assembly.detailsInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
+          [_assembly.type.detailsInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
             {
             [_assembly.managedObjectContext deleteObject:obj];
             }];
-          [_assembly.assembliesInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
+          [_assembly.type.assembliesInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
             {
             [_assembly.managedObjectContext deleteObject:obj];
             }];
-          [_assembly.managedObjectContext deleteObject:_assembly.assemblyBase];
+          [_assembly.managedObjectContext deleteObject:_assembly.type.assemblyBase];
           commitReinterpret();
           };
           
         void (^detachParts)() = ^()
           {
           prepareReinterpret();
-          _assembly.assemblyBeforeRotation.assemblyBase = _assembly.assemblyBase;
-          _assembly.assemblyBase = nil;
-          _assembly.assemblyBeforeRotation.assembliesInstalled = _assembly.assembliesInstalled;
-          _assembly.assembliesInstalled = nil;
-          _assembly.assemblyBeforeRotation.detailsInstalled = _assembly.detailsInstalled;
-          _assembly.detailsInstalled = nil;
+          _assembly.type.assemblyBeforeRotation.type.assemblyBase = _assembly.type.assemblyBase;
+          _assembly.type.assemblyBase = nil;
+          _assembly.type.assemblyBeforeRotation.type.assembliesInstalled = _assembly.type.assembliesInstalled;
+          _assembly.type.assembliesInstalled = nil;
+          _assembly.type.assemblyBeforeRotation.type.detailsInstalled = _assembly.type.detailsInstalled;
+          _assembly.type.detailsInstalled = nil;
           commitReinterpret();
           };
           
         void (^useBaseAsRotatedAndRemoveOthers)() = ^()
           {
           //prepareReinterpret(); don't create an assemblyBeforeRotation
-          _assembly.assemblyBeforeRotation = _assembly.assemblyBase;
-          _assembly.assemblyBase = nil;
-          [_assembly.assembliesInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
+          _assembly.type.assemblyBeforeRotation = _assembly.type.assemblyBase;
+          _assembly.type.assemblyBase = nil;
+          [_assembly.type.assembliesInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
             {
             [_assembly.managedObjectContext deleteObject:obj];
             }];
-          [_assembly.detailsInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
+          [_assembly.type.detailsInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
             {
             [_assembly.managedObjectContext deleteObject:obj];
             }];
@@ -514,46 +529,48 @@ destructiveButtonTitle: nil
         void (^prepareReinterpret)() = ^()
           {
           Assembly* assembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:_assembly.managedObjectContext];
-          _assembly.assemblyBeforeTransformation = assembly;
+          AssemblyType* assemblyType = (AssemblyType*)[NSEntityDescription insertNewObjectForEntityForName:@"AssemblyType" inManagedObjectContext:self.assembly.managedObjectContext];
+          assembly.type = assemblyType;
+          _assembly.type.assemblyBeforeTransformation = assembly;
           };
           
         void (^removeAllParts)() = ^()
           {
           prepareReinterpret();
-          [_assembly.detailsInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
+          [_assembly.type.detailsInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
             {
             [_assembly.managedObjectContext deleteObject:obj];
             }];
-          [_assembly.assembliesInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
+          [_assembly.type.assembliesInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
             {
             [_assembly.managedObjectContext deleteObject:obj];
             }];
-          [_assembly.managedObjectContext deleteObject:_assembly.assemblyBase];
+          [_assembly.managedObjectContext deleteObject:_assembly.type.assemblyBase];
           commitReinterpret();
           };
           
         void (^detachFromAssembly)() = ^()
           {
           prepareReinterpret();
-          _assembly.assemblyBeforeTransformation.assemblyBase = _assembly.assemblyBase;
-          _assembly.assemblyBase = nil;
-          _assembly.assemblyBeforeTransformation.assembliesInstalled = _assembly.assembliesInstalled;
-          _assembly.assembliesInstalled = nil;
-          _assembly.assemblyBeforeTransformation.detailsInstalled = _assembly.detailsInstalled;
-          _assembly.detailsInstalled = nil;
+          _assembly.type.assemblyBeforeTransformation.type.assemblyBase = _assembly.type.assemblyBase;
+          _assembly.type.assemblyBase = nil;
+          _assembly.type.assemblyBeforeTransformation.type.assembliesInstalled = _assembly.type.assembliesInstalled;
+          _assembly.type.assembliesInstalled = nil;
+          _assembly.type.assemblyBeforeTransformation.type.detailsInstalled = _assembly.type.detailsInstalled;
+          _assembly.type.detailsInstalled = nil;
           commitReinterpret();
           };
           
         void (^useBaseAsTransformed)() = ^()
           {
           //prepareReinterpret(); don't create an assemblyBeforeTransformation
-          _assembly.assemblyBeforeTransformation = _assembly.assemblyBase;
-          _assembly.assemblyBase = nil;
-          [_assembly.assembliesInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
+          _assembly.type.assemblyBeforeTransformation = _assembly.type.assemblyBase;
+          _assembly.type.assemblyBase = nil;
+          [_assembly.type.assembliesInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
             {
             [_assembly.managedObjectContext deleteObject:obj];
             }];
-          [_assembly.detailsInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
+          [_assembly.type.detailsInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
             {
             [_assembly.managedObjectContext deleteObject:obj];
             }];
@@ -611,28 +628,30 @@ destructiveButtonTitle: nil
         void (^prepareReinterpret)() = ^()
           {
           Assembly* assembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:_assembly.managedObjectContext];
-          _assembly.assemblyBase = assembly;
+          AssemblyType* assemblyType = (AssemblyType*)[NSEntityDescription insertNewObjectForEntityForName:@"AssemblyType" inManagedObjectContext:self.assembly.managedObjectContext];
+          assembly.type = assemblyType;
+          _assembly.type.assemblyBase = assembly;
           };
           
         void (^removeAssembly)() = ^()
           {
           prepareReinterpret();
-          [_assembly.managedObjectContext deleteObject:_assembly.assemblyBeforeRotation];
+          [_assembly.managedObjectContext deleteObject:_assembly.type.assemblyBeforeRotation];
           commitReinterpret();
           };
           
         void (^rotateBaseAssembly)() = ^()
           {
           prepareReinterpret();
-          _assembly.assemblyBase.assemblyBeforeRotation = _assembly.assemblyBeforeRotation;
+          _assembly.type.assemblyBase.type.assemblyBeforeRotation = _assembly.type.assemblyBeforeRotation;
           commitReinterpret();
           };
           
         void (^useRotatedAsBase)() = ^()
           {
           //prepareReinterpret(); don't create an assemblyBase
-          _assembly.assemblyBase = _assembly.assemblyBeforeRotation;
-          _assembly.assemblyBeforeRotation = nil;
+          _assembly.type.assemblyBase = _assembly.type.assemblyBeforeRotation;
+          _assembly.type.assemblyBeforeRotation = nil;
           commitReinterpret();
           };
           
@@ -682,8 +701,8 @@ destructiveButtonTitle: nil
         void (^removeAssembly)() = ^()
           {
           Detail* detail = (Detail*)[NSEntityDescription insertNewObjectForEntityForName:@"Detail" inManagedObjectContext:_assembly.managedObjectContext];
-          [_assembly addDetailsInstalledObject:detail];
-          [_assembly.managedObjectContext deleteObject:_assembly.assemblyBeforeRotation];
+          [_assembly.type addDetailsInstalledObject:detail];
+          [_assembly.managedObjectContext deleteObject:_assembly.type.assemblyBeforeRotation];
           commitReinterpret();
           };
           
@@ -717,29 +736,31 @@ destructiveButtonTitle: nil
         void (^prepareReinterpret)() = ^()
           {
           Assembly* assembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:_assembly.managedObjectContext];
-          _assembly.assemblyBeforeTransformation = assembly;
+          AssemblyType* assemblyType = (AssemblyType*)[NSEntityDescription insertNewObjectForEntityForName:@"AssemblyType" inManagedObjectContext:self.assembly.managedObjectContext];
+          assembly.type = assemblyType;
+          _assembly.type.assemblyBeforeTransformation = assembly;
           };
           
         void (^removeAssembly)() = ^()
           {
           prepareReinterpret();
-          [_assembly.managedObjectContext deleteObject:_assembly.assemblyBeforeRotation];
+          [_assembly.managedObjectContext deleteObject:_assembly.type.assemblyBeforeRotation];
           commitReinterpret();
           };
           
         void (^transformRotatedAssembly)() = ^()
           {
           prepareReinterpret();
-          _assembly.assemblyBeforeTransformation.assemblyBeforeRotation = _assembly.assemblyBeforeRotation;
-          _assembly.assemblyBeforeRotation = nil;
+          _assembly.type.assemblyBeforeTransformation.type.assemblyBeforeRotation = _assembly.type.assemblyBeforeRotation;
+          _assembly.type.assemblyBeforeRotation = nil;
           commitReinterpret();
           };
           
         void (^useRotatedAsTransformed)() = ^()
           {
           //prepareReinterpret(); don't create an assemblyBeforTransformation
-          _assembly.assemblyBeforeTransformation = _assembly.assemblyBeforeRotation;
-          _assembly.assemblyBeforeRotation = nil;
+          _assembly.type.assemblyBeforeTransformation = _assembly.type.assemblyBeforeRotation;
+          _assembly.type.assemblyBeforeRotation = nil;
           commitReinterpret();
           };
           
@@ -794,28 +815,30 @@ destructiveButtonTitle: nil
         void (^prepareReinterpret)() = ^()
           {
           Assembly* assembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:_assembly.managedObjectContext];
-          _assembly.assemblyBase = assembly;
+          AssemblyType* assemblyType = (AssemblyType*)[NSEntityDescription insertNewObjectForEntityForName:@"AssemblyType" inManagedObjectContext:self.assembly.managedObjectContext];
+          assembly.type = assemblyType;
+          _assembly.type.assemblyBase = assembly;
           };
           
         void (^removeAssembly)() = ^()
           {
           prepareReinterpret();
-          [_assembly.managedObjectContext deleteObject:_assembly.assemblyBeforeTransformation];
+          [_assembly.managedObjectContext deleteObject:_assembly.type.assemblyBeforeTransformation];
           commitReinterpret();
           };
           
         void (^transformBaseAssembly)() = ^()
           {
           prepareReinterpret();
-          _assembly.assemblyBase.assemblyBeforeTransformation = _assembly.assemblyBeforeTransformation;
+          _assembly.type.assemblyBase.type.assemblyBeforeTransformation = _assembly.type.assemblyBeforeTransformation;
           commitReinterpret();
           };
           
         void (^useTransformedAsBase)() = ^()
           {
           //prepareReinterpret(); don't create an assemblyBase!!!
-          _assembly.assemblyBase = _assembly.assemblyBeforeTransformation;
-          _assembly.assemblyBeforeTransformation = nil;
+          _assembly.type.assemblyBase = _assembly.type.assemblyBeforeTransformation;
+          _assembly.type.assemblyBeforeTransformation = nil;
           commitReinterpret();
           };
           
@@ -865,8 +888,8 @@ destructiveButtonTitle: nil
         void (^removeAssembly)() = ^()
           {
           Detail* detail = (Detail*)[NSEntityDescription insertNewObjectForEntityForName:@"Detail" inManagedObjectContext:_assembly.managedObjectContext];
-          [_assembly addDetailsInstalledObject:detail];
-          [_assembly.managedObjectContext deleteObject:_assembly.assemblyBeforeTransformation];
+          [_assembly.type addDetailsInstalledObject:detail];
+          [_assembly.managedObjectContext deleteObject:_assembly.type.assemblyBeforeTransformation];
           commitReinterpret();
           };
           
@@ -900,29 +923,31 @@ destructiveButtonTitle: nil
         void (^prepareReinterpret)() = ^()
           {
           Assembly* assembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:_assembly.managedObjectContext];
-          _assembly.assemblyBeforeRotation = assembly;
+          AssemblyType* assemblyType = (AssemblyType*)[NSEntityDescription insertNewObjectForEntityForName:@"AssemblyType" inManagedObjectContext:self.assembly.managedObjectContext];
+          assembly.type = assemblyType;
+          _assembly.type.assemblyBeforeRotation = assembly;
           };
           
         void (^removeAssembly)() = ^()
           {
           prepareReinterpret();
-          [_assembly.managedObjectContext deleteObject:_assembly.assemblyBeforeTransformation];
+          [_assembly.managedObjectContext deleteObject:_assembly.type.assemblyBeforeTransformation];
           commitReinterpret();
           };
           
         void (^transformRotatedAssembly)() = ^()
           {
           prepareReinterpret();
-          _assembly.assemblyBeforeRotation.assemblyBeforeTransformation = _assembly.assemblyBeforeTransformation;
-          _assembly.assemblyBeforeTransformation = nil;
+          _assembly.type.assemblyBeforeRotation.type.assemblyBeforeTransformation = _assembly.type.assemblyBeforeTransformation;
+          _assembly.type.assemblyBeforeTransformation = nil;
           commitReinterpret();
           };
           
         void (^useTransformedAsRotated)() = ^()
           {
           //prepareReinterpret(); don't create an assemblyBeforeRotation
-          _assembly.assemblyBeforeRotation = _assembly.assemblyBeforeTransformation;
-          _assembly.assemblyBeforeTransformation = nil;
+          _assembly.type.assemblyBeforeRotation = _assembly.type.assemblyBeforeTransformation;
+          _assembly.type.assemblyBeforeTransformation = nil;
           commitReinterpret();
           };
           

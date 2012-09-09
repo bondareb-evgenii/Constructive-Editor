@@ -25,6 +25,7 @@
 		7529F983151B0C2A00C13C90 /* Assembly.m in Sources */ = {isa = PBXBuildFile; fileRef = 7529F982151B0C2A00C13C90 /* Assembly.m */; };
 		7532EBC315DFA3B600395B11 /* DetailTypesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7532EBC015DFA3B600395B11 /* DetailTypesViewController.m */; };
 		7532EBC415DFA3B600395B11 /* EditDetailTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7532EBC215DFA3B600395B11 /* EditDetailTypeViewController.m */; };
+		754FF90D15FCD01400A2D555 /* AssemblyType.m in Sources */ = {isa = PBXBuildFile; fileRef = 754FF90C15FCD01400A2D555 /* AssemblyType.m */; };
 		756BA30615F143C0009F0C9D /* pin.png in Resources */ = {isa = PBXBuildFile; fileRef = 756BA30515F143C0009F0C9D /* pin.png */; };
 		757A153815E3BF8D00E89FBC /* AlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 757A153715E3BF8D00E89FBC /* AlertView.m */; };
 		757A153C15ED256E00E89FBC /* PreferencesKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = 757A153B15ED256E00E89FBC /* PreferencesKeys.m */; };
@@ -91,6 +92,8 @@
 		7532EBC015DFA3B600395B11 /* DetailTypesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailTypesViewController.m; sourceTree = "<group>"; };
 		7532EBC115DFA3B600395B11 /* EditDetailTypeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditDetailTypeViewController.h; sourceTree = "<group>"; };
 		7532EBC215DFA3B600395B11 /* EditDetailTypeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditDetailTypeViewController.m; sourceTree = "<group>"; };
+		754FF90B15FCD01300A2D555 /* AssemblyType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AssemblyType.h; sourceTree = "<group>"; };
+		754FF90C15FCD01400A2D555 /* AssemblyType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AssemblyType.m; sourceTree = "<group>"; };
 		756BA30515F143C0009F0C9D /* pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pin.png; sourceTree = "<group>"; };
 		757A153615E3BF8D00E89FBC /* AlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlertView.h; sourceTree = "<group>"; };
 		757A153715E3BF8D00E89FBC /* AlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlertView.m; sourceTree = "<group>"; };
@@ -166,6 +169,8 @@
 		7529F94715199C3200C13C90 /* DataModels */ = {
 			isa = PBXGroup;
 			children = (
+				754FF90B15FCD01300A2D555 /* AssemblyType.h */,
+				754FF90C15FCD01400A2D555 /* AssemblyType.m */,
 				7529F94E15199C3200C13C90 /* Model.xcdatamodeld */,
 				7529F981151B0C2A00C13C90 /* Assembly.h */,
 				7529F982151B0C2A00C13C90 /* Assembly.m */,
@@ -498,6 +503,7 @@
 				758520D215F395C50071A662 /* EditDetailViewController.m in Sources */,
 				758520D615F3A68D0071A662 /* DetailTypeCellView.m in Sources */,
 				75800F9215FC90A800E5262E /* DirectoryWatcher.m in Sources */,
+				754FF90D15FCD01400A2D555 /* AssemblyType.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

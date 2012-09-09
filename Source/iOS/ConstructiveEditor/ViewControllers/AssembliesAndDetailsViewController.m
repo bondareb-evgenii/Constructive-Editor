@@ -8,6 +8,7 @@
 #import "AssembliesAndDetailsViewController.h"
 
 #import "Assembly.h"
+#import "AssemblyType.h"
 #import "AssemblyCellView.h"
 #import "Detail.h"
 #import "DetailType.h"
@@ -43,10 +44,10 @@
 - (void)viewDidLoad
   {
   [super viewDidLoad];
-  _assemblies = [[NSMutableArray alloc] initWithCapacity:self.assembly.assembliesInstalled.count];
-  [_assemblies addObjectsFromArray:[self.assembly.assembliesInstalled allObjects]];
-  _details = [[NSMutableArray alloc] initWithCapacity:self.assembly.detailsInstalled.count];
-  [_details addObjectsFromArray:[self.assembly.detailsInstalled allObjects]];
+  _assemblies = [[NSMutableArray alloc] initWithCapacity:self.assembly.type.assembliesInstalled.count];
+  [_assemblies addObjectsFromArray:[self.assembly.type.assembliesInstalled allObjects]];
+  _details = [[NSMutableArray alloc] initWithCapacity:self.assembly.type.detailsInstalled.count];
+  [_details addObjectsFromArray:[self.assembly.type.detailsInstalled allObjects]];
   _assembliesAndDetailsTable.delegate = self;
   _assembliesAndDetailsTable.dataSource = self;
   [_assembliesAndDetailsTable setEditing:YES animated:NO];//always aditable (the application is called Editor :))
@@ -68,15 +69,15 @@
   {
   if (0 == indexPath.section)
     {
-    if (self.assembly.assemblyBase)
-      return self.assembly.assemblyBase;
-    if (self.assembly.assemblyBeforeTransformation)
-      return self.assembly.assemblyBeforeTransformation;
-    if (self.assembly.assemblyBeforeRotation)
-      return self.assembly.assemblyBeforeRotation;
+    if (self.assembly.type.assemblyBase)
+      return self.assembly.type.assemblyBase;
+    if (self.assembly.type.assemblyBeforeTransformation)
+      return self.assembly.type.assemblyBeforeTransformation;
+    if (self.assembly.type.assemblyBeforeRotation)
+      return self.assembly.type.assemblyBeforeRotation;
     }
     
-  if (self.assembly.assemblyBase && 1 == indexPath.section)
+  if (self.assembly.type.assemblyBase && 1 == indexPath.section)
     {
     NSUInteger assemblyIndex = indexPath.row;
     if (_assembliesAndDetailsTable.editing && assemblyIndex == _addAssemblyIndex)
@@ -87,16 +88,16 @@
     return (Assembly*)[_assemblies objectAtIndex:assemblyIndex];
     }
     
-//  if (( self.assembly.assemblyBase && 2 == indexPath.section) ||
-//      (!self.assembly.assemblyBase && _details.count && 0 == indexPath.section))
+//  if (( self.assembly.type.assemblyBase && 2 == indexPath.section) ||
+//      (!self.assembly.type.assemblyBase && _details.count && 0 == indexPath.section))
 //    return nil;//this is a details section
   return nil;
   }
   
 - (Detail*)detailForRowAtIndexPath:(NSIndexPath*)indexPath
   {
-  if (( self.assembly.assemblyBase && 2 == indexPath.section) ||
-      (!self.assembly.assemblyBase && _details.count && 0 == indexPath.section))
+  if (( self.assembly.type.assemblyBase && 2 == indexPath.section) ||
+      (!self.assembly.type.assemblyBase && _details.count && 0 == indexPath.section))
     {
     if (_assembliesAndDetailsTable.editing && indexPath.row == _addDetailIndex)
       {
@@ -147,7 +148,7 @@
   {
   if (tableView != _assembliesAndDetailsTable)
     return 0;
-  if (self.assembly.assemblyBase)
+  if (self.assembly.type.assemblyBase)
     return 3;
   return 1;//split, rotated or transformed
   }
@@ -156,16 +157,16 @@
   {
   if (tableView != _assembliesAndDetailsTable)
     return 0;
-  if (self.assembly.assemblyBase && 0 == section)
+  if (self.assembly.type.assemblyBase && 0 == section)
     return 1;
-  if (self.assembly.assemblyBase && 1 == section)
+  if (self.assembly.type.assemblyBase && 1 == section)
     return _assembliesAndDetailsTable.editing ? _assemblies.count + 1 : _assemblies.count;
-  if (( self.assembly.assemblyBase && 2 == section) ||
-      (!self.assembly.assemblyBase && _details.count && 0 == section))
+  if (( self.assembly.type.assemblyBase && 2 == section) ||
+      (!self.assembly.type.assemblyBase && _details.count && 0 == section))
     return _assembliesAndDetailsTable.editing ? _details.count + 1 : _details.count;
-  if (self.assembly.assemblyBeforeTransformation && 0 == section)
+  if (self.assembly.type.assemblyBeforeTransformation && 0 == section)
     return 1;
-  if (self.assembly.assemblyBeforeRotation && 0 == section)
+  if (self.assembly.type.assemblyBeforeRotation && 0 == section)
     return 1;
   return 0;
   }
@@ -174,16 +175,16 @@
   {
   if (tableView != _assembliesAndDetailsTable)
     return nil;
-  if (self.assembly.assemblyBase && 0 == section)
+  if (self.assembly.type.assemblyBase && 0 == section)
     return NSLocalizedString(@"Bigger assembly", @"Assemblies and details: section header");
-  if (self.assembly.assemblyBase && 1 == section)
+  if (self.assembly.type.assemblyBase && 1 == section)
     return NSLocalizedString(@"Smaller assemblies", @"Assemblies and details: section header");
-  if (( self.assembly.assemblyBase && 2 == section) ||
-      (!self.assembly.assemblyBase && _details.count && 0 == section))
+  if (( self.assembly.type.assemblyBase && 2 == section) ||
+      (!self.assembly.type.assemblyBase && _details.count && 0 == section))
     return NSLocalizedString(@"Details", @"Assemblies and details: section header");
-  if (self.assembly.assemblyBeforeTransformation && 0 == section)
+  if (self.assembly.type.assemblyBeforeTransformation && 0 == section)
     return NSLocalizedString(@"Transformed assembly", @"Assemblies and details: section header");
-  if (self.assembly.assemblyBeforeRotation && 0 == section)
+  if (self.assembly.type.assemblyBeforeRotation && 0 == section)
     return NSLocalizedString(@"Rotated assembly", @"Assemblies and details: section header");
   return nil;
   }
@@ -193,7 +194,7 @@
   if (tableView != _assembliesAndDetailsTable)
     return nil;
   
-  BOOL shouldPutAddDetailCellForIndexPath = _assembliesAndDetailsTable.editing && indexPath.row == _addDetailIndex && (( self.assembly.assemblyBase && 2 == indexPath.section) || (!self.assembly.assemblyBase && _details.count && 0 == indexPath.section));
+  BOOL shouldPutAddDetailCellForIndexPath = _assembliesAndDetailsTable.editing && indexPath.row == _addDetailIndex && (( self.assembly.type.assemblyBase && 2 == indexPath.section) || (!self.assembly.type.assemblyBase && _details.count && 0 == indexPath.section));
   if (shouldPutAddDetailCellForIndexPath)
     {
     UITableViewCell* addItemCell = [tableView dequeueReusableCellWithIdentifier:@"AddItemCell"];
@@ -201,7 +202,7 @@
     return addItemCell;
     }
   
-  BOOL shouldPutAddAssemblyCellForIndexPath = self.assembly.assemblyBase && 1 == indexPath.section &&_assembliesAndDetailsTable.editing && indexPath.row == _addAssemblyIndex;
+  BOOL shouldPutAddAssemblyCellForIndexPath = self.assembly.type.assemblyBase && 1 == indexPath.section &&_assembliesAndDetailsTable.editing && indexPath.row == _addAssemblyIndex;
   if (shouldPutAddAssemblyCellForIndexPath)
     {
     UITableViewCell* addItemCell = [tableView dequeueReusableCellWithIdentifier:@"AddItemCell"];
@@ -212,15 +213,15 @@
   Assembly* assembly = [self assemblyForRowAtIndexPath:indexPath];
   if (assembly)
     {
-    BOOL isAssemblyInterpreted = assembly.detailsInstalled.count ||
-                                 nil != assembly.assemblyBase ||
-                                 nil != assembly.assemblyBeforeTransformation ||
-                                 nil != assembly.assemblyBeforeRotation;
+    BOOL isAssemblyInterpreted = assembly.type.detailsInstalled.count ||
+                                 nil != assembly.type.assemblyBase ||
+                                 nil != assembly.type.assemblyBeforeTransformation ||
+                                 nil != assembly.type.assemblyBeforeRotation;
     AssemblyCellView* cell = (AssemblyCellView*)[_assembliesAndDetailsTable dequeueReusableCellWithIdentifier: isAssemblyInterpreted
                            ? @"AssemblyInterpretedCell"
                            : @"AssemblyNotInterpretedCell"];
-    cell.picture.image = [assembly pictureToShow]
-                       ? [assembly pictureToShow]
+    cell.picture.image = [assembly.type pictureToShow]
+                       ? [assembly.type pictureToShow]
                        : [UIImage imageNamed:@"camera.png"];
     return cell;
     }
@@ -254,9 +255,9 @@
     // No editing style if not editing or the index path is nil.
   if (aTableView != _assembliesAndDetailsTable || !_assembliesAndDetailsTable.editing || !indexPath)
     return UITableViewCellEditingStyleNone;
-  if (self.assembly.assemblyBase && indexPath.section == 0)
+  if (self.assembly.type.assemblyBase && indexPath.section == 0)
     {
-    if (self.assembly.assembliesInstalled.count || self.assembly.detailsInstalled.count)
+    if (self.assembly.type.assembliesInstalled.count || self.assembly.type.detailsInstalled.count)
       return UITableViewCellEditingStyleNone;
     else
       return UITableViewCellEditingStyleDelete;
@@ -264,9 +265,9 @@
   // Determine the editing style based on whether the cell is a placeholder for adding content or already 
   // existing content. Existing content can be deleted.    
   if (_assembliesAndDetailsTable.editing &&
-      (( self.assembly.assemblyBase && indexPath.section == 1 && indexPath.row == _addAssemblyIndex) ||
-       ( self.assembly.assemblyBase && indexPath.section == 2 && indexPath.row == _addDetailIndex) ||
-       (!self.assembly.assemblyBase && _details.count && indexPath.section == 0 && indexPath.row == _addDetailIndex)))
+      (( self.assembly.type.assemblyBase && indexPath.section == 1 && indexPath.row == _addAssemblyIndex) ||
+       ( self.assembly.type.assemblyBase && indexPath.section == 2 && indexPath.row == _addDetailIndex) ||
+       (!self.assembly.type.assemblyBase && _details.count && indexPath.section == 0 && indexPath.row == _addDetailIndex)))
 		return UITableViewCellEditingStyleInsert;
   return UITableViewCellEditingStyleDelete;
   }
@@ -299,16 +300,16 @@
   if (editingStyle == UITableViewCellEditingStyleDelete) 
     {
     if (0 == indexPath.section &&
-         ((self.assembly.assemblyBase) ||
-          (self.assembly.assemblyBeforeTransformation) ||
-          (self.assembly.assemblyBeforeRotation)))
+         ((self.assembly.type.assemblyBase) ||
+          (self.assembly.type.assemblyBeforeTransformation) ||
+          (self.assembly.type.assemblyBeforeRotation)))
       {
-      if ((self.assembly.assemblyBase))
-        [_assembly.managedObjectContext deleteObject:self.assembly.assemblyBase];
-      if (self.assembly.assemblyBeforeTransformation)
-        [_assembly.managedObjectContext deleteObject:self.assembly.assemblyBeforeTransformation];
-      if (self.assembly.assemblyBeforeRotation)
-        [_assembly.managedObjectContext deleteObject:self.assembly.assemblyBeforeRotation];
+      if ((self.assembly.type.assemblyBase))
+        [_assembly.managedObjectContext deleteObject:self.assembly.type.assemblyBase];
+      if (self.assembly.type.assemblyBeforeTransformation)
+        [_assembly.managedObjectContext deleteObject:self.assembly.type.assemblyBeforeTransformation];
+      if (self.assembly.type.assemblyBeforeRotation)
+        [_assembly.managedObjectContext deleteObject:self.assembly.type.assemblyBeforeRotation];
         
       // Commit the change.
       [_assembly.managedObjectContext saveAndHandleError];
@@ -316,7 +317,7 @@
       [self.navigationController popViewControllerAnimated:YES];
       }
     
-    if ( self.assembly.assemblyBase && indexPath.section == 1)
+    if ( self.assembly.type.assemblyBase && indexPath.section == 1)
       {
       BOOL afterAddItem = indexPath.row > _addAssemblyIndex;
       NSUInteger assemblyIndex = afterAddItem ? indexPath.row-1 : indexPath.row;
@@ -334,8 +335,8 @@
       if (!_assemblies.count && !_details.count)
         [_assembliesAndDetailsTable reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]]withRowAnimation:UITableViewRowAnimationNone];
       }
-    else if ( ( self.assembly.assemblyBase && indexPath.section == 2) ||
-              (!self.assembly.assemblyBase && _details.count && indexPath.section == 0))
+    else if ( ( self.assembly.type.assemblyBase && indexPath.section == 2) ||
+              (!self.assembly.type.assemblyBase && _details.count && indexPath.section == 0))
       {
       BOOL afterAddItem = indexPath.row > _addDetailIndex;
       NSUInteger detailIndex = afterAddItem ? indexPath.row-1 : indexPath.row;
@@ -349,7 +350,7 @@
       [_details removeObjectAtIndex:detailIndex];
       
       //no updates, just go to previous screen
-      if (!self.assembly.assemblyBase && !_details.count)
+      if (!self.assembly.type.assemblyBase && !_details.count)
         [self.navigationController popViewControllerAnimated:YES];
       else //update UI
         {
@@ -364,11 +365,13 @@
     
   else if (editingStyle == UITableViewCellEditingStyleInsert)
     {
-    if ( self.assembly.assemblyBase && indexPath.section == 1)
+    if ( self.assembly.type.assemblyBase && indexPath.section == 1)
       {
       BOOL shouldUpdateFirstSection = !_assemblies.count && !_details.count;
       Assembly* assembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:self.assembly.managedObjectContext];
-      [self.assembly addAssembliesInstalledObject:assembly];
+      AssemblyType* assemblyType = (AssemblyType*)[NSEntityDescription insertNewObjectForEntityForName:@"AssemblyType" inManagedObjectContext:self.assembly.managedObjectContext];
+      assembly.type = assemblyType;
+      [self.assembly.type addAssembliesInstalledObject:assembly];
       // Commit the change.
       [_assembly.managedObjectContext saveAndHandleError];
       
@@ -379,12 +382,12 @@
       if (shouldUpdateFirstSection)
         [_assembliesAndDetailsTable reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]]withRowAnimation:UITableViewRowAnimationNone];
       }
-    else if ( ( self.assembly.assemblyBase && indexPath.section == 2) ||
-              (!self.assembly.assemblyBase && _details.count && indexPath.section == 0))
+    else if ( ( self.assembly.type.assemblyBase && indexPath.section == 2) ||
+              (!self.assembly.type.assemblyBase && _details.count && indexPath.section == 0))
       {
       BOOL shouldUpdateFirstSection = !_assemblies.count && !_details.count;
       Detail* detail = (Detail*)[NSEntityDescription insertNewObjectForEntityForName:@"Detail" inManagedObjectContext:self.assembly.managedObjectContext];
-      [self.assembly addDetailsInstalledObject:detail];
+      [self.assembly.type addDetailsInstalledObject:detail];
       // Commit the change.
       [_assembly.managedObjectContext saveAndHandleError];
       

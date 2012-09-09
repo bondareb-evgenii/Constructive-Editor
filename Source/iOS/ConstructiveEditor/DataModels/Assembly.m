@@ -6,30 +6,18 @@
 //
 
 #import "Assembly.h"
+#import "AssemblyType.h"
 #import "Detail.h"
 
 
 @implementation Assembly
 
+@dynamic type;
 @dynamic connectionPoint;
-@dynamic picture;
-@dynamic picturePrepared;
-@dynamic assembliesInstalled;
-@dynamic detailsInstalled;
-@dynamic assemblyBase;
 @dynamic assemblyExtended;
 @dynamic assemblyToInstallTo;
 @dynamic assemblyTransformed;
-@dynamic assemblyBeforeTransformation;
 @dynamic assemblyRotated;
-@dynamic assemblyBeforeRotation;
-
-- (UIImage*)pictureToShow
-  {
-  if (self.picturePrepared)
-    return self.picturePrepared;
-  return self.picture;
-  }
   
 - (void)awakeFromInsert
   {

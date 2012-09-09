@@ -7,6 +7,7 @@
 
 #import "EditAssemblyViewController.h"
 #import "Assembly.h"
+#import "AssemblyType.h"
 #import "NSManagedObjectContextExtension.h"
 #import "PreferencesKeys.h"
 
@@ -99,8 +100,8 @@
   {
   [super viewDidLoad];
   [self updateLabelText];
-  _imageView.image = [_assembly pictureToShow]
-                   ? [_assembly pictureToShow]
+  _imageView.image = [_assembly.type pictureToShow]
+                   ? [_assembly.type pictureToShow]
                    : [UIImage imageNamed:@"NoPhotoBig.png"];
   UIImage* parentPicture = [self.assembly.assemblyToInstallTo pictureToShow];
   
@@ -207,10 +208,10 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)selectedImage editingInfo:(NSDictionary *)editingInfo
   {	
   //WORKS REALLY LONG TIME: check the photo picker example to see how we can speed it up
-	_assembly.picture = selectedImage;
+	_assembly.type.picture = selectedImage;
   // Commit the change.
-	_imageView.image = [_assembly pictureToShow]
-                   ? [_assembly pictureToShow]
+	_imageView.image = [_assembly.type pictureToShow]
+                   ? [_assembly.type pictureToShow]
                    : [UIImage imageNamed:@"NoPhotoBig.png"];
 
   [self dismissModalViewControllerAnimated:YES];

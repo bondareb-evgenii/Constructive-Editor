@@ -7,6 +7,7 @@
 
 #import "EditDetailViewController.h"
 #import "Assembly.h"
+#import "AssemblyType.h"
 #import "Detail.h"
 #import "DetailType.h"
 #import "NSManagedObjectContextExtension.h"

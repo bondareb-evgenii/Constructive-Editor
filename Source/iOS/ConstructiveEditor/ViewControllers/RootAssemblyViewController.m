@@ -8,6 +8,7 @@
 #import "RootAssemblyViewController.h"
 
 #import "Assembly.h"
+#import "AssemblyType.h"
 #import "AssemblyCellView.h"
 #import "Detail.h"
 #import "DetailType.h"
@@ -104,15 +105,15 @@
   if (tableView != _rootAssemblyTable || indexPath.section != 0 || indexPath.row != 0)
     return nil;
     
-  BOOL isAssemblyInterpreted = _rootAssembly.detailsInstalled.count ||
-                               nil != _rootAssembly.assemblyBase ||
-                               nil != _rootAssembly.assemblyBeforeTransformation ||
-                               nil != _rootAssembly.assemblyBeforeRotation;
+  BOOL isAssemblyInterpreted = _rootAssembly.type.detailsInstalled.count ||
+                               nil != _rootAssembly.type.assemblyBase ||
+                               nil != _rootAssembly.type.assemblyBeforeTransformation ||
+                               nil != _rootAssembly.type.assemblyBeforeRotation;
   AssemblyCellView* cell = (AssemblyCellView*)[tableView dequeueReusableCellWithIdentifier: isAssemblyInterpreted
                          ? @"AssemblyInterpretedCell"
                          : @"AssemblyNotInterpretedCell"];
-  cell.picture.image = [_rootAssembly pictureToShow]
-                     ? [_rootAssembly pictureToShow]
+  cell.picture.image = [_rootAssembly.type pictureToShow]
+                     ? [_rootAssembly.type pictureToShow]
                      : [UIImage imageNamed:@"camera.png"];
   return cell;
   }

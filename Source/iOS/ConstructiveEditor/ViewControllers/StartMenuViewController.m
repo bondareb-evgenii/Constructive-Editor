@@ -7,6 +7,7 @@
 
 #import "StartMenuViewController.h"
 #import "Assembly.h"
+#import "AssemblyType.h"
 #import "AppDelegate.h"
 #import "AlertView.h"
 #import "DirectoryWatcher.h"
@@ -158,8 +159,10 @@
     else if (0 == rootAssemblies.count)
       {
       Assembly* rootAssembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:self.managedObjectContext];
+      AssemblyType* assemblyType = (AssemblyType*)[NSEntityDescription insertNewObjectForEntityForName:@"AssemblyType" inManagedObjectContext:self.managedObjectContext];
+      rootAssembly.type = assemblyType;
       rootAssembly.assemblyExtended = nil;
-      rootAssembly.assemblyBase = nil;
+      rootAssembly.type.assemblyBase = nil;
       ((RootAssemblyViewController*)segue.destinationViewController).rootAssembly = rootAssembly;
       // Commit the change.
       [_managedObjectContext saveAndHandleError];
