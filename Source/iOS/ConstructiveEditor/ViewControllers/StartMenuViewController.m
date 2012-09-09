@@ -9,14 +9,18 @@
 #import "Assembly.h"
 #import "AppDelegate.h"
 #import "AlertView.h"
+#import "DirectoryWatcher.h"
 #import "RootAssemblyViewController.h"
 #import "NSManagedObjectContextExtension.h"
 #import "PreferencesKeys.h"
 
 @interface StartMenuViewController ()
   {
-    __weak IBOutlet UITextField *_newDocumentNameTextField;
-    __weak IBOutlet UIButton *_newDocumentCreateButton;
+    __weak IBOutlet UITextField*  _newDocumentNameTextField;
+    __weak IBOutlet UIButton*     _newDocumentCreateButton;
+    __weak IBOutlet UITableView*  _documentsTable;
+    DirectoryWatcher*             _docWatcher;
+    NSMutableArray*               _documentURLs;
   }
 @end
 
@@ -27,6 +31,9 @@
 @end
 
 @interface StartMenuViewController (UITableViewDataSource) <UITableViewDataSource>
+@end
+
+@interface StartMenuViewController (DirectoryWatcherDelegate) <DirectoryWatcherDelegate>
 @end
 
 
@@ -46,7 +53,13 @@
 - (void)viewDidLoad
   {
   [super viewDidLoad];
-  [(AppDelegate*)[UIApplication sharedApplication].delegate setStartMenuViewController:self];
+  AppDelegate* appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
+  _docWatcher = [DirectoryWatcher watchFolderWithPath:[appDelegate applicationDocumentsDirectory] delegate:self];
+  _documentURLs = [NSMutableArray array];
+  // scan for existing documents
+  [self directoryDidChange:_docWatcher];
+  
+  [appDelegate setStartMenuViewController:self];
   }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -91,8 +104,11 @@
     {
     AlertViewClickButtonBlock clickButtonBlock = ^(AlertView *alertView, NSInteger buttonIndex)
         {
-        if (kAlertViewCloseButtonIndex != buttonIndex &&
-            0 != buttonIndex)
+        if (1 == buttonIndex)
+          {
+          [app.delegate application:app openURL:[NSURL fileURLWithPath: newDocumentPath] sourceApplication:nil annotation:nil];
+          }
+        if (2 == buttonIndex)
           {
           [[NSFileManager defaultManager] removeItemAtPath:newDocumentPath error:nil];//TODO: handle the error...
           [app.delegate application:app openURL:[NSURL fileURLWithPath: newDocumentPath] sourceApplication:nil annotation:nil];
@@ -103,8 +119,8 @@
         initWithTitle:NSLocalizedString(@"Confirm rewriting", @"Alert view: title")
               message:NSLocalizedString(@"File with the same name already exists. Would you like to rewrite it?", @"Alert view: message")
      clickButtonBlock:clickButtonBlock
-    cancelButtonTitle:NSLocalizedString(@"NO", @"Alert view: cancel")
-    otherButtonTitles:NSLocalizedString(@"YES", @"Alert view: button"), nil];
+    cancelButtonTitle:NSLocalizedString(@"Cancel", @"Alert view: cancel")
+    otherButtonTitles:NSLocalizedString(@"Open existing file", @"Alert view: button"), NSLocalizedString(@"Rewrite", @"Alert view: button"), nil];
     [alert show];
     }
   else
@@ -115,6 +131,7 @@
   {
   if ([segue.identifier isEqualToString:@"OpenURL"])
     {
+    [self.navigationController popToViewController:self animated:NO];
     _managedObjectContext = [self managedObjectContext];
     /*
      Fetch existing assemblies.
@@ -170,13 +187,68 @@
   [_newDocumentNameTextField resignFirstResponder];
   }
   
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+  {
+  UIApplication* app = [UIApplication sharedApplication];
+  [app.delegate application:app openURL:[NSURL fileURLWithPath: [[_documentURLs objectAtIndex:indexPath.row] path]] sourceApplication:nil annotation:nil];
+  }
+  
 @end
 
 @implementation StartMenuViewController (UITableViewDataSource)
 
-  - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-    {
-    return 0;
-    }
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+  {
+  return 1;
+  }
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+  {
+  return _documentURLs.count;
+  }
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+  {
+  return NSLocalizedString(@"Existing Documents", @"Table view header");
+  }
+
+- (UITableViewCell *)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+  {
+  static NSString *cellIdentifier = @"DocumentTableViewCell";
+  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+  NSURL *fileURL = [_documentURLs objectAtIndex:indexPath.row];
+  cell.textLabel.text = [[fileURL path] lastPathComponent];
+  return cell;
+  }
     
+@end
+
+@implementation StartMenuViewController (DirectoryWatcherDelegate)
+
+- (void)directoryDidChange:(DirectoryWatcher *)folderWatcher
+  {
+	[_documentURLs removeAllObjects];    // clear out the old docs and start over
+	
+	NSString *documentsDirectoryPath = [(AppDelegate*)[UIApplication sharedApplication].delegate applicationDocumentsDirectory];
+	
+	NSArray *documentsDirectoryContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:documentsDirectoryPath error:NULL];
+    
+	for (NSString* curFileName in [documentsDirectoryContents objectEnumerator])
+	{
+		NSString *filePath = [documentsDirectoryPath stringByAppendingPathComponent:curFileName];
+		NSURL *fileURL = [NSURL fileURLWithPath:filePath];
+		
+		BOOL isDirectory;
+        [[NSFileManager defaultManager] fileExistsAtPath:filePath isDirectory:&isDirectory];
+		
+        // proceed to add the document URL to our list (ignore the "Inbox" folder)
+        if (!(isDirectory && [curFileName isEqualToString: @"Inbox"]))
+        {
+            [_documentURLs addObject:fileURL];
+        }
+	}
+	
+	[_documentsTable reloadData];
+  }
+
 @end

@@ -31,6 +31,7 @@
 		757A153F15EE77B400E89FBC /* ActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 757A153E15EE77B400E89FBC /* ActionSheet.m */; };
 		757EBCEF15F0E7B8004218D2 /* NoPhotoBig.png in Resources */ = {isa = PBXBuildFile; fileRef = 757EBCEE15F0E7B8004218D2 /* NoPhotoBig.png */; };
 		757F600A15EF8F490022FC67 /* ReinterpretActionHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 757F600915EF8F490022FC67 /* ReinterpretActionHandler.m */; };
+		75800F9215FC90A800E5262E /* DirectoryWatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 75800F9115FC90A800E5262E /* DirectoryWatcher.m */; };
 		75823399154177BF009BBA8B /* NSManagedObjectContextExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 75823398154177BF009BBA8B /* NSManagedObjectContextExtension.m */; };
 		758520D215F395C50071A662 /* EditDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 758520D115F395C50071A662 /* EditDetailViewController.m */; };
 		758520D615F3A68D0071A662 /* DetailTypeCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 758520D515F3A68D0071A662 /* DetailTypeCellView.m */; };
@@ -100,6 +101,8 @@
 		757EBCEE15F0E7B8004218D2 /* NoPhotoBig.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = NoPhotoBig.png; path = en.lproj/Images/NoPhotoBig.png; sourceTree = "<group>"; };
 		757F600815EF8F490022FC67 /* ReinterpretActionHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReinterpretActionHandler.h; path = Utilities/ReinterpretActionHandler.h; sourceTree = "<group>"; };
 		757F600915EF8F490022FC67 /* ReinterpretActionHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReinterpretActionHandler.m; path = Utilities/ReinterpretActionHandler.m; sourceTree = "<group>"; };
+		75800F9015FC90A800E5262E /* DirectoryWatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DirectoryWatcher.h; path = Utilities/DirectoryWatcher.h; sourceTree = "<group>"; };
+		75800F9115FC90A800E5262E /* DirectoryWatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DirectoryWatcher.m; path = Utilities/DirectoryWatcher.m; sourceTree = "<group>"; };
 		75823397154177BF009BBA8B /* NSManagedObjectContextExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSManagedObjectContextExtension.h; sourceTree = "<group>"; };
 		75823398154177BF009BBA8B /* NSManagedObjectContextExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSManagedObjectContextExtension.m; sourceTree = "<group>"; };
 		758520D015F395C50071A662 /* EditDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditDetailViewController.h; sourceTree = "<group>"; };
@@ -243,6 +246,8 @@
 		757F600615EF8E590022FC67 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				75800F9015FC90A800E5262E /* DirectoryWatcher.h */,
+				75800F9115FC90A800E5262E /* DirectoryWatcher.m */,
 				757F600815EF8F490022FC67 /* ReinterpretActionHandler.h */,
 				757F600915EF8F490022FC67 /* ReinterpretActionHandler.m */,
 			);
@@ -492,6 +497,7 @@
 				757F600A15EF8F490022FC67 /* ReinterpretActionHandler.m in Sources */,
 				758520D215F395C50071A662 /* EditDetailViewController.m in Sources */,
 				758520D615F3A68D0071A662 /* DetailTypeCellView.m in Sources */,
+				75800F9215FC90A800E5262E /* DirectoryWatcher.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
