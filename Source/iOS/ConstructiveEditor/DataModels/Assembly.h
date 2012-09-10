@@ -12,7 +12,7 @@
 
 @interface Assembly : NSManagedObject
 
-@property (nonatomic, retain) NSValue* connectionPoint;
+@property (nonatomic, retain) NSValue*      connectionPoint;
 @property (nonatomic, retain) AssemblyType* type;
 @property (nonatomic, retain) AssemblyType* assemblyExtended;
 @property (nonatomic, retain) AssemblyType* assemblyToInstallTo;

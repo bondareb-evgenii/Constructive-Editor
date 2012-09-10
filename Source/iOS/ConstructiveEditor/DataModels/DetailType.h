@@ -12,14 +12,14 @@
 
 @interface DetailType : NSManagedObject
 
-@property (nonatomic, retain) UIColor* color;
-@property (nonatomic, retain) NSString * identifier;
-@property (nonatomic, retain) NSNumber * length;
-@property (nonatomic, retain) UIImage* picture;
-@property (nonatomic, retain) UIImage* picturePrepared;
-@property (nonatomic, retain) UIImage* scalePicture;
-@property (nonatomic, retain) NSValue* scalePictureSize;
-@property (nonatomic, retain) NSSet *details;
+@property (nonatomic, retain) UIColor*  color;
+@property (nonatomic, retain) NSString* identifier;
+@property (nonatomic, retain) NSNumber* length;
+@property (nonatomic, retain) UIImage*  picture;
+@property (nonatomic, retain) UIImage*  picturePrepared;
+@property (nonatomic, retain) UIImage*  scalePicture;
+@property (nonatomic, retain) NSValue*  scalePictureSize;
+@property (nonatomic, retain) NSSet*    details;
 @end
 
 @interface DetailType (CoreDataGeneratedAccessors)

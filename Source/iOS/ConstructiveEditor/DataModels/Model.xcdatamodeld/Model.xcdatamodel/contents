@@ -17,6 +17,10 @@
         <relationship name="assemblyBeforeRotation" optional="YES" minCount="1" maxCount="1" deletionRule="Cascade" destinationEntity="Assembly" inverseName="assemblyRotated" inverseEntity="Assembly" syncable="YES"/>
         <relationship name="assemblyBeforeTransformation" optional="YES" minCount="1" maxCount="1" deletionRule="Cascade" destinationEntity="Assembly" inverseName="assemblyTransformed" inverseEntity="Assembly" syncable="YES"/>
         <relationship name="detailsInstalled" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Detail" inverseName="assemblyToInstallTo" inverseEntity="Detail" syncable="YES"/>
+        <relationship name="shelf" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="AssemblyTypesShelf" inverseName="assemblyTypes" inverseEntity="AssemblyTypesShelf" syncable="YES"/>
+    </entity>
+    <entity name="AssemblyTypesShelf" representedClassName="AssemblyTypesShelf" syncable="YES">
+        <relationship name="assemblyTypes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="AssemblyType" inverseName="shelf" inverseEntity="AssemblyType" syncable="YES"/>
     </entity>
     <entity name="Detail" representedClassName="Detail" syncable="YES">
         <attribute name="connectionPoint" optional="YES" attributeType="Transformable" valueTransformerName="NSValueToDataTransformer" syncable="YES"/>
@@ -31,12 +35,14 @@
         <attribute name="picturePrepared" optional="YES" attributeType="Transformable" valueTransformerName="UIImageToDataTransformer" syncable="YES"/>
         <attribute name="scalePicture" optional="YES" attributeType="Transformable" valueTransformerName="UIImageToDataTransformer" syncable="YES"/>
         <attribute name="scalePictureSize" optional="YES" attributeType="Transformable" valueTransformerName="NSValueToDataTransformer" syncable="YES"/>
+        <attribute name="uid" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="details" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Detail" inverseName="type" inverseEntity="Detail" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Assembly" positionX="-63" positionY="-18" width="128" height="135"/>
-        <element name="AssemblyType" positionX="160" positionY="192" width="128" height="165"/>
-        <element name="Detail" positionX="160" positionY="192" width="128" height="90"/>
-        <element name="DetailType" positionX="-45" positionY="18" width="128" height="165"/>
+        <element name="Assembly" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="AssemblyType" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Detail" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="DetailType" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="AssemblyTypesShelf" positionX="0" positionY="0" width="0" height="0"/>
     </elements>
 </model>

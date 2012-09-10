@@ -38,6 +38,7 @@
 		758520D615F3A68D0071A662 /* DetailTypeCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 758520D515F3A68D0071A662 /* DetailTypeCellView.m */; };
 		75A26DA215218B2200449686 /* camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 75A26D9E15218B2200449686 /* camera.png */; };
 		75B7DA441521796100C02F18 /* AssemblyCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 75B7DA431521796100C02F18 /* AssemblyCellView.m */; };
+		75E5F33415FDAF4900C363FA /* AssemblyTypesShelf.m in Sources */ = {isa = PBXBuildFile; fileRef = 75E5F33315FDAF4900C363FA /* AssemblyTypesShelf.m */; };
 		84EA63AE1514C4AF00C7177E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EA63AD1514C4AF00C7177E /* UIKit.framework */; };
 		84EA63B01514C4AF00C7177E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EA63AF1514C4AF00C7177E /* Foundation.framework */; };
 		84EA63B21514C4AF00C7177E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EA63B11514C4AF00C7177E /* CoreGraphics.framework */; };
@@ -115,6 +116,8 @@
 		75A26D9E15218B2200449686 /* camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera.png; sourceTree = "<group>"; };
 		75B7DA421521796100C02F18 /* AssemblyCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AssemblyCellView.h; sourceTree = "<group>"; };
 		75B7DA431521796100C02F18 /* AssemblyCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AssemblyCellView.m; sourceTree = "<group>"; };
+		75E5F33215FDAF4900C363FA /* AssemblyTypesShelf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AssemblyTypesShelf.h; sourceTree = "<group>"; };
+		75E5F33315FDAF4900C363FA /* AssemblyTypesShelf.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AssemblyTypesShelf.m; sourceTree = "<group>"; };
 		84EA63A91514C4AF00C7177E /* ConstructiveEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ConstructiveEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84EA63AD1514C4AF00C7177E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		84EA63AF1514C4AF00C7177E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -172,6 +175,8 @@
 				754FF90B15FCD01300A2D555 /* AssemblyType.h */,
 				754FF90C15FCD01400A2D555 /* AssemblyType.m */,
 				7529F94E15199C3200C13C90 /* Model.xcdatamodeld */,
+				75E5F33215FDAF4900C363FA /* AssemblyTypesShelf.h */,
+				75E5F33315FDAF4900C363FA /* AssemblyTypesShelf.m */,
 				7529F981151B0C2A00C13C90 /* Assembly.h */,
 				7529F982151B0C2A00C13C90 /* Assembly.m */,
 				7529F97B151AE73100C13C90 /* Detail.h */,
@@ -504,6 +509,7 @@
 				758520D615F3A68D0071A662 /* DetailTypeCellView.m in Sources */,
 				75800F9215FC90A800E5262E /* DirectoryWatcher.m in Sources */,
 				754FF90D15FCD01400A2D555 /* AssemblyType.m in Sources */,
+				75E5F33415FDAF4900C363FA /* AssemblyTypesShelf.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

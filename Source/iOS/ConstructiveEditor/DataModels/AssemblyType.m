@@ -7,6 +7,7 @@
 
 #import "AssemblyType.h"
 #import "Assembly.h"
+#import "AssemblyTypesShelf.h"
 #import "Detail.h"
 
 
@@ -20,6 +21,7 @@
 @dynamic assemblyBase;
 @dynamic assemblyBeforeTransformation;
 @dynamic assemblyBeforeRotation;
+@dynamic shelf;
 
 - (UIImage*)pictureToShow
   {

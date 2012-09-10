@@ -8,18 +8,19 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class Assembly, Detail;
+@class Assembly, Detail, AssemblyTypesShelf;
 
 @interface AssemblyType : NSManagedObject
 
-@property (nonatomic, retain) UIImage* picture;
-@property (nonatomic, retain) UIImage* picturePrepared;
-@property (nonatomic, retain) NSSet *assemblies;
-@property (nonatomic, retain) NSSet *assembliesInstalled;
-@property (nonatomic, retain) NSSet *detailsInstalled;
-@property (nonatomic, retain) Assembly *assemblyBase;
-@property (nonatomic, retain) Assembly *assemblyBeforeTransformation;
-@property (nonatomic, retain) Assembly *assemblyBeforeRotation;
+@property (nonatomic, retain) UIImage*            picture;
+@property (nonatomic, retain) UIImage*            picturePrepared;
+@property (nonatomic, retain) NSSet*              assemblies;
+@property (nonatomic, retain) NSSet*              assembliesInstalled;
+@property (nonatomic, retain) NSSet*              detailsInstalled;
+@property (nonatomic, retain) Assembly*           assemblyBase;
+@property (nonatomic, retain) Assembly*           assemblyBeforeTransformation;
+@property (nonatomic, retain) Assembly*           assemblyBeforeRotation;
+@property (nonatomic, retain) AssemblyTypesShelf* shelf;
 @end
 
 @interface AssemblyType (CoreDataGeneratedAccessors)
