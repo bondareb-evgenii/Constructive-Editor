@@ -16,7 +16,7 @@
 #import "AssembliesAndDetailsViewController.h"
 #import "ActionSheet.h"
 #import "PreferencesKeys.h"
-#import "ReinterpretActionHandler.h"
+#import "StandardActionsPerformer.h"
 #import "CoreData/CoreData.h"
 
 @interface RootAssemblyViewController ()
@@ -78,7 +78,7 @@
       NSString* defaultActionName = [[NSUserDefaults standardUserDefaults] stringForKey:standardActionOnAssembly];
       if (!defaultActionName)
         defaultActionName = standardActionOnAssembly_DetachSmallerParts;
-      [ReinterpretActionHandler performStandardActionNamed:defaultActionName onAssembly:_rootAssembly inView:self.view withCompletionBlock:nil];
+      [StandardActionsPerformer performStandardActionNamed:defaultActionName onAssembly:_rootAssembly inView:self.view withCompletionBlock:nil];
       }
     ((AssembliesAndDetailsViewController*)segue.destinationViewController).assembly = _rootAssembly;
     }

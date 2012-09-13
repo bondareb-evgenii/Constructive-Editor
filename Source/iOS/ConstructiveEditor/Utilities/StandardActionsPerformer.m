@@ -1,11 +1,11 @@
 //
-//  ReinterpretActionHandler.m
+//  StandardActionsPerformer.m
 //  ConstructiveEditor
 //
 //  Copyright (c) 2012 Openminded. All rights reserved.
 //
 
-#import "ReinterpretActionHandler.h"
+#import "StandardActionsPerformer.h"
 #import "Assembly.h"
 #import "AssemblyType.h"
 #import "ActionSheet.h"
@@ -13,7 +13,7 @@
 #import "NSManagedObjectContextExtension.h"
 #import "PreferencesKeys.h"
 
-@implementation ReinterpretActionHandler
+@implementation StandardActionsPerformer
   
 + (void)performStandardActionNamed:(NSString*)standardActionName onAssembly:(Assembly*)assemblyToInterpret inView:(UIView*)view withCompletionBlock:(void(^)(BOOL actionPerformed)) completion
   {

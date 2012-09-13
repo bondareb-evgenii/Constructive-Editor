@@ -18,7 +18,7 @@
 #import "DetailTypesViewController.h"
 #import "NSManagedObjectContextExtension.h"
 #import "PreferencesKeys.h"
-#import "ReinterpretActionHandler.h"
+#import "StandardActionsPerformer.h"
 #import "CoreData/CoreData.h"
 
 @interface AssembliesAndDetailsViewController (UITableViewDataSource) <UITableViewDataSource>
@@ -167,7 +167,7 @@
       NSString* defaultActionName = [[NSUserDefaults standardUserDefaults] stringForKey:standardActionOnAssembly];
       if (!defaultActionName)
         defaultActionName = standardActionOnAssembly_DetachSmallerParts;
-      [ReinterpretActionHandler performStandardActionNamed:defaultActionName onAssembly:assembly inView:self.view withCompletionBlock:nil];
+      [StandardActionsPerformer performStandardActionNamed:defaultActionName onAssembly:assembly inView:self.view withCompletionBlock:nil];
       }
 
     ((AssembliesAndDetailsViewController*)segue.destinationViewController).assembly = assembly;
@@ -176,7 +176,7 @@
   
 - (IBAction)detachSmallerParts:(id)sender
   {
-  [ReinterpretActionHandler  performStandardActionNamed:standardActionOnAssembly_DetachSmallerParts onAssembly:_assembly inView:self.view withCompletionBlock:^(BOOL actionPerformed)
+  [StandardActionsPerformer  performStandardActionNamed:standardActionOnAssembly_DetachSmallerParts onAssembly:_assembly inView:self.view withCompletionBlock:^(BOOL actionPerformed)
     {
     [self updateData];
     [self reloadTableViewAnimated:YES];
@@ -186,7 +186,7 @@
   
 - (IBAction)splitToDetails:(id)sender
   {
-  [ReinterpretActionHandler  performStandardActionNamed:standardActionOnAssembly_SplitToDetails onAssembly:_assembly inView:self.view withCompletionBlock:^(BOOL actionPerformed)
+  [StandardActionsPerformer  performStandardActionNamed:standardActionOnAssembly_SplitToDetails onAssembly:_assembly inView:self.view withCompletionBlock:^(BOOL actionPerformed)
     {
     [self updateData];
     [self reloadTableViewAnimated:YES];
@@ -196,7 +196,7 @@
   
 - (IBAction)rotate:(id)sender
   {
-  [ReinterpretActionHandler  performStandardActionNamed:standardActionOnAssembly_Rotate onAssembly:_assembly inView:self.view withCompletionBlock:^(BOOL actionPerformed)
+  [StandardActionsPerformer  performStandardActionNamed:standardActionOnAssembly_Rotate onAssembly:_assembly inView:self.view withCompletionBlock:^(BOOL actionPerformed)
     {
     [self updateData];
     [self reloadTableViewAnimated:YES];
@@ -206,7 +206,7 @@
   
 - (IBAction)transform:(id)sender
   {
-  [ReinterpretActionHandler  performStandardActionNamed:standardActionOnAssembly_Transform onAssembly:_assembly inView:self.view withCompletionBlock:^(BOOL actionPerformed)
+  [StandardActionsPerformer  performStandardActionNamed:standardActionOnAssembly_Transform onAssembly:_assembly inView:self.view withCompletionBlock:^(BOOL actionPerformed)
     {
     [self updateData];
     [self reloadTableViewAnimated:YES];
