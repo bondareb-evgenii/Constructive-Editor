@@ -166,7 +166,7 @@
       //Perform a default action on the assembly (split to details / detach smaller parts / rotate / transform)
       NSString* defaultActionName = [[NSUserDefaults standardUserDefaults] stringForKey:standardActionOnAssembly];
       if (!defaultActionName)
-        defaultActionName = standardActionOnAssembly_DetachSmallerParts;
+        defaultActionName = standardActionOnAssembly_Default;
       [StandardActionsPerformer performStandardActionNamed:defaultActionName onAssembly:assembly inView:self.view withCompletionBlock:nil];
       }
 
