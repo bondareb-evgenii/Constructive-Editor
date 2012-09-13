@@ -98,121 +98,55 @@
                             <tableView translatesAutoresizingMaskIntoConstraints="NO" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" allowsSelectionDuringEditing="YES" rowHeight="62" sectionHeaderHeight="22" sectionFooterHeight="22" id="01n-pf-naR">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="AssemblyNotInterpretedCell" id="ja1-9a-PM9" customClass="AssemblyCellView">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="AssemblyNoPhotoCell" editingAccessoryType="disclosureIndicator" id="ja1-9a-PM9" customClass="AssemblyCellView">
                                         <rect key="frame" x="0.0" y="22" width="320" height="62"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="61"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView translatesAutoresizingMaskIntoConstraints="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" id="XPW-N8-npo">
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="60" id="M19-rD-yy5"/>
-                                                    </constraints>
-                                                </imageView>
-                                                <button translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="VlK-u3-Pki">
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="60" id="Nsy-Aj-cNT"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                                    <state key="normal">
-                                                        <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <state key="highlighted">
-                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <connections>
-                                                        <segue destination="i86-oC-str" kind="push" identifier="EditRootAssemblyNotInterpreted" id="YP5-IK-9Dt"/>
-                                                    </connections>
-                                                </button>
-                                                <button translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" hasAttributedTitle="NO" lineBreakMode="middleTruncation" id="9oL-Ul-JcY">
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                                    <state key="normal" title="Interpret">
-                                                        <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <state key="highlighted">
-                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <connections>
-                                                        <action selector="interpret:" destination="Xve-Pe-Zkp" eventType="touchUpInside" id="yIl-J6-5fA"/>
-                                                    </connections>
-                                                </button>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                        <constraints>
-                                            <constraint firstItem="VlK-u3-Pki" firstAttribute="centerY" secondItem="9oL-Ul-JcY" secondAttribute="centerY" type="default" id="Bcz-fa-Tid"/>
-                                            <constraint firstAttribute="trailing" secondItem="9oL-Ul-JcY" secondAttribute="trailing" constant="30" id="J7u-VP-bIs"/>
-                                            <constraint firstItem="VlK-u3-Pki" firstAttribute="top" secondItem="XPW-N8-npo" secondAttribute="top" type="default" id="LAh-yZ-1C0"/>
-                                            <constraint firstItem="VlK-u3-Pki" firstAttribute="trailing" secondItem="XPW-N8-npo" secondAttribute="trailing" type="default" id="LII-X4-mQi"/>
-                                            <constraint firstItem="VlK-u3-Pki" firstAttribute="leading" secondItem="ja1-9a-PM9" secondAttribute="leading" constant="10" id="RTv-jm-t1O"/>
-                                            <constraint firstItem="VlK-u3-Pki" firstAttribute="bottom" secondItem="XPW-N8-npo" secondAttribute="bottom" type="default" id="fJu-au-z7c"/>
-                                            <constraint firstItem="9oL-Ul-JcY" firstAttribute="centerY" secondItem="ja1-9a-PM9" secondAttribute="centerY" type="default" id="oJF-GZ-jHQ"/>
-                                            <constraint firstItem="VlK-u3-Pki" firstAttribute="leading" secondItem="XPW-N8-npo" secondAttribute="leading" type="default" id="zHw-SD-8P4"/>
-                                        </constraints>
-                                        <connections>
-                                            <outlet property="picture" destination="XPW-N8-npo" id="u5H-gl-wNW"/>
-                                        </connections>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="AssemblyInterpretedCell" id="ygS-5q-GGN" customClass="AssemblyCellView">
-                                        <rect key="frame" x="0.0" y="84" width="320" height="62"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="300" height="61"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView translatesAutoresizingMaskIntoConstraints="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" id="BRu-5F-qdm">
+                                                <imageView translatesAutoresizingMaskIntoConstraints="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" id="XPW-N8-npo">
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="60" id="2N1-KT-GIM"/>
+                                                        <constraint firstAttribute="width" constant="60" id="LU4-Hi-Pao"/>
+                                                        <constraint firstAttribute="height" constant="60" id="M19-rD-yy5"/>
                                                     </constraints>
                                                 </imageView>
-                                                <button translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="oCO-GT-zgV">
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="60" id="IWf-o6-jsD"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                                    <state key="normal">
-                                                        <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <state key="highlighted">
-                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <connections>
-                                                        <segue destination="i86-oC-str" kind="push" identifier="EditRootAssemblyInterpreted" id="c2k-d0-3Bx"/>
-                                                    </connections>
-                                                </button>
-                                                <button translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" hasAttributedTitle="NO" lineBreakMode="middleTruncation" id="5mI-w7-lqP">
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                                    <state key="normal" title="Reinterpret">
-                                                        <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <state key="highlighted">
-                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <connections>
-                                                        <action selector="reinterpret:" destination="Xve-Pe-Zkp" eventType="touchUpInside" id="tYQ-nI-fB1"/>
-                                                    </connections>
-                                                </button>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
-                                            <constraint firstItem="oCO-GT-zgV" firstAttribute="leading" secondItem="BRu-5F-qdm" secondAttribute="leading" type="default" id="3pB-o9-aoo"/>
-                                            <constraint firstAttribute="trailing" secondItem="5mI-w7-lqP" secondAttribute="trailing" constant="30" id="5ac-Hy-yDt"/>
-                                            <constraint firstItem="oCO-GT-zgV" firstAttribute="trailing" secondItem="BRu-5F-qdm" secondAttribute="trailing" type="default" id="FGh-2f-jeR"/>
-                                            <constraint firstItem="5mI-w7-lqP" firstAttribute="centerY" secondItem="ygS-5q-GGN" secondAttribute="centerY" type="default" id="UTx-mJ-Tu3"/>
-                                            <constraint firstItem="oCO-GT-zgV" firstAttribute="top" secondItem="BRu-5F-qdm" secondAttribute="top" type="default" id="dCh-3e-yF7"/>
-                                            <constraint firstItem="oCO-GT-zgV" firstAttribute="centerY" secondItem="5mI-w7-lqP" secondAttribute="centerY" type="default" id="f8d-4t-65Z"/>
-                                            <constraint firstItem="oCO-GT-zgV" firstAttribute="bottom" secondItem="BRu-5F-qdm" secondAttribute="bottom" type="default" id="gab-3g-Gg5"/>
-                                            <constraint firstItem="oCO-GT-zgV" firstAttribute="leading" secondItem="ygS-5q-GGN" secondAttribute="leading" constant="10" id="vJ8-vR-l99"/>
+                                            <constraint firstItem="XPW-N8-npo" firstAttribute="centerY" secondItem="ja1-9a-PM9" secondAttribute="centerY" type="default" id="Sip-D8-Hr5"/>
+                                            <constraint firstItem="XPW-N8-npo" firstAttribute="leading" secondItem="ja1-9a-PM9" secondAttribute="leading" constant="10" id="yha-hg-JUn"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="picture" destination="XPW-N8-npo" id="u5H-gl-wNW"/>
+                                            <segue destination="i86-oC-str" kind="push" identifier="EditRootAssemblyNoPhoto" id="ouF-mU-bA0"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="detailDisclosureButton" indentationWidth="10" reuseIdentifier="AssemblyWithPhotoCell" editingAccessoryType="detailDisclosureButton" id="ygS-5q-GGN" customClass="AssemblyCellView">
+                                        <rect key="frame" x="0.0" y="84" width="320" height="62"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="61"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView translatesAutoresizingMaskIntoConstraints="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" id="BRu-5F-qdm">
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="60" id="cjn-8C-r8V"/>
+                                                        <constraint firstAttribute="width" constant="60" id="kCO-ON-yVI"/>
+                                                    </constraints>
+                                                </imageView>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstItem="BRu-5F-qdm" firstAttribute="leading" secondItem="ygS-5q-GGN" secondAttribute="leading" constant="10" id="DkX-vI-r6O"/>
+                                            <constraint firstItem="BRu-5F-qdm" firstAttribute="centerY" secondItem="ygS-5q-GGN" secondAttribute="centerY" type="default" id="c0c-r2-ABe"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="picture" destination="BRu-5F-qdm" id="aZF-wl-9Ca"/>
-                                            <segue destination="BAE-IJ-KaX" kind="push" identifier="ShowRootAssemblyDetails" id="0yd-Dx-JbK"/>
+                                            <segue destination="BAE-IJ-KaX" kind="push" identifier="ShowRootAssemblyDetails" trigger="accessoryAction" id="NZ4-iz-omb"/>
+                                            <segue destination="i86-oC-str" kind="push" identifier="EditRootAssemblyPhotoSet" id="eVj-mA-Tel"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -227,8 +161,59 @@
                             <constraint firstItem="01n-pf-naR" firstAttribute="leading" secondItem="QWr-82-ktO" secondAttribute="leading" type="default" id="jVk-Si-fgv"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="Vs1-Z3-YT6"/>
+                    <navigationItem key="navigationItem" id="Vs1-Z3-YT6">
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="Cjx-ob-Kak">
+                            <view key="customView" contentMode="scaleToFill" id="38V-qJ-Uwv">
+                                <rect key="frame" x="65" y="5" width="250" height="33"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <button translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" hasAttributedTitle="NO" lineBreakMode="middleTruncation" id="Xs6-W7-XXr">
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="30" id="Cuv-jp-Sch"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal" title="Button" image="convertDocument_Normal_iPhone.png">
+                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted" image="convertDocument_Highlighted_iPhone.png">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="exportDocument:" destination="Xve-Pe-Zkp" eventType="touchUpInside" id="EyO-9N-WwB"/>
+                                        </connections>
+                                    </button>
+                                    <button translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" hasAttributedTitle="NO" lineBreakMode="middleTruncation" id="yBt-7F-v8a">
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="O2Y-YA-nl0"/>
+                                            <constraint firstAttribute="width" constant="30" id="qaO-cs-uGT"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal" title="Button" image="preferences_Normal_iPhone.png">
+                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted" image="references_Highlighted_iPhone.png">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="showPreferences:" destination="Xve-Pe-Zkp" eventType="touchUpInside" id="OQp-RW-acd"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="yBt-7F-v8a" firstAttribute="top" secondItem="38V-qJ-Uwv" secondAttribute="top" constant="2" id="D1r-Lr-vMv"/>
+                                    <constraint firstItem="Xs6-W7-XXr" firstAttribute="top" secondItem="yBt-7F-v8a" secondAttribute="top" type="default" id="DTl-cE-Eps"/>
+                                    <constraint firstItem="Xs6-W7-XXr" firstAttribute="trailing" secondItem="38V-qJ-Uwv" secondAttribute="trailing" type="default" id="Kxz-R8-E7e"/>
+                                    <constraint firstAttribute="trailing" secondItem="yBt-7F-v8a" secondAttribute="trailing" constant="48" id="jCm-0F-0Wn"/>
+                                </constraints>
+                            </view>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="_exportButton" destination="Xs6-W7-XXr" id="yd1-UB-JoS"/>
+                        <outlet property="_preferencesButton" destination="yBt-7F-v8a" id="r0c-QB-wxr"/>
                         <outlet property="_rootAssemblyTable" destination="01n-pf-naR" id="bGG-UP-vbs"/>
                     </connections>
                 </viewController>
@@ -247,7 +232,7 @@
                             <tableView translatesAutoresizingMaskIntoConstraints="NO" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" allowsSelectionDuringEditing="YES" rowHeight="62" sectionHeaderHeight="22" sectionFooterHeight="22" id="04r-Sk-hix">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="AssemblyNotInterpretedCell" id="LTL-Pb-Zj4" customClass="AssemblyCellView">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="AssemblyNoPhotoCell" editingAccessoryType="disclosureIndicator" id="LTL-Pb-Zj4" customClass="AssemblyCellView">
                                         <rect key="frame" x="0.0" y="22" width="320" height="62"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -257,154 +242,70 @@
                                                 <imageView translatesAutoresizingMaskIntoConstraints="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" id="SSY-ve-D2N">
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="60" id="OwC-XK-SoC"/>
+                                                        <constraint firstAttribute="height" constant="60" id="xR7-aT-pV7"/>
                                                     </constraints>
                                                 </imageView>
-                                                <button translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="7sJ-qn-GkY">
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="60" id="uHG-wz-oob"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                                    <state key="normal">
-                                                        <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <state key="highlighted">
-                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <connections>
-                                                        <segue destination="i86-oC-str" kind="push" identifier="EditAssemblyNotInterpreted" id="t4y-VZ-4Hl"/>
-                                                    </connections>
-                                                </button>
-                                                <button translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" hasAttributedTitle="NO" lineBreakMode="middleTruncation" id="OUg-8H-k2M">
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                                    <state key="normal" title="Interpret">
-                                                        <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <state key="highlighted">
-                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <connections>
-                                                        <action selector="interpret:" destination="BAE-IJ-KaX" eventType="touchUpInside" id="8wv-DI-3Vd"/>
-                                                    </connections>
-                                                </button>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
-                                            <constraint firstItem="SSY-ve-D2N" firstAttribute="leading" secondItem="7sJ-qn-GkY" secondAttribute="leading" type="default" id="3B5-N7-fpP"/>
-                                            <constraint firstItem="SSY-ve-D2N" firstAttribute="trailing" secondItem="7sJ-qn-GkY" secondAttribute="trailing" type="default" id="67S-rD-Vss"/>
                                             <constraint firstItem="SSY-ve-D2N" firstAttribute="leading" secondItem="LTL-Pb-Zj4" secondAttribute="leading" constant="45" id="9dm-Oz-kTA"/>
-                                            <constraint firstItem="SSY-ve-D2N" firstAttribute="centerY" secondItem="OUg-8H-k2M" secondAttribute="centerY" type="default" id="Iky-kr-mSD"/>
-                                            <constraint firstAttribute="trailing" secondItem="OUg-8H-k2M" secondAttribute="trailing" constant="30" id="P6h-Tq-x8m"/>
-                                            <constraint firstItem="7sJ-qn-GkY" firstAttribute="top" secondItem="SSY-ve-D2N" secondAttribute="top" type="default" id="b2x-nj-uLZ"/>
-                                            <constraint firstItem="7sJ-qn-GkY" firstAttribute="bottom" secondItem="SSY-ve-D2N" secondAttribute="bottom" type="default" id="dpJ-gj-ykc"/>
-                                            <constraint firstItem="7sJ-qn-GkY" firstAttribute="centerY" secondItem="LTL-Pb-Zj4" secondAttribute="centerY" type="default" id="gxQ-dJ-KUO"/>
+                                            <constraint firstItem="SSY-ve-D2N" firstAttribute="centerY" secondItem="LTL-Pb-Zj4" secondAttribute="centerY" type="default" id="qGs-Kv-ZUB"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="picture" destination="SSY-ve-D2N" id="LvX-ur-Vro"/>
+                                            <segue destination="i86-oC-str" kind="push" identifier="EditAssemblyNoPhoto" id="RYF-vm-JVP"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="AssemblyInterpretedCell" id="zf7-pg-VBB" customClass="AssemblyCellView">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="detailDisclosureButton" indentationWidth="10" reuseIdentifier="AssemblyWithPhotoCell" editingAccessoryType="detailDisclosureButton" id="zf7-pg-VBB" customClass="AssemblyCellView">
                                         <rect key="frame" x="0.0" y="84" width="320" height="62"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="300" height="61"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="61"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView translatesAutoresizingMaskIntoConstraints="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" id="PTf-h0-gxJ">
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="60" id="YrJ-N7-lui"/>
+                                                        <constraint firstAttribute="height" constant="60" id="jZl-yg-aTh"/>
                                                     </constraints>
                                                 </imageView>
-                                                <button translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="jZs-zH-ujy">
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="60" id="Elv-IE-qcZ"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                                    <state key="normal">
-                                                        <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <state key="highlighted">
-                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <connections>
-                                                        <segue destination="i86-oC-str" kind="push" identifier="EditAssemblyInterpreted" id="EUW-uI-c53"/>
-                                                    </connections>
-                                                </button>
-                                                <button translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" hasAttributedTitle="NO" lineBreakMode="middleTruncation" id="Jow-CM-nhD">
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                                    <state key="normal" title="Reinterpret">
-                                                        <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <state key="highlighted">
-                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <connections>
-                                                        <action selector="reinterpret:" destination="BAE-IJ-KaX" eventType="touchUpInside" id="Lhs-aq-Q3H"/>
-                                                    </connections>
-                                                </button>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
-                                            <constraint firstItem="PTf-h0-gxJ" firstAttribute="trailing" secondItem="jZs-zH-ujy" secondAttribute="trailing" type="default" id="Dxa-Vu-Fga"/>
-                                            <constraint firstItem="jZs-zH-ujy" firstAttribute="centerY" secondItem="zf7-pg-VBB" secondAttribute="centerY" type="default" id="ILo-Uk-LSZ"/>
-                                            <constraint firstItem="PTf-h0-gxJ" firstAttribute="centerY" secondItem="Jow-CM-nhD" secondAttribute="centerY" type="default" id="M9U-tK-2Ir"/>
                                             <constraint firstItem="PTf-h0-gxJ" firstAttribute="leading" secondItem="zf7-pg-VBB" secondAttribute="leading" constant="45" id="McB-hS-4Ot"/>
-                                            <constraint firstAttribute="trailing" secondItem="Jow-CM-nhD" secondAttribute="trailing" constant="30" id="NnF-FQ-NOz"/>
-                                            <constraint firstItem="jZs-zH-ujy" firstAttribute="bottom" secondItem="PTf-h0-gxJ" secondAttribute="bottom" type="default" id="O4C-wa-rcv"/>
-                                            <constraint firstItem="jZs-zH-ujy" firstAttribute="top" secondItem="PTf-h0-gxJ" secondAttribute="top" type="default" id="iG0-fO-z1k"/>
-                                            <constraint firstItem="PTf-h0-gxJ" firstAttribute="leading" secondItem="jZs-zH-ujy" secondAttribute="leading" type="default" id="mTA-oq-F9c"/>
+                                            <constraint firstItem="PTf-h0-gxJ" firstAttribute="centerY" secondItem="zf7-pg-VBB" secondAttribute="centerY" type="default" id="NdJ-8a-PbJ"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="picture" destination="PTf-h0-gxJ" id="mKT-g4-Z6j"/>
-                                            <segue destination="BAE-IJ-KaX" kind="push" identifier="ShowAssemblyDetails" id="ZLi-fw-BJc"/>
+                                            <segue destination="i86-oC-str" kind="push" identifier="EditAssemblyPhotoSet" id="arW-0E-PjK"/>
+                                            <segue destination="BAE-IJ-KaX" kind="push" identifier="ShowAssemblyDetails" trigger="accessoryAction" id="YVN-lW-CPH"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="DetailCell" id="GFu-9y-sI6" customClass="DetailCellView">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="DetailCell" editingAccessoryType="disclosureIndicator" id="GFu-9y-sI6" customClass="DetailCellView">
                                         <rect key="frame" x="0.0" y="146" width="320" height="62"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="61"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="300" height="61"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView translatesAutoresizingMaskIntoConstraints="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" id="hlH-s5-jev">
                                                     <constraints>
+                                                        <constraint firstAttribute="width" constant="60" id="dHI-UJ-Mec"/>
                                                         <constraint firstAttribute="height" constant="60" id="qsI-L0-yo9"/>
                                                     </constraints>
                                                 </imageView>
-                                                <button translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="AVu-IT-4pO">
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="60" id="a74-5y-7Vg"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                                    <state key="normal">
-                                                        <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <state key="highlighted">
-                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <connections>
-                                                        <segue destination="jXA-4O-VJV" kind="push" identifier="EditDetail" id="bGG-Ud-bIc"/>
-                                                    </connections>
-                                                </button>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
-                                            <constraint firstItem="AVu-IT-4pO" firstAttribute="bottom" secondItem="hlH-s5-jev" secondAttribute="bottom" type="default" id="H9c-D4-OaW"/>
-                                            <constraint firstItem="hlH-s5-jev" firstAttribute="leading" secondItem="AVu-IT-4pO" secondAttribute="leading" type="default" id="ItX-H4-jm0"/>
-                                            <constraint firstItem="hlH-s5-jev" firstAttribute="trailing" secondItem="AVu-IT-4pO" secondAttribute="trailing" type="default" id="Ku6-vR-MvF"/>
                                             <constraint firstItem="hlH-s5-jev" firstAttribute="leading" secondItem="GFu-9y-sI6" secondAttribute="leading" constant="45" id="XSF-tT-i3y"/>
-                                            <constraint firstItem="AVu-IT-4pO" firstAttribute="top" secondItem="hlH-s5-jev" secondAttribute="top" type="default" id="bAD-PZ-GO9"/>
                                             <constraint firstItem="hlH-s5-jev" firstAttribute="centerY" secondItem="GFu-9y-sI6" secondAttribute="centerY" type="default" id="jo8-su-lIR"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="picture" destination="hlH-s5-jev" id="g2b-ey-wGI"/>
+                                            <segue destination="jXA-4O-VJV" kind="push" identifier="EditDetail" id="UMS-IS-ViM"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="AddItemCell" textLabel="CTG-9I-WGs" style="IBUITableViewCellStyleDefault" id="cs1-ef-9bP">
@@ -436,9 +337,138 @@
                             <constraint firstItem="04r-Sk-hix" firstAttribute="trailing" secondItem="Zpi-xA-e8I" secondAttribute="trailing" type="default" id="iTH-Up-xEf"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="b20-Ot-LZ0"/>
+                    <navigationItem key="navigationItem" id="pSf-rP-eCc">
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="ObE-sp-XMK">
+                            <view key="customView" contentMode="scaleToFill" id="E1q-Tt-Ddh">
+                                <rect key="frame" x="65" y="5" width="250" height="33"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <button translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" hasAttributedTitle="NO" lineBreakMode="middleTruncation" id="A4f-IN-tAW">
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="30" id="akm-4j-4Df"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal" title="Button" image="convertDocument_Normal_iPhone.png">
+                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted" image="convertDocument_Highlighted_iPhone.png">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="exportDocument:" destination="BAE-IJ-KaX" eventType="touchUpInside" id="cNO-ED-ZmW"/>
+                                        </connections>
+                                    </button>
+                                    <button translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" hasAttributedTitle="NO" lineBreakMode="middleTruncation" id="KvE-AI-EHE">
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="30" id="uFh-G2-cQ3"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal" title="Button" image="preferences_Normal_iPhone.png">
+                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted" image="references_Highlighted_iPhone.png">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="showPreferences:" destination="BAE-IJ-KaX" eventType="touchUpInside" id="uHg-3h-Exo"/>
+                                        </connections>
+                                    </button>
+                                    <button translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" hasAttributedTitle="NO" lineBreakMode="middleTruncation" id="YbF-MX-DQM">
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="30" id="hTS-nq-fc4"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal" title="Button" image="transform_Normal_iPhone.png">
+                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted" image="transform_Highlighted_iPhone.png">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="transform:" destination="BAE-IJ-KaX" eventType="touchUpInside" id="1tQ-Ie-ChK"/>
+                                        </connections>
+                                    </button>
+                                    <button translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" hasAttributedTitle="NO" lineBreakMode="middleTruncation" id="e3G-nG-8QJ">
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="30" id="R0e-cv-S81"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal" title="Button" image="rotate_Normal_iPhone.png">
+                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted" image="rotate_Highlighted_iPhone.png">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="rotate:" destination="BAE-IJ-KaX" eventType="touchUpInside" id="9KZ-uv-eLj"/>
+                                        </connections>
+                                    </button>
+                                    <button translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" hasAttributedTitle="NO" lineBreakMode="middleTruncation" id="fxB-ZP-9xz">
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="30" id="pRn-os-ITc"/>
+                                            <constraint firstAttribute="height" constant="30" id="y8Z-Xm-THA"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal" title="Button" image="split_Normal_iPhone.png">
+                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted" image="split_Highlighted_iPhone.png">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="splitToDetails:" destination="BAE-IJ-KaX" eventType="touchUpInside" id="alA-WF-6iF"/>
+                                        </connections>
+                                    </button>
+                                    <button translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" hasAttributedTitle="NO" lineBreakMode="middleTruncation" id="yJy-m9-5ki">
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="30" id="M50-hz-P1K"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal" title="Button" image="detach_Normal_iPhone.png">
+                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted" image="detach_Highlighted_iPhone.png">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="detachSmallerParts:" destination="BAE-IJ-KaX" eventType="touchUpInside" id="TCU-3Z-uiI"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="fxB-ZP-9xz" firstAttribute="bottom" secondItem="e3G-nG-8QJ" secondAttribute="bottom" type="default" id="5ll-Yh-vTM"/>
+                                    <constraint firstItem="KvE-AI-EHE" firstAttribute="baseline" secondItem="e3G-nG-8QJ" secondAttribute="baseline" type="default" id="Csj-XB-1vE"/>
+                                    <constraint firstItem="e3G-nG-8QJ" firstAttribute="bottom" secondItem="YbF-MX-DQM" secondAttribute="bottom" type="default" id="NWF-V0-mYs"/>
+                                    <constraint firstItem="A4f-IN-tAW" firstAttribute="trailing" secondItem="E1q-Tt-Ddh" secondAttribute="trailing" type="default" id="Wsf-AC-YSM"/>
+                                    <constraint firstItem="e3G-nG-8QJ" firstAttribute="leading" secondItem="fxB-ZP-9xz" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="cpL-7A-eaT"/>
+                                    <constraint firstAttribute="trailing" secondItem="KvE-AI-EHE" secondAttribute="trailing" constant="48" id="fmF-xV-Pbe"/>
+                                    <constraint firstItem="yJy-m9-5ki" firstAttribute="bottom" secondItem="E1q-Tt-Ddh" secondAttribute="bottom" type="default" id="gwP-cA-OSs"/>
+                                    <constraint firstItem="KvE-AI-EHE" firstAttribute="bottom" secondItem="YbF-MX-DQM" secondAttribute="bottom" type="default" id="jka-wd-Kbv"/>
+                                    <constraint firstItem="yJy-m9-5ki" firstAttribute="leading" secondItem="E1q-Tt-Ddh" secondAttribute="leading" constant="10" id="rkc-Wg-ACc"/>
+                                    <constraint firstItem="fxB-ZP-9xz" firstAttribute="leading" secondItem="yJy-m9-5ki" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="umg-6w-bWR"/>
+                                    <constraint firstItem="fxB-ZP-9xz" firstAttribute="top" secondItem="E1q-Tt-Ddh" secondAttribute="top" constant="2" id="vHQ-Qr-Yn4"/>
+                                    <constraint firstItem="e3G-nG-8QJ" firstAttribute="top" secondItem="fxB-ZP-9xz" secondAttribute="top" type="default" id="vy7-r3-A9w"/>
+                                    <constraint firstItem="YbF-MX-DQM" firstAttribute="leading" secondItem="e3G-nG-8QJ" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="yIr-4o-Dsf"/>
+                                    <constraint firstItem="YbF-MX-DQM" firstAttribute="baseline" secondItem="A4f-IN-tAW" secondAttribute="baseline" type="default" id="ysr-8v-JdX"/>
+                                </constraints>
+                            </view>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="_assembliesAndDetailsTable" destination="04r-Sk-hix" id="h3p-n1-MTy"/>
+                        <outlet property="_detachButton" destination="yJy-m9-5ki" id="hJF-Wx-jPt"/>
+                        <outlet property="_exportButton" destination="A4f-IN-tAW" id="iNK-U8-hhD"/>
+                        <outlet property="_preferencesButton" destination="KvE-AI-EHE" id="mV4-5K-Rlq"/>
+                        <outlet property="_rotateButton" destination="e3G-nG-8QJ" id="Z04-oh-7QR"/>
+                        <outlet property="_splitButton" destination="fxB-ZP-9xz" id="SYe-H0-xdc"/>
+                        <outlet property="_transformButton" destination="YbF-MX-DQM" id="dNu-6k-DlR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="n45-Wy-QvQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -544,13 +574,14 @@
                     </connections>
                 </panGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="2424" y="-207"/>
+            <point key="canvasLocation" x="2412" y="-287"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="rb2-N2-ul4">
             <objects>
                 <navigationController id="bLx-fi-UEK" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="UgM-NW-zGW">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -804,15 +835,32 @@
         </scene>
     </scenes>
     <resources>
-        <image name="NoPhotoBig.png" width="320" height="200"/>
+        <image name="NoPhotoBig.png" width="284" height="200"/>
+        <image name="convertDocument_Highlighted_iPhone.png" width="30" height="30"/>
+        <image name="convertDocument_Normal_iPhone.png" width="30" height="30"/>
+        <image name="detach_Highlighted_iPhone.png" width="30" height="30"/>
+        <image name="detach_Normal_iPhone.png" width="30" height="30"/>
         <image name="pin.png" width="50" height="45"/>
+        <image name="preferences_Normal_iPhone.png" width="40" height="40"/>
+        <image name="references_Highlighted_iPhone.png" width="40" height="40"/>
+        <image name="rotate_Highlighted_iPhone.png" width="40" height="40"/>
+        <image name="rotate_Normal_iPhone.png" width="40" height="40"/>
+        <image name="split_Highlighted_iPhone.png" width="30" height="30"/>
+        <image name="split_Normal_iPhone.png" width="30" height="30"/>
+        <image name="transform_Highlighted_iPhone.png" width="30" height="30"/>
+        <image name="transform_Normal_iPhone.png" width="30" height="30"/>
     </resources>
     <classes>
         <class className="AssembliesAndDetailsViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/AssembliesAndDetailsViewController.h"/>
             <relationships>
-                <relationship kind="action" name="interpret:"/>
                 <relationship kind="outlet" name="_assembliesAndDetailsTable" candidateClass="UITableView"/>
+                <relationship kind="outlet" name="_detachButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="_exportButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="_preferencesButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="_rotateButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="_splitButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="_transformButton" candidateClass="UIButton"/>
             </relationships>
         </class>
         <class className="AssemblyCellView" superclassName="UITableViewCell">
@@ -842,8 +890,6 @@
         <class className="EditAssemblyViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/EditAssemblyViewController.h"/>
             <relationships>
-                <relationship kind="action" name="onTapOnImage:" candidateClass="UITapGestureRecognizer"/>
-                <relationship kind="action" name="onTapOnParentImage:" candidateClass="UITapGestureRecognizer"/>
                 <relationship kind="outlet" name="_constraintViewAspectFitHeight" candidateClass="NSLayoutConstraint"/>
                 <relationship kind="outlet" name="_constraintViewAspectFitWidth" candidateClass="NSLayoutConstraint"/>
                 <relationship kind="outlet" name="_constraintViewPinX" candidateClass="NSLayoutConstraint"/>
@@ -866,7 +912,6 @@
         <class className="EditDetailViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/EditDetailViewController.h"/>
             <relationships>
-                <relationship kind="action" name="onTapOnParentImage:" candidateClass="UITapGestureRecognizer"/>
                 <relationship kind="outlet" name="_constraintViewAspectFitHeight" candidateClass="NSLayoutConstraint"/>
                 <relationship kind="outlet" name="_constraintViewAspectFitWidth" candidateClass="NSLayoutConstraint"/>
                 <relationship kind="outlet" name="_constraintViewPinX" candidateClass="NSLayoutConstraint"/>
@@ -886,8 +931,8 @@
         <class className="RootAssemblyViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/RootAssemblyViewController.h"/>
             <relationships>
-                <relationship kind="action" name="interpret:"/>
-                <relationship kind="action" name="reinterpret:"/>
+                <relationship kind="outlet" name="_exportButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="_preferencesButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="_rootAssemblyTable" candidateClass="UITableView"/>
             </relationships>
         </class>
@@ -906,8 +951,8 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="0yd-Dx-JbK"/>
-        <segue reference="EUW-uI-c53"/>
+        <segue reference="NZ4-iz-omb"/>
+        <segue reference="eVj-mA-Tel"/>
         <segue reference="Vu2-Js-WPO"/>
     </inferredMetricsTieBreakers>
 </document>

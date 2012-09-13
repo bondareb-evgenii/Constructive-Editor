@@ -21,8 +21,9 @@
 
 @interface RootAssemblyViewController ()
   {
-  ReinterpretActionHandler*               _interpreter;
-  __weak IBOutlet UITableView*            _rootAssemblyTable;
+  __weak IBOutlet UITableView*  _rootAssemblyTable;
+  __weak IBOutlet UIButton*     _preferencesButton;
+  __weak IBOutlet UIButton*     _exportButton;
   }
 @end
 
@@ -44,10 +45,14 @@
 - (void)viewWillAppear:(BOOL)animated
   {
 	[super viewWillAppear:animated];
+  
+  //activate appropriate buttons on navigation bar
+  _preferencesButton.enabled = YES;
+  _exportButton.enabled = NO;
+  
   _rootAssemblyTable.delegate = self;
   _rootAssemblyTable.dataSource = self;
   [_rootAssemblyTable setEditing:NO animated:NO];//nothing to move, add or delete here
-  _interpreter = [[ReinterpretActionHandler alloc] initWithViewController:self andSegueToNextViewControllerName:@"ShowRootAssemblyDetails"]; 
 	[_rootAssemblyTable reloadData];
   }
 
@@ -58,21 +63,33 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
   {
-  if ([@"EditRootAssemblyInterpreted"     isEqualToString:segue.identifier] ||
-      [@"EditRootAssemblyNotInterpreted"  isEqualToString:segue.identifier])
+  if ([@"EditRootAssemblyPhotoSet"     isEqualToString:segue.identifier] ||
+      [@"EditRootAssemblyNoPhoto"  isEqualToString:segue.identifier])
     ((EditAssemblyViewController*)segue.destinationViewController).assembly = _rootAssembly;
   else if([@"ShowRootAssemblyDetails" isEqualToString:segue.identifier])
+    {
+    BOOL isAssemblyInterpreted = _rootAssembly.type.detailsInstalled.count ||
+                                 nil != _rootAssembly.type.assemblyBase ||
+                                 nil != _rootAssembly.type.assemblyBeforeTransformation ||
+                                 nil != _rootAssembly.type.assemblyBeforeRotation;
+    if (!isAssemblyInterpreted)
+      {
+      //Perform a default action on the assembly (split to details / detach smaller parts / rotate / transform)
+      NSString* defaultActionName = [[NSUserDefaults standardUserDefaults] stringForKey:standardActionOnAssembly];
+      if (!defaultActionName)
+        defaultActionName = standardActionOnAssembly_DetachSmallerParts;
+      [ReinterpretActionHandler performStandardActionNamed:defaultActionName onAssembly:_rootAssembly inView:self.view withCompletionBlock:nil];
+      }
     ((AssembliesAndDetailsViewController*)segue.destinationViewController).assembly = _rootAssembly;
+    }
   }
-  
-- (IBAction)interpret:(id)sender
+
+- (IBAction)showPreferences:(id)sender
   {
-  [_interpreter interpretAssembly:_rootAssembly];
   }
-  
-- (IBAction)reinterpret:(id)sender
+
+- (IBAction)exportDocument:(id)sender
   {
-  [_interpreter reinterpretAssembly:_rootAssembly];
   }
   
 @end
@@ -105,13 +122,10 @@
   if (tableView != _rootAssemblyTable || indexPath.section != 0 || indexPath.row != 0)
     return nil;
     
-  BOOL isAssemblyInterpreted = _rootAssembly.type.detailsInstalled.count ||
-                               nil != _rootAssembly.type.assemblyBase ||
-                               nil != _rootAssembly.type.assemblyBeforeTransformation ||
-                               nil != _rootAssembly.type.assemblyBeforeRotation;
-  AssemblyCellView* cell = (AssemblyCellView*)[tableView dequeueReusableCellWithIdentifier: isAssemblyInterpreted
-                         ? @"AssemblyInterpretedCell"
-                         : @"AssemblyNotInterpretedCell"];
+  BOOL isPhotoSet = nil != _rootAssembly.type.pictureToShow;
+  AssemblyCellView* cell = (AssemblyCellView*)[tableView dequeueReusableCellWithIdentifier: isPhotoSet
+                         ? @"AssemblyWithPhotoCell"
+                         : @"AssemblyNoPhotoCell"];
   cell.picture.image = [_rootAssembly.type pictureToShow]
                      ? [_rootAssembly.type pictureToShow]
                      : [UIImage imageNamed:@"camera.png"];

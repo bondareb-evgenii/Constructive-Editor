@@ -17,6 +17,7 @@
 #import "EditDetailViewController.h"
 #import "DetailTypesViewController.h"
 #import "NSManagedObjectContextExtension.h"
+#import "PreferencesKeys.h"
 #import "ReinterpretActionHandler.h"
 #import "CoreData/CoreData.h"
 
@@ -32,8 +33,13 @@
   NSMutableArray*                   _details;
   NSUInteger                        _addAssemblyIndex;
   NSUInteger                        _addDetailIndex;
-  ReinterpretActionHandler*         _interpreter;
   __weak IBOutlet UITableView*      _assembliesAndDetailsTable;
+  __weak IBOutlet UIButton* _detachButton;
+  __weak IBOutlet UIButton* _splitButton;
+  __weak IBOutlet UIButton* _rotateButton;
+  __weak IBOutlet UIButton* _transformButton;
+  __weak IBOutlet UIButton* _preferencesButton;
+  __weak IBOutlet UIButton* _exportButton;
   }
 @end
   
@@ -41,22 +47,49 @@
 
 @synthesize assembly = _assembly;
 
-- (void)viewDidLoad
+- (void)updateData
   {
-  [super viewDidLoad];
   _assemblies = [[NSMutableArray alloc] initWithCapacity:self.assembly.type.assembliesInstalled.count];
   [_assemblies addObjectsFromArray:[self.assembly.type.assembliesInstalled allObjects]];
   _details = [[NSMutableArray alloc] initWithCapacity:self.assembly.type.detailsInstalled.count];
   [_details addObjectsFromArray:[self.assembly.type.detailsInstalled allObjects]];
+  }
+  
+- (void)reloadTableViewAnimated:(BOOL)animated
+  {
+  [_assembliesAndDetailsTable reloadData];
+  }
+  
+- (void)updateInterpretButtons
+  {
+  BOOL isAssemblySplit = _assembly.type.detailsInstalled.count && !_assembly.type.assemblyBase;
+  BOOL arePartsDetachedFromAssembly = nil != _assembly.type.assemblyBase;
+  BOOL isAssemblyTransformed = nil != _assembly.type.assemblyBeforeTransformation;
+  BOOL isAssemblyRotated = nil != _assembly.type.assemblyBeforeRotation;
+  _detachButton.enabled = !arePartsDetachedFromAssembly;
+  _splitButton.enabled = !isAssemblySplit;
+  _rotateButton.enabled = !isAssemblyRotated;
+  _transformButton.enabled = !isAssemblyTransformed;
+  }
+  
+- (void)viewDidLoad
+  {
+  [super viewDidLoad];
+  [self updateData];
   _assembliesAndDetailsTable.delegate = self;
   _assembliesAndDetailsTable.dataSource = self;
   [_assembliesAndDetailsTable setEditing:YES animated:NO];//always aditable (the application is called Editor :))
-  _interpreter = [[ReinterpretActionHandler alloc] initWithViewController:self andSegueToNextViewControllerName:@"ShowAssemblyDetails"];
   }
 
 - (void)viewWillAppear:(BOOL)animated
   {
 	[super viewWillAppear:animated];
+  
+  //activate appropriate buttons on navigation bar
+  [self updateInterpretButtons];
+  _preferencesButton.enabled = YES;
+  _exportButton.enabled = NO;
+  
 	[_assembliesAndDetailsTable reloadData];
   }
 
@@ -114,31 +147,85 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
   {
-  if ([@"EditAssemblyInterpreted"     isEqualToString:segue.identifier] ||
-      [@"EditAssemblyNotInterpreted"  isEqualToString:segue.identifier])
-    ((EditAssemblyViewController*)segue.destinationViewController).assembly = [self assemblyForRowAtIndexPath:[_assembliesAndDetailsTable indexPathForCell:(UITableViewCell*)((UIView*)sender).superview.superview]];
+  if ([@"EditAssemblyPhotoSet"     isEqualToString:segue.identifier] ||
+      [@"EditAssemblyNoPhoto"  isEqualToString:segue.identifier])
+    ((EditAssemblyViewController*)segue.destinationViewController).assembly = [self assemblyForRowAtIndexPath:[_assembliesAndDetailsTable indexPathForCell:(UITableViewCell*)sender]];
   else if([@"EditDetail" isEqualToString:segue.identifier])
     {
-    ((EditDetailViewController*)segue.destinationViewController).detail = [self detailForRowAtIndexPath:[_assembliesAndDetailsTable indexPathForCell:(UITableViewCell*)((UIView*)sender).superview.superview]];
+    ((EditDetailViewController*)segue.destinationViewController).detail = [self detailForRowAtIndexPath:[_assembliesAndDetailsTable indexPathForCell:(UITableViewCell*)sender]];
     }
   else if([@"ShowAssemblyDetails" isEqualToString:segue.identifier])
     {
-    Assembly* assembly = nil == sender
-                       ? _interpreter.assembly
-                       : [self assemblyForRowAtIndexPath:[_assembliesAndDetailsTable indexPathForCell:(UITableViewCell*)sender]];
+    Assembly* assembly = [self assemblyForRowAtIndexPath:[_assembliesAndDetailsTable indexPathForCell:(UITableViewCell*)sender]];
+    BOOL isAssemblyInterpreted = assembly.type.detailsInstalled.count ||
+                                 nil != assembly.type.assemblyBase ||
+                                 nil != assembly.type.assemblyBeforeTransformation ||
+                                 nil != assembly.type.assemblyBeforeRotation;
+    if (!isAssemblyInterpreted)
+      {
+      //Perform a default action on the assembly (split to details / detach smaller parts / rotate / transform)
+      NSString* defaultActionName = [[NSUserDefaults standardUserDefaults] stringForKey:standardActionOnAssembly];
+      if (!defaultActionName)
+        defaultActionName = standardActionOnAssembly_DetachSmallerParts;
+      [ReinterpretActionHandler performStandardActionNamed:defaultActionName onAssembly:assembly inView:self.view withCompletionBlock:nil];
+      }
+
     ((AssembliesAndDetailsViewController*)segue.destinationViewController).assembly = assembly;
     }
   }
   
-- (IBAction)interpret:(id)sender
+- (IBAction)detachSmallerParts:(id)sender
   {
-  [_interpreter interpretAssembly:[self assemblyForRowAtIndexPath:[_assembliesAndDetailsTable indexPathForCell:(UITableViewCell*)((UIView*)sender).superview.superview]]];
+  [ReinterpretActionHandler  performStandardActionNamed:standardActionOnAssembly_DetachSmallerParts onAssembly:_assembly inView:self.view withCompletionBlock:^(BOOL actionPerformed)
+    {
+    [self updateData];
+    [self reloadTableViewAnimated:YES];
+    [self updateInterpretButtons];
+    }];
   }
-
-- (IBAction)reinterpret:(id)sender
+  
+- (IBAction)splitToDetails:(id)sender
   {
-  [_interpreter reinterpretAssembly:[self assemblyForRowAtIndexPath:[_assembliesAndDetailsTable indexPathForCell:(UITableViewCell*)((UIView*)sender).superview.superview]]];
+  [ReinterpretActionHandler  performStandardActionNamed:standardActionOnAssembly_SplitToDetails onAssembly:_assembly inView:self.view withCompletionBlock:^(BOOL actionPerformed)
+    {
+    [self updateData];
+    [self reloadTableViewAnimated:YES];
+    [self updateInterpretButtons];
+    }];
   }
+  
+- (IBAction)rotate:(id)sender
+  {
+  [ReinterpretActionHandler  performStandardActionNamed:standardActionOnAssembly_Rotate onAssembly:_assembly inView:self.view withCompletionBlock:^(BOOL actionPerformed)
+    {
+    [self updateData];
+    [self reloadTableViewAnimated:YES];
+    [self updateInterpretButtons];
+    }];
+  }
+  
+- (IBAction)transform:(id)sender
+  {
+  [ReinterpretActionHandler  performStandardActionNamed:standardActionOnAssembly_Transform onAssembly:_assembly inView:self.view withCompletionBlock:^(BOOL actionPerformed)
+    {
+    [self updateData];
+    [self reloadTableViewAnimated:YES];
+    [self updateInterpretButtons];
+    }];
+  }
+  
+- (IBAction)showPreferences:(id)sender
+  {
+  }
+  
+- (IBAction)exportDocument:(id)sender
+  {
+  }
+  
+  
+  
+  
+  
   
 @end
 
@@ -213,14 +300,11 @@
   Assembly* assembly = [self assemblyForRowAtIndexPath:indexPath];
   if (assembly)
     {
-    BOOL isAssemblyInterpreted = assembly.type.detailsInstalled.count ||
-                                 nil != assembly.type.assemblyBase ||
-                                 nil != assembly.type.assemblyBeforeTransformation ||
-                                 nil != assembly.type.assemblyBeforeRotation;
-    AssemblyCellView* cell = (AssemblyCellView*)[_assembliesAndDetailsTable dequeueReusableCellWithIdentifier: isAssemblyInterpreted
-                           ? @"AssemblyInterpretedCell"
-                           : @"AssemblyNotInterpretedCell"];
-    cell.picture.image = [assembly.type pictureToShow]
+    BOOL isAssemblyPhotoSelected = nil !=assembly.type.pictureToShow;
+    AssemblyCellView* cell = (AssemblyCellView*)[_assembliesAndDetailsTable dequeueReusableCellWithIdentifier: isAssemblyPhotoSelected
+                           ? @"AssemblyWithPhotoCell"
+                           : @"AssemblyNoPhotoCell"];
+    cell.picture.image = isAssemblyPhotoSelected
                        ? [assembly.type pictureToShow]
                        : [UIImage imageNamed:@"camera.png"];
     return cell;

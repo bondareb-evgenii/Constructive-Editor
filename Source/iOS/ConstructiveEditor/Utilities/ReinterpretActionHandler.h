@@ -11,11 +11,6 @@
 
 @interface ReinterpretActionHandler : NSObject
 
-@property (nonatomic, readonly) Assembly* assembly;
-
-- (id)initWithViewController:(UIViewController*)viewController andSegueToNextViewControllerName:(NSString*)segueName;
-
-- (void)interpretAssembly:(Assembly*)assembly;
-- (void)reinterpretAssembly:(Assembly*)assembly;
++ (void)performStandardActionNamed:(NSString*)standardActionName onAssembly:(Assembly*)assembly inView:(UIView*)view withCompletionBlock:(void(^)(BOOL actionPerformed)) completion;
 
 @end

@@ -37,5 +37,9 @@ extern NSString* const preferredActionOnReinterpretRotatedAsTransformedAndViceVe
   extern NSString* const preferredActionOnReinterpretRotatedAsTransformedAndViceVersa_UseRotatedOrTransformedAssemblyAsTransformedOrRotated;
   extern NSString* const preferredActionOnReinterpretRotatedAsTransformedAndViceVersa_TransformeOrRotateRotatedOrTransformedAssembly;
   extern NSString* const preferredActionOnReinterpretRotatedAsTransformedAndViceVersa_RemoveRotatedOrTransformedAssembly;
-
+extern NSString* const standardActionOnAssembly;
+  extern NSString* const standardActionOnAssembly_SplitToDetails;
+  extern NSString* const standardActionOnAssembly_DetachSmallerParts;
+  extern NSString* const standardActionOnAssembly_Rotate;
+  extern NSString* const standardActionOnAssembly_Transform;
 #endif
