@@ -8,12 +8,39 @@
 #import "StandardActionsPerformer.h"
 #import "Assembly.h"
 #import "AssemblyType.h"
+#import "Detail.h"
+#import "DetailType.h"
 #import "ActionSheet.h"
 #import "AlertView.h"
 #import "NSManagedObjectContextExtension.h"
 #import "PreferencesKeys.h"
 
 @implementation StandardActionsPerformer
+
++ (BOOL)isAnythingChangedInAssembly:(Assembly*)assemblyToCheck
+  {
+  BOOL isAnythingChanged = NO;
+  if (assemblyToCheck.type.assemblyBase.type.pictureToShow ||
+      assemblyToCheck.type.assemblyBeforeRotation.type.pictureToShow ||
+      assemblyToCheck.type.assemblyBeforeTransformation.type.pictureToShow)
+    isAnythingChanged = YES;
+  else
+    {
+    for (Assembly* assembly in assemblyToCheck.type.assembliesInstalled)
+      if (assembly.type.pictureToShow)
+        {
+        isAnythingChanged = YES;
+        break;
+        }
+    for (Detail* detail in assemblyToCheck.type.detailsInstalled)
+      if (detail.type.pictureToShow)
+        {
+        isAnythingChanged = YES;
+        break;
+        }
+    }
+  return isAnythingChanged;
+  }
   
 + (void)performStandardActionNamed:(NSString*)standardActionName onAssembly:(Assembly*)assemblyToInterpret inView:(UIView*)view withCompletionBlock:(void(^)(BOOL actionPerformed)) completion
   {
@@ -67,7 +94,9 @@
         commitReinterpret();
         };
         
-      if ([actionOnReinterpretSplitAsDetached isEqualToString:preferredActionOnReinterpretSplitAsDetached_AskMe])
+      if (![self isAnythingChangedInAssembly:assemblyToInterpret] || [actionOnReinterpretSplitAsDetached isEqualToString:preferredActionOnReinterpretSplitAsDetached_RemoveDetails])
+        removeDetails();
+      else if ([actionOnReinterpretSplitAsDetached isEqualToString:preferredActionOnReinterpretSplitAsDetached_AskMe])
         {
         ActionSheet* reinterpretSplitAsDetachedActionSheet = [[ActionSheet alloc]
            initWithTitle: NSLocalizedString(@"The assembly is currently split to details. Would you like to:", @"Action sheet: title")
@@ -96,8 +125,6 @@
                             nil];
         [reinterpretSplitAsDetachedActionSheet showInView:view];
         }
-      else if ([actionOnReinterpretSplitAsDetached isEqualToString:preferredActionOnReinterpretSplitAsDetached_RemoveDetails])
-        removeDetails();
       else if ([actionOnReinterpretSplitAsDetached isEqualToString:preferredActionOnReinterpretSplitAsDetached_SplitBaseAssembly])
         splitBaseAssembly();
       else if ([actionOnReinterpretSplitAsDetached isEqualToString:preferredActionOnReinterpretSplitAsDetached_UseDetailsAsDetachedParts])
@@ -138,7 +165,9 @@
         commitReinterpret();
         };
         
-      if ([actionOnReinterpretSplitAsRotatedOrTransformed isEqualToString:preferredActionOnReinterpretSplitAsRotatedOrTransformed_AskMe])
+      if (![self isAnythingChangedInAssembly:assemblyToInterpret] || [actionOnReinterpretSplitAsRotatedOrTransformed isEqualToString:preferredActionOnReinterpretSplitAsRotatedOrTransformed_RemoveDetails])
+        removeDetails();
+      else if ([actionOnReinterpretSplitAsRotatedOrTransformed isEqualToString:preferredActionOnReinterpretSplitAsRotatedOrTransformed_AskMe])
         {
         ActionSheet* reinterpretSplitAsRotatedActionSheet = [[ActionSheet alloc]
            initWithTitle: NSLocalizedString(@"The assembly is currently split to details. Would you like to:", @"Action sheet: title")
@@ -162,8 +191,6 @@
                             nil];
         [reinterpretSplitAsRotatedActionSheet showInView:view];
         }
-      else if ([actionOnReinterpretSplitAsRotatedOrTransformed isEqualToString:preferredActionOnReinterpretSplitAsRotatedOrTransformed_RemoveDetails])
-        removeDetails();
       else if ([actionOnReinterpretSplitAsRotatedOrTransformed isEqualToString:preferredActionOnReinterpretSplitAsRotatedOrTransformed_SplitAssemblyBeforeRotationOrTransformation])
         splitAssembly();
       }
@@ -199,7 +226,9 @@
         commitReinterpret();
         };
         
-      if ([actionOnReinterpretSplitAsRotatedOrTransformed isEqualToString:preferredActionOnReinterpretSplitAsRotatedOrTransformed_AskMe])
+      if (![self isAnythingChangedInAssembly:assemblyToInterpret] || [actionOnReinterpretSplitAsRotatedOrTransformed isEqualToString:preferredActionOnReinterpretSplitAsRotatedOrTransformed_RemoveDetails])
+        removeDetails();
+      else if ([actionOnReinterpretSplitAsRotatedOrTransformed isEqualToString:preferredActionOnReinterpretSplitAsRotatedOrTransformed_AskMe])
         {
         ActionSheet* reinterpretSplitAsTransformedActionSheet = [[ActionSheet alloc]
            initWithTitle: NSLocalizedString(@"The assembly is currently split to details. Would you like to:", @"Action sheet: title")
@@ -223,8 +252,6 @@
                             nil];
         [reinterpretSplitAsTransformedActionSheet showInView:view];
         }
-      else if ([actionOnReinterpretSplitAsRotatedOrTransformed isEqualToString:preferredActionOnReinterpretSplitAsRotatedOrTransformed_RemoveDetails])
-        removeDetails();
       else if ([actionOnReinterpretSplitAsRotatedOrTransformed isEqualToString:preferredActionOnReinterpretSplitAsRotatedOrTransformed_SplitAssemblyBeforeRotationOrTransformation])
         splitAssembly();
       }
@@ -260,7 +287,7 @@
           deleteAllAssemblies();
         };
 
-      if (askAboutImplicitPartsDeletion)
+      if ([self isAnythingChangedInAssembly:assemblyToInterpret] && askAboutImplicitPartsDeletion)
         {
         AlertView* alert = [[AlertView alloc]
           initWithTitle:NSLocalizedString(@"Confirm removal", @"Alert view: title")
@@ -330,7 +357,9 @@
         commitReinterpret();
         };
         
-      if ([actionOnReinterpretDetachedAsRotatedOrTransformed isEqualToString:preferredActionOnReinterpretDetachedAsRotatedOrTransformed_AskMe])
+      if (![self isAnythingChangedInAssembly:assemblyToInterpret] || [actionOnReinterpretDetachedAsRotatedOrTransformed isEqualToString:preferredActionOnReinterpretDetachedAsRotatedOrTransformed_RemoveEverything])
+        removeAllParts();
+      else if ([actionOnReinterpretDetachedAsRotatedOrTransformed isEqualToString:preferredActionOnReinterpretDetachedAsRotatedOrTransformed_AskMe])
         {
         ActionSheet* reinterpretDetachedAsRotatedActionSheet = [[ActionSheet alloc]
            initWithTitle: NSLocalizedString(@"Smaller parts are currently detached from the assembly. Would you like to:", @"Action sheet: title")
@@ -358,8 +387,6 @@
                             nil];
         [reinterpretDetachedAsRotatedActionSheet showInView:view];
         }
-      else if ([actionOnReinterpretDetachedAsRotatedOrTransformed isEqualToString:preferredActionOnReinterpretDetachedAsRotatedOrTransformed_RemoveEverything])
-        removeAllParts();
       else if ([actionOnReinterpretDetachedAsRotatedOrTransformed isEqualToString:preferredActionOnReinterpretDetachedAsRotatedOrTransformed_DetachFromAssemblyBeforeRotationOrTransformation])
         detachParts();
       else if ([actionOnReinterpretDetachedAsRotatedOrTransformed isEqualToString:preferredActionOnReinterpretDetachedAsRotatedOrTransformed_UseBaseAssemblyAsAssemblyBeforeRotationOrTransformation])
@@ -422,7 +449,9 @@
         commitReinterpret();
         };
         
-      if ([actionOnReinterpretDetachedAsRotatedOrTransformed isEqualToString:preferredActionOnReinterpretDetachedAsRotatedOrTransformed_AskMe])
+      if (![self isAnythingChangedInAssembly:assemblyToInterpret] || [actionOnReinterpretDetachedAsRotatedOrTransformed isEqualToString:preferredActionOnReinterpretDetachedAsRotatedOrTransformed_RemoveEverything])
+        removeAllParts();
+      else if ([actionOnReinterpretDetachedAsRotatedOrTransformed isEqualToString:preferredActionOnReinterpretDetachedAsRotatedOrTransformed_AskMe])
         {
         ActionSheet* reinterpretDetachedAsTransformedActionSheet = [[ActionSheet alloc]
            initWithTitle: NSLocalizedString(@"Smaller parts are currently detached from the assembly. Would you like to:", @"Action sheet: title")
@@ -450,8 +479,6 @@
                           nil];
         [reinterpretDetachedAsTransformedActionSheet showInView:view];
         }
-      else if ([actionOnReinterpretDetachedAsRotatedOrTransformed isEqualToString:preferredActionOnReinterpretDetachedAsRotatedOrTransformed_RemoveEverything])
-        removeAllParts();
       else if ([actionOnReinterpretDetachedAsRotatedOrTransformed isEqualToString:preferredActionOnReinterpretDetachedAsRotatedOrTransformed_DetachFromAssemblyBeforeRotationOrTransformation])
         detachFromAssembly();
       else if ([actionOnReinterpretDetachedAsRotatedOrTransformed isEqualToString:preferredActionOnReinterpretDetachedAsRotatedOrTransformed_UseBaseAssemblyAsAssemblyBeforeRotationOrTransformation])
@@ -496,7 +523,9 @@
         commitReinterpret();
         };
         
-      if ([actionOnReinterpretRotatedOrTransformedAsDetached isEqualToString:preferredActionOnReinterpretRotatedOrTransformedAsDetached_AskMe])
+      if (![self isAnythingChangedInAssembly:assemblyToInterpret] || [actionOnReinterpretRotatedOrTransformedAsDetached isEqualToString:preferredActionOnReinterpretRotatedOrTransformedAsDetached_RemoveRotatedOrTransformedAssembly])
+        removeAssembly();
+      else if ([actionOnReinterpretRotatedOrTransformedAsDetached isEqualToString:preferredActionOnReinterpretRotatedOrTransformedAsDetached_AskMe])
         {
         ActionSheet* reinterpretSplitAsDetachedActionSheet = [[ActionSheet alloc]
            initWithTitle: NSLocalizedString(@"The assembly is currently rotated. Would you like to:", @"Action sheet: title")
@@ -524,8 +553,6 @@
                           nil];
         [reinterpretSplitAsDetachedActionSheet showInView:view];
         }
-      else if ([actionOnReinterpretRotatedOrTransformedAsDetached isEqualToString:preferredActionOnReinterpretRotatedOrTransformedAsDetached_RemoveRotatedOrTransformedAssembly])
-        removeAssembly();
       else if ([actionOnReinterpretRotatedOrTransformedAsDetached isEqualToString:preferredActionOnReinterpretRotatedOrTransformedAsDetached_RotateOrTransformBaseAssembly])
         rotateBaseAssembly();
       else if ([actionOnReinterpretRotatedOrTransformedAsDetached isEqualToString:preferredActionOnReinterpretRotatedOrTransformedAsDetached_UseAssemblyBeforeRotationOrTransformationAsBase])
@@ -556,7 +583,7 @@
           removeAssembly();
         };
 
-      if (askAboutImplicitPartsDeletion)
+      if ([self isAnythingChangedInAssembly:assemblyToInterpret] && askAboutImplicitPartsDeletion)
         {
         AlertView* alert = [[AlertView alloc]
           initWithTitle:NSLocalizedString(@"Confirm removal", @"Alert view: title")
@@ -607,7 +634,9 @@
         commitReinterpret();
         };
         
-      if ([actionOnReinterpretRotatedAsTransformedAndViceVersa isEqualToString:preferredActionOnReinterpretDetachedAsRotatedOrTransformed_AskMe])
+      if (![self isAnythingChangedInAssembly:assemblyToInterpret] || [actionOnReinterpretRotatedAsTransformedAndViceVersa isEqualToString:preferredActionOnReinterpretRotatedAsTransformedAndViceVersa_RemoveRotatedOrTransformedAssembly])
+        removeAssembly();
+      else if ([actionOnReinterpretRotatedAsTransformedAndViceVersa isEqualToString:preferredActionOnReinterpretRotatedAsTransformedAndViceVersa_AskMe])
         {
         ActionSheet* reinterpretDetachedAsRotatedActionSheet = [[ActionSheet alloc]
            initWithTitle: NSLocalizedString(@"The assembly is currently rotated. Would you like to:", @"Action sheet: title")
@@ -635,8 +664,6 @@
                           nil];
         [reinterpretDetachedAsRotatedActionSheet showInView:view];
         }
-      else if ([actionOnReinterpretRotatedAsTransformedAndViceVersa isEqualToString:preferredActionOnReinterpretRotatedAsTransformedAndViceVersa_RemoveRotatedOrTransformedAssembly])
-        removeAssembly();
       else if ([actionOnReinterpretRotatedAsTransformedAndViceVersa isEqualToString:preferredActionOnReinterpretRotatedAsTransformedAndViceVersa_TransformeOrRotateRotatedOrTransformedAssembly])
         transformRotatedAssembly();
       else if ([actionOnReinterpretRotatedAsTransformedAndViceVersa isEqualToString:preferredActionOnReinterpretRotatedAsTransformedAndViceVersa_UseRotatedOrTransformedAssemblyAsTransformedOrRotated])
@@ -681,7 +708,9 @@
         commitReinterpret();
         };
         
-      if ([actionOnReinterpretRotatedOrTransformedAsDetached isEqualToString:preferredActionOnReinterpretRotatedOrTransformedAsDetached_AskMe])
+      if (![self isAnythingChangedInAssembly:assemblyToInterpret] || [actionOnReinterpretRotatedOrTransformedAsDetached isEqualToString:preferredActionOnReinterpretRotatedOrTransformedAsDetached_RemoveRotatedOrTransformedAssembly])
+        removeAssembly();
+      else if ([actionOnReinterpretRotatedOrTransformedAsDetached isEqualToString:preferredActionOnReinterpretRotatedOrTransformedAsDetached_AskMe])
         {
         ActionSheet* reinterpretSplitAsDetachedActionSheet = [[ActionSheet alloc]
            initWithTitle: NSLocalizedString(@"The assembly is currently transformed. Would you like to:", @"Action sheet: title")
@@ -709,8 +738,6 @@
                           nil];
         [reinterpretSplitAsDetachedActionSheet showInView:view];
         }
-      else if ([actionOnReinterpretRotatedOrTransformedAsDetached isEqualToString:preferredActionOnReinterpretRotatedOrTransformedAsDetached_RemoveRotatedOrTransformedAssembly])
-        removeAssembly();
       else if ([actionOnReinterpretRotatedOrTransformedAsDetached isEqualToString:preferredActionOnReinterpretRotatedOrTransformedAsDetached_RotateOrTransformBaseAssembly])
         transformBaseAssembly();
       else if ([actionOnReinterpretRotatedOrTransformedAsDetached isEqualToString:preferredActionOnReinterpretRotatedOrTransformedAsDetached_UseAssemblyBeforeRotationOrTransformationAsBase])
@@ -741,7 +768,7 @@
           removeAssembly();
         };
 
-      if (askAboutImplicitPartsDeletion)
+      if ([self isAnythingChangedInAssembly:assemblyToInterpret] && askAboutImplicitPartsDeletion)
         {
         AlertView* alert = [[AlertView alloc]
           initWithTitle:NSLocalizedString(@"Confirm removal", @"Alert view: title")
@@ -793,7 +820,9 @@
         commitReinterpret();
         };
         
-      if ([actionOnReinterpretRotatedAsTransformedAndViceVersa isEqualToString:preferredActionOnReinterpretDetachedAsRotatedOrTransformed_AskMe])
+      if (![self isAnythingChangedInAssembly:assemblyToInterpret] || [actionOnReinterpretRotatedAsTransformedAndViceVersa isEqualToString:preferredActionOnReinterpretRotatedAsTransformedAndViceVersa_RemoveRotatedOrTransformedAssembly])
+        removeAssembly();
+      else if ([actionOnReinterpretRotatedAsTransformedAndViceVersa isEqualToString:preferredActionOnReinterpretRotatedAsTransformedAndViceVersa_AskMe])
         {
         ActionSheet* reinterpretDetachedAsRotatedActionSheet = [[ActionSheet alloc]
            initWithTitle: NSLocalizedString(@"The assembly is currently transformed. Would you like to:", @"Action sheet: title")
@@ -821,8 +850,6 @@
                           nil];
         [reinterpretDetachedAsRotatedActionSheet showInView:view];
         }
-      else if ([actionOnReinterpretRotatedAsTransformedAndViceVersa isEqualToString:preferredActionOnReinterpretRotatedAsTransformedAndViceVersa_RemoveRotatedOrTransformedAssembly])
-        removeAssembly();
       else if ([actionOnReinterpretRotatedAsTransformedAndViceVersa isEqualToString:preferredActionOnReinterpretRotatedAsTransformedAndViceVersa_TransformeOrRotateRotatedOrTransformedAssembly])
         transformRotatedAssembly();
       else if ([actionOnReinterpretRotatedAsTransformedAndViceVersa isEqualToString:preferredActionOnReinterpretRotatedAsTransformedAndViceVersa_UseRotatedOrTransformedAssemblyAsTransformedOrRotated])
