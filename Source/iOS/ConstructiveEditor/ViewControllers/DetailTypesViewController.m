@@ -60,10 +60,21 @@
 - (void)viewWillAppear:(BOOL)animated
   {
 	[super viewWillAppear:animated];
-	[_detailTypesTable reloadData];
   
+  //detail type should have a picture to be selected
   DetailType* selectedDetailType = self.detail.type;
-  if (nil != selectedDetailType)
+  if (selectedDetailType && !selectedDetailType.pictureToShow)
+    {
+    self.detail.type = nil;
+    [_detailTypes removeObject:selectedDetailType];
+    [_detail.managedObjectContext deleteObject:selectedDetailType];
+    }
+    
+	[_detailTypesTable reloadData];
+    
+  //select current detail type in the table view
+  selectedDetailType = self.detail.type;
+  if (selectedDetailType)
     {
     NSUInteger detailTypeIndex = [_detailTypes indexOfObject:selectedDetailType];
     if (detailTypeIndex >= _addDetailTypeIndex)
@@ -80,13 +91,27 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
   {
-  if ([@"EditDetailTypeByAccessoryPressed"     isEqualToString:segue.identifier] ||
-      [@"EditDetailTypeByPicturePressed"  isEqualToString:segue.identifier])
+  if ([@"EditDetailType" isEqualToString:segue.identifier])
     {
     NSUInteger detailTypeIndex = [_detailTypesTable indexPathForCell:(UITableViewCell*)((UIView*)sender).superview.superview].row;
     if (_detailTypesTable.editing &&  detailTypeIndex > _addDetailTypeIndex)
       --detailTypeIndex;
-    ((EditDetailTypeViewController*)segue.destinationViewController).detailType = [_detailTypes objectAtIndex:detailTypeIndex];
+    DetailType* detailType = [_detailTypes objectAtIndex:detailTypeIndex];
+    _detail.type = detailType;
+    ((EditDetailTypeViewController*)segue.destinationViewController).detailType = detailType;
+    }
+  else if ([@"EditNewDetailType" isEqualToString:segue.identifier])
+    {
+    DetailType* detailType = (DetailType*)[NSEntityDescription insertNewObjectForEntityForName:@"DetailType" inManagedObjectContext:self.detail.managedObjectContext];
+    self.detail.type = detailType;
+    ((EditDetailTypeViewController*)segue.destinationViewController).detailType = detailType;
+    // Commit the change.
+    [_detail.managedObjectContext saveAndHandleError];
+    
+    //update cache
+    [_detailTypes insertObject:detailType atIndex:_addDetailTypeIndex];
+    //No need to update UI as we are going to another screen immediately
+//    [_detailTypesTable insertRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:_addDetailTypeIndex+1 inSection:indexPath.section], nil] withRowAnimation:UITableViewRowAnimationFade];
     }
   }
   
@@ -192,13 +217,8 @@
     }
   else if (editingStyle == UITableViewCellEditingStyleInsert)
     {
-    DetailType* detailType = (DetailType*)[NSEntityDescription insertNewObjectForEntityForName:@"DetailType" inManagedObjectContext:self.detail.managedObjectContext];
-    // Commit the change.
-    [_detail.managedObjectContext saveAndHandleError];
-    
-    //update cache and UI
-    [_detailTypes insertObject:detailType atIndex:_addDetailTypeIndex];
-    [_detailTypesTable insertRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:_addDetailTypeIndex+1 inSection:indexPath.section], nil] withRowAnimation:UITableViewRowAnimationFade];
+    [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+    [self performSegueWithIdentifier:@"EditNewDetailType" sender:nil];
     }
   }
   

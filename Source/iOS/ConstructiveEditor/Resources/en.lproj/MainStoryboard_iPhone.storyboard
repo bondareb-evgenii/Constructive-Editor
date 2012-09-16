@@ -98,11 +98,11 @@
                             <tableView translatesAutoresizingMaskIntoConstraints="NO" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" allowsSelectionDuringEditing="YES" rowHeight="62" sectionHeaderHeight="22" sectionFooterHeight="22" id="01n-pf-naR">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="AssemblyNoPhotoCell" editingAccessoryType="disclosureIndicator" id="ja1-9a-PM9" customClass="AssemblyCellView">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="AssemblyNoPhotoCell" id="ja1-9a-PM9" customClass="AssemblyCellView">
                                         <rect key="frame" x="0.0" y="22" width="320" height="62"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="300" height="61"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="61"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView translatesAutoresizingMaskIntoConstraints="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" id="XPW-N8-npo">
@@ -232,11 +232,11 @@
                             <tableView translatesAutoresizingMaskIntoConstraints="NO" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" allowsSelectionDuringEditing="YES" rowHeight="62" sectionHeaderHeight="22" sectionFooterHeight="22" id="04r-Sk-hix">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="AssemblyNoPhotoCell" editingAccessoryType="disclosureIndicator" id="LTL-Pb-Zj4" customClass="AssemblyCellView">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="AssemblyNoPhotoCell" id="LTL-Pb-Zj4" customClass="AssemblyCellView">
                                         <rect key="frame" x="0.0" y="22" width="320" height="62"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="300" height="61"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="61"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView translatesAutoresizingMaskIntoConstraints="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" id="SSY-ve-D2N">
@@ -283,11 +283,11 @@
                                             <segue destination="BAE-IJ-KaX" kind="push" identifier="ShowAssemblyDetails" trigger="accessoryAction" id="YVN-lW-CPH"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="DetailCell" editingAccessoryType="disclosureIndicator" id="GFu-9y-sI6" customClass="DetailCellView">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="DetailCell" id="GFu-9y-sI6" customClass="DetailCellView">
                                         <rect key="frame" x="0.0" y="146" width="320" height="62"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="300" height="61"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="61"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView translatesAutoresizingMaskIntoConstraints="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" id="hlH-s5-jev">
@@ -714,7 +714,7 @@
                             <tableView translatesAutoresizingMaskIntoConstraints="NO" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" allowsSelectionDuringEditing="YES" rowHeight="62" sectionHeaderHeight="22" sectionFooterHeight="22" id="gTd-He-7Zt">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="detailDisclosureButton" indentationWidth="10" reuseIdentifier="DetailTypeCell" id="JqZ-c7-yVD" customClass="DetailTypeCellView">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="detailDisclosureButton" indentationWidth="10" reuseIdentifier="DetailTypeCell" editingAccessoryType="detailDisclosureButton" id="JqZ-c7-yVD" customClass="DetailTypeCellView">
                                         <rect key="frame" x="0.0" y="22" width="320" height="62"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -723,39 +723,20 @@
                                             <subviews>
                                                 <imageView translatesAutoresizingMaskIntoConstraints="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" id="ARj-gg-1By">
                                                     <constraints>
+                                                        <constraint firstAttribute="width" constant="60" id="GTx-oK-pWm"/>
                                                         <constraint firstAttribute="height" constant="60" id="cAK-Rp-7aW"/>
                                                     </constraints>
                                                 </imageView>
-                                                <button translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="szK-rV-5VM">
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="60" id="Yo9-NS-QmX"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                                    <state key="normal">
-                                                        <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <state key="highlighted">
-                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <connections>
-                                                        <segue destination="dwe-AE-hYd" kind="push" identifier="EditDetailTypeByPicturePressed" id="tYi-HV-Qui"/>
-                                                    </connections>
-                                                </button>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
-                                            <constraint firstItem="szK-rV-5VM" firstAttribute="top" secondItem="ARj-gg-1By" secondAttribute="top" type="default" id="2GU-4j-hW3"/>
-                                            <constraint firstItem="ARj-gg-1By" firstAttribute="leading" secondItem="szK-rV-5VM" secondAttribute="leading" type="default" id="Qxl-qd-HM0"/>
-                                            <constraint firstItem="szK-rV-5VM" firstAttribute="bottom" secondItem="ARj-gg-1By" secondAttribute="bottom" type="default" id="TFd-Sm-FcK"/>
                                             <constraint firstItem="ARj-gg-1By" firstAttribute="centerY" secondItem="JqZ-c7-yVD" secondAttribute="centerY" type="default" id="jWR-QV-FvN"/>
                                             <constraint firstItem="ARj-gg-1By" firstAttribute="leading" secondItem="JqZ-c7-yVD" secondAttribute="leading" constant="45" id="qhT-g7-ixm"/>
-                                            <constraint firstItem="ARj-gg-1By" firstAttribute="trailing" secondItem="szK-rV-5VM" secondAttribute="trailing" type="default" id="xhV-LX-MA9"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="picture" destination="ARj-gg-1By" id="rHN-x4-70v"/>
-                                            <segue destination="dwe-AE-hYd" kind="push" identifier="EditDetailTypeByAccessoryPressed" trigger="accessoryAction" id="Vu2-Js-WPO"/>
+                                            <segue destination="dwe-AE-hYd" kind="push" identifier="EditDetailType" trigger="accessoryAction" id="owD-hs-MZ4"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="AddItemCell" textLabel="m4W-K1-zdR" style="IBUITableViewCellStyleDefault" id="Kqu-xS-VCO">
@@ -775,6 +756,9 @@
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
+                                        <connections>
+                                            <segue destination="dwe-AE-hYd" kind="push" identifier="EditNewDetailType" id="YU5-mj-WCP"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -951,8 +935,8 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="NZ4-iz-omb"/>
         <segue reference="eVj-mA-Tel"/>
-        <segue reference="Vu2-Js-WPO"/>
+        <segue reference="NZ4-iz-omb"/>
+        <segue reference="owD-hs-MZ4"/>
     </inferredMetricsTieBreakers>
 </document>
