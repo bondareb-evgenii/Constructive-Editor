@@ -279,23 +279,26 @@
           }];
         commitReinterpret();
         };
-        
-      AlertViewClickButtonBlock clickButtonBlock = ^(AlertView *alertView, NSInteger buttonIndex)
-        {
-        if (kAlertViewCloseButtonIndex != buttonIndex &&
-            0 != buttonIndex)
-          deleteAllAssemblies();
-        };
 
       if ([self isAnythingChangedInAssembly:assemblyToInterpret] && askAboutImplicitPartsDeletion)
         {
-        AlertView* alert = [[AlertView alloc]
-          initWithTitle:NSLocalizedString(@"Confirm removal", @"Alert view: title")
-                message:NSLocalizedString(@"Base assembly and all the smaller assemblies will be removed (details detached will still be available).", @"Alert view: message")
-       clickButtonBlock:clickButtonBlock
-      cancelButtonTitle:NSLocalizedString(@"Cancel", @"Alert view: cancel")
-      otherButtonTitles:NSLocalizedString(@"OK", @"Alert view: button"), nil];
-      [alert show];
+        ActionSheet* reinterpretActionSheet = [[ActionSheet alloc]
+           initWithTitle: NSLocalizedString(@"Smaller parts are currently detached from the assembly. Splitting it to details instead needs the base assembly and all the smaller assemblies to be removed. Would you like to:", @"Action sheet: title")
+        clickButtonBlock:^(ActionSheet* ActionSheet, NSInteger buttonIndex)
+          {
+          switch (buttonIndex)
+            {
+            case 0:
+              deleteAllAssemblies();
+              break;
+            default:
+              break;
+            }
+          }
+       cancelButtonTitle: NSLocalizedString(@"Cancel", @"Action sheet: button")
+  destructiveButtonTitle: NSLocalizedString(@"Remove all the assemblies", @"Action sheet: button")
+       otherButtonTitles: nil];
+        [reinterpretActionSheet showInView:view];
         }
       else
         deleteAllAssemblies();
@@ -575,23 +578,26 @@
         [managedObjectContext deleteObject:assemblyToInterpret.type.assemblyBeforeRotation];
         commitReinterpret();
         };
-        
-      AlertViewClickButtonBlock clickButtonBlock = ^(AlertView *alertView, NSInteger buttonIndex)
-        {
-        if (kAlertViewCloseButtonIndex != buttonIndex &&
-            0 != buttonIndex)
-          removeAssembly();
-        };
 
       if ([self isAnythingChangedInAssembly:assemblyToInterpret] && askAboutImplicitPartsDeletion)
         {
-        AlertView* alert = [[AlertView alloc]
-          initWithTitle:NSLocalizedString(@"Confirm removal", @"Alert view: title")
-                message:NSLocalizedString(@"Rotated assembly will be removed.", @"Alert view: message")
-       clickButtonBlock:clickButtonBlock
-      cancelButtonTitle:NSLocalizedString(@"Cancel", @"Alert view: cancel")
-      otherButtonTitles:NSLocalizedString(@"OK", @"Alert view: button"), nil];
-      [alert show];
+        ActionSheet* reinterpretActionSheet = [[ActionSheet alloc]
+           initWithTitle: NSLocalizedString(@"The assembly is currently rotated. Splitting it to details instead needs the rotated assembly to be removed. Would you like to:", @"Action sheet: title")
+        clickButtonBlock:^(ActionSheet* ActionSheet, NSInteger buttonIndex)
+          {
+          switch (buttonIndex)
+            {
+            case 0:
+              removeAssembly();
+              break;
+            default:
+              break;
+            }
+          }
+       cancelButtonTitle: NSLocalizedString(@"Cancel", @"Action sheet: button")
+  destructiveButtonTitle: NSLocalizedString(@"Remove the rotated assembly", @"Action sheet: button")
+       otherButtonTitles: nil];
+        [reinterpretActionSheet showInView:view];
         }
       else
         {
@@ -760,23 +766,26 @@
         [managedObjectContext deleteObject:assemblyToInterpret.type.assemblyBeforeTransformation];
         commitReinterpret();
         };
-        
-      AlertViewClickButtonBlock clickButtonBlock = ^(AlertView *alertView, NSInteger buttonIndex)
-        {
-        if (kAlertViewCloseButtonIndex != buttonIndex &&
-            0 != buttonIndex)
-          removeAssembly();
-        };
 
       if ([self isAnythingChangedInAssembly:assemblyToInterpret] && askAboutImplicitPartsDeletion)
         {
-        AlertView* alert = [[AlertView alloc]
-          initWithTitle:NSLocalizedString(@"Confirm removal", @"Alert view: title")
-                message:NSLocalizedString(@"Transformed assembly will be removed.", @"Alert view: message")
-       clickButtonBlock:clickButtonBlock
-      cancelButtonTitle:NSLocalizedString(@"Cancel", @"Alert view: cancel")
-      otherButtonTitles:NSLocalizedString(@"OK", @"Alert view: button"), nil];
-      [alert show];
+        ActionSheet* reinterpretActionSheet = [[ActionSheet alloc]
+           initWithTitle: NSLocalizedString(@"The assembly is currently transformed. Splitting it to details instead needs the transformed assembly to be removed. Would you like to:", @"Action sheet: title")
+        clickButtonBlock:^(ActionSheet* ActionSheet, NSInteger buttonIndex)
+          {
+          switch (buttonIndex)
+            {
+            case 0:
+              removeAssembly();
+              break;
+            default:
+              break;
+            }
+          }
+       cancelButtonTitle: NSLocalizedString(@"Cancel", @"Action sheet: button")
+  destructiveButtonTitle: NSLocalizedString(@"Remove the transformed assembly", @"Action sheet: button")
+       otherButtonTitles: nil];
+        [reinterpretActionSheet showInView:view];
         }
       else
         {
