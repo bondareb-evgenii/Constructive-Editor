@@ -150,9 +150,13 @@
   if ([@"EditAssemblyPhotoSet"     isEqualToString:segue.identifier] ||
       [@"EditAssemblyNoPhoto"  isEqualToString:segue.identifier])
     ((EditAssemblyViewController*)segue.destinationViewController).assembly = [self assemblyForRowAtIndexPath:[_assembliesAndDetailsTable indexPathForCell:(UITableViewCell*)sender]];
-  else if([@"EditDetail" isEqualToString:segue.identifier])
+  else if([@"SelectDetailType" isEqualToString:segue.identifier])
     {
-    ((EditDetailViewController*)segue.destinationViewController).detail = [self detailForRowAtIndexPath:[_assembliesAndDetailsTable indexPathForCell:(UITableViewCell*)sender]];
+    ((DetailTypesViewController*)segue.destinationViewController).detail = [self detailForRowAtIndexPath:[_assembliesAndDetailsTable indexPathForSelectedRow]];
+    }
+  else if([@"SelectDetailConnectionPoint" isEqualToString:segue.identifier])
+    {
+    ((EditDetailViewController*)segue.destinationViewController).detail = [self detailForRowAtIndexPath:[_assembliesAndDetailsTable indexPathForSelectedRow]];
     }
   else if([@"ShowAssemblyDetails" isEqualToString:segue.identifier])
     {
@@ -327,12 +331,19 @@
 
 @implementation AssembliesAndDetailsViewController (UITableViewDelegate)
 
-/*- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
   {
   if (tableView != _assembliesAndDetailsTable)
     return;
-
-  }*/
+  Detail* detail = [self detailForRowAtIndexPath:indexPath];
+  if (detail)
+    {
+    if (detail.type)
+      [self performSegueWithIdentifier:@"SelectDetailConnectionPoint" sender:nil];
+    else
+      [self performSegueWithIdentifier:@"SelectDetailType" sender:nil];
+    }
+  }
   
 - (UITableViewCellEditingStyle)tableView:(UITableView *)aTableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath 
   {
@@ -354,26 +365,6 @@
        (!self.assembly.type.assemblyBase && _details.count && indexPath.section == 0 && indexPath.row == _addDetailIndex)))
 		return UITableViewCellEditingStyleInsert;
   return UITableViewCellEditingStyleDelete;
-  }
-  
-- (void)reloadVisibleAssembliesCells
-  {
-  [_assembliesAndDetailsTable reloadRowsAtIndexPaths:[_assembliesAndDetailsTable indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationNone];
-  //next code may be useful if we use another animation where the user can see what cells are updating (of course we should not update all the visible cells every time though)
-  /*NSArray* indexPathsForVisibleRows = [_assembliesAndDetailsTable indexPathsForVisibleRows];
-  NSUInteger visibleCellsCount = indexPathsForVisibleRows.count;
-  NSMutableArray* visibleAssembliesCellsIndexPaths = [NSMutableArray arrayWithCapacity:visibleCellsCount];
-  [visibleAssembliesCellsIndexPaths addObjectsFromArray:indexPathsForVisibleRows];
-  for (NSUInteger i = 0; i < visibleCellsCount; ++i)
-    {
-    NSIndexPath* indexPath = [visibleAssembliesCellsIndexPaths objectAtIndex:i];
-    if (![[_assembliesAndDetailsTable cellForRowAtIndexPath:indexPath] isKindOfClass:[AssemblyCellView class]])
-      {
-      [visibleAssembliesCellsIndexPaths removeObjectAtIndex:i];
-      break;
-      }
-    }
-  [_assembliesAndDetailsTable reloadRowsAtIndexPaths:visibleAssembliesCellsIndexPaths withRowAnimation:UITableViewRowAnimationNone];*/
   }
   
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath

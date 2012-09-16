@@ -10,22 +10,25 @@
 #import "AssemblyType.h"
 #import "Detail.h"
 #import "DetailType.h"
+#import "AssembliesAndDetailsViewController.h"
+#import "EditDetailTypeViewController.h"
+#import "DetailTypesViewController.h"
 #import "NSManagedObjectContextExtension.h"
 
 @interface EditDetailViewController ()
   {
-  CGPoint _pinPointRelativeToParentImageSize;
-  __weak IBOutlet UIImageView *_imageView;
-  __weak IBOutlet UIView *_containerViewForParentImageView;
-  __weak IBOutlet UIImageView *_imageViewParent;
-  __weak IBOutlet UILabel *_labelInstalledTo;
-  __weak IBOutlet UIView *_viewAspectFit;
-  __weak IBOutlet NSLayoutConstraint *_constraintViewAspectFitWidth;
-  __weak IBOutlet NSLayoutConstraint *_constraintViewAspectFitHeight;
-  __weak IBOutlet UIImageView *_viewPin;
-  __weak IBOutlet NSLayoutConstraint *_constraintViewPinX;
-  __weak IBOutlet NSLayoutConstraint *_constraintViewPinY;
-    IBOutlet UITapGestureRecognizer *_tapOnParentImageGestureRecognizer;
+  CGPoint                             _pinPointRelativeToParentImageSize;
+  __weak IBOutlet UIImageView*        _imageView;
+  __weak IBOutlet UIView*             _containerViewForParentImageView;
+  __weak IBOutlet UIImageView*        _imageViewParent;
+  __weak IBOutlet UIView*             _viewAspectFit;
+  __weak IBOutlet NSLayoutConstraint* _constraintViewAspectFitWidth;
+  __weak IBOutlet NSLayoutConstraint* _constraintViewAspectFitHeight;
+  __weak IBOutlet UIImageView*        _viewPin;
+  __weak IBOutlet NSLayoutConstraint* _constraintViewPinX;
+  __weak IBOutlet NSLayoutConstraint* _constraintViewPinY;
+    IBOutlet UITapGestureRecognizer*  _tapOnParentImageGestureRecognizer;
+  __weak IBOutlet UIButton*           _doneButton;
   }
 
 @end
@@ -33,17 +36,6 @@
 @implementation EditDetailViewController
 
 @synthesize detail = _detail;
-
-- (void)updateLabelText
-  {
-  BOOL areAllConnectionPointsSet = nil != self.detail.connectionPoint;
-  _labelInstalledTo.text = areAllConnectionPointsSet
-                         ? NSLocalizedString(@"Installed to:", @"Label text")
-                         : NSLocalizedString(@"Specify the nstallation point!!!", @"Label text");
-  _labelInstalledTo.textColor = areAllConnectionPointsSet
-                              ? [UIColor blackColor]
-                              : [UIColor redColor];
-  }
   
 - (void)updateConstraints
   {
@@ -119,7 +111,6 @@
 - (void)viewWillAppear:(BOOL)animated
   {
   //moved to here from viewDidLoad because detail type updates when go back from DetailTypesViewController
-  [self updateLabelText];
   _imageView.image = [self.detail.type pictureToShow]
                    ? [self.detail.type pictureToShow]
                    : [UIImage imageNamed:@"NoPhotoBig.png"];
@@ -134,6 +125,7 @@
                                      ? [self.detail.connectionPoint CGPointValue]
                                      : CGPointZero;
   _tapOnParentImageGestureRecognizer.enabled = nil != parentPicture;
+  _doneButton.enabled = nil != self.detail.connectionPoint;
   }
   
 - (void)viewDidAppear:(BOOL)animated
@@ -150,7 +142,6 @@
   [self updateConstraints];
   [_viewAspectFit layoutIfNeeded];
   [self showPinAnimated:NO];
-  [self updateLabelText];
   }
   
 - (IBAction)onTapOnParentImage:(UITapGestureRecognizer *)gestureRecognizer
@@ -158,6 +149,7 @@
   CGPoint position = [gestureRecognizer locationInView:_viewAspectFit];
   [self movePinToPoint:position];
   [self.detail.managedObjectContext saveAndHandleError];
+  _doneButton.enabled = YES;
   }
   
 - (IBAction)onDragOnParentImage:(UIPanGestureRecognizer*)gestureRecognizer
@@ -169,14 +161,36 @@
     [self movePinToPoint:position];
     }
   else if (gestureRecognizer.state == UIGestureRecognizerStateEnded)
+    {
     [self.detail.managedObjectContext saveAndHandleError];
+    _doneButton.enabled = YES;
+    }
+  }
+  
+- (IBAction)onImagePressed:(id)sender
+  {
+  NSArray* viewControllers = self.navigationController.viewControllers;
+  if (viewControllers.count >= 2 && [[viewControllers objectAtIndex:viewControllers.count-2] isKindOfClass:[DetailTypesViewController class]])
+    [self.navigationController popViewControllerAnimated:YES];
+  else
+    [self performSegueWithIdentifier:@"ChangeDetailType" sender:nil];
+  }
+  
+- (IBAction)onDonePressed:(id)sender
+  {
+  for (UIViewController* viewController in self.navigationController.viewControllers.reverseObjectEnumerator)
+    if ([viewController isKindOfClass:[AssembliesAndDetailsViewController class]])
+      {
+      [self.navigationController popToViewController:viewController animated:YES];
+      break;
+      }
   }
   
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
   {
-  if([@"SelectDetailType" isEqualToString:segue.identifier])
+  if([@"ChangeDetailType" isEqualToString:segue.identifier])
     {
-    ((EditDetailViewController*)segue.destinationViewController).detail = self.detail;
+    ((DetailTypesViewController*)segue.destinationViewController).detail = self.detail;
     }
   }
   

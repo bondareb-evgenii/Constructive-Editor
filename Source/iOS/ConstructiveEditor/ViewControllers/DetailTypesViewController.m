@@ -9,6 +9,7 @@
 
 #import "Detail.h"
 #import "DetailType.h"
+#import "EditDetailViewController.h"
 #import "EditDetailTypeViewController.h"
 #import "DetailTypeCellView.h"
 #import "NSManagedObjectContextExtension.h"
@@ -25,6 +26,7 @@
   NSUInteger                        _addDetailTypeIndex;
   __weak IBOutlet UITableView*      _detailTypesTable;
   NSMutableArray*                   _detailTypes;
+  __weak IBOutlet UIBarButtonItem*  _connectionPointButton;
   }
 @end
 
@@ -82,18 +84,27 @@
     [_detailTypesTable selectRowAtIndexPath:[NSIndexPath indexPathForRow:detailTypeIndex inSection:0] animated:NO scrollPosition:UITableViewScrollPositionNone];
     }
 
+  _connectionPointButton.enabled = nil!=_detail.type;
   }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
   {
   return YES;
   }
+- (IBAction)onSetConnectionPoint:(id)sender
+  {
+  NSArray* viewControllers = self.navigationController.viewControllers;
+  if (viewControllers.count >= 2 && [[viewControllers objectAtIndex:viewControllers.count-2] isKindOfClass:[EditDetailViewController class]])
+    [self.navigationController popViewControllerAnimated:YES];
+  else
+    [self performSegueWithIdentifier:@"SelectDetailConnectionPointAfterTypeSelected" sender:nil];
+  }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
   {
   if ([@"EditDetailType" isEqualToString:segue.identifier])
     {
-    NSUInteger detailTypeIndex = [_detailTypesTable indexPathForCell:(UITableViewCell*)((UIView*)sender).superview.superview].row;
+    NSUInteger detailTypeIndex = [_detailTypesTable indexPathForCell:(UITableViewCell*)sender].row;
     if (_detailTypesTable.editing &&  detailTypeIndex > _addDetailTypeIndex)
       --detailTypeIndex;
     DetailType* detailType = [_detailTypes objectAtIndex:detailTypeIndex];
@@ -112,6 +123,10 @@
     [_detailTypes insertObject:detailType atIndex:_addDetailTypeIndex];
     //No need to update UI as we are going to another screen immediately
 //    [_detailTypesTable insertRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:_addDetailTypeIndex+1 inSection:indexPath.section], nil] withRowAnimation:UITableViewRowAnimationFade];
+    }
+  else if ([@"SelectDetailConnectionPointAfterTypeSelected" isEqualToString:segue.identifier])
+    {
+    ((EditDetailViewController*)segue.destinationViewController).detail = _detail;
     }
   }
   
@@ -183,6 +198,7 @@
     --detailTypeIndex;
   self.detail.type = [_detailTypes objectAtIndex:detailTypeIndex];
   [self.detail.managedObjectContext saveAndHandleError];
+  _connectionPointButton.enabled = YES;
   }
   
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
