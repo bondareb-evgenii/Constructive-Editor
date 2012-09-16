@@ -176,7 +176,7 @@
     [self performSegueWithIdentifier:@"ChangeDetailType" sender:nil];
   }
   
-- (IBAction)onDonePressed:(id)sender
+- (void)goToParentAssemblyScreen
   {
   for (UIViewController* viewController in self.navigationController.viewControllers.reverseObjectEnumerator)
     if ([viewController isKindOfClass:[AssembliesAndDetailsViewController class]])
@@ -184,6 +184,16 @@
       [self.navigationController popToViewController:viewController animated:YES];
       break;
       }
+  }
+  
+- (IBAction)onBackPressed:(id)sender
+  {
+  [self goToParentAssemblyScreen];
+  }
+  
+- (IBAction)onDonePressed:(id)sender
+  {
+  [self goToParentAssemblyScreen];
   }
   
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

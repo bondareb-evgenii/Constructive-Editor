@@ -645,6 +645,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="mjG-pw-lRb">
+                        <barButtonItem key="leftBarButtonItem" title="Back" id="O70-m7-UGZ">
+                            <connections>
+                                <action selector="onBackPressed:" destination="jXA-4O-VJV" id="bgX-80-siI"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="plain" id="xpO-5E-WIL">
                             <view key="customView" contentMode="scaleToFill" id="4C7-U1-DBv">
                                 <rect key="frame" x="92" y="5" width="223" height="33"/>
@@ -903,102 +908,6 @@
         <image name="transform_Highlighted_iPhone.png" width="30" height="30"/>
         <image name="transform_Normal_iPhone.png" width="30" height="30"/>
     </resources>
-    <classes>
-        <class className="AssembliesAndDetailsViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/AssembliesAndDetailsViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="_assembliesAndDetailsTable" candidateClass="UITableView"/>
-                <relationship kind="outlet" name="_detachButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="_exportButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="_preferencesButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="_rotateButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="_splitButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="_transformButton" candidateClass="UIButton"/>
-            </relationships>
-        </class>
-        <class className="AssemblyCellView" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/AssemblyCellView.h"/>
-            <relationships>
-                <relationship kind="outlet" name="picture" candidateClass="UIImageView"/>
-            </relationships>
-        </class>
-        <class className="DetailCellView" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/DetailCellView.h"/>
-            <relationships>
-                <relationship kind="outlet" name="picture" candidateClass="UIImageView"/>
-            </relationships>
-        </class>
-        <class className="DetailTypeCellView" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/DetailTypeCellView.h"/>
-            <relationships>
-                <relationship kind="outlet" name="picture" candidateClass="UIImageView"/>
-            </relationships>
-        </class>
-        <class className="DetailTypesViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/DetailTypesViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="_connectionPointButton" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="_detailTypesTable" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="EditAssemblyViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/EditAssemblyViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="_constraintViewAspectFitHeight" candidateClass="NSLayoutConstraint"/>
-                <relationship kind="outlet" name="_constraintViewAspectFitWidth" candidateClass="NSLayoutConstraint"/>
-                <relationship kind="outlet" name="_constraintViewPinX" candidateClass="NSLayoutConstraint"/>
-                <relationship kind="outlet" name="_constraintViewPinY" candidateClass="NSLayoutConstraint"/>
-                <relationship kind="outlet" name="_containerViewForParentImageView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="_imageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="_imageViewParent" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="_labelInstalledTo" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="_tapOnParentImageGestureRecognizer" candidateClass="UITapGestureRecognizer"/>
-                <relationship kind="outlet" name="_viewAspectFit" candidateClass="UIView"/>
-                <relationship kind="outlet" name="_viewPin" candidateClass="UIImageView"/>
-            </relationships>
-        </class>
-        <class className="EditDetailTypeViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/EditDetailTypeViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="pictureImageView" candidateClass="UIImageView"/>
-            </relationships>
-        </class>
-        <class className="EditDetailViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/EditDetailViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="_constraintViewAspectFitHeight" candidateClass="NSLayoutConstraint"/>
-                <relationship kind="outlet" name="_constraintViewAspectFitWidth" candidateClass="NSLayoutConstraint"/>
-                <relationship kind="outlet" name="_constraintViewPinX" candidateClass="NSLayoutConstraint"/>
-                <relationship kind="outlet" name="_constraintViewPinY" candidateClass="NSLayoutConstraint"/>
-                <relationship kind="outlet" name="_containerViewForParentImageView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="_doneButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="_imageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="_imageViewParent" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="_tapOnParentImageGestureRecognizer" candidateClass="UITapGestureRecognizer"/>
-                <relationship kind="outlet" name="_viewAspectFit" candidateClass="UIView"/>
-                <relationship kind="outlet" name="_viewPin" candidateClass="UIImageView"/>
-            </relationships>
-        </class>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-        <class className="RootAssemblyViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/RootAssemblyViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="_exportButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="_preferencesButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="_rootAssemblyTable" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="StartMenuViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/StartMenuViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="_documentsTable" candidateClass="UITableView"/>
-                <relationship kind="outlet" name="_newDocumentCreateButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="_newDocumentNameTextField" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
