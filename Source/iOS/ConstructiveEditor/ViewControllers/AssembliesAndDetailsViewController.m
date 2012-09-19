@@ -27,6 +27,9 @@
 @interface AssembliesAndDetailsViewController (UITableViewDelegate) <UITableViewDelegate>
 @end
 
+@interface AssembliesAndDetailsViewController (UIImagePickerControllerDelegate) <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+@end
+
 @interface AssembliesAndDetailsViewController ()
   {
   NSMutableArray*                   _assemblies;
@@ -147,9 +150,8 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
   {
-  if ([@"EditAssemblyPhotoSet"     isEqualToString:segue.identifier] ||
-      [@"EditAssemblyNoPhoto"  isEqualToString:segue.identifier])
-    ((EditAssemblyViewController*)segue.destinationViewController).assembly = [self assemblyForRowAtIndexPath:[_assembliesAndDetailsTable indexPathForCell:(UITableViewCell*)sender]];
+  if ([@"EditAssemblyPhotoSet"  isEqualToString:segue.identifier])
+    ((EditAssemblyViewController*)segue.destinationViewController).assembly = [self assemblyForRowAtIndexPath:[_assembliesAndDetailsTable indexPathForSelectedRow]];
   else if([@"SelectDetailType" isEqualToString:segue.identifier])
     {
     ((DetailTypesViewController*)segue.destinationViewController).detail = [self detailForRowAtIndexPath:[_assembliesAndDetailsTable indexPathForSelectedRow]];
@@ -331,6 +333,23 @@
 
 @implementation AssembliesAndDetailsViewController (UITableViewDelegate)
 
+- (void)selectPhoto
+  {
+  BOOL cameraModeIsPreferredByUser = YES;//default
+  NSString* picturesSourcePreferredByUser = [[NSUserDefaults standardUserDefaults] stringForKey:@"preferredPicturesSource"];
+  if (picturesSourcePreferredByUser && ![picturesSourcePreferredByUser isEqualToString:preferredPicturesSource_Camera])
+    cameraModeIsPreferredByUser = NO;
+  UIImagePickerControllerSourceType sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+  if (cameraModeIsPreferredByUser)
+    sourceType = [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]
+                                                      ? UIImagePickerControllerSourceTypeCamera
+                                                      : UIImagePickerControllerSourceTypePhotoLibrary;
+  UIImagePickerController *imagePicker = [UIImagePickerController new];
+  imagePicker.sourceType = sourceType;
+	imagePicker.delegate = self;
+	[self presentViewController:imagePicker animated:YES completion:nil];
+  }
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
   {
   if (tableView != _assembliesAndDetailsTable)
@@ -342,6 +361,21 @@
       [self performSegueWithIdentifier:@"SelectDetailConnectionPoint" sender:nil];
     else
       [self performSegueWithIdentifier:@"SelectDetailType" sender:nil];
+    }
+  else
+    {
+    Assembly* assembly = [self assemblyForRowAtIndexPath:indexPath];
+    if (assembly && !assembly.type.pictureToShow)
+      {
+      [self selectPhoto];
+      }
+    else if(assembly && assembly.type.pictureToShow)
+      {
+      if (assembly.assemblyExtended)
+        [self selectPhoto];
+      else
+        [self performSegueWithIdentifier:@"EditAssemblyPhotoSet" sender:nil];
+      }
     }
   }
   
@@ -479,6 +513,42 @@
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
   {
   return NO;
+  }
+
+@end
+
+@implementation AssembliesAndDetailsViewController (UIImagePickerControllerDelegate)
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)selectedImage editingInfo:(NSDictionary *)editingInfo
+  {	
+  //WORKS REALLY LONG TIME: check the photo picker example to see how we can speed it up
+	Assembly* selectedAssembly = [self assemblyForRowAtIndexPath:[_assembliesAndDetailsTable indexPathForSelectedRow]];
+  selectedAssembly.type.picture = selectedImage;
+  // Commit the change.
+	[_assembly.managedObjectContext saveAndHandleError];
+  
+  NSArray* viewControllers = self.navigationController.viewControllers;
+  if (!selectedAssembly.assemblyExtended)
+    {
+    if (viewControllers.count >=2 && [[viewControllers objectAtIndex:viewControllers.count-2] isKindOfClass:[EditAssemblyViewController class]])
+      {
+      [self.navigationController popViewControllerAnimated:NO];
+      }
+    else
+      {
+      EditAssemblyViewController* editAssemblyVC = [self.storyboard instantiateViewControllerWithIdentifier:@"EditAssemblyViewController"];
+      editAssemblyVC.assembly = selectedAssembly;
+      [self.navigationController pushViewController:editAssemblyVC animated:NO];
+      }
+    }
+
+  [self dismissModalViewControllerAnimated:YES];
+  }
+
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+  {
+	[self dismissModalViewControllerAnimated:YES];
   }
 
 @end

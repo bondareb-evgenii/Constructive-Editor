@@ -17,6 +17,7 @@
 #import "ActionSheet.h"
 #import "PreferencesKeys.h"
 #import "StandardActionsPerformer.h"
+#import "NSManagedObjectContextExtension.h"
 #import "CoreData/CoreData.h"
 
 @interface RootAssemblyViewController ()
@@ -31,6 +32,9 @@
 @end
 
 @interface RootAssemblyViewController (UITableViewDelegate) <UITableViewDelegate>
+@end
+
+@interface RootAssemblyViewController (UIImagePickerControllerDelegate) <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 @end
 
 @implementation RootAssemblyViewController
@@ -63,10 +67,7 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
   {
-  if ([@"EditRootAssemblyPhotoSet"     isEqualToString:segue.identifier] ||
-      [@"EditRootAssemblyNoPhoto"  isEqualToString:segue.identifier])
-    ((EditAssemblyViewController*)segue.destinationViewController).assembly = _rootAssembly;
-  else if([@"ShowRootAssemblyDetails" isEqualToString:segue.identifier])
+  if([@"ShowRootAssemblyDetails" isEqualToString:segue.identifier])
     {
     BOOL isAssemblyInterpreted = _rootAssembly.type.detailsInstalled.count ||
                                  nil != _rootAssembly.type.assemblyBase ||
@@ -135,5 +136,47 @@
 @end
 
 @implementation RootAssemblyViewController (UITableViewDelegate)
+
+- (void)selectPhoto
+  {
+  BOOL cameraModeIsPreferredByUser = YES;//default
+  NSString* picturesSourcePreferredByUser = [[NSUserDefaults standardUserDefaults] stringForKey:@"preferredPicturesSource"];
+  if (picturesSourcePreferredByUser && ![picturesSourcePreferredByUser isEqualToString:preferredPicturesSource_Camera])
+    cameraModeIsPreferredByUser = NO;
+  UIImagePickerControllerSourceType sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+  if (cameraModeIsPreferredByUser)
+    sourceType = [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]
+                                                      ? UIImagePickerControllerSourceTypeCamera
+                                                      : UIImagePickerControllerSourceTypePhotoLibrary;
+  UIImagePickerController *imagePicker = [UIImagePickerController new];
+  imagePicker.sourceType = sourceType;
+	imagePicker.delegate = self;
+	[self presentViewController:imagePicker animated:YES completion:nil];
+  }
+  
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+  {
+  [self selectPhoto];
+  }
+
 @end
 
+@implementation RootAssemblyViewController (UIImagePickerControllerDelegate)
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)selectedImage editingInfo:(NSDictionary *)editingInfo
+  {	
+  //WORKS REALLY LONG TIME: check the photo picker example to see how we can speed it up
+  _rootAssembly.type.picture = selectedImage;
+  // Commit the change.
+	[_rootAssembly.managedObjectContext saveAndHandleError];
+
+  [self dismissModalViewControllerAnimated:YES];
+  }
+
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+  {
+	[self dismissModalViewControllerAnimated:YES];
+  }
+
+@end

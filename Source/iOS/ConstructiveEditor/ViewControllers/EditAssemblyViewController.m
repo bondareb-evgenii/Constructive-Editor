@@ -20,7 +20,6 @@
   __weak IBOutlet UIImageView *_imageView;
   __weak IBOutlet UIView *_containerViewForParentImageView;
   __weak IBOutlet UIImageView *_imageViewParent;
-  __weak IBOutlet UILabel *_labelInstalledTo;
   __weak IBOutlet UIView *_viewAspectFit;
   __weak IBOutlet NSLayoutConstraint *_constraintViewAspectFitWidth;
   __weak IBOutlet NSLayoutConstraint *_constraintViewAspectFitHeight;
@@ -28,6 +27,7 @@
   __weak IBOutlet NSLayoutConstraint *_constraintViewPinX;
   __weak IBOutlet NSLayoutConstraint *_constraintViewPinY;
     IBOutlet UITapGestureRecognizer *_tapOnParentImageGestureRecognizer;
+  __weak IBOutlet UIButton *_doneButton;
   }
 
 @end
@@ -35,17 +35,6 @@
 @implementation EditAssemblyViewController
 
 @synthesize assembly = _assembly;
-
-- (void)updateLabelText
-  {
-  BOOL areAllConnectionPointsSet = nil != self.assembly.connectionPoint;
-  _labelInstalledTo.text = areAllConnectionPointsSet
-                         ? NSLocalizedString(@"Installed to:", @"Label text")
-                         : NSLocalizedString(@"Specify the nstallation point!!!", @"Label text");
-  _labelInstalledTo.textColor = areAllConnectionPointsSet
-                              ? [UIColor blackColor]
-                              : [UIColor redColor];
-  }
   
 - (void)updateConstraints
   {
@@ -99,22 +88,10 @@
 - (void)viewDidLoad
   {
   [super viewDidLoad];
-  [self updateLabelText];
   _imageView.image = [_assembly.type pictureToShow]
                    ? [_assembly.type pictureToShow]
                    : [UIImage imageNamed:@"NoPhotoBig.png"];
   UIImage* parentPicture = [self.assembly.assemblyToInstallTo pictureToShow];
-  
-  BOOL isSmallerPart = nil != self.assembly.assemblyToInstallTo;
-  BOOL shouldShowParentImage = isSmallerPart;
-  
-  if (!shouldShowParentImage)
-    {
-    [_containerViewForParentImageView removeFromSuperview];
-    [_labelInstalledTo removeFromSuperview];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_imageView]-0-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_imageView)]];
-    }
-  
   _imageViewParent.image = parentPicture
                          ? parentPicture
                          : [UIImage imageNamed:@"NoPhotoBig.png"];
@@ -126,6 +103,11 @@
   _tapOnParentImageGestureRecognizer.enabled = nil != parentPicture;
   }
 
+- (void)viewWillAppear:(BOOL)animated
+  {
+  _doneButton.enabled = nil != self.assembly.connectionPoint;
+  }
+  
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
   {
   return YES;
@@ -166,7 +148,17 @@
 	imagePicker.delegate = self;
 	[self presentViewController:imagePicker animated:YES completion:nil];
   }
+
+- (IBAction)onImagePressed:(id)sender
+  {
+  [self selectPhoto];
+  }
   
+- (IBAction)onDoneButtonPressed:(id)sender
+  {
+  [self.navigationController popViewControllerAnimated:YES];
+  }
+    
 - (IBAction)onTapOnImage:(UITapGestureRecognizer *)gestureRecognizer
   {
   [self selectPhoto];
@@ -179,7 +171,6 @@
   [self updateConstraints];
   [_viewAspectFit layoutIfNeeded];
   [self showPinAnimated:NO];
-  [self updateLabelText];
   }
   
 - (IBAction)onTapOnParentImage:(UITapGestureRecognizer *)gestureRecognizer
@@ -187,6 +178,7 @@
   CGPoint position = [gestureRecognizer locationInView:_viewAspectFit];
   [self movePinToPoint:position];
   [self.assembly.managedObjectContext saveAndHandleError];
+  _doneButton.enabled = YES;
   }
   
 - (IBAction)onDragOnParentImage:(UIPanGestureRecognizer*)gestureRecognizer
@@ -198,7 +190,10 @@
     [self movePinToPoint:position];
     }
   else if (gestureRecognizer.state == UIGestureRecognizerStateEnded)
+    {
     [self.assembly.managedObjectContext saveAndHandleError];
+    _doneButton.enabled = YES;
+    }
   }
   
 @end
@@ -210,6 +205,7 @@
   //WORKS REALLY LONG TIME: check the photo picker example to see how we can speed it up
 	_assembly.type.picture = selectedImage;
   // Commit the change.
+  [_assembly.managedObjectContext saveAndHandleError];
 	_imageView.image = [_assembly.type pictureToShow]
                    ? [_assembly.type pictureToShow]
                    : [UIImage imageNamed:@"NoPhotoBig.png"];
