@@ -75,6 +75,32 @@
   _transformButton.enabled = !isAssemblyTransformed;
   }
   
+- (void)removeDetailAtIndexPath:(NSIndexPath*)indexPath
+  {
+  BOOL afterAddItem = indexPath.row > _addDetailIndex;
+  if (!afterAddItem)
+    --_addDetailIndex;
+    
+  Detail* detail = [self detailForRowAtIndexPath:indexPath];
+  [_assembly.managedObjectContext deleteObject:detail];
+  // Commit the change.
+  [_assembly.managedObjectContext saveAndHandleError];
+  
+  [_details removeObject:detail];
+  
+  //no updates, just go to previous screen
+  if (!self.assembly.type.assemblyBase && !_details.count)
+    [self.navigationController popViewControllerAnimated:YES];
+  else //update UI
+    {
+    [_assembliesAndDetailsTable deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    
+    //update the first section if there are no more details or assemblies installed in order for user to be able to delete the base assembly
+    if (!_assemblies.count && !_details.count)
+      [_assembliesAndDetailsTable reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]]withRowAnimation:UITableViewRowAnimationNone];
+    }
+  }
+  
 - (void)viewDidLoad
   {
   [super viewDidLoad];
@@ -92,6 +118,11 @@
   [self updateInterpretButtons];
   _preferencesButton.enabled = YES;
   _exportButton.enabled = NO;
+  
+  NSIndexPath* selectedIndexPath = [_assembliesAndDetailsTable indexPathForSelectedRow];
+  Detail* detail = [self detailForRowAtIndexPath:selectedIndexPath];
+  if (detail && !detail.type)
+    [self removeDetailAtIndexPath:selectedIndexPath];
   
 	[_assembliesAndDetailsTable reloadData];
   }
@@ -147,6 +178,16 @@
     }
   return nil;
   }
+  
+- (BOOL)shouldPutAddDetailCellForIndexPath:(NSIndexPath *)indexPath
+  {
+  return _assembliesAndDetailsTable.editing && indexPath.row == _addDetailIndex && (( self.assembly.type.assemblyBase && 2 == indexPath.section) || (!self.assembly.type.assemblyBase && _details.count && 0 == indexPath.section));
+  }
+
+- (BOOL)shouldPutAddAssemblyCellForIndexPath:(NSIndexPath *)indexPath
+  {
+  return self.assembly.type.assemblyBase && 1 == indexPath.section &&_assembliesAndDetailsTable.editing && indexPath.row == _addAssemblyIndex;
+  }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
   {
@@ -155,6 +196,25 @@
   else if([@"SelectDetailType" isEqualToString:segue.identifier])
     {
     ((DetailTypesViewController*)segue.destinationViewController).detail = [self detailForRowAtIndexPath:[_assembliesAndDetailsTable indexPathForSelectedRow]];
+    }
+  else if([@"SelectDetailTypeForNewDetail" isEqualToString:segue.identifier])
+    {
+    //BOOL shouldUpdateFirstSection = !_assemblies.count && !_details.count;
+    Detail* detail = (Detail*)[NSEntityDescription insertNewObjectForEntityForName:@"Detail" inManagedObjectContext:self.assembly.managedObjectContext];
+    [self.assembly.type addDetailsInstalledObject:detail];
+    // Commit the change.
+    [_assembly.managedObjectContext saveAndHandleError];
+
+    //update cache
+    [_details insertObject:detail atIndex:_addDetailIndex];
+    NSIndexPath* newDetailIndexPath = [NSIndexPath indexPathForRow:_addDetailIndex+1 inSection:[_assembliesAndDetailsTable indexPathForSelectedRow].section];
+    //add ans select a cell for the new detail
+    [_assembliesAndDetailsTable insertRowsAtIndexPaths:[NSArray arrayWithObjects:newDetailIndexPath, nil] withRowAnimation:UITableViewRowAnimationFade];
+    [_assembliesAndDetailsTable selectRowAtIndexPath:newDetailIndexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
+  //update the first section if there are no more details or assemblies installed in order for user to be able to delete the base assembly
+  //  if (shouldUpdateFirstSection)
+  //    [_assembliesAndDetailsTable reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]]withRowAnimation:UITableViewRowAnimationNone];
+    ((DetailTypesViewController*)segue.destinationViewController).detail = detail;
     }
   else if([@"SelectDetailConnectionPoint" isEqualToString:segue.identifier])
     {
@@ -281,22 +341,20 @@
     return NSLocalizedString(@"Rotated assembly", @"Assemblies and details: section header");
   return nil;
   }
-    
+  
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
   {
   if (tableView != _assembliesAndDetailsTable)
     return nil;
   
-  BOOL shouldPutAddDetailCellForIndexPath = _assembliesAndDetailsTable.editing && indexPath.row == _addDetailIndex && (( self.assembly.type.assemblyBase && 2 == indexPath.section) || (!self.assembly.type.assemblyBase && _details.count && 0 == indexPath.section));
-  if (shouldPutAddDetailCellForIndexPath)
+  if ([self shouldPutAddDetailCellForIndexPath:indexPath])
     {
     UITableViewCell* addItemCell = [tableView dequeueReusableCellWithIdentifier:@"AddItemCell"];
     addItemCell.textLabel.text = NSLocalizedString(@"Add detail", @"Assemblies and details: cell label");
     return addItemCell;
     }
   
-  BOOL shouldPutAddAssemblyCellForIndexPath = self.assembly.type.assemblyBase && 1 == indexPath.section &&_assembliesAndDetailsTable.editing && indexPath.row == _addAssemblyIndex;
-  if (shouldPutAddAssemblyCellForIndexPath)
+  if ([self shouldPutAddAssemblyCellForIndexPath:indexPath])
     {
     UITableViewCell* addItemCell = [tableView dequeueReusableCellWithIdentifier:@"AddItemCell"];
     addItemCell.textLabel.text = NSLocalizedString(@"Add assembly", @"Assemblies and details: cell label");
@@ -350,6 +408,29 @@
 	[self presentViewController:imagePicker animated:YES completion:nil];
   }
 
+- (void)createAndEditNewAssemblyAtIndexPath:(NSIndexPath*)indexPath
+  {
+  //BOOL shouldUpdateFirstSection = !_assemblies.count && !_details.count;
+  Assembly* assembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:self.assembly.managedObjectContext];
+  AssemblyType* assemblyType = (AssemblyType*)[NSEntityDescription insertNewObjectForEntityForName:@"AssemblyType" inManagedObjectContext:self.assembly.managedObjectContext];
+  assembly.type = assemblyType;
+  [self.assembly.type addAssembliesInstalledObject:assembly];
+  // Commit the change.
+  [_assembly.managedObjectContext saveAndHandleError];
+  
+  //update cache
+  [_assemblies insertObject:assembly atIndex:_addAssemblyIndex];
+  
+  //insert and select new cell to select a photo for
+  NSIndexPath* newAssemblyIndexPath = [NSIndexPath indexPathForRow:_addAssemblyIndex+1 inSection:[_assembliesAndDetailsTable indexPathForSelectedRow].section];
+    [_assembliesAndDetailsTable insertRowsAtIndexPaths:[NSArray arrayWithObjects:newAssemblyIndexPath, nil] withRowAnimation:UITableViewRowAnimationFade];
+    [_assembliesAndDetailsTable selectRowAtIndexPath:newAssemblyIndexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
+//update the first section if there are no more details or assemblies installed in order for user to be able to delete the base assembly
+//  if (shouldUpdateFirstSection)
+//    [_assembliesAndDetailsTable reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]]withRowAnimation:UITableViewRowAnimationNone];
+  [self selectPhoto];
+  }
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
   {
   if (tableView != _assembliesAndDetailsTable)
@@ -365,17 +446,22 @@
   else
     {
     Assembly* assembly = [self assemblyForRowAtIndexPath:indexPath];
-    if (assembly && !assembly.type.pictureToShow)
-      {
-      [self selectPhoto];
-      }
-    else if(assembly && assembly.type.pictureToShow)
+    if (assembly)
       {
       if (assembly.assemblyExtended)
         [self selectPhoto];
       else
-        [self performSegueWithIdentifier:@"EditAssemblyPhotoSet" sender:nil];
+        {
+        if (!assembly.type.pictureToShow)
+          [self selectPhoto];
+        else
+          [self performSegueWithIdentifier:@"EditAssemblyPhotoSet" sender:nil];
+        }
       }
+    else if ([self shouldPutAddDetailCellForIndexPath:indexPath])
+      [self performSegueWithIdentifier:@"SelectDetailTypeForNewDetail" sender:nil];
+    else if ([self shouldPutAddAssemblyCellForIndexPath:indexPath])
+      [self createAndEditNewAssemblyAtIndexPath:indexPath];
     }
   }
   
@@ -401,6 +487,25 @@
   return UITableViewCellEditingStyleDelete;
   }
   
+- (void)removeSmallerAssemblyAtIndexPath:(NSIndexPath*)indexPath
+  {
+  BOOL afterAddItem = indexPath.row > _addAssemblyIndex;
+  NSUInteger assemblyIndex = afterAddItem ? indexPath.row-1 : indexPath.row;
+  if (!afterAddItem)
+    --_addAssemblyIndex;
+    
+  [_assembly.managedObjectContext deleteObject:[_assemblies objectAtIndex:assemblyIndex]];
+  // Commit the change.
+  [_assembly.managedObjectContext saveAndHandleError];
+  
+  //update cache and UI
+  [_assemblies removeObjectAtIndex:assemblyIndex];
+  [_assembliesAndDetailsTable deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+  //update the first section if there are no more details or assemblies installed in order for user to be able to delete the base assembly
+  if (!_assemblies.count && !_details.count)
+    [_assembliesAndDetailsTable reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]]withRowAnimation:UITableViewRowAnimationNone];
+  }
+    
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
   {
   if (tableView != _assembliesAndDetailsTable)
@@ -426,86 +531,27 @@
       [self.navigationController popViewControllerAnimated:YES];
       }
     
-    if ( self.assembly.type.assemblyBase && indexPath.section == 1)
+    if ( self.assembly.type.assemblyBase && indexPath.section == 1)//remmoving smaller assembly
+      [self removeSmallerAssemblyAtIndexPath:indexPath];
+    else
       {
-      BOOL afterAddItem = indexPath.row > _addAssemblyIndex;
-      NSUInteger assemblyIndex = afterAddItem ? indexPath.row-1 : indexPath.row;
-      if (!afterAddItem)
-        --_addAssemblyIndex;
-        
-      [_assembly.managedObjectContext deleteObject:[_assemblies objectAtIndex:assemblyIndex]];
-      // Commit the change.
-      [_assembly.managedObjectContext saveAndHandleError];
-      
-      //update cache and UI
-      [_assemblies removeObjectAtIndex:assemblyIndex];
-      [_assembliesAndDetailsTable deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-      //update the first section if there are no more details or assemblies installed in order for user to be able to delete the base assembly
-      if (!_assemblies.count && !_details.count)
-        [_assembliesAndDetailsTable reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]]withRowAnimation:UITableViewRowAnimationNone];
-      }
-    else if ( ( self.assembly.type.assemblyBase && indexPath.section == 2) ||
-              (!self.assembly.type.assemblyBase && _details.count && indexPath.section == 0))
-      {
-      BOOL afterAddItem = indexPath.row > _addDetailIndex;
-      NSUInteger detailIndex = afterAddItem ? indexPath.row-1 : indexPath.row;
-      if (!afterAddItem)
-        --_addDetailIndex;
-        
-      [_assembly.managedObjectContext deleteObject:[_details objectAtIndex:detailIndex]];
-      // Commit the change.
-      [_assembly.managedObjectContext saveAndHandleError];
-      
-      [_details removeObjectAtIndex:detailIndex];
-      
-      //no updates, just go to previous screen
-      if (!self.assembly.type.assemblyBase && !_details.count)
-        [self.navigationController popViewControllerAnimated:YES];
-      else //update UI
-        {
-        [_assembliesAndDetailsTable deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        
-        //update the first section if there are no more details or assemblies installed in order for user to be able to delete the base assembly
-        if (!_assemblies.count && !_details.count)
-          [_assembliesAndDetailsTable reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]]withRowAnimation:UITableViewRowAnimationNone];
-        }
+      Detail* detail = [self detailForRowAtIndexPath:indexPath];
+      if (detail)
+        [self removeDetailAtIndexPath:indexPath];
       }
     }
-    
   else if (editingStyle == UITableViewCellEditingStyleInsert)
     {
     if ( self.assembly.type.assemblyBase && indexPath.section == 1)
       {
-      BOOL shouldUpdateFirstSection = !_assemblies.count && !_details.count;
-      Assembly* assembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:self.assembly.managedObjectContext];
-      AssemblyType* assemblyType = (AssemblyType*)[NSEntityDescription insertNewObjectForEntityForName:@"AssemblyType" inManagedObjectContext:self.assembly.managedObjectContext];
-      assembly.type = assemblyType;
-      [self.assembly.type addAssembliesInstalledObject:assembly];
-      // Commit the change.
-      [_assembly.managedObjectContext saveAndHandleError];
-      
-      //update cache and UI
-      [_assemblies insertObject:assembly atIndex:_addAssemblyIndex];
-      [_assembliesAndDetailsTable insertRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:_addAssemblyIndex+1 inSection:indexPath.section], nil] withRowAnimation:UITableViewRowAnimationFade];
-      //update the first section if there are no more details or assemblies installed in order for user to be able to delete the base assembly
-      if (shouldUpdateFirstSection)
-        [_assembliesAndDetailsTable reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]]withRowAnimation:UITableViewRowAnimationNone];
+      [_assembliesAndDetailsTable selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
+      [self createAndEditNewAssemblyAtIndexPath:indexPath];
       }
     else if ( ( self.assembly.type.assemblyBase && indexPath.section == 2) ||
               (!self.assembly.type.assemblyBase && _details.count && indexPath.section == 0))
       {
-      BOOL shouldUpdateFirstSection = !_assemblies.count && !_details.count;
-      Detail* detail = (Detail*)[NSEntityDescription insertNewObjectForEntityForName:@"Detail" inManagedObjectContext:self.assembly.managedObjectContext];
-      [self.assembly.type addDetailsInstalledObject:detail];
-      // Commit the change.
-      [_assembly.managedObjectContext saveAndHandleError];
-      
-      //update cache and UI
-      [_details insertObject:detail atIndex:_addDetailIndex];
-      [_assembliesAndDetailsTable insertRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:_addDetailIndex+1 inSection:indexPath.section], nil] withRowAnimation:UITableViewRowAnimationFade];
-      //update the first section if there are no more details or assemblies installed in order for user to be able to delete the base assembly
-      if (shouldUpdateFirstSection)
-        [_assembliesAndDetailsTable reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]]withRowAnimation:UITableViewRowAnimationNone];
+      [_assembliesAndDetailsTable selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+      [self performSegueWithIdentifier:@"SelectDetailTypeForNewDetail" sender:nil];
       }
     }
   }
@@ -548,6 +594,10 @@
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
   {
+  NSIndexPath* selectedIndexPath = [_assembliesAndDetailsTable indexPathForSelectedRow];
+  Assembly* assembly = [self assemblyForRowAtIndexPath:selectedIndexPath];
+  if (assembly && ! assembly.type.pictureToShow)
+    [self removeSmallerAssemblyAtIndexPath:selectedIndexPath];
 	[self dismissModalViewControllerAnimated:YES];
   }
 

@@ -279,11 +279,11 @@
                                             <segue destination="BAE-IJ-KaX" kind="push" identifier="ShowAssemblyDetails" trigger="accessoryAction" id="YVN-lW-CPH"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="DetailCell" id="GFu-9y-sI6" customClass="DetailCellView">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="DetailCell" id="GFu-9y-sI6" customClass="DetailCellView">
                                         <rect key="frame" x="0.0" y="146" width="320" height="62"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="300" height="61"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="61"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView translatesAutoresizingMaskIntoConstraints="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" id="hlH-s5-jev">
@@ -303,7 +303,7 @@
                                             <outlet property="picture" destination="hlH-s5-jev" id="g2b-ey-wGI"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="AddItemCell" textLabel="CTG-9I-WGs" style="IBUITableViewCellStyleDefault" id="cs1-ef-9bP">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="AddItemCell" textLabel="CTG-9I-WGs" style="IBUITableViewCellStyleDefault" id="cs1-ef-9bP">
                                         <rect key="frame" x="0.0" y="208" width="320" height="62"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -467,6 +467,7 @@
                         <segue destination="3gT-Od-Kh7" kind="push" identifier="SelectDetailType" id="AGj-ML-f23"/>
                         <segue destination="jXA-4O-VJV" kind="push" identifier="SelectDetailConnectionPoint" id="Kt3-Kg-qnc"/>
                         <segue destination="i86-oC-str" kind="push" identifier="EditAssemblyPhotoSet" id="odX-Mn-7Wh"/>
+                        <segue destination="3gT-Od-Kh7" kind="push" identifier="SelectDetailTypeForNewDetail" id="JDV-Nc-Od8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="n45-Wy-QvQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -841,7 +842,7 @@
                                             <segue destination="dwe-AE-hYd" kind="push" identifier="EditDetailType" trigger="accessoryAction" id="rj4-jI-v62"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="AddItemCell" textLabel="m4W-K1-zdR" style="IBUITableViewCellStyleDefault" id="Kqu-xS-VCO">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="AddItemCell" textLabel="m4W-K1-zdR" style="IBUITableViewCellStyleDefault" id="Kqu-xS-VCO">
                                         <rect key="frame" x="0.0" y="84" width="320" height="62"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -967,9 +968,9 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="Kt3-Kg-qnc"/>
         <segue reference="NZ4-iz-omb"/>
-        <segue reference="AGj-ML-f23"/>
-        <segue reference="rj4-jI-v62"/>
+        <segue reference="Kt3-Kg-qnc"/>
+        <segue reference="JDV-Nc-Od8"/>
+        <segue reference="YU5-mj-WCP"/>
     </inferredMetricsTieBreakers>
 </document>
