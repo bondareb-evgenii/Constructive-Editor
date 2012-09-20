@@ -64,6 +64,7 @@
 		75E5F39416013BDC00C363FA /* transform_Normal_iPhone.png in Resources */ = {isa = PBXBuildFile; fileRef = 75E5F38416013BDC00C363FA /* transform_Normal_iPhone.png */; };
 		75E5F39516013BDC00C363FA /* transform_Normal_iPhone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 75E5F38516013BDC00C363FA /* transform_Normal_iPhone@2x.png */; };
 		75EE288D160B17C400050997 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 75EE288C160B17C400050997 /* Constants.m */; };
+		75EE2890160B524100050997 /* pinSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 75EE288F160B524100050997 /* pinSelected.png */; };
 		84EA63AE1514C4AF00C7177E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EA63AD1514C4AF00C7177E /* UIKit.framework */; };
 		84EA63B01514C4AF00C7177E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EA63AF1514C4AF00C7177E /* Foundation.framework */; };
 		84EA63B21514C4AF00C7177E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EA63B11514C4AF00C7177E /* CoreGraphics.framework */; };
@@ -169,6 +170,7 @@
 		75E5F38516013BDC00C363FA /* transform_Normal_iPhone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "transform_Normal_iPhone@2x.png"; sourceTree = "<group>"; };
 		75EE288B160B17C400050997 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = Utilities/Constants.h; sourceTree = "<group>"; };
 		75EE288C160B17C400050997 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Constants.m; path = Utilities/Constants.m; sourceTree = "<group>"; };
+		75EE288F160B524100050997 /* pinSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pinSelected.png; sourceTree = "<group>"; };
 		84EA63A91514C4AF00C7177E /* ConstructiveEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ConstructiveEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84EA63AD1514C4AF00C7177E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		84EA63AF1514C4AF00C7177E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -333,6 +335,7 @@
 		75B7DA761521872D00C02F18 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				75EE288F160B524100050997 /* pinSelected.png */,
 				75E5F37616013BDC00C363FA /* preferences_Normal_iPhone.png */,
 				75E5F37716013BDC00C363FA /* preferences_Normal_iPhone@2x.png */,
 				75E5F37816013BDC00C363FA /* references_Highlighted_iPhone.png */,
@@ -550,6 +553,7 @@
 				75E5F39316013BDC00C363FA /* transform_Highlighted_iPhone@2x.png in Resources */,
 				75E5F39416013BDC00C363FA /* transform_Normal_iPhone.png in Resources */,
 				75E5F39516013BDC00C363FA /* transform_Normal_iPhone@2x.png in Resources */,
+				75EE2890160B524100050997 /* pinSelected.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
