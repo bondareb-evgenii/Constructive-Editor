@@ -13,6 +13,7 @@
 
 @dynamic color;
 @dynamic identifier;
+@dynamic classIdentifier;
 @dynamic length;
 @dynamic picture;
 @dynamic picturePrepared;

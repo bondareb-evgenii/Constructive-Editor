@@ -28,6 +28,7 @@
         <relationship name="type" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DetailType" inverseName="details" inverseEntity="DetailType" syncable="YES"/>
     </entity>
     <entity name="DetailType" representedClassName="DetailType" syncable="YES">
+        <attribute name="classIdentifier" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="color" optional="YES" attributeType="Transformable" valueTransformerName="UIIColorToDataTransformer" syncable="YES"/>
         <attribute name="identifier" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="length" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
@@ -39,10 +40,10 @@
         <relationship name="details" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Detail" inverseName="type" inverseEntity="Detail" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Assembly" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="AssemblyType" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Detail" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="DetailType" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="AssemblyTypesShelf" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Assembly" positionX="0" positionY="0" width="128" height="135"/>
+        <element name="AssemblyType" positionX="0" positionY="0" width="128" height="180"/>
+        <element name="AssemblyTypesShelf" positionX="0" positionY="0" width="128" height="60"/>
+        <element name="Detail" positionX="0" positionY="0" width="128" height="90"/>
+        <element name="DetailType" positionX="0" positionY="0" width="128" height="195"/>
     </elements>
 </model>

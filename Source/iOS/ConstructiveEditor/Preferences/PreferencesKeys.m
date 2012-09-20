@@ -5,7 +5,6 @@
 //  Copyright (c) 2012 Openminded. All rights reserved.
 //
 
-NSString* const constructiveEditorSQLiteDocumentExtension = @"constr";
 NSString* const preferredAskAboutImplicitPartsDeletion = @"preferredAskAboutImplicitPartsDeletion";
   BOOL const preferredAskAboutImplicitPartsDeletion_Default = YES;
 NSString* const preferredPicturesSource = @"preferredPicturesSource";

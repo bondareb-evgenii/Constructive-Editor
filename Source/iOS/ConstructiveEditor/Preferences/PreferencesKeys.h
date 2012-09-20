@@ -8,7 +8,6 @@
 #ifndef ConstructiveEditor_PreferencesKeys_h
 #define ConstructiveEditor_PreferencesKeys_h
 
-extern NSString* const constructiveEditorSQLiteDocumentExtension;
 extern NSString* const preferredAskAboutImplicitPartsDeletion;
   extern BOOL const preferredAskAboutImplicitPartsDeletion_Default;
 extern NSString* const preferredPicturesSource;

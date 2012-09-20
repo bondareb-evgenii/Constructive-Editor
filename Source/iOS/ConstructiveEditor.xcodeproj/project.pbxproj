@@ -63,6 +63,7 @@
 		75E5F39316013BDC00C363FA /* transform_Highlighted_iPhone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 75E5F38316013BDC00C363FA /* transform_Highlighted_iPhone@2x.png */; };
 		75E5F39416013BDC00C363FA /* transform_Normal_iPhone.png in Resources */ = {isa = PBXBuildFile; fileRef = 75E5F38416013BDC00C363FA /* transform_Normal_iPhone.png */; };
 		75E5F39516013BDC00C363FA /* transform_Normal_iPhone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 75E5F38516013BDC00C363FA /* transform_Normal_iPhone@2x.png */; };
+		75EE288D160B17C400050997 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 75EE288C160B17C400050997 /* Constants.m */; };
 		84EA63AE1514C4AF00C7177E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EA63AD1514C4AF00C7177E /* UIKit.framework */; };
 		84EA63B01514C4AF00C7177E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EA63AF1514C4AF00C7177E /* Foundation.framework */; };
 		84EA63B21514C4AF00C7177E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EA63B11514C4AF00C7177E /* CoreGraphics.framework */; };
@@ -166,6 +167,8 @@
 		75E5F38316013BDC00C363FA /* transform_Highlighted_iPhone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "transform_Highlighted_iPhone@2x.png"; sourceTree = "<group>"; };
 		75E5F38416013BDC00C363FA /* transform_Normal_iPhone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = transform_Normal_iPhone.png; sourceTree = "<group>"; };
 		75E5F38516013BDC00C363FA /* transform_Normal_iPhone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "transform_Normal_iPhone@2x.png"; sourceTree = "<group>"; };
+		75EE288B160B17C400050997 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = Utilities/Constants.h; sourceTree = "<group>"; };
+		75EE288C160B17C400050997 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Constants.m; path = Utilities/Constants.m; sourceTree = "<group>"; };
 		84EA63A91514C4AF00C7177E /* ConstructiveEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ConstructiveEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84EA63AD1514C4AF00C7177E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		84EA63AF1514C4AF00C7177E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -304,6 +307,8 @@
 		757F600615EF8E590022FC67 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				75EE288B160B17C400050997 /* Constants.h */,
+				75EE288C160B17C400050997 /* Constants.m */,
 				75800F9015FC90A800E5262E /* DirectoryWatcher.h */,
 				75800F9115FC90A800E5262E /* DirectoryWatcher.m */,
 				757F600815EF8F490022FC67 /* StandardActionsPerformer.h */,
@@ -606,6 +611,7 @@
 				75800F9215FC90A800E5262E /* DirectoryWatcher.m in Sources */,
 				754FF90D15FCD01400A2D555 /* AssemblyType.m in Sources */,
 				75E5F33415FDAF4900C363FA /* AssemblyTypesShelf.m in Sources */,
+				75EE288D160B17C400050997 /* Constants.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

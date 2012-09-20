@@ -14,6 +14,7 @@
 
 @property (nonatomic, retain) UIColor*  color;
 @property (nonatomic, retain) NSString* identifier;
+@property (nonatomic, retain) NSString* classIdentifier;
 @property (nonatomic, retain) NSNumber* length;
 @property (nonatomic, retain) UIImage*  picture;
 @property (nonatomic, retain) UIImage*  picturePrepared;
