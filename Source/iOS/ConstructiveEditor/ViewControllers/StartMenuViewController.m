@@ -13,7 +13,7 @@
 #import "DirectoryWatcher.h"
 #import "RootAssemblyViewController.h"
 #import "NSManagedObjectContextExtension.h"
-#import "PreferencesKeys.h"
+#import "Constants.h"
 
 @interface StartMenuViewController ()
   {
@@ -91,11 +91,13 @@
 
 - (IBAction)onCreateNewDocument:(id)sender
   {
+  BOOL isFirtsResponder = [_newDocumentNameTextField isFirstResponder];
   [_newDocumentNameTextField resignFirstResponder];
   NSString* newDocumentName = _newDocumentNameTextField.text;
-  if (0 == _newDocumentNameTextField.text.length)
+  if (0 == newDocumentName.length)
     {
-    [_newDocumentNameTextField becomeFirstResponder];
+    if (!isFirtsResponder)
+      [_newDocumentNameTextField becomeFirstResponder];
     return;
     }
   UIApplication* app = [UIApplication sharedApplication];
