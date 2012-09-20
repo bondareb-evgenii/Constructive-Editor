@@ -6,11 +6,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@class Detail;
   
 @interface EditDetailViewController : UIViewController
 
-@property (nonatomic, strong) Detail* detail;
+@property (nonatomic, strong) NSMutableArray* details;
 
 @end

@@ -16,6 +16,8 @@
   }
 
   @property (nonatomic, weak) IBOutlet UIImageView* picture;
+  @property (weak, nonatomic) IBOutlet UIStepper *countStepper;
+  @property (weak, nonatomic) IBOutlet UILabel *countLabel;
   
 
 @end

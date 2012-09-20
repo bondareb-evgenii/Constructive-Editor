@@ -17,22 +17,22 @@
 
 @implementation StandardActionsPerformer
 
-+ (BOOL)isAnythingChangedInAssembly:(Assembly*)assemblyToCheck
++ (BOOL)isAnythingChangedInAssemblyType:(AssemblyType*)assemblyTypeToCheck
   {
   BOOL isAnythingChanged = NO;
-  if (assemblyToCheck.type.assemblyBase.type.pictureToShow ||
-      assemblyToCheck.type.assemblyBeforeRotation.type.pictureToShow ||
-      assemblyToCheck.type.assemblyBeforeTransformation.type.pictureToShow)
+  if (assemblyTypeToCheck.assemblyBase.type.pictureToShow ||
+      assemblyTypeToCheck.assemblyBeforeRotation.type.pictureToShow ||
+      assemblyTypeToCheck.assemblyBeforeTransformation.type.pictureToShow)
     isAnythingChanged = YES;
   else
     {
-    for (Assembly* assembly in assemblyToCheck.type.assembliesInstalled)
+    for (Assembly* assembly in assemblyTypeToCheck.assembliesInstalled)
       if (assembly.type.pictureToShow)
         {
         isAnythingChanged = YES;
         break;
         }
-    for (Detail* detail in assemblyToCheck.type.detailsInstalled)
+    for (Detail* detail in assemblyTypeToCheck.detailsInstalled)
       if (detail.type.pictureToShow)
         {
         isAnythingChanged = YES;
@@ -42,15 +42,15 @@
   return isAnythingChanged;
   }
   
-+ (void)performStandardActionNamed:(NSString*)standardActionName onAssembly:(Assembly*)assemblyToInterpret inView:(UIView*)view withCompletionBlock:(void(^)(BOOL actionPerformed)) completion
++ (void)performStandardActionNamed:(NSString*)standardActionName onAssemblyType:(AssemblyType*)assemblyTypeToInterpret inView:(UIView*)view withCompletionBlock:(void(^)(BOOL actionPerformed)) completion
   {
-  BOOL isAssemblySplit = assemblyToInterpret.type.detailsInstalled.count && !assemblyToInterpret.type.assemblyBase;
-  BOOL arePartsDetachedFromAssembly = nil != assemblyToInterpret.type.assemblyBase;
-  BOOL isAssemblyTransformed = nil != assemblyToInterpret.type.assemblyBeforeTransformation;
-  BOOL isAssemblyRotated = nil != assemblyToInterpret.type.assemblyBeforeRotation;
+  BOOL isAssemblySplit = assemblyTypeToInterpret.detailsInstalled.count && !assemblyTypeToInterpret.assemblyBase;
+  BOOL arePartsDetachedFromAssembly = nil != assemblyTypeToInterpret.assemblyBase;
+  BOOL isAssemblyTransformed = nil != assemblyTypeToInterpret.assemblyBeforeTransformation;
+  BOOL isAssemblyRotated = nil != assemblyTypeToInterpret.assemblyBeforeRotation;
   BOOL isAnyActionPerformedOnAssembly = isAssemblySplit || arePartsDetachedFromAssembly || isAssemblyTransformed || isAssemblyRotated;
   
-  NSManagedObjectContext* managedObjectContext = assemblyToInterpret.managedObjectContext;
+  NSManagedObjectContext* managedObjectContext = assemblyTypeToInterpret.managedObjectContext;
   
   NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
   
@@ -73,13 +73,13 @@
         Assembly* assembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:managedObjectContext];
         AssemblyType* assemblyType = (AssemblyType*)[NSEntityDescription insertNewObjectForEntityForName:@"AssemblyType" inManagedObjectContext:managedObjectContext];
         assembly.type = assemblyType;
-        assemblyToInterpret.type.assemblyBase = assembly;
+        assemblyTypeToInterpret.assemblyBase = assembly;
         };
         
       void (^removeDetails)() = ^()
         {
         prepareReinterpret();
-        [assemblyToInterpret.type.detailsInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
+        [assemblyTypeToInterpret.detailsInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
           {
           [managedObjectContext deleteObject:obj];
           }];
@@ -89,12 +89,12 @@
         void (^splitBaseAssembly)() = ^()
         {
         prepareReinterpret();
-        assemblyToInterpret.type.assemblyBase.type.detailsInstalled = assemblyToInterpret.type.detailsInstalled;
-        assemblyToInterpret.type.detailsInstalled = nil;
+        assemblyTypeToInterpret.assemblyBase.type.detailsInstalled = assemblyTypeToInterpret.detailsInstalled;
+        assemblyTypeToInterpret.detailsInstalled = nil;
         commitReinterpret();
         };
         
-      if (![self isAnythingChangedInAssembly:assemblyToInterpret] || [actionOnReinterpretSplitAsDetached isEqualToString:preferredActionOnReinterpretSplitAsDetached_RemoveDetails])
+      if (![self isAnythingChangedInAssemblyType:assemblyTypeToInterpret] || [actionOnReinterpretSplitAsDetached isEqualToString:preferredActionOnReinterpretSplitAsDetached_RemoveDetails])
         removeDetails();
       else if ([actionOnReinterpretSplitAsDetached isEqualToString:preferredActionOnReinterpretSplitAsDetached_AskMe])
         {
@@ -144,13 +144,13 @@
         Assembly* assembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:managedObjectContext];
         AssemblyType* assemblyType = (AssemblyType*)[NSEntityDescription insertNewObjectForEntityForName:@"AssemblyType" inManagedObjectContext:managedObjectContext];
         assembly.type = assemblyType;
-        assemblyToInterpret.type.assemblyBeforeRotation = assembly;
+        assemblyTypeToInterpret.assemblyBeforeRotation = assembly;
         };
         
       void (^removeDetails)() = ^()
         {
         prepareReinterpret();
-        [assemblyToInterpret.type.detailsInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
+        [assemblyTypeToInterpret.detailsInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
           {
           [managedObjectContext deleteObject:obj];
           }];
@@ -160,12 +160,12 @@
       void (^splitAssembly)() = ^()
         {
         prepareReinterpret();
-        assemblyToInterpret.type.assemblyBeforeRotation.type.detailsInstalled = assemblyToInterpret.type.detailsInstalled;
-        assemblyToInterpret.type.detailsInstalled = nil;
+        assemblyTypeToInterpret.assemblyBeforeRotation.type.detailsInstalled = assemblyTypeToInterpret.detailsInstalled;
+        assemblyTypeToInterpret.detailsInstalled = nil;
         commitReinterpret();
         };
         
-      if (![self isAnythingChangedInAssembly:assemblyToInterpret] || [actionOnReinterpretSplitAsRotatedOrTransformed isEqualToString:preferredActionOnReinterpretSplitAsRotatedOrTransformed_RemoveDetails])
+      if (![self isAnythingChangedInAssemblyType:assemblyTypeToInterpret] || [actionOnReinterpretSplitAsRotatedOrTransformed isEqualToString:preferredActionOnReinterpretSplitAsRotatedOrTransformed_RemoveDetails])
         removeDetails();
       else if ([actionOnReinterpretSplitAsRotatedOrTransformed isEqualToString:preferredActionOnReinterpretSplitAsRotatedOrTransformed_AskMe])
         {
@@ -205,13 +205,13 @@
         Assembly* assembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:managedObjectContext];
         AssemblyType* assemblyType = (AssemblyType*)[NSEntityDescription insertNewObjectForEntityForName:@"AssemblyType" inManagedObjectContext:managedObjectContext];
         assembly.type = assemblyType;
-        assemblyToInterpret.type.assemblyBeforeTransformation = assembly;
+        assemblyTypeToInterpret.assemblyBeforeTransformation = assembly;
         };
         
       void (^removeDetails)() = ^()
         {
         prepareReinterpret();
-        [assemblyToInterpret.type.detailsInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
+        [assemblyTypeToInterpret.detailsInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
           {
           [managedObjectContext deleteObject:obj];
           }];
@@ -221,12 +221,12 @@
       void (^splitAssembly)() = ^()
         {
         prepareReinterpret();
-        assemblyToInterpret.type.assemblyBeforeTransformation.type.detailsInstalled = assemblyToInterpret.type.detailsInstalled;
-        assemblyToInterpret.type.detailsInstalled = nil;
+        assemblyTypeToInterpret.assemblyBeforeTransformation.type.detailsInstalled = assemblyTypeToInterpret.detailsInstalled;
+        assemblyTypeToInterpret.detailsInstalled = nil;
         commitReinterpret();
         };
         
-      if (![self isAnythingChangedInAssembly:assemblyToInterpret] || [actionOnReinterpretSplitAsRotatedOrTransformed isEqualToString:preferredActionOnReinterpretSplitAsRotatedOrTransformed_RemoveDetails])
+      if (![self isAnythingChangedInAssemblyType:assemblyTypeToInterpret] || [actionOnReinterpretSplitAsRotatedOrTransformed isEqualToString:preferredActionOnReinterpretSplitAsRotatedOrTransformed_RemoveDetails])
         removeDetails();
       else if ([actionOnReinterpretSplitAsRotatedOrTransformed isEqualToString:preferredActionOnReinterpretSplitAsRotatedOrTransformed_AskMe])
         {
@@ -267,20 +267,20 @@
         
       void (^deleteAllAssemblies)() = ^()
         {
-        while (assemblyToInterpret.type.detailsInstalled.count < 2)//at list two details should be present in split assembly
+        while (assemblyTypeToInterpret.detailsInstalled.count < 2)//at list two details should be present in split assembly
           {
           Detail* detail = (Detail*)[NSEntityDescription insertNewObjectForEntityForName:@"Detail" inManagedObjectContext:managedObjectContext];
-          [assemblyToInterpret.type addDetailsInstalledObject:detail];
+          [assemblyTypeToInterpret addDetailsInstalledObject:detail];
           }
-        [managedObjectContext deleteObject:assemblyToInterpret.type.assemblyBase];
-        [assemblyToInterpret.type.assembliesInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
+        [managedObjectContext deleteObject:assemblyTypeToInterpret.assemblyBase];
+        [assemblyTypeToInterpret.assembliesInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
           {
           [managedObjectContext deleteObject:obj];
           }];
         commitReinterpret();
         };
 
-      if ([self isAnythingChangedInAssembly:assemblyToInterpret] && askAboutImplicitPartsDeletion)
+      if ([self isAnythingChangedInAssemblyType:assemblyTypeToInterpret] && askAboutImplicitPartsDeletion)
         {
         ActionSheet* reinterpretActionSheet = [[ActionSheet alloc]
            initWithTitle: NSLocalizedString(@"Smaller parts are currently detached from the assembly. Splitting it to details instead needs the base assembly and all the smaller assemblies to be removed. Would you like to:", @"Action sheet: title")
@@ -314,53 +314,53 @@
         Assembly* assembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:managedObjectContext];
         AssemblyType* assemblyType = (AssemblyType*)[NSEntityDescription insertNewObjectForEntityForName:@"AssemblyType" inManagedObjectContext:managedObjectContext];
         assembly.type = assemblyType;
-        assemblyToInterpret.type.assemblyBeforeRotation = assembly;
+        assemblyTypeToInterpret.assemblyBeforeRotation = assembly;
         };
         
       void (^removeAllParts)() = ^()
         {
         prepareReinterpret();
-        [assemblyToInterpret.type.detailsInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
+        [assemblyTypeToInterpret.detailsInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
           {
           [managedObjectContext deleteObject:obj];
           }];
-        [assemblyToInterpret.type.assembliesInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
+        [assemblyTypeToInterpret.assembliesInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
           {
           [managedObjectContext deleteObject:obj];
           }];
-        [managedObjectContext deleteObject:assemblyToInterpret.type.assemblyBase];
+        [managedObjectContext deleteObject:assemblyTypeToInterpret.assemblyBase];
         commitReinterpret();
         };
         
       void (^detachParts)() = ^()
         {
         prepareReinterpret();
-        assemblyToInterpret.type.assemblyBeforeRotation.type.assemblyBase = assemblyToInterpret.type.assemblyBase;
-        assemblyToInterpret.type.assemblyBase = nil;
-        assemblyToInterpret.type.assemblyBeforeRotation.type.assembliesInstalled = assemblyToInterpret.type.assembliesInstalled;
-        assemblyToInterpret.type.assembliesInstalled = nil;
-        assemblyToInterpret.type.assemblyBeforeRotation.type.detailsInstalled = assemblyToInterpret.type.detailsInstalled;
-        assemblyToInterpret.type.detailsInstalled = nil;
+        assemblyTypeToInterpret.assemblyBeforeRotation.type.assemblyBase = assemblyTypeToInterpret.assemblyBase;
+        assemblyTypeToInterpret.assemblyBase = nil;
+        assemblyTypeToInterpret.assemblyBeforeRotation.type.assembliesInstalled = assemblyTypeToInterpret.assembliesInstalled;
+        assemblyTypeToInterpret.assembliesInstalled = nil;
+        assemblyTypeToInterpret.assemblyBeforeRotation.type.detailsInstalled = assemblyTypeToInterpret.detailsInstalled;
+        assemblyTypeToInterpret.detailsInstalled = nil;
         commitReinterpret();
         };
         
       void (^useBaseAsRotatedAndRemoveOthers)() = ^()
         {
         //prepareReinterpret(); don't create an assemblyBeforeRotation
-        assemblyToInterpret.type.assemblyBeforeRotation = assemblyToInterpret.type.assemblyBase;
-        assemblyToInterpret.type.assemblyBase = nil;
-        [assemblyToInterpret.type.assembliesInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
+        assemblyTypeToInterpret.assemblyBeforeRotation = assemblyTypeToInterpret.assemblyBase;
+        assemblyTypeToInterpret.assemblyBase = nil;
+        [assemblyTypeToInterpret.assembliesInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
           {
           [managedObjectContext deleteObject:obj];
           }];
-        [assemblyToInterpret.type.detailsInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
+        [assemblyTypeToInterpret.detailsInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
           {
           [managedObjectContext deleteObject:obj];
           }];
         commitReinterpret();
         };
         
-      if (![self isAnythingChangedInAssembly:assemblyToInterpret] || [actionOnReinterpretDetachedAsRotatedOrTransformed isEqualToString:preferredActionOnReinterpretDetachedAsRotatedOrTransformed_RemoveEverything])
+      if (![self isAnythingChangedInAssemblyType:assemblyTypeToInterpret] || [actionOnReinterpretDetachedAsRotatedOrTransformed isEqualToString:preferredActionOnReinterpretDetachedAsRotatedOrTransformed_RemoveEverything])
         removeAllParts();
       else if ([actionOnReinterpretDetachedAsRotatedOrTransformed isEqualToString:preferredActionOnReinterpretDetachedAsRotatedOrTransformed_AskMe])
         {
@@ -406,53 +406,53 @@
         Assembly* assembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:managedObjectContext];
         AssemblyType* assemblyType = (AssemblyType*)[NSEntityDescription insertNewObjectForEntityForName:@"AssemblyType" inManagedObjectContext:managedObjectContext];
         assembly.type = assemblyType;
-        assemblyToInterpret.type.assemblyBeforeTransformation = assembly;
+        assemblyTypeToInterpret.assemblyBeforeTransformation = assembly;
         };
         
       void (^removeAllParts)() = ^()
         {
         prepareReinterpret();
-        [assemblyToInterpret.type.detailsInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
+        [assemblyTypeToInterpret.detailsInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
           {
           [managedObjectContext deleteObject:obj];
           }];
-        [assemblyToInterpret.type.assembliesInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
+        [assemblyTypeToInterpret.assembliesInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
           {
           [managedObjectContext deleteObject:obj];
           }];
-        [managedObjectContext deleteObject:assemblyToInterpret.type.assemblyBase];
+        [managedObjectContext deleteObject:assemblyTypeToInterpret.assemblyBase];
         commitReinterpret();
         };
         
       void (^detachFromAssembly)() = ^()
         {
         prepareReinterpret();
-        assemblyToInterpret.type.assemblyBeforeTransformation.type.assemblyBase = assemblyToInterpret.type.assemblyBase;
-        assemblyToInterpret.type.assemblyBase = nil;
-        assemblyToInterpret.type.assemblyBeforeTransformation.type.assembliesInstalled = assemblyToInterpret.type.assembliesInstalled;
-        assemblyToInterpret.type.assembliesInstalled = nil;
-        assemblyToInterpret.type.assemblyBeforeTransformation.type.detailsInstalled = assemblyToInterpret.type.detailsInstalled;
-        assemblyToInterpret.type.detailsInstalled = nil;
+        assemblyTypeToInterpret.assemblyBeforeTransformation.type.assemblyBase = assemblyTypeToInterpret.assemblyBase;
+        assemblyTypeToInterpret.assemblyBase = nil;
+        assemblyTypeToInterpret.assemblyBeforeTransformation.type.assembliesInstalled = assemblyTypeToInterpret.assembliesInstalled;
+        assemblyTypeToInterpret.assembliesInstalled = nil;
+        assemblyTypeToInterpret.assemblyBeforeTransformation.type.detailsInstalled = assemblyTypeToInterpret.detailsInstalled;
+        assemblyTypeToInterpret.detailsInstalled = nil;
         commitReinterpret();
         };
         
       void (^useBaseAsTransformed)() = ^()
         {
         //prepareReinterpret(); don't create an assemblyBeforeTransformation
-        assemblyToInterpret.type.assemblyBeforeTransformation = assemblyToInterpret.type.assemblyBase;
-        assemblyToInterpret.type.assemblyBase = nil;
-        [assemblyToInterpret.type.assembliesInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
+        assemblyTypeToInterpret.assemblyBeforeTransformation = assemblyTypeToInterpret.assemblyBase;
+        assemblyTypeToInterpret.assemblyBase = nil;
+        [assemblyTypeToInterpret.assembliesInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
           {
           [managedObjectContext deleteObject:obj];
           }];
-        [assemblyToInterpret.type.detailsInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
+        [assemblyTypeToInterpret.detailsInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
           {
           [managedObjectContext deleteObject:obj];
           }];
         commitReinterpret();
         };
         
-      if (![self isAnythingChangedInAssembly:assemblyToInterpret] || [actionOnReinterpretDetachedAsRotatedOrTransformed isEqualToString:preferredActionOnReinterpretDetachedAsRotatedOrTransformed_RemoveEverything])
+      if (![self isAnythingChangedInAssemblyType:assemblyTypeToInterpret] || [actionOnReinterpretDetachedAsRotatedOrTransformed isEqualToString:preferredActionOnReinterpretDetachedAsRotatedOrTransformed_RemoveEverything])
         removeAllParts();
       else if ([actionOnReinterpretDetachedAsRotatedOrTransformed isEqualToString:preferredActionOnReinterpretDetachedAsRotatedOrTransformed_AskMe])
         {
@@ -501,32 +501,32 @@
         Assembly* assembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:managedObjectContext];
         AssemblyType* assemblyType = (AssemblyType*)[NSEntityDescription insertNewObjectForEntityForName:@"AssemblyType" inManagedObjectContext:managedObjectContext];
         assembly.type = assemblyType;
-        assemblyToInterpret.type.assemblyBase = assembly;
+        assemblyTypeToInterpret.assemblyBase = assembly;
         };
         
       void (^removeAssembly)() = ^()
         {
         prepareReinterpret();
-        [managedObjectContext deleteObject:assemblyToInterpret.type.assemblyBeforeRotation];
+        [managedObjectContext deleteObject:assemblyTypeToInterpret.assemblyBeforeRotation];
         commitReinterpret();
         };
         
       void (^rotateBaseAssembly)() = ^()
         {
         prepareReinterpret();
-        assemblyToInterpret.type.assemblyBase.type.assemblyBeforeRotation = assemblyToInterpret.type.assemblyBeforeRotation;
+        assemblyTypeToInterpret.assemblyBase.type.assemblyBeforeRotation = assemblyTypeToInterpret.assemblyBeforeRotation;
         commitReinterpret();
         };
         
       void (^useRotatedAsBase)() = ^()
         {
         //prepareReinterpret(); don't create an assemblyBase
-        assemblyToInterpret.type.assemblyBase = assemblyToInterpret.type.assemblyBeforeRotation;
-        assemblyToInterpret.type.assemblyBeforeRotation = nil;
+        assemblyTypeToInterpret.assemblyBase = assemblyTypeToInterpret.assemblyBeforeRotation;
+        assemblyTypeToInterpret.assemblyBeforeRotation = nil;
         commitReinterpret();
         };
         
-      if (![self isAnythingChangedInAssembly:assemblyToInterpret] || [actionOnReinterpretRotatedOrTransformedAsDetached isEqualToString:preferredActionOnReinterpretRotatedOrTransformedAsDetached_RemoveRotatedOrTransformedAssembly])
+      if (![self isAnythingChangedInAssemblyType:assemblyTypeToInterpret] || [actionOnReinterpretRotatedOrTransformedAsDetached isEqualToString:preferredActionOnReinterpretRotatedOrTransformedAsDetached_RemoveRotatedOrTransformedAssembly])
         removeAssembly();
       else if ([actionOnReinterpretRotatedOrTransformedAsDetached isEqualToString:preferredActionOnReinterpretRotatedOrTransformedAsDetached_AskMe])
         {
@@ -570,16 +570,16 @@
         
       void (^removeAssembly)() = ^()
         {
-        while (assemblyToInterpret.type.detailsInstalled.count < 2)//at list two details should be present in split assembly
+        while (assemblyTypeToInterpret.detailsInstalled.count < 2)//at list two details should be present in split assembly
           {
           Detail* detail = (Detail*)[NSEntityDescription insertNewObjectForEntityForName:@"Detail" inManagedObjectContext:managedObjectContext];
-          [assemblyToInterpret.type addDetailsInstalledObject:detail];
+          [assemblyTypeToInterpret addDetailsInstalledObject:detail];
           }
-        [managedObjectContext deleteObject:assemblyToInterpret.type.assemblyBeforeRotation];
+        [managedObjectContext deleteObject:assemblyTypeToInterpret.assemblyBeforeRotation];
         commitReinterpret();
         };
 
-      if ([self isAnythingChangedInAssembly:assemblyToInterpret] && askAboutImplicitPartsDeletion)
+      if ([self isAnythingChangedInAssemblyType:assemblyTypeToInterpret] && askAboutImplicitPartsDeletion)
         {
         ActionSheet* reinterpretActionSheet = [[ActionSheet alloc]
            initWithTitle: NSLocalizedString(@"The assembly is currently rotated. Splitting it to details instead needs the rotated assembly to be removed. Would you like to:", @"Action sheet: title")
@@ -614,33 +614,33 @@
         Assembly* assembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:managedObjectContext];
         AssemblyType* assemblyType = (AssemblyType*)[NSEntityDescription insertNewObjectForEntityForName:@"AssemblyType" inManagedObjectContext:managedObjectContext];
         assembly.type = assemblyType;
-        assemblyToInterpret.type.assemblyBeforeTransformation = assembly;
+        assemblyTypeToInterpret.assemblyBeforeTransformation = assembly;
         };
         
       void (^removeAssembly)() = ^()
         {
         prepareReinterpret();
-        [managedObjectContext deleteObject:assemblyToInterpret.type.assemblyBeforeRotation];
+        [managedObjectContext deleteObject:assemblyTypeToInterpret.assemblyBeforeRotation];
         commitReinterpret();
         };
         
       void (^transformRotatedAssembly)() = ^()
         {
         prepareReinterpret();
-        assemblyToInterpret.type.assemblyBeforeTransformation.type.assemblyBeforeRotation = assemblyToInterpret.type.assemblyBeforeRotation;
-        assemblyToInterpret.type.assemblyBeforeRotation = nil;
+        assemblyTypeToInterpret.assemblyBeforeTransformation.type.assemblyBeforeRotation = assemblyTypeToInterpret.assemblyBeforeRotation;
+        assemblyTypeToInterpret.assemblyBeforeRotation = nil;
         commitReinterpret();
         };
         
       void (^useRotatedAsTransformed)() = ^()
         {
         //prepareReinterpret(); don't create an assemblyBeforTransformation
-        assemblyToInterpret.type.assemblyBeforeTransformation = assemblyToInterpret.type.assemblyBeforeRotation;
-        assemblyToInterpret.type.assemblyBeforeRotation = nil;
+        assemblyTypeToInterpret.assemblyBeforeTransformation = assemblyTypeToInterpret.assemblyBeforeRotation;
+        assemblyTypeToInterpret.assemblyBeforeRotation = nil;
         commitReinterpret();
         };
         
-      if (![self isAnythingChangedInAssembly:assemblyToInterpret] || [actionOnReinterpretRotatedAsTransformedAndViceVersa isEqualToString:preferredActionOnReinterpretRotatedAsTransformedAndViceVersa_RemoveRotatedOrTransformedAssembly])
+      if (![self isAnythingChangedInAssemblyType:assemblyTypeToInterpret] || [actionOnReinterpretRotatedAsTransformedAndViceVersa isEqualToString:preferredActionOnReinterpretRotatedAsTransformedAndViceVersa_RemoveRotatedOrTransformedAssembly])
         removeAssembly();
       else if ([actionOnReinterpretRotatedAsTransformedAndViceVersa isEqualToString:preferredActionOnReinterpretRotatedAsTransformedAndViceVersa_AskMe])
         {
@@ -689,32 +689,32 @@
         Assembly* assembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:managedObjectContext];
         AssemblyType* assemblyType = (AssemblyType*)[NSEntityDescription insertNewObjectForEntityForName:@"AssemblyType" inManagedObjectContext:managedObjectContext];
         assembly.type = assemblyType;
-        assemblyToInterpret.type.assemblyBase = assembly;
+        assemblyTypeToInterpret.assemblyBase = assembly;
         };
         
       void (^removeAssembly)() = ^()
         {
         prepareReinterpret();
-        [managedObjectContext deleteObject:assemblyToInterpret.type.assemblyBeforeTransformation];
+        [managedObjectContext deleteObject:assemblyTypeToInterpret.assemblyBeforeTransformation];
         commitReinterpret();
         };
         
       void (^transformBaseAssembly)() = ^()
         {
         prepareReinterpret();
-        assemblyToInterpret.type.assemblyBase.type.assemblyBeforeTransformation = assemblyToInterpret.type.assemblyBeforeTransformation;
+        assemblyTypeToInterpret.assemblyBase.type.assemblyBeforeTransformation = assemblyTypeToInterpret.assemblyBeforeTransformation;
         commitReinterpret();
         };
         
       void (^useTransformedAsBase)() = ^()
         {
         //prepareReinterpret(); don't create an assemblyBase!!!
-        assemblyToInterpret.type.assemblyBase = assemblyToInterpret.type.assemblyBeforeTransformation;
-        assemblyToInterpret.type.assemblyBeforeTransformation = nil;
+        assemblyTypeToInterpret.assemblyBase = assemblyTypeToInterpret.assemblyBeforeTransformation;
+        assemblyTypeToInterpret.assemblyBeforeTransformation = nil;
         commitReinterpret();
         };
         
-      if (![self isAnythingChangedInAssembly:assemblyToInterpret] || [actionOnReinterpretRotatedOrTransformedAsDetached isEqualToString:preferredActionOnReinterpretRotatedOrTransformedAsDetached_RemoveRotatedOrTransformedAssembly])
+      if (![self isAnythingChangedInAssemblyType:assemblyTypeToInterpret] || [actionOnReinterpretRotatedOrTransformedAsDetached isEqualToString:preferredActionOnReinterpretRotatedOrTransformedAsDetached_RemoveRotatedOrTransformedAssembly])
         removeAssembly();
       else if ([actionOnReinterpretRotatedOrTransformedAsDetached isEqualToString:preferredActionOnReinterpretRotatedOrTransformedAsDetached_AskMe])
         {
@@ -758,16 +758,16 @@
       
       void (^removeAssembly)() = ^()
         {
-        while (assemblyToInterpret.type.detailsInstalled.count < 2)//at list two details should be present in split assembly
+        while (assemblyTypeToInterpret.detailsInstalled.count < 2)//at list two details should be present in split assembly
           {
           Detail* detail = (Detail*)[NSEntityDescription insertNewObjectForEntityForName:@"Detail" inManagedObjectContext:managedObjectContext];
-          [assemblyToInterpret.type addDetailsInstalledObject:detail];
+          [assemblyTypeToInterpret addDetailsInstalledObject:detail];
           }
-        [managedObjectContext deleteObject:assemblyToInterpret.type.assemblyBeforeTransformation];
+        [managedObjectContext deleteObject:assemblyTypeToInterpret.assemblyBeforeTransformation];
         commitReinterpret();
         };
 
-      if ([self isAnythingChangedInAssembly:assemblyToInterpret] && askAboutImplicitPartsDeletion)
+      if ([self isAnythingChangedInAssemblyType:assemblyTypeToInterpret] && askAboutImplicitPartsDeletion)
         {
         ActionSheet* reinterpretActionSheet = [[ActionSheet alloc]
            initWithTitle: NSLocalizedString(@"The assembly is currently transformed. Splitting it to details instead needs the transformed assembly to be removed. Would you like to:", @"Action sheet: title")
@@ -803,33 +803,33 @@
         Assembly* assembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:managedObjectContext];
         AssemblyType* assemblyType = (AssemblyType*)[NSEntityDescription insertNewObjectForEntityForName:@"AssemblyType" inManagedObjectContext:managedObjectContext];
         assembly.type = assemblyType;
-        assemblyToInterpret.type.assemblyBeforeRotation = assembly;
+        assemblyTypeToInterpret.assemblyBeforeRotation = assembly;
         };
         
       void (^removeAssembly)() = ^()
         {
         prepareReinterpret();
-        [managedObjectContext deleteObject:assemblyToInterpret.type.assemblyBeforeTransformation];
+        [managedObjectContext deleteObject:assemblyTypeToInterpret.assemblyBeforeTransformation];
         commitReinterpret();
         };
         
       void (^transformRotatedAssembly)() = ^()
         {
         prepareReinterpret();
-        assemblyToInterpret.type.assemblyBeforeRotation.type.assemblyBeforeTransformation = assemblyToInterpret.type.assemblyBeforeTransformation;
-        assemblyToInterpret.type.assemblyBeforeTransformation = nil;
+        assemblyTypeToInterpret.assemblyBeforeRotation.type.assemblyBeforeTransformation = assemblyTypeToInterpret.assemblyBeforeTransformation;
+        assemblyTypeToInterpret.assemblyBeforeTransformation = nil;
         commitReinterpret();
         };
         
       void (^useTransformedAsRotated)() = ^()
         {
         //prepareReinterpret(); don't create an assemblyBeforeRotation
-        assemblyToInterpret.type.assemblyBeforeRotation = assemblyToInterpret.type.assemblyBeforeTransformation;
-        assemblyToInterpret.type.assemblyBeforeTransformation = nil;
+        assemblyTypeToInterpret.assemblyBeforeRotation = assemblyTypeToInterpret.assemblyBeforeTransformation;
+        assemblyTypeToInterpret.assemblyBeforeTransformation = nil;
         commitReinterpret();
         };
         
-      if (![self isAnythingChangedInAssembly:assemblyToInterpret] || [actionOnReinterpretRotatedAsTransformedAndViceVersa isEqualToString:preferredActionOnReinterpretRotatedAsTransformedAndViceVersa_RemoveRotatedOrTransformedAssembly])
+      if (![self isAnythingChangedInAssemblyType:assemblyTypeToInterpret] || [actionOnReinterpretRotatedAsTransformedAndViceVersa isEqualToString:preferredActionOnReinterpretRotatedAsTransformedAndViceVersa_RemoveRotatedOrTransformedAssembly])
         removeAssembly();
       else if ([actionOnReinterpretRotatedAsTransformedAndViceVersa isEqualToString:preferredActionOnReinterpretRotatedAsTransformedAndViceVersa_AskMe])
         {
@@ -872,16 +872,16 @@
       Assembly* assembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:managedObjectContext];
       AssemblyType* assemblyType = (AssemblyType*)[NSEntityDescription insertNewObjectForEntityForName:@"AssemblyType" inManagedObjectContext:managedObjectContext];
       assembly.type = assemblyType;
-      assemblyToInterpret.type.assemblyBase = assembly;
+      assemblyTypeToInterpret.assemblyBase = assembly;
       // Commit the change.
       [managedObjectContext saveAndHandleError];
       }
     else if ([standardActionOnAssembly_SplitToDetails isEqualToString:standardActionName])
       {
-      while (assemblyToInterpret.type.detailsInstalled.count < 2)//at list two details should be present in split assembly
+      while (assemblyTypeToInterpret.detailsInstalled.count < 2)//at list two details should be present in split assembly
         {
         Detail* detail = (Detail*)[NSEntityDescription insertNewObjectForEntityForName:@"Detail" inManagedObjectContext:managedObjectContext];
-        [assemblyToInterpret.type addDetailsInstalledObject:detail];
+        [assemblyTypeToInterpret addDetailsInstalledObject:detail];
         }
       // Commit the change.
       [managedObjectContext saveAndHandleError];
@@ -891,7 +891,7 @@
       Assembly* assembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:managedObjectContext];
       AssemblyType* assemblyType = (AssemblyType*)[NSEntityDescription insertNewObjectForEntityForName:@"AssemblyType" inManagedObjectContext:managedObjectContext];
       assembly.type = assemblyType;
-      assemblyToInterpret.type.assemblyBeforeRotation = assembly;
+      assemblyTypeToInterpret.assemblyBeforeRotation = assembly;
       // Commit the change.
       [managedObjectContext saveAndHandleError];
       }
@@ -900,7 +900,7 @@
       Assembly* assembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:managedObjectContext];
       AssemblyType* assemblyType = (AssemblyType*)[NSEntityDescription insertNewObjectForEntityForName:@"AssemblyType" inManagedObjectContext:managedObjectContext];
       assembly.type = assemblyType;
-      assemblyToInterpret.type.assemblyBeforeTransformation = assembly;
+      assemblyTypeToInterpret.assemblyBeforeTransformation = assembly;
       // Commit the change.
       [managedObjectContext saveAndHandleError];
       }

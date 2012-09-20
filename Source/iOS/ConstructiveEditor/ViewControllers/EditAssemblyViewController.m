@@ -34,14 +34,19 @@
 
 @implementation EditAssemblyViewController
 
-@synthesize assembly = _assembly;
+@synthesize assemblies = _assemblies;
+
+- (Assembly*)assembly
+  {
+  return (Assembly*)[self.assemblies lastObject];
+  }
   
 - (void)updateConstraints
   {
   float containerWidth = _containerViewForParentImageView.bounds.size.width;
   float containerHeight = _containerViewForParentImageView.bounds.size.height;
   float containerWidthToHeightProportion = containerWidth/containerHeight;
-  UIImage* parentPicture = [self.assembly.assemblyToInstallTo pictureToShow];
+  UIImage* parentPicture = [[self.assembly assemblyToInstallTo] pictureToShow];
   float widthToHeightProportionOfParentImage = nil != parentPicture
                                              ? parentPicture.size.width/parentPicture.size.height
                                              : 1;//just a value bigger then 0
@@ -88,8 +93,8 @@
 - (void)viewDidLoad
   {
   [super viewDidLoad];
-  _imageView.image = [_assembly.type pictureToShow]
-                   ? [_assembly.type pictureToShow]
+  _imageView.image = [self.assembly.type pictureToShow]
+                   ? [self.assembly.type pictureToShow]
                    : [UIImage imageNamed:@"NoPhotoBig.png"];
   UIImage* parentPicture = [self.assembly.assemblyToInstallTo pictureToShow];
   _imageViewParent.image = parentPicture
@@ -203,11 +208,11 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)selectedImage editingInfo:(NSDictionary *)editingInfo
   {	
   //WORKS REALLY LONG TIME: check the photo picker example to see how we can speed it up
-	_assembly.type.picture = selectedImage;
+	self.assembly.type.picture = selectedImage;
   // Commit the change.
-  [_assembly.managedObjectContext saveAndHandleError];
-	_imageView.image = [_assembly.type pictureToShow]
-                   ? [_assembly.type pictureToShow]
+  [self.assembly.managedObjectContext saveAndHandleError];
+	_imageView.image = [self.assembly.type pictureToShow]
+                   ? [self.assembly.type pictureToShow]
                    : [UIImage imageNamed:@"NoPhotoBig.png"];
 
   [self dismissModalViewControllerAnimated:YES];

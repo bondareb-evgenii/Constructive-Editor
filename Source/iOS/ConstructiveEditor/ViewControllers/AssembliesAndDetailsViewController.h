@@ -7,10 +7,10 @@
 
 #import <UIKit/UIKit.h>
 
-@class Assembly;
+@class AssemblyType;
 
 @interface AssembliesAndDetailsViewController : UIViewController
   
-  @property (nonatomic, strong) Assembly* assembly;
+  @property (nonatomic, strong) AssemblyType* assemblyType;
 
 @end

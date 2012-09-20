@@ -267,14 +267,30 @@
                                                         <constraint firstAttribute="height" constant="60" id="jZl-yg-aTh"/>
                                                     </constraints>
                                                 </imageView>
+                                                <stepper translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" id="Ad4-YU-VCY"/>
+                                                <label translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" text="1" textAlignment="right" adjustsFontSizeToFit="NO" autoshrinkMode="none" id="Yae-6X-vaa">
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="25" id="V0i-xh-3NK"/>
+                                                    </constraints>
+                                                    <nil key="highlightedColor"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                </label>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
-                                            <constraint firstItem="PTf-h0-gxJ" firstAttribute="leading" secondItem="zf7-pg-VBB" secondAttribute="leading" constant="45" id="McB-hS-4Ot"/>
-                                            <constraint firstItem="PTf-h0-gxJ" firstAttribute="centerY" secondItem="zf7-pg-VBB" secondAttribute="centerY" type="default" id="NdJ-8a-PbJ"/>
+                                            <constraint firstItem="Yae-6X-vaa" firstAttribute="leading" secondItem="zf7-pg-VBB" secondAttribute="leading" constant="116" id="2z7-am-6gt"/>
+                                            <constraint firstItem="Ad4-YU-VCY" firstAttribute="leading" secondItem="Yae-6X-vaa" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="Dbc-cu-kcI"/>
+                                            <constraint firstItem="Ad4-YU-VCY" firstAttribute="centerY" secondItem="PTf-h0-gxJ" secondAttribute="centerY" type="default" id="Kea-G9-WOY"/>
+                                            <constraint firstItem="Ad4-YU-VCY" firstAttribute="centerY" secondItem="zf7-pg-VBB" secondAttribute="centerY" type="default" id="Z5T-dJ-8fe"/>
+                                            <constraint firstItem="PTf-h0-gxJ" firstAttribute="leading" secondItem="zf7-pg-VBB" secondAttribute="leading" constant="45" id="aoD-Y3-zXi"/>
+                                            <constraint firstItem="Yae-6X-vaa" firstAttribute="top" secondItem="Ad4-YU-VCY" secondAttribute="top" type="default" id="nYQ-3o-BBd"/>
+                                            <constraint firstAttribute="bottom" secondItem="Yae-6X-vaa" secondAttribute="bottom" constant="20" type="default" id="wgd-Lu-CXJ"/>
                                         </constraints>
                                         <connections>
+                                            <outlet property="countLabel" destination="Yae-6X-vaa" id="fM5-p6-uoI"/>
+                                            <outlet property="countStepper" destination="Ad4-YU-VCY" id="fZx-fa-5Wi"/>
                                             <outlet property="picture" destination="PTf-h0-gxJ" id="mKT-g4-Z6j"/>
                                             <segue destination="BAE-IJ-KaX" kind="push" identifier="ShowAssemblyDetails" trigger="accessoryAction" id="YVN-lW-CPH"/>
                                         </connections>
@@ -292,12 +308,26 @@
                                                         <constraint firstAttribute="height" constant="60" id="qsI-L0-yo9"/>
                                                     </constraints>
                                                 </imageView>
+                                                <stepper translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" id="3Pd-eP-WHm"/>
+                                                <label translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" text="1" textAlignment="right" adjustsFontSizeToFit="NO" autoshrinkMode="none" id="OOr-T2-NRv">
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="25" id="yIt-3L-aRo"/>
+                                                    </constraints>
+                                                    <nil key="highlightedColor"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                </label>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
+                                            <constraint firstItem="3Pd-eP-WHm" firstAttribute="leading" secondItem="OOr-T2-NRv" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="9nd-lz-ABk"/>
+                                            <constraint firstItem="3Pd-eP-WHm" firstAttribute="top" secondItem="OOr-T2-NRv" secondAttribute="top" type="default" id="A0L-rY-mTm"/>
+                                            <constraint firstItem="3Pd-eP-WHm" firstAttribute="centerY" secondItem="hlH-s5-jev" secondAttribute="centerY" type="default" id="K1M-nK-X2O"/>
+                                            <constraint firstItem="3Pd-eP-WHm" firstAttribute="centerY" secondItem="GFu-9y-sI6" secondAttribute="centerY" type="default" id="XDh-yh-ITT"/>
                                             <constraint firstItem="hlH-s5-jev" firstAttribute="leading" secondItem="GFu-9y-sI6" secondAttribute="leading" constant="45" id="XSF-tT-i3y"/>
-                                            <constraint firstItem="hlH-s5-jev" firstAttribute="centerY" secondItem="GFu-9y-sI6" secondAttribute="centerY" type="default" id="jo8-su-lIR"/>
+                                            <constraint firstAttribute="bottom" secondItem="OOr-T2-NRv" secondAttribute="bottom" constant="20" type="default" id="aA2-7g-nur"/>
+                                            <constraint firstItem="OOr-T2-NRv" firstAttribute="leading" secondItem="GFu-9y-sI6" secondAttribute="leading" constant="116" id="oYO-uD-TXq"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="picture" destination="hlH-s5-jev" id="g2b-ey-wGI"/>
@@ -529,8 +559,8 @@
                                 <rect key="frame" x="92" y="5" width="223" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <stepper hidden="YES" translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" id="04z-T3-LLh"/>
-                                    <label hidden="YES" translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" text="1" textAlignment="right" adjustsFontSizeToFit="NO" autoshrinkMode="none" id="IM5-ns-CeC">
+                                    <stepper translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" id="04z-T3-LLh"/>
+                                    <label translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" text="1" textAlignment="right" adjustsFontSizeToFit="NO" autoshrinkMode="none" id="IM5-ns-CeC">
                                         <constraints>
                                             <constraint firstAttribute="height" constant="24" id="ZgJ-fH-oRP"/>
                                             <constraint firstAttribute="width" constant="25" id="lhT-xp-ux1"/>
@@ -714,8 +744,8 @@
                                             <constraint firstAttribute="width" constant="30" id="bDN-tb-MZF"/>
                                         </constraints>
                                     </imageView>
-                                    <stepper hidden="YES" translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" id="zdP-AX-F8U"/>
-                                    <label hidden="YES" translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" text="1" textAlignment="right" adjustsFontSizeToFit="NO" autoshrinkMode="none" id="Xb6-4c-S3B">
+                                    <stepper translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" id="zdP-AX-F8U"/>
+                                    <label translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" text="1" textAlignment="right" adjustsFontSizeToFit="NO" autoshrinkMode="none" id="Xb6-4c-S3B">
                                         <constraints>
                                             <constraint firstAttribute="width" constant="25" id="Czd-4y-DqT"/>
                                             <constraint firstAttribute="height" constant="24" id="Yz5-k2-wW5"/>
@@ -1002,6 +1032,111 @@
         <image name="transform_Highlighted_iPhone.png" width="30" height="30"/>
         <image name="transform_Normal_iPhone.png" width="30" height="30"/>
     </resources>
+    <classes>
+        <class className="AssembliesAndDetailsViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/AssembliesAndDetailsViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="_assembliesAndDetailsTable" candidateClass="UITableView"/>
+                <relationship kind="outlet" name="_detachButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="_exportButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="_preferencesButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="_rotateButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="_splitButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="_transformButton" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+        <class className="AssemblyCellView" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/AssemblyCellView.h"/>
+            <relationships>
+                <relationship kind="outlet" name="countLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="countStepper" candidateClass="UIStepper"/>
+                <relationship kind="outlet" name="picture" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="DetailCellView" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/DetailCellView.h"/>
+            <relationships>
+                <relationship kind="outlet" name="picture" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="DetailTypeCellView" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/DetailTypeCellView.h"/>
+            <relationships>
+                <relationship kind="outlet" name="picture" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="DetailTypesViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/DetailTypesViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="_connectionPointButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="_detailTypesTable" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="EditAssemblyViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EditAssemblyViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="_constraintViewAspectFitHeight" candidateClass="NSLayoutConstraint"/>
+                <relationship kind="outlet" name="_constraintViewAspectFitWidth" candidateClass="NSLayoutConstraint"/>
+                <relationship kind="outlet" name="_constraintViewPinX" candidateClass="NSLayoutConstraint"/>
+                <relationship kind="outlet" name="_constraintViewPinY" candidateClass="NSLayoutConstraint"/>
+                <relationship kind="outlet" name="_containerViewForParentImageView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="_doneButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="_imageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="_imageViewParent" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="_tapOnParentImageGestureRecognizer" candidateClass="UITapGestureRecognizer"/>
+                <relationship kind="outlet" name="_viewAspectFit" candidateClass="UIView"/>
+                <relationship kind="outlet" name="_viewPin" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="EditDetailTypeViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EditDetailTypeViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="_constraintImageViewLeadingSpaceToSuperview" candidateClass="NSLayoutConstraint"/>
+                <relationship kind="outlet" name="_constraintPickerTrainlingSpaceToSuperview" candidateClass="NSLayoutConstraint"/>
+                <relationship kind="outlet" name="_constraintVerticalSpaceFromPickerToImageView" candidateClass="NSLayoutConstraint"/>
+                <relationship kind="outlet" name="_detailClassPicker" candidateClass="UIPickerView"/>
+                <relationship kind="outlet" name="_detailLabelTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="_detailLengthLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="_detailLengthStepper" candidateClass="UIStepper"/>
+                <relationship kind="outlet" name="_pictureImageView" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="EditDetailViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EditDetailViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="_constraintViewAspectFitHeight" candidateClass="NSLayoutConstraint"/>
+                <relationship kind="outlet" name="_constraintViewAspectFitWidth" candidateClass="NSLayoutConstraint"/>
+                <relationship kind="outlet" name="_constraintViewPinX" candidateClass="NSLayoutConstraint"/>
+                <relationship kind="outlet" name="_constraintViewPinY" candidateClass="NSLayoutConstraint"/>
+                <relationship kind="outlet" name="_containerViewForParentImageView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="_doneButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="_imageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="_imageViewParent" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="_tapOnParentImageGestureRecognizer" candidateClass="UITapGestureRecognizer"/>
+                <relationship kind="outlet" name="_viewAspectFit" candidateClass="UIView"/>
+                <relationship kind="outlet" name="_viewPin" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="RootAssemblyViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/RootAssemblyViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="_exportButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="_preferencesButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="_rootAssemblyTable" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="StartMenuViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/StartMenuViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="_documentsTable" candidateClass="UITableView"/>
+                <relationship kind="outlet" name="_newDocumentCreateButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="_newDocumentNameTextField" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
@@ -1009,8 +1144,8 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="NZ4-iz-omb"/>
-        <segue reference="Kt3-Kg-qnc"/>
         <segue reference="JDV-Nc-Od8"/>
+        <segue reference="Kt3-Kg-qnc"/>
         <segue reference="YU5-mj-WCP"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -7,10 +7,8 @@
 
 #import <UIKit/UIKit.h>
 
-@class Detail;
-
 @interface DetailTypesViewController : UIViewController
   
-  @property (nonatomic, strong) Detail* detail;
+  @property (nonatomic, strong) NSMutableArray* details;
 
 @end

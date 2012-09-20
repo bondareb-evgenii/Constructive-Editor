@@ -79,9 +79,9 @@
       NSString* defaultActionName = [[NSUserDefaults standardUserDefaults] stringForKey:standardActionOnAssembly];
       if (!defaultActionName)
         defaultActionName = standardActionOnAssembly_Default;
-      [StandardActionsPerformer performStandardActionNamed:defaultActionName onAssembly:_rootAssembly inView:self.view withCompletionBlock:nil];
+      [StandardActionsPerformer performStandardActionNamed:defaultActionName onAssemblyType:_rootAssembly.type inView:self.view withCompletionBlock:nil];
       }
-    ((AssembliesAndDetailsViewController*)segue.destinationViewController).assembly = _rootAssembly;
+    ((AssembliesAndDetailsViewController*)segue.destinationViewController).assemblyType = _rootAssembly.type;
     }
   }
 

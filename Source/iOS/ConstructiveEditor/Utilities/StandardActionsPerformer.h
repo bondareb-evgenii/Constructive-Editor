@@ -7,10 +7,10 @@
 
 #import <Foundation/Foundation.h>
 
-@class Assembly;
+@class AssemblyType;
 
 @interface StandardActionsPerformer : NSObject
 
-+ (void)performStandardActionNamed:(NSString*)standardActionName onAssembly:(Assembly*)assembly inView:(UIView*)view withCompletionBlock:(void(^)(BOOL actionPerformed)) completion;
++ (void)performStandardActionNamed:(NSString*)standardActionName onAssemblyType:(AssemblyType*)assemblyTypeToInterpret inView:(UIView*)view withCompletionBlock:(void(^)(BOOL actionPerformed)) completion;
 
 @end

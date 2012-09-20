@@ -32,8 +32,13 @@
 
 @implementation DetailTypesViewController
 
-@synthesize detail = _detail;
+@synthesize details = _details;
 
+- (Detail*)detail
+  {
+  return [_details lastObject];
+  }
+  
 - (void)viewDidLoad
   {
   [super viewDidLoad];
@@ -69,7 +74,7 @@
     {
     self.detail.type = nil;
     [_detailTypes removeObject:selectedDetailType];
-    [_detail.managedObjectContext deleteObject:selectedDetailType];
+    [self.detail.managedObjectContext deleteObject:selectedDetailType];
     }
     
 	[_detailTypesTable reloadData];
@@ -84,7 +89,7 @@
     [_detailTypesTable selectRowAtIndexPath:[NSIndexPath indexPathForRow:detailTypeIndex inSection:0] animated:NO scrollPosition:UITableViewScrollPositionNone];
     }
 
-  _connectionPointButton.enabled = nil!=_detail.type;
+  _connectionPointButton.enabled = nil!=self.detail.type;
   }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -108,7 +113,7 @@
     if (_detailTypesTable.editing &&  detailTypeIndex > _addDetailTypeIndex)
       --detailTypeIndex;
     DetailType* detailType = [_detailTypes objectAtIndex:detailTypeIndex];
-    _detail.type = detailType;
+    self.detail.type = detailType;
     ((EditDetailTypeViewController*)segue.destinationViewController).detailType = detailType;
     }
   else if ([@"EditNewDetailType" isEqualToString:segue.identifier])
@@ -117,7 +122,7 @@
     self.detail.type = detailType;
     ((EditDetailTypeViewController*)segue.destinationViewController).detailType = detailType;
     // Commit the change.
-    [_detail.managedObjectContext saveAndHandleError];
+    [self.detail.managedObjectContext saveAndHandleError];
     
     //update cache
     [_detailTypes insertObject:detailType atIndex:_addDetailTypeIndex];
@@ -126,7 +131,7 @@
     }
   else if ([@"SelectDetailConnectionPointAfterTypeSelected" isEqualToString:segue.identifier])
     {
-    ((EditDetailViewController*)segue.destinationViewController).detail = _detail;
+    ((EditDetailViewController*)segue.destinationViewController).details = _details;
     }
   }
   
@@ -223,9 +228,9 @@
       if (!afterAddItem)
         --_addDetailTypeIndex;
         
-      [_detail.managedObjectContext deleteObject:[_detailTypes objectAtIndex:detailTypeIndex]];
+      [self.detail.managedObjectContext deleteObject:[_detailTypes objectAtIndex:detailTypeIndex]];
       // Commit the change.
-      [_detail.managedObjectContext saveAndHandleError];
+      [self.detail.managedObjectContext saveAndHandleError];
 
       //update cache and UI
       [_detailTypes removeObjectAtIndex:detailTypeIndex];

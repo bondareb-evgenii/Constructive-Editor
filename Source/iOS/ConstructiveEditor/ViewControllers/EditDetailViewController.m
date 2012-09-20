@@ -35,7 +35,12 @@
 
 @implementation EditDetailViewController
 
-@synthesize detail = _detail;
+@synthesize details = _details;
+
+- (Detail*)detail
+  {
+  return (Detail*)[_details lastObject];
+  }
   
 - (void)updateConstraints
   {
@@ -200,7 +205,7 @@
   {
   if([@"ChangeDetailType" isEqualToString:segue.identifier])
     {
-    ((DetailTypesViewController*)segue.destinationViewController).detail = self.detail;
+    ((DetailTypesViewController*)segue.destinationViewController).details = self.details;
     }
   }
   
