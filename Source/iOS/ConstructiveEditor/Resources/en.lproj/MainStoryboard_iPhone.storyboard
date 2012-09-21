@@ -267,7 +267,11 @@
                                                         <constraint firstAttribute="height" constant="60" id="jZl-yg-aTh"/>
                                                     </constraints>
                                                 </imageView>
-                                                <stepper translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" id="Ad4-YU-VCY"/>
+                                                <stepper translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minimumValue="1" maximumValue="100" id="Ad4-YU-VCY">
+                                                    <connections>
+                                                        <action selector="onAssembliesCountChanged:" destination="BAE-IJ-KaX" eventType="valueChanged" id="0tG-4e-AAx"/>
+                                                    </connections>
+                                                </stepper>
                                                 <label translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" text="1" textAlignment="right" adjustsFontSizeToFit="NO" autoshrinkMode="none" id="Yae-6X-vaa">
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="25" id="V0i-xh-3NK"/>
@@ -308,7 +312,11 @@
                                                         <constraint firstAttribute="height" constant="60" id="qsI-L0-yo9"/>
                                                     </constraints>
                                                 </imageView>
-                                                <stepper translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" id="3Pd-eP-WHm"/>
+                                                <stepper translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minimumValue="1" maximumValue="100" id="3Pd-eP-WHm">
+                                                    <connections>
+                                                        <action selector="onDetailsCountChanged:" destination="BAE-IJ-KaX" eventType="valueChanged" id="jbX-EI-xdO"/>
+                                                    </connections>
+                                                </stepper>
                                                 <label translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" text="1" textAlignment="right" adjustsFontSizeToFit="NO" autoshrinkMode="none" id="OOr-T2-NRv">
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="25" id="yIt-3L-aRo"/>
@@ -330,6 +338,8 @@
                                             <constraint firstItem="OOr-T2-NRv" firstAttribute="leading" secondItem="GFu-9y-sI6" secondAttribute="leading" constant="116" id="oYO-uD-TXq"/>
                                         </constraints>
                                         <connections>
+                                            <outlet property="countLabel" destination="OOr-T2-NRv" id="7Gp-Bz-NYx"/>
+                                            <outlet property="countStepper" destination="3Pd-eP-WHm" id="I4k-0b-c32"/>
                                             <outlet property="picture" destination="hlH-s5-jev" id="g2b-ey-wGI"/>
                                         </connections>
                                     </tableViewCell>
@@ -559,7 +569,11 @@
                                 <rect key="frame" x="92" y="5" width="223" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <stepper translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" id="04z-T3-LLh"/>
+                                    <stepper translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minimumValue="1" maximumValue="100" id="04z-T3-LLh">
+                                        <connections>
+                                            <action selector="onCountChanged:" destination="i86-oC-str" eventType="valueChanged" id="aht-wa-OK8"/>
+                                        </connections>
+                                    </stepper>
                                     <label translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" text="1" textAlignment="right" adjustsFontSizeToFit="NO" autoshrinkMode="none" id="IM5-ns-CeC">
                                         <constraints>
                                             <constraint firstAttribute="height" constant="24" id="ZgJ-fH-oRP"/>
@@ -634,6 +648,8 @@
                         <outlet property="_constraintViewPinX" destination="KdR-cy-x7N" id="vHf-E8-P3g"/>
                         <outlet property="_constraintViewPinY" destination="Qom-zz-Bxg" id="vuV-XH-dAG"/>
                         <outlet property="_containerViewForParentImageView" destination="5rX-Ip-u1J" id="b9I-Gf-KS7"/>
+                        <outlet property="_countLabel" destination="IM5-ns-CeC" id="OsK-Zx-Dch"/>
+                        <outlet property="_countStepper" destination="04z-T3-LLh" id="rA8-MR-5Ig"/>
                         <outlet property="_doneButton" destination="R7L-3D-SeM" id="2TT-Zp-Qts"/>
                         <outlet property="_imageView" destination="xkg-61-buM" id="dnT-gw-T8H"/>
                         <outlet property="_imageViewParent" destination="J4y-kJ-3jz" id="q8A-7K-Tqd"/>
@@ -744,7 +760,11 @@
                                             <constraint firstAttribute="width" constant="30" id="bDN-tb-MZF"/>
                                         </constraints>
                                     </imageView>
-                                    <stepper translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" id="zdP-AX-F8U"/>
+                                    <stepper translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minimumValue="1" maximumValue="100" id="zdP-AX-F8U">
+                                        <connections>
+                                            <action selector="onCountChanged:" destination="jXA-4O-VJV" eventType="valueChanged" id="tYx-0I-DAc"/>
+                                        </connections>
+                                    </stepper>
                                     <label translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" text="1" textAlignment="right" adjustsFontSizeToFit="NO" autoshrinkMode="none" id="Xb6-4c-S3B">
                                         <constraints>
                                             <constraint firstAttribute="width" constant="25" id="Czd-4y-DqT"/>
@@ -813,6 +833,8 @@
                         <outlet property="_constraintViewPinX" destination="CD2-Ai-mBu" id="IX5-5P-YKy"/>
                         <outlet property="_constraintViewPinY" destination="0NK-ux-x9t" id="BmH-nB-s9v"/>
                         <outlet property="_containerViewForParentImageView" destination="trv-wh-wOe" id="W3I-CV-3De"/>
+                        <outlet property="_countLabel" destination="Xb6-4c-S3B" id="J7a-MY-qQO"/>
+                        <outlet property="_countStepper" destination="zdP-AX-F8U" id="jtO-Ir-AkF"/>
                         <outlet property="_doneButton" destination="3D1-Ie-fvQ" id="9Ub-pn-fSw"/>
                         <outlet property="_imageView" destination="m9v-DH-0zD" id="e5s-nU-CeG"/>
                         <outlet property="_imageViewParent" destination="xs4-y7-aHZ" id="E0r-L1-r9e"/>
@@ -1056,6 +1078,8 @@
         <class className="DetailCellView" superclassName="UITableViewCell">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/DetailCellView.h"/>
             <relationships>
+                <relationship kind="outlet" name="countLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="countStepper" candidateClass="UIStepper"/>
                 <relationship kind="outlet" name="picture" candidateClass="UIImageView"/>
             </relationships>
         </class>
@@ -1080,6 +1104,8 @@
                 <relationship kind="outlet" name="_constraintViewPinX" candidateClass="NSLayoutConstraint"/>
                 <relationship kind="outlet" name="_constraintViewPinY" candidateClass="NSLayoutConstraint"/>
                 <relationship kind="outlet" name="_containerViewForParentImageView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="_countLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="_countStepper" candidateClass="UIStepper"/>
                 <relationship kind="outlet" name="_doneButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="_imageView" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="_imageViewParent" candidateClass="UIImageView"/>
@@ -1109,6 +1135,8 @@
                 <relationship kind="outlet" name="_constraintViewPinX" candidateClass="NSLayoutConstraint"/>
                 <relationship kind="outlet" name="_constraintViewPinY" candidateClass="NSLayoutConstraint"/>
                 <relationship kind="outlet" name="_containerViewForParentImageView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="_countLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="_countStepper" candidateClass="UIStepper"/>
                 <relationship kind="outlet" name="_doneButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="_imageView" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="_imageViewParent" candidateClass="UIImageView"/>
@@ -1144,8 +1172,8 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="NZ4-iz-omb"/>
-        <segue reference="JDV-Nc-Od8"/>
         <segue reference="Kt3-Kg-qnc"/>
+        <segue reference="2U8-C6-nGa"/>
         <segue reference="YU5-mj-WCP"/>
     </inferredMetricsTieBreakers>
 </document>

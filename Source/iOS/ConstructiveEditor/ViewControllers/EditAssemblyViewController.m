@@ -16,18 +16,20 @@
 
 @interface EditAssemblyViewController ()
   {
-  CGPoint _pinPointRelativeToParentImageSize;
-  __weak IBOutlet UIImageView *_imageView;
-  __weak IBOutlet UIView *_containerViewForParentImageView;
-  __weak IBOutlet UIImageView *_imageViewParent;
-  __weak IBOutlet UIView *_viewAspectFit;
-  __weak IBOutlet NSLayoutConstraint *_constraintViewAspectFitWidth;
-  __weak IBOutlet NSLayoutConstraint *_constraintViewAspectFitHeight;
-  __weak IBOutlet UIImageView *_viewPin;
-  __weak IBOutlet NSLayoutConstraint *_constraintViewPinX;
-  __weak IBOutlet NSLayoutConstraint *_constraintViewPinY;
-    IBOutlet UITapGestureRecognizer *_tapOnParentImageGestureRecognizer;
-  __weak IBOutlet UIButton *_doneButton;
+  CGPoint                             _pinPointRelativeToParentImageSize;
+  __weak IBOutlet UIImageView*        _imageView;
+  __weak IBOutlet UIView*             _containerViewForParentImageView;
+  __weak IBOutlet UIImageView*        _imageViewParent;
+  __weak IBOutlet UIView*             _viewAspectFit;
+  __weak IBOutlet NSLayoutConstraint* _constraintViewAspectFitWidth;
+  __weak IBOutlet NSLayoutConstraint* _constraintViewAspectFitHeight;
+  __weak IBOutlet UIImageView*        _viewPin;
+  __weak IBOutlet NSLayoutConstraint* _constraintViewPinX;
+  __weak IBOutlet NSLayoutConstraint* _constraintViewPinY;
+    IBOutlet UITapGestureRecognizer*  _tapOnParentImageGestureRecognizer;
+  __weak IBOutlet UIButton*           _doneButton;
+  __weak IBOutlet UIStepper*          _countStepper;
+  __weak IBOutlet UILabel*            _countLabel;
   }
 
 @end
@@ -100,6 +102,8 @@
   _imageViewParent.image = parentPicture
                          ? parentPicture
                          : [UIImage imageNamed:@"NoPhotoBig.png"];
+  _countLabel.text = [NSString stringWithFormat:@"%d", _assemblies.count];
+  _countStepper.value = _assemblies.count;
                         
   _viewPin.alpha = 0;
   _pinPointRelativeToParentImageSize = nil!= self.assembly.connectionPoint
@@ -108,9 +112,21 @@
   _tapOnParentImageGestureRecognizer.enabled = nil != parentPicture;
   }
 
+- (void)updateDoneButton
+  {
+  BOOL arePointsSetForAllTheAssemblies = YES;
+  for (Assembly* assembly in _assemblies)
+    if (!assembly.connectionPoint)
+      {
+      arePointsSetForAllTheAssemblies = NO;
+      break;
+      }
+  _doneButton.enabled = arePointsSetForAllTheAssemblies;
+  }
+  
 - (void)viewWillAppear:(BOOL)animated
   {
-  _doneButton.enabled = nil != self.assembly.connectionPoint;
+  [self updateDoneButton];
   }
   
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -183,7 +199,7 @@
   CGPoint position = [gestureRecognizer locationInView:_viewAspectFit];
   [self movePinToPoint:position];
   [self.assembly.managedObjectContext saveAndHandleError];
-  _doneButton.enabled = YES;
+  [self updateDoneButton];
   }
   
 - (IBAction)onDragOnParentImage:(UIPanGestureRecognizer*)gestureRecognizer
@@ -197,8 +213,41 @@
   else if (gestureRecognizer.state == UIGestureRecognizerStateEnded)
     {
     [self.assembly.managedObjectContext saveAndHandleError];
-    _doneButton.enabled = YES;
+    [self updateDoneButton];
     }
+  }
+  
+- (IBAction)onCountChanged:(id)sender
+  {
+  NSInteger newCount = _countStepper.value;
+  NSInteger oldCount = _assemblies.count;
+  NSInteger deltaCount = newCount - oldCount;
+  _countLabel.text = [NSString stringWithFormat:@"%d", newCount];
+  Assembly* lastAssembly = self.assembly;
+  if (deltaCount >= 0)
+    {
+    NSMutableArray* assembliesToAdd = [[NSMutableArray alloc] initWithCapacity:deltaCount];
+    AssemblyType* type = lastAssembly.type;
+    for (int i = 0; i < deltaCount; ++i)
+      {
+      Assembly* assembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:self.assembly.managedObjectContext];
+      assembly.type = type;
+      assembly.assemblyToInstallTo = lastAssembly.assemblyToInstallTo;
+      [assembliesToAdd addObject:assembly];
+      }
+    [_assemblies addObjectsFromArray:assembliesToAdd];
+    }
+  else
+    {
+    deltaCount = abs(deltaCount);
+    NSRange range = NSMakeRange(_assemblies.count - deltaCount, deltaCount);
+    NSArray* assembliesToRemove = [_assemblies subarrayWithRange:range];
+    [_assemblies removeObjectsInRange:range];
+    for (Assembly* assembly in assembliesToRemove)
+      [lastAssembly.managedObjectContext deleteObject:assembly];
+    }
+  [lastAssembly.managedObjectContext saveAndHandleError];
+  [self updateDoneButton];
   }
   
 @end

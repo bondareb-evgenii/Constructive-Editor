@@ -58,14 +58,14 @@
   _assembliesGroupsDictionary = [[NSMutableDictionary alloc] initWithCapacity:self.assemblyType.assembliesInstalled.count];
   for (Assembly* assembly in [self.assemblyType.assembliesInstalled allObjects])
     {
-    NSMutableArray* assemblies = [_assembliesGroupsDictionary objectForKey:assembly.type];
+    NSValue* key = [NSValue valueWithNonretainedObject:assembly.type];
+    NSMutableArray* assemblies = [_assembliesGroupsDictionary objectForKey:key];
     if (assemblies.count)
       [assemblies addObject:assembly];
     else
       {
       assemblies = [[NSMutableArray alloc] initWithCapacity:1];
       [assemblies addObject:assembly];
-      NSValue* key = [NSValue valueWithNonretainedObject:assembly.type];
       [_assembliesGroups addObject:key];
       [_assembliesGroupsDictionary setObject:assemblies forKey:key];
       }
@@ -75,14 +75,14 @@
   _detailsGroupsDictionary = [[NSMutableDictionary alloc] initWithCapacity:self.assemblyType.detailsInstalled.count];
   for (Detail* detail in [self.assemblyType.detailsInstalled allObjects])
     {
-    NSMutableArray* details = [_detailsGroupsDictionary objectForKey:detail.type];
+    NSValue* key = [NSValue valueWithNonretainedObject:detail.type];
+    NSMutableArray* details = [_detailsGroupsDictionary objectForKey:key];
     if (details.count)
       [details addObject:detail];
     else
       {
       details = [[NSMutableArray alloc] initWithCapacity:1];
       [details addObject:detail];
-      NSValue* key = [NSValue valueWithNonretainedObject:detail.type];
       [_detailsGroups addObject:key];
       [_detailsGroupsDictionary setObject:details forKey:key];
       }
@@ -105,35 +105,6 @@
   _rotateButton.enabled = !isAssemblyRotated;
   _transformButton.enabled = !isAssemblyTransformed;
   }
-  
-/*- (void)removeDetail:(Detail*)detail
-  {
-  [_assemblyType.managedObjectContext deleteObject:detail];
-  // Commit the change.
-  [_assemblyType.managedObjectContext saveAndHandleError];
-  
-  NSValue* key = [NSValue valueWithNonretainedObject:detail.type];
-  NSMutableArray* details = [_detailsGroupsDictionary objectForKey:key];
-  if (details.count > 1)
-    [details removeObject:detail];
-  else
-    [_detailsGroupsDictionary removeObjectForKey:key];
-  }
-  
-- (void)removeAssembly:(Assembly*)assembly
-  {
-  [_assemblyType.managedObjectContext deleteObject:assembly];
-  // Commit the change.
-  [_assemblyType.managedObjectContext saveAndHandleError];
-  
-  NSValue* key = [NSValue valueWithNonretainedObject:assembly.type];
-  NSMutableArray* assemblies = [_assembliesGroupsDictionary objectForKey:key];
-  if (assemblies.count > 1)
-    [assemblies removeObject:assembly];
-  else
-    [_assembliesGroupsDictionary removeObjectForKey:key];
-  }
-  */
   
 - (void)removeDetailsAtIndexPath:(NSIndexPath*)indexPath
   {
@@ -164,18 +135,14 @@
     }
   }
   
-- (void)viewDidLoad
+- (void)viewWillAppear:(BOOL)animated
   {
-  [super viewDidLoad];
+	[super viewWillAppear:animated];
+  
   [self updateData];
   _assembliesAndDetailsTable.delegate = self;
   _assembliesAndDetailsTable.dataSource = self;
   [_assembliesAndDetailsTable setEditing:YES animated:NO];//always aditable (the application is called Editor :))
-  }
-
-- (void)viewWillAppear:(BOOL)animated
-  {
-	[super viewWillAppear:animated];
   
   //activate appropriate buttons on navigation bar
   [self updateInterpretButtons];
@@ -419,10 +386,73 @@
   {
   }
   
+- (IBAction)onAssembliesCountChanged:(UIStepper*)stepper
+  {
+  AssemblyCellView* assemblyCell = (AssemblyCellView*)stepper.superview.superview;
+  NSIndexPath* cellIndexPath = [_assembliesAndDetailsTable indexPathForCell:assemblyCell];
+  NSMutableArray* assemblies = [self assembliesForRowAtIndexPath:cellIndexPath];
+  NSInteger newCount = stepper.value;
+  NSInteger oldCount = assemblies.count;
+  NSInteger deltaCount = newCount - oldCount;
+  assemblyCell.countLabel.text = [NSString stringWithFormat:@"%d", newCount];
+  if (deltaCount >= 0)
+    {
+    NSMutableArray* assembliesToAdd = [[NSMutableArray alloc] initWithCapacity:deltaCount];
+    AssemblyType* type = [(Assembly*)[assemblies lastObject] type];
+    for (int i = 0; i < deltaCount; ++i)
+      {
+      Assembly* assembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:self.assemblyType.managedObjectContext];
+      assembly.type = type;
+      assembly.assemblyToInstallTo = _assemblyType;
+      [assembliesToAdd addObject:assembly];
+      }
+    [assemblies addObjectsFromArray:assembliesToAdd];
+    }
+  else
+    {
+    deltaCount = abs(deltaCount);
+    NSRange range = NSMakeRange(assemblies.count - deltaCount, deltaCount);
+    NSArray* assembliesToRemove = [assemblies subarrayWithRange:range];
+    [assemblies removeObjectsInRange:range];
+    for (Assembly* assembly in assembliesToRemove)
+      [_assemblyType.managedObjectContext deleteObject:assembly];
+    }
+  [_assemblyType.managedObjectContext saveAndHandleError];
+  }
   
-  
-  
-  
+- (IBAction)onDetailsCountChanged:(UIStepper*)stepper
+  {
+  DetailCellView* detailCell = (DetailCellView*)stepper.superview.superview;
+  NSIndexPath* cellIndexPath = [_assembliesAndDetailsTable indexPathForCell:detailCell];
+  NSMutableArray* details = [self detailsForRowAtIndexPath:cellIndexPath];
+  NSInteger newCount = stepper.value;
+  NSInteger oldCount = details.count;
+  NSInteger deltaCount = newCount - oldCount;
+  detailCell.countLabel.text = [NSString stringWithFormat:@"%d", newCount];
+  if (deltaCount >= 0)
+    {
+    NSMutableArray* detailsToAdd = [[NSMutableArray alloc] initWithCapacity:deltaCount];
+    DetailType* type = [(Detail*)[details lastObject] type];
+    for (int i = 0; i < deltaCount; ++i)
+      {
+      Detail* detail = (Detail*)[NSEntityDescription insertNewObjectForEntityForName:@"Detail" inManagedObjectContext:self.assemblyType.managedObjectContext];
+      detail.type = type;
+      detail.assemblyToInstallTo = _assemblyType;
+      [detailsToAdd addObject:detail];
+      }
+    [details addObjectsFromArray:detailsToAdd];
+    }
+  else
+    {
+    deltaCount = abs(deltaCount);
+    NSRange range = NSMakeRange(details.count - deltaCount, deltaCount);
+    NSArray* detailsToRemove = [details subarrayWithRange:range];
+    [details removeObjectsInRange:range];
+    for (Detail* detail in detailsToRemove)
+      [_assemblyType.managedObjectContext deleteObject:detail];
+    }
+  [_assemblyType.managedObjectContext saveAndHandleError];
+  }
   
 @end
 
@@ -492,10 +522,11 @@
     return addItemCell;
     }
   
-  Assembly* assembly = [self assemblyForRowAtIndexPath:indexPath];
+  NSMutableArray* assemblies = [self assembliesForRowAtIndexPath:indexPath];
+  Assembly* assembly = [assemblies lastObject];
   if (assembly)
     {
-    BOOL isAssemblyPhotoSelected = nil !=assembly.type.pictureToShow;
+    BOOL isAssemblyPhotoSelected = nil != assembly.type.pictureToShow;
     AssemblyCellView* cell = (AssemblyCellView*)[_assembliesAndDetailsTable dequeueReusableCellWithIdentifier: isAssemblyPhotoSelected
                            ? @"AssemblyWithPhotoCell"
                            : @"AssemblyNoPhotoCell"];
@@ -505,16 +536,24 @@
     BOOL isBaseAsssembly = nil != assembly.assemblyExtended;
     cell.countLabel.hidden = isBaseAsssembly;
     cell.countStepper.hidden = isBaseAsssembly;
+    if (!isBaseAsssembly)
+      {
+      cell.countLabel.text = [NSString stringWithFormat:@"%d", assemblies.count];
+      cell.countStepper.value = assemblies.count;
+      }
     return cell;
     }
     
-  Detail* detail = [self detailForRowAtIndexPath:indexPath];
+  NSMutableArray* details = [self detailsForRowAtIndexPath:indexPath];
+  Detail* detail = [details lastObject];
   if (detail)
     {
     DetailCellView* cell = (DetailCellView*)[tableView dequeueReusableCellWithIdentifier:@"DetailCell"];
     cell.picture.image = [detail.type pictureToShow]
                        ? [detail.type pictureToShow]
                        : [UIImage imageNamed:@"camera.png"];
+    cell.countLabel.text = [NSString stringWithFormat:@"%d", details.count];
+    cell.countStepper.value = details.count;
     return cell;
     }
     
@@ -528,7 +567,7 @@
 - (void)selectPhoto
   {
   BOOL cameraModeIsPreferredByUser = YES;//default
-  NSString* picturesSourcePreferredByUser = [[NSUserDefaults standardUserDefaults] stringForKey:@"preferredPicturesSource"];
+  NSString* picturesSourcePreferredByUser = [[NSUserDefaults standardUserDefaults] stringForKey:preferredPicturesSource];
   if (picturesSourcePreferredByUser && ![picturesSourcePreferredByUser isEqualToString:preferredPicturesSource_Camera])
     cameraModeIsPreferredByUser = NO;
   UIImagePickerControllerSourceType sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
@@ -721,13 +760,14 @@
     
   //WORKS REALLY LONG TIME: check the photo picker example to see how we can speed it up
   NSIndexPath* selectedIndexPath = [_assembliesAndDetailsTable indexPathForSelectedRow];
-	Assembly* selectedAssembly = [self assemblyForRowAtIndexPath:selectedIndexPath];
-  selectedAssembly.type.picture = selectedImage;
+	NSMutableArray* selectedAssemblies = [self assembliesForRowAtIndexPath:selectedIndexPath];
+  for (Assembly* assembly in selectedAssemblies)
+    assembly.type.picture = selectedImage;
   // Commit the change.
 	[_assemblyType.managedObjectContext saveAndHandleError];
   
   NSArray* viewControllers = self.navigationController.viewControllers;
-  if (!selectedAssembly.assemblyExtended)
+  if (![[selectedAssemblies lastObject] assemblyExtended])
     {
     if (viewControllers.count >=2 && [[viewControllers objectAtIndex:viewControllers.count-2] isKindOfClass:[EditAssemblyViewController class]])
       {
@@ -749,7 +789,7 @@
   {
   NSIndexPath* selectedIndexPath = [_assembliesAndDetailsTable indexPathForSelectedRow];
   Assembly* assembly = [self assemblyForRowAtIndexPath:selectedIndexPath];
-  if (assembly && ! assembly.type.pictureToShow)//remove the assembly added if there is no picture selected for it
+  if (assembly && !assembly.assemblyExtended && !assembly.type.pictureToShow)//remove the assembly added if there is no picture selected for it
     [self removeSmallerAssembliesAtIndexPath:selectedIndexPath];
 	[self dismissModalViewControllerAnimated:YES];
   }

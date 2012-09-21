@@ -201,7 +201,9 @@
   NSUInteger detailTypeIndex = indexPath.row;
   if (_detailTypesTable.editing &&  detailTypeIndex > _addDetailTypeIndex)
     --detailTypeIndex;
-  self.detail.type = [_detailTypes objectAtIndex:detailTypeIndex];
+  DetailType* type = [_detailTypes objectAtIndex:detailTypeIndex];
+  for (Detail* detail in self.details)
+    detail.type = type;
   [self.detail.managedObjectContext saveAndHandleError];
   _connectionPointButton.enabled = YES;
   }

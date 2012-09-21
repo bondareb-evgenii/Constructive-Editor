@@ -267,7 +267,7 @@
         
       void (^deleteAllAssemblies)() = ^()
         {
-        while (assemblyTypeToInterpret.detailsInstalled.count < 2)//at list two details should be present in split assembly
+        if (!assemblyTypeToInterpret.detailsInstalled.count)//at list two details should be present in split assembly, but we don't actually know wheter those two details should have the same type or different ones so we will create only one detail for user automatically
           {
           Detail* detail = (Detail*)[NSEntityDescription insertNewObjectForEntityForName:@"Detail" inManagedObjectContext:managedObjectContext];
           [assemblyTypeToInterpret addDetailsInstalledObject:detail];
