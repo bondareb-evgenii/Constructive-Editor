@@ -110,7 +110,9 @@
 - (void)closeCurrentDocument
   {
   _openedURL = nil;
-  _persistentStoreCoordinator = nil;//reset the persistent store
+  _managedObjectModel = nil;
+  _persistentStoreCoordinator = nil;
+  _managedObjectContext = nil;
   }
   
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
@@ -120,7 +122,7 @@
   
   NSURL* copiedFileURL = nil;
   NSFileManager* fileManager = [NSFileManager defaultManager];
-  if (![fileManager isWritableFileAtPath:url.path])
+  if ([fileManager fileExistsAtPath:url.path] && ![fileManager isWritableFileAtPath:url.path])
     {
     NSString* documentsDirectoryPath = [(AppDelegate*)[UIApplication sharedApplication].delegate applicationDocumentsDirectory];
     NSString* copiedFilePath = [documentsDirectoryPath stringByAppendingPathComponent:[url.path lastPathComponent]];
