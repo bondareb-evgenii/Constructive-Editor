@@ -330,8 +330,7 @@
       NSString* defaultActionName = [[NSUserDefaults standardUserDefaults] stringForKey:standardActionOnAssembly];
       if (!defaultActionName)
         defaultActionName = standardActionOnAssembly_Default;
-      NSInteger assemblyIndex = [self assemblyIndexForRowAtIndexPath:indexPath];
-      [StandardActionsPerformer performStandardActionNamed:defaultActionName onAssemblyType:[[_assembliesGroups objectAtIndex:assemblyIndex] nonretainedObjectValue] inView:self.view withCompletionBlock:nil];
+      [StandardActionsPerformer performStandardActionNamed:defaultActionName onAssemblyType:assembly.type inView:self.view withCompletionBlock:nil];
       }
 
     ((AssembliesAndDetailsViewController*)segue.destinationViewController).assemblyType = assembly.type;
