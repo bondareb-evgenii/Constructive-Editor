@@ -532,10 +532,10 @@
     cell.picture.image = isAssemblyPhotoSelected
                        ? [assembly.type pictureToShow]
                        : [UIImage imageNamed:@"camera.png"];
-    BOOL isBaseAsssembly = nil != assembly.assemblyExtended;
-    cell.countLabel.hidden = isBaseAsssembly;
-    cell.countStepper.hidden = isBaseAsssembly;
-    if (!isBaseAsssembly)
+    BOOL isBaseTransformedOrRotatedAsssembly = nil != assembly.assemblyExtended || nil != assembly.assemblyTransformed || nil != assembly.assemblyRotated;
+    cell.countLabel.hidden = isBaseTransformedOrRotatedAsssembly;
+    cell.countStepper.hidden = isBaseTransformedOrRotatedAsssembly;
+    if (!isBaseTransformedOrRotatedAsssembly)
       {
       cell.countLabel.text = [NSString stringWithFormat:@"%d", assemblies.count];
       cell.countStepper.value = assemblies.count;
@@ -623,7 +623,7 @@
     Assembly* assembly = [self assemblyForRowAtIndexPath:indexPath];
     if (assembly)
       {
-      if (assembly.assemblyExtended)
+      if (assembly.assemblyExtended || assembly.assemblyTransformed || assembly.assemblyRotated)
         [self selectPhoto];
       else
         {
@@ -766,7 +766,8 @@
 	[_assemblyType.managedObjectContext saveAndHandleError];
   
   NSArray* viewControllers = self.navigationController.viewControllers;
-  if (![[selectedAssemblies lastObject] assemblyExtended])
+  Assembly* lastAssembly = [selectedAssemblies lastObject];
+  if (![lastAssembly assemblyExtended] && ![lastAssembly assemblyTransformed] && ![lastAssembly assemblyRotated])
     {
     if (viewControllers.count >=2 && [[viewControllers objectAtIndex:viewControllers.count-2] isKindOfClass:[EditAssemblyViewController class]])
       {
