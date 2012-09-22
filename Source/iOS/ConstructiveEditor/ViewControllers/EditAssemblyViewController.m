@@ -355,17 +355,25 @@
       [assembliesToAdd addObject:assembly];
       }
     [_assemblies addObjectsFromArray:assembliesToAdd];
+    _selectedPointIndex = _assemblies.count - 1;
     }
   else
     {
     deltaCount = abs(deltaCount);
-    NSRange range = NSMakeRange(_assemblies.count - deltaCount, deltaCount);
-    NSArray* assembliesToRemove = [_assemblies subarrayWithRange:range];
-    [_assemblies removeObjectsInRange:range];
-    for (Assembly* assembly in assembliesToRemove)
+    if (deltaCount == 1)
+      {
+      Assembly* assembly = [_assemblies objectAtIndex:_selectedPointIndex];
       [lastAssembly.managedObjectContext deleteObject:assembly];
-    if (_selectedPointIndex > _assemblies.count)
-      _selectedPointIndex = _assemblies.count;
+      [_assemblies removeObjectAtIndex:_selectedPointIndex];
+      }
+    else
+      {
+      NSRange range = NSMakeRange(_assemblies.count - deltaCount, deltaCount);
+      NSArray* assembliesToRemove = [_assemblies subarrayWithRange:range];
+      [_assemblies removeObjectsInRange:range];
+      for (Assembly* assembly in assembliesToRemove)
+        [lastAssembly.managedObjectContext deleteObject:assembly];
+      }
     }
   [lastAssembly.managedObjectContext saveAndHandleError];
   [self correctSelectedPointIndex];

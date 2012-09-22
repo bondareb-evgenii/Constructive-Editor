@@ -351,17 +351,25 @@
       [detailsToAdd addObject:detail];
       }
     [_details addObjectsFromArray:detailsToAdd];
+    _selectedPointIndex = _details.count - 1;
     }
   else
     {
     deltaCount = abs(deltaCount);
-    NSRange range = NSMakeRange(_details.count - deltaCount, deltaCount);
-    NSArray* detailsToRemove = [_details subarrayWithRange:range];
-    [_details removeObjectsInRange:range];
-    for (Detail* detail in detailsToRemove)
+    if (deltaCount == 1)
+      {
+      Detail* detail = [_details objectAtIndex:_selectedPointIndex];
       [lastDetail.managedObjectContext deleteObject:detail];
-    if (_selectedPointIndex > _details.count)
-      _selectedPointIndex = _details.count;
+      [_details removeObjectAtIndex:_selectedPointIndex];
+      }
+    else
+      {
+      NSRange range = NSMakeRange(_details.count - deltaCount, deltaCount);
+      NSArray* detailsToRemove = [_details subarrayWithRange:range];
+      [_details removeObjectsInRange:range];
+      for (Detail* detail in detailsToRemove)
+        [lastDetail.managedObjectContext deleteObject:detail];
+      }
     }
   [lastDetail.managedObjectContext saveAndHandleError];
   [self correctSelectedPointIndex];
