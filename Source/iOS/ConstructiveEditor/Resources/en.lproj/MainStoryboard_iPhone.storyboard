@@ -525,50 +525,14 @@
                                             <outletCollection property="gestureRecognizers" destination="lIF-kP-SyI" appends="YES" id="j0u-cO-ggE"/>
                                         </connections>
                                     </view>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s81-Vp-jlt">
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="73" type="user" id="MeA-Hf-gLL"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" title="Prev">
-                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <state key="highlighted">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="onPreviousPointPressed:" destination="i86-oC-str" eventType="touchUpInside" id="iz5-gj-DQC"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F7J-M2-V5f">
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="73" id="Q0t-UV-Tp8"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" title="Next">
-                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <state key="highlighted">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="onNextPointPressed:" destination="i86-oC-str" eventType="touchUpInside" id="a8M-YF-NTJ"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="s81-Vp-jlt" firstAttribute="top" secondItem="5rX-Ip-u1J" secondAttribute="top" constant="-1" id="0fq-ig-JHM"/>
                                     <constraint firstItem="J4y-kJ-3jz" firstAttribute="top" secondItem="5rX-Ip-u1J" secondAttribute="top" type="user" id="ICk-r7-J5S"/>
                                     <constraint firstItem="J4y-kJ-3jz" firstAttribute="trailing" secondItem="5rX-Ip-u1J" secondAttribute="trailing" type="user" id="JWb-vx-j9o"/>
                                     <constraint firstItem="J4y-kJ-3jz" firstAttribute="bottom" secondItem="5rX-Ip-u1J" secondAttribute="bottom" type="user" id="MLh-75-Kbi"/>
                                     <constraint firstItem="2II-zP-iIv" firstAttribute="centerY" secondItem="J4y-kJ-3jz" secondAttribute="centerY" type="default" id="Nl7-Ag-2tv"/>
                                     <constraint firstItem="J4y-kJ-3jz" firstAttribute="leading" secondItem="5rX-Ip-u1J" secondAttribute="leading" type="user" id="PYY-PT-SZw"/>
-                                    <constraint firstItem="F7J-M2-V5f" firstAttribute="leading" secondItem="s81-Vp-jlt" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="iZn-bl-gBi"/>
                                     <constraint firstAttribute="centerX" secondItem="2II-zP-iIv" secondAttribute="centerX" type="user" id="mqw-R7-0uz"/>
-                                    <constraint firstItem="F7J-M2-V5f" firstAttribute="baseline" secondItem="s81-Vp-jlt" secondAttribute="baseline" type="user" id="prT-tO-gWE"/>
-                                    <constraint firstItem="s81-Vp-jlt" firstAttribute="leading" secondItem="5rX-Ip-u1J" secondAttribute="leading" type="user" id="sOx-aC-gsy"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -731,51 +695,15 @@
                                             <outletCollection property="gestureRecognizers" destination="tqd-nU-sWJ" appends="YES" id="bPb-np-s4X"/>
                                         </connections>
                                     </view>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EOI-Vc-ZaM">
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="73" id="rdQ-ym-vUe"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" title="Prev">
-                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <state key="highlighted">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="onPreviousPointPressed:" destination="jXA-4O-VJV" eventType="touchUpInside" id="EzM-SL-Ky2"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xCB-3u-OR4">
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="73" id="bfk-Hg-UJq"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" title="Next">
-                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <state key="highlighted">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="onNextPointPressed:" destination="jXA-4O-VJV" eventType="touchUpInside" id="Uad-k6-FUO"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="xs4-y7-aHZ" firstAttribute="leading" secondItem="trv-wh-wOe" secondAttribute="leading" type="default" id="1Nq-lr-tus"/>
                                     <constraint firstItem="xs4-y7-aHZ" firstAttribute="top" secondItem="trv-wh-wOe" secondAttribute="top" type="default" id="ITd-xr-cXd"/>
-                                    <constraint firstItem="xCB-3u-OR4" firstAttribute="leading" secondItem="EOI-Vc-ZaM" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="MBw-Z8-qER"/>
-                                    <constraint firstItem="EOI-Vc-ZaM" firstAttribute="baseline" secondItem="xCB-3u-OR4" secondAttribute="baseline" type="default" id="NZk-6H-rOT"/>
                                     <constraint firstItem="xs4-y7-aHZ" firstAttribute="trailing" secondItem="trv-wh-wOe" secondAttribute="trailing" type="default" id="PZJ-nK-daW"/>
                                     <constraint firstAttribute="centerX" secondItem="iy6-ls-JE0" secondAttribute="centerX" type="user" id="duj-yJ-3rM"/>
                                     <constraint firstAttribute="centerY" secondItem="iy6-ls-JE0" secondAttribute="centerY" type="user" id="gBe-sm-Eep"/>
                                     <constraint firstItem="xs4-y7-aHZ" firstAttribute="bottom" secondItem="trv-wh-wOe" secondAttribute="bottom" type="default" id="gFw-iK-nFo"/>
-                                    <constraint firstItem="EOI-Vc-ZaM" firstAttribute="top" secondItem="trv-wh-wOe" secondAttribute="top" constant="-1" id="gg1-f3-cYT"/>
-                                    <constraint firstItem="EOI-Vc-ZaM" firstAttribute="leading" secondItem="trv-wh-wOe" secondAttribute="leading" type="default" id="pfF-6h-yAu"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -1090,6 +1018,125 @@
         <image name="transform_Highlighted_iPhone.png" width="30" height="30"/>
         <image name="transform_Normal_iPhone.png" width="30" height="30"/>
     </resources>
+    <classes>
+        <class className="AssembliesAndDetailsViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/AssembliesAndDetailsViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="_assembliesAndDetailsTable" candidateClass="UITableView"/>
+                <relationship kind="outlet" name="_detachButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="_exportButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="_preferencesButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="_rotateButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="_splitButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="_transformButton" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+        <class className="AssemblyCellView" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/AssemblyCellView.h"/>
+            <relationships>
+                <relationship kind="outlet" name="countLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="countStepper" candidateClass="UIStepper"/>
+                <relationship kind="outlet" name="picture" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="DetailCellView" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/DetailCellView.h"/>
+            <relationships>
+                <relationship kind="outlet" name="countLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="countStepper" candidateClass="UIStepper"/>
+                <relationship kind="outlet" name="picture" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="DetailTypeCellView" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/DetailTypeCellView.h"/>
+            <relationships>
+                <relationship kind="outlet" name="picture" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="DetailTypesViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/DetailTypesViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="_connectionPointButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="_detailTypesTable" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="EditAssemblyViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EditAssemblyViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="onCountChanged:"/>
+                <relationship kind="action" name="onDoneButtonPressed:"/>
+                <relationship kind="action" name="onDragOnParentImage:" candidateClass="UIPanGestureRecognizer"/>
+                <relationship kind="action" name="onImagePressed:"/>
+                <relationship kind="action" name="onNextPointPressed:"/>
+                <relationship kind="action" name="onPreviousPointPressed:"/>
+                <relationship kind="action" name="onTapOnImage:" candidateClass="UITapGestureRecognizer"/>
+                <relationship kind="action" name="onTapOnParentImage:" candidateClass="UITapGestureRecognizer"/>
+                <relationship kind="outlet" name="_constraintViewAspectFitHeight" candidateClass="NSLayoutConstraint"/>
+                <relationship kind="outlet" name="_constraintViewAspectFitWidth" candidateClass="NSLayoutConstraint"/>
+                <relationship kind="outlet" name="_containerViewForParentImageView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="_countLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="_countStepper" candidateClass="UIStepper"/>
+                <relationship kind="outlet" name="_doneButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="_imageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="_imageViewParent" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="_tapOnParentImageGestureRecognizer" candidateClass="UITapGestureRecognizer"/>
+                <relationship kind="outlet" name="_viewAspectFit" candidateClass="UIView"/>
+            </relationships>
+        </class>
+        <class className="EditDetailTypeViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EditDetailTypeViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="_constraintImageViewLeadingSpaceToSuperview" candidateClass="NSLayoutConstraint"/>
+                <relationship kind="outlet" name="_constraintPickerTrainlingSpaceToSuperview" candidateClass="NSLayoutConstraint"/>
+                <relationship kind="outlet" name="_constraintVerticalSpaceFromPickerToImageView" candidateClass="NSLayoutConstraint"/>
+                <relationship kind="outlet" name="_detailClassPicker" candidateClass="UIPickerView"/>
+                <relationship kind="outlet" name="_detailLabelTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="_detailLengthLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="_detailLengthStepper" candidateClass="UIStepper"/>
+                <relationship kind="outlet" name="_pictureImageView" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="EditDetailViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EditDetailViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="onBackPressed:"/>
+                <relationship kind="action" name="onCountChanged:"/>
+                <relationship kind="action" name="onDonePressed:"/>
+                <relationship kind="action" name="onDragOnParentImage:" candidateClass="UIPanGestureRecognizer"/>
+                <relationship kind="action" name="onImagePressed:"/>
+                <relationship kind="action" name="onTapOnParentImage:" candidateClass="UITapGestureRecognizer"/>
+                <relationship kind="outlet" name="_constraintViewAspectFitHeight" candidateClass="NSLayoutConstraint"/>
+                <relationship kind="outlet" name="_constraintViewAspectFitWidth" candidateClass="NSLayoutConstraint"/>
+                <relationship kind="outlet" name="_containerViewForParentImageView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="_countLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="_countStepper" candidateClass="UIStepper"/>
+                <relationship kind="outlet" name="_doneButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="_imageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="_imageViewParent" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="_tapOnParentImageGestureRecognizer" candidateClass="UITapGestureRecognizer"/>
+                <relationship kind="outlet" name="_viewAspectFit" candidateClass="UIView"/>
+            </relationships>
+        </class>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="RootAssemblyViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/RootAssemblyViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="_exportButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="_preferencesButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="_rootAssemblyTable" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="StartMenuViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/StartMenuViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="_documentsTable" candidateClass="UITableView"/>
+                <relationship kind="outlet" name="_newDocumentCreateButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="_newDocumentNameTextField" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

@@ -10,6 +10,7 @@
 #import "AssemblyType.h"
 #import "NSManagedObjectContextExtension.h"
 #import "PreferencesKeys.h"
+#import "VisualSelectablePointer.h"
 
 @interface EditAssemblyViewController (UIImagePickerControllerDelegate) <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 @end
@@ -17,6 +18,8 @@
 @interface EditAssemblyViewController ()
   {
   NSInteger                           _selectedPointIndex;
+  CGPoint                             _deltaFromDraggingPointToThePinTargetPoint;
+  VisualSelectablePointer*            _pinMetaInfo;
   NSMutableArray*                     _pins;
   NSMutableArray*                     _pinsHorizontalConstraints;
   NSMutableArray*                     _pinsVerticalConstraints;
@@ -65,6 +68,7 @@
   CGSize updatedViewAspectFitSize = [self updatedViewAspectFitSize];
   _constraintViewAspectFitWidth.constant = updatedViewAspectFitSize.width;
   _constraintViewAspectFitHeight.constant = updatedViewAspectFitSize.height;
+  [self.view layoutIfNeeded];
   }
 
 - (void)updatePins
@@ -77,7 +81,7 @@
     [_pins addObject:pin];
     NSArray* pinHorizontalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"|-0-[pin]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(pin)];
     [_viewAspectFit addConstraints:pinHorizontalConstraints];
-    NSArray* pinVerticalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[pin]-0-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(pin)];
+    NSArray* pinVerticalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[pin]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(pin)];
     [_pinsHorizontalConstraints addObjectsFromArray:pinHorizontalConstraints];
     [_viewAspectFit addConstraints:pinVerticalConstraints];
     [_pinsVerticalConstraints addObjectsFromArray:pinVerticalConstraints];
@@ -98,8 +102,9 @@
     CGPoint pinPointRelativeToParentImageSize = nil!= connectionPointValue
                                               ? [connectionPointValue CGPointValue]
                                               : CGPointZero;
-    ((NSLayoutConstraint*)[_pinsHorizontalConstraints objectAtIndex:i]).constant = updatedViewAspectFitSize.width*pinPointRelativeToParentImageSize.x;
-    ((NSLayoutConstraint*)[_pinsVerticalConstraints objectAtIndex:i]).constant = updatedViewAspectFitSize.height*pinPointRelativeToParentImageSize.y;
+    CGPoint topLeftPinViewCorner = [_pinMetaInfo topLeftImageCornerPointForTargetPoint:CGPointMake(updatedViewAspectFitSize.width*pinPointRelativeToParentImageSize.x, updatedViewAspectFitSize.height - updatedViewAspectFitSize.height*pinPointRelativeToParentImageSize.y)];
+    ((NSLayoutConstraint*)[_pinsHorizontalConstraints objectAtIndex:i]).constant =  topLeftPinViewCorner.x;
+    ((NSLayoutConstraint*)[_pinsVerticalConstraints objectAtIndex:i]).constant = topLeftPinViewCorner.y;
     
     if (i == _selectedPointIndex)
       [[_pins objectAtIndex:i] setImage:_selectedPinImage];
@@ -107,6 +112,7 @@
       [[_pins objectAtIndex:i] setImage:_pinImage];
     }
   [_viewAspectFit bringSubviewToFront:[_pins objectAtIndex:_selectedPointIndex]];
+  [self.view layoutIfNeeded];
   }
 
 - (void)hidePin
@@ -140,6 +146,7 @@
   _pinImage = [UIImage imageNamed:@"pin.png"];
   _selectedPinImage = [UIImage imageNamed:@"pinSelected.png"];
   
+  _pinMetaInfo = [[VisualSelectablePointer alloc] initWithSelectionCenter:CGPointMake(15, 10) selectionRadius:30 andTargetPoint:CGPointMake(0, 45)];
   _pins = [[NSMutableArray alloc] initWithCapacity:1];
   _pinsHorizontalConstraints = [[NSMutableArray alloc] initWithCapacity:1];
   _pinsVerticalConstraints = [[NSMutableArray alloc] initWithCapacity:1];
@@ -191,7 +198,6 @@
   {
   [self updateViewAspectFit];
   [self updatePins];
-  [self.view layoutIfNeeded];
   [self showPinAnimated:YES];
   }
   
@@ -199,7 +205,6 @@
   {
   [self updateViewAspectFit];
   [self updatePins];
-  [self.view layoutIfNeeded];
   [self showPinAnimated:YES];
   }
   
@@ -237,16 +242,47 @@
   
 - (void)movePinToPoint:(CGPoint)position
   {
-  CGPoint pinPointRelativeToParentImageSize = CGPointMake(position.x/_viewAspectFit.bounds.size.width, (_viewAspectFit.bounds.size.height-position.y)/_viewAspectFit.bounds.size.height);
+  CGPoint pinPointRelativeToParentImageSize = CGPointMake((position.x+_deltaFromDraggingPointToThePinTargetPoint.x)/_viewAspectFit.bounds.size.width, (_viewAspectFit.bounds.size.height-(position.y+_deltaFromDraggingPointToThePinTargetPoint.y))/_viewAspectFit.bounds.size.height);
   [(Assembly*)[self.assemblies objectAtIndex:_selectedPointIndex] setConnectionPoint:[NSValue valueWithCGPoint:pinPointRelativeToParentImageSize]];
   [self updatePins];
-  [_viewAspectFit layoutIfNeeded];
   [self showPinAnimated:NO];
   }
-  
+
+- (BOOL)tryToSelectPinAtPoint:(CGPoint)point
+  {
+  return NO;
+  }
+
+- (BOOL)tryToSelectPinAtPoint:(CGPoint)point delta:(CGPoint*)delta
+  {
+  for (int i = 0; i < _assemblies.count; ++i)
+    {
+    Assembly* assembly = [_assemblies objectAtIndex:i];
+    CGSize updatedViewAspectFitSize = [self updatedViewAspectFitSize];
+    CGPoint connectionPointRelativeToImageSize = [assembly.connectionPoint CGPointValue];
+    CGPoint targetPoint = CGPointMake(updatedViewAspectFitSize.width*connectionPointRelativeToImageSize.x, updatedViewAspectFitSize.height - updatedViewAspectFitSize.height*connectionPointRelativeToImageSize.y);
+    if ([_pinMetaInfo shouldSelectPointerPointingTo:targetPoint byPoint:point])
+      {
+      if (delta)
+        {
+        delta->x = targetPoint.x - point.x;
+        delta->y = targetPoint.y - point.y;
+        }
+      _selectedPointIndex = i;
+      [self updatePins];
+      return YES;
+      }
+    }
+  return NO;
+  }
+
 - (IBAction)onTapOnParentImage:(UITapGestureRecognizer *)gestureRecognizer
   {
   CGPoint position = [gestureRecognizer locationInView:_viewAspectFit];
+  if ([self tryToSelectPinAtPoint:position])
+    return;
+  if ([self tryToSelectPinAtPoint:position delta:nil])//we should not change the _deltaFromDraggingPointToThePinTargetPoint here
+    return;
   [self movePinToPoint:position];
   [self.assembly.managedObjectContext saveAndHandleError];
   [self updateDoneButton];
@@ -254,25 +290,50 @@
   
 - (IBAction)onDragOnParentImage:(UIPanGestureRecognizer*)gestureRecognizer
   {
+  CGPoint position = [gestureRecognizer locationInView:_viewAspectFit];
+  if (gestureRecognizer.state == UIGestureRecognizerStateBegan)
+    if ([self tryToSelectPinAtPoint:position delta:&_deltaFromDraggingPointToThePinTargetPoint])
+      [self updatePins];
   if (gestureRecognizer.state == UIGestureRecognizerStateBegan ||
       gestureRecognizer.state == UIGestureRecognizerStateChanged)
     {
-    CGPoint position = [gestureRecognizer locationInView:_viewAspectFit];
     [self movePinToPoint:position];
     }
   else if (gestureRecognizer.state == UIGestureRecognizerStateEnded)
     {
+    _deltaFromDraggingPointToThePinTargetPoint = CGPointZero;
+    [self correctSelectedPinPosition];
     [self.assembly.managedObjectContext saveAndHandleError];
     [self updateDoneButton];
     }
   }
 
-- (void)updateSelectedPoint
+- (void)correctSelectedPointIndex
   {
   if (_selectedPointIndex > _assemblies.count-1)
     _selectedPointIndex = _assemblies.count-1;
   if (_selectedPointIndex < 0)
     _selectedPointIndex = 0;
+  }
+
+- (void)correctSelectedPinPosition
+  {
+  NSValue* connectionPointValue = [[_assemblies objectAtIndex:_selectedPointIndex] connectionPoint];
+  CGPoint connectionPoint = [connectionPointValue CGPointValue];
+  if (connectionPoint.x < 0 || connectionPoint.x >1 || connectionPoint.y < 0 ||connectionPoint.y > 1)
+    {
+    if (connectionPoint.x < 0)
+      connectionPoint.x = 0;
+    if (connectionPoint.x >1)
+      connectionPoint.x = 1;
+    if (connectionPoint.y < 0)
+      connectionPoint.y = 0;
+    if (connectionPoint.y > 1)
+      connectionPoint.y = 1;
+    
+    [[_assemblies objectAtIndex:_selectedPointIndex] setConnectionPoint:[NSValue valueWithCGPoint:connectionPoint]];
+    [self updatePins];
+    }
   }
 
 - (IBAction)onCountChanged:(id)sender
@@ -307,26 +368,9 @@
       _selectedPointIndex = _assemblies.count;
     }
   [lastAssembly.managedObjectContext saveAndHandleError];
-  [self updateSelectedPoint];
+  [self correctSelectedPointIndex];
   [self updateDoneButton];
   [self updatePins];
-  [_viewAspectFit layoutIfNeeded];
-  }
-  
-- (IBAction)onPreviousPointPressed:(id)sender
-  {
-  --_selectedPointIndex;
-  [self updateSelectedPoint];
-  [self updatePins];
-  [_viewAspectFit layoutIfNeeded];
-  }
-
-- (IBAction)onNextPointPressed:(id)sender
-  {
-  ++_selectedPointIndex;
-  [self updateSelectedPoint];
-  [self updatePins];
-  [_viewAspectFit layoutIfNeeded];
   }
 
 @end
