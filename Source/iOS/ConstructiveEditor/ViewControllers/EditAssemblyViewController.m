@@ -106,6 +106,7 @@
     else
       [[_pins objectAtIndex:i] setImage:_pinImage];
     }
+  [_viewAspectFit bringSubviewToFront:[_pins objectAtIndex:_selectedPointIndex]];
   }
 
 - (void)hidePin
@@ -265,7 +266,15 @@
     [self updateDoneButton];
     }
   }
-  
+
+- (void)updateSelectedPoint
+  {
+  if (_selectedPointIndex > _assemblies.count-1)
+    _selectedPointIndex = _assemblies.count-1;
+  if (_selectedPointIndex < 0)
+    _selectedPointIndex = 0;
+  }
+
 - (IBAction)onCountChanged:(id)sender
   {
   NSInteger newCount = _countStepper.value;
@@ -298,6 +307,7 @@
       _selectedPointIndex = _assemblies.count;
     }
   [lastAssembly.managedObjectContext saveAndHandleError];
+  [self updateSelectedPoint];
   [self updateDoneButton];
   [self updatePins];
   [_viewAspectFit layoutIfNeeded];
@@ -306,8 +316,7 @@
 - (IBAction)onPreviousPointPressed:(id)sender
   {
   --_selectedPointIndex;
-  if (_selectedPointIndex < 0)
-    _selectedPointIndex = 0;
+  [self updateSelectedPoint];
   [self updatePins];
   [_viewAspectFit layoutIfNeeded];
   }
@@ -315,10 +324,7 @@
 - (IBAction)onNextPointPressed:(id)sender
   {
   ++_selectedPointIndex;
-  if (_selectedPointIndex > _assemblies.count-1)
-    _selectedPointIndex = _assemblies.count-1;
-  if (_selectedPointIndex < 0)
-    _selectedPointIndex = 0;
+  [self updateSelectedPoint];
   [self updatePins];
   [_viewAspectFit layoutIfNeeded];
   }
