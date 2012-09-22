@@ -17,16 +17,18 @@
 
 @interface EditDetailViewController ()
   {
-  CGPoint                             _pinPointRelativeToParentImageSize;
+  NSInteger                           _selectedPointIndex;
+  NSMutableArray*                     _pins;
+  NSMutableArray*                     _pinsHorizontalConstraints;
+  NSMutableArray*                     _pinsVerticalConstraints;
+  UIImage*                            _pinImage;
+  UIImage*                            _selectedPinImage;
   __weak IBOutlet UIImageView*        _imageView;
   __weak IBOutlet UIView*             _containerViewForParentImageView;
   __weak IBOutlet UIImageView*        _imageViewParent;
   __weak IBOutlet UIView*             _viewAspectFit;
   __weak IBOutlet NSLayoutConstraint* _constraintViewAspectFitWidth;
   __weak IBOutlet NSLayoutConstraint* _constraintViewAspectFitHeight;
-  __weak IBOutlet UIImageView*        _viewPin;
-  __weak IBOutlet NSLayoutConstraint* _constraintViewPinX;
-  __weak IBOutlet NSLayoutConstraint* _constraintViewPinY;
     IBOutlet UITapGestureRecognizer*  _tapOnParentImageGestureRecognizer;
   __weak IBOutlet UIButton*           _doneButton;
   __weak IBOutlet UIStepper*          _countStepper;
@@ -43,8 +45,8 @@
   {
   return (Detail*)[_details lastObject];
   }
-  
-- (void)updateConstraints
+
+- (CGSize)updatedViewAspectFitSize
   {
   float containerWidth = _containerViewForParentImageView.bounds.size.width;
   float containerHeight = _containerViewForParentImageView.bounds.size.height;
@@ -53,29 +55,66 @@
   float widthToHeightProportionOfParentImage = nil != parentPicture
                                              ? parentPicture.size.width/parentPicture.size.height
                                              : 1;//just a value bigger then 0
-  float updatedViewAspectFitWidth;
-  float updatedViewAspectFitHeight;
   if (containerWidthToHeightProportion > widthToHeightProportionOfParentImage)//allign by height
-    {
-    updatedViewAspectFitWidth = containerHeight*widthToHeightProportionOfParentImage;
-    updatedViewAspectFitHeight = containerHeight;
-    }
+    return CGSizeMake(containerHeight*widthToHeightProportionOfParentImage, containerHeight);
   else//allign by width
+    return CGSizeMake(containerWidth, containerWidth/widthToHeightProportionOfParentImage);
+  }
+
+- (void)updateViewAspectFit
+  {
+  CGSize updatedViewAspectFitSize = [self updatedViewAspectFitSize];
+  _constraintViewAspectFitWidth.constant = updatedViewAspectFitSize.width;
+  _constraintViewAspectFitHeight.constant = updatedViewAspectFitSize.height;
+  }
+
+- (void)updatePins
+  {
+  while (_pins.count < _details.count)
     {
-    updatedViewAspectFitWidth = containerWidth;
-    updatedViewAspectFitHeight = containerWidth/widthToHeightProportionOfParentImage;
+    UIImageView* pin = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, _pinImage.size.width, _pinImage.size.width)];
+    pin.translatesAutoresizingMaskIntoConstraints = NO;
+    [_viewAspectFit addSubview:pin];
+    [_pins addObject:pin];
+    NSArray* pinHorizontalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"|-0-[pin]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(pin)];
+    [_viewAspectFit addConstraints:pinHorizontalConstraints];
+    NSArray* pinVerticalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[pin]-0-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(pin)];
+    [_pinsHorizontalConstraints addObjectsFromArray:pinHorizontalConstraints];
+    [_viewAspectFit addConstraints:pinVerticalConstraints];
+    [_pinsVerticalConstraints addObjectsFromArray:pinVerticalConstraints];
     }
-  _constraintViewAspectFitWidth.constant = updatedViewAspectFitWidth;
-  _constraintViewAspectFitHeight.constant = updatedViewAspectFitHeight;
-  _constraintViewPinX.constant = updatedViewAspectFitWidth*_pinPointRelativeToParentImageSize.x;
-  _constraintViewPinY.constant = updatedViewAspectFitHeight*_pinPointRelativeToParentImageSize.y;
+  
+  while (_pins.count > _details.count)
+    {
+    [[_pins lastObject] removeFromSuperview];
+    [_pins removeLastObject];
+    [_pinsHorizontalConstraints removeLastObject];
+    [_pinsVerticalConstraints removeLastObject];
+    }
+    
+  CGSize updatedViewAspectFitSize = [self updatedViewAspectFitSize];
+  for (int i = 0; i < _details.count; ++i)
+    {
+    NSValue* connectionPointValue = [[self.details objectAtIndex:i] connectionPoint];
+    CGPoint pinPointRelativeToParentImageSize = nil!= connectionPointValue
+                                              ? [connectionPointValue CGPointValue]
+                                              : CGPointZero;
+    ((NSLayoutConstraint*)[_pinsHorizontalConstraints objectAtIndex:i]).constant = updatedViewAspectFitSize.width*pinPointRelativeToParentImageSize.x;
+    ((NSLayoutConstraint*)[_pinsVerticalConstraints objectAtIndex:i]).constant = updatedViewAspectFitSize.height*pinPointRelativeToParentImageSize.y;
+    
+    if (i == _selectedPointIndex)
+      [[_pins objectAtIndex:i] setImage:_selectedPinImage];
+    else
+      [[_pins objectAtIndex:i] setImage:_pinImage];
+    }
   }
   
 - (void)hidePin
   {
   [UIView animateWithDuration:0.2 animations:^
     {
-    _viewPin.alpha = 0;
+    for (UIView* pin in _pins)
+      pin.alpha = 0;
     }];
   }
 
@@ -84,13 +123,16 @@
   if (![self.detail.assemblyToInstallTo pictureToShow])
     return;
   if (animated)
-    {[UIView animateWithDuration:0.3 animations:^
+    {
+    [UIView animateWithDuration:0.3 animations:^
       {
-      _viewPin.alpha = 1;
+      for (UIView* pin in _pins)
+        pin.alpha = 1;
       }];
     }
   else
-    _viewPin.alpha = 1;
+    for (UIView* pin in _pins)
+      pin.alpha = 1;
   }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -105,7 +147,8 @@
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
   {
-  [self updateConstraints];
+  [self updateViewAspectFit];
+  [self updatePins];
   [self.view layoutIfNeeded];
   [self showPinAnimated:YES];
   }
@@ -120,6 +163,17 @@
       break;
       }
   _doneButton.enabled = arePointsSetForAllTheDetails;
+  }
+
+- (void)viewDidLoad
+  {
+  [super viewDidLoad];
+  _pinImage = [UIImage imageNamed:@"pin.png"];
+  _selectedPinImage = [UIImage imageNamed:@"pinSelected.png"];
+  
+  _pins = [[NSMutableArray alloc] initWithCapacity:1];
+  _pinsHorizontalConstraints = [[NSMutableArray alloc] initWithCapacity:1];
+  _pinsVerticalConstraints = [[NSMutableArray alloc] initWithCapacity:1];
   }
   
 - (void)viewWillAppear:(BOOL)animated
@@ -137,26 +191,27 @@
   _countLabel.text = [NSString stringWithFormat:@"%d", _details.count];
   _countStepper.value = _details.count;
   
-  _viewPin.alpha = 0;
-  _pinPointRelativeToParentImageSize = nil!= self.detail.connectionPoint
-                                     ? [self.detail.connectionPoint CGPointValue]
-                                     : CGPointZero;
+  [self updatePins];
+  for (UIView* pin in _pins)
+    pin.alpha = 0;
+  
   _tapOnParentImageGestureRecognizer.enabled = nil != parentPicture;
   [self updateDoneButton];
   }
   
 - (void)viewDidAppear:(BOOL)animated
   {
-  [self updateConstraints];
+  [self updateViewAspectFit];
+  [self updatePins];
   [self.view layoutIfNeeded];
   [self showPinAnimated:YES];
   }
 
 - (void)movePinToPoint:(CGPoint)position
   {
-  _pinPointRelativeToParentImageSize = CGPointMake(position.x/_viewAspectFit.bounds.size.width, (_viewAspectFit.bounds.size.height-position.y)/_viewAspectFit.bounds.size.height);
-  self.detail.connectionPoint = [NSValue valueWithCGPoint:_pinPointRelativeToParentImageSize];
-  [self updateConstraints];
+  CGPoint pinPointRelativeToParentImageSize = CGPointMake(position.x/_viewAspectFit.bounds.size.width, (_viewAspectFit.bounds.size.height-position.y)/_viewAspectFit.bounds.size.height);
+  [(Detail*)[self.details objectAtIndex:_selectedPointIndex] setConnectionPoint:[NSValue valueWithCGPoint:pinPointRelativeToParentImageSize]];
+  [self updatePins];
   [_viewAspectFit layoutIfNeeded];
   [self showPinAnimated:NO];
   }
@@ -241,9 +296,33 @@
     [_details removeObjectsInRange:range];
     for (Detail* detail in detailsToRemove)
       [lastDetail.managedObjectContext deleteObject:detail];
+    if (_selectedPointIndex > _details.count)
+      _selectedPointIndex = _details.count;
     }
   [lastDetail.managedObjectContext saveAndHandleError];
   [self updateDoneButton];
+  [self updatePins];
+  [_viewAspectFit layoutIfNeeded];
+  }
+
+- (IBAction)onPreviousPointPressed:(id)sender
+  {
+  --_selectedPointIndex;
+  if (_selectedPointIndex < 0)
+    _selectedPointIndex = 0;
+  [self updatePins];
+  [_viewAspectFit layoutIfNeeded];
+  }
+
+- (IBAction)onNextPointPressed:(id)sender
+  {
+  ++_selectedPointIndex;
+  if (_selectedPointIndex > _details.count-1)
+    _selectedPointIndex = _details.count-1;
+  if (_selectedPointIndex < 0)
+    _selectedPointIndex = 0;
+  [self updatePins];
+  [_viewAspectFit layoutIfNeeded];
   }
   
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
