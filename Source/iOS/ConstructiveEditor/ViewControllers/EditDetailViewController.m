@@ -174,6 +174,8 @@
 - (void)viewDidLoad
   {
   [super viewDidLoad];
+  _selectedPointIndex = _details.count-1;
+  [self correctSelectedPointIndex];
   _pinImage = [UIImage imageNamed:@"pin.png"];
   _selectedPinImage = [UIImage imageNamed:@"pinSelected.png"];
   
