@@ -56,7 +56,8 @@
   {
   _assembliesGroups = [[NSMutableArray alloc] initWithCapacity:self.assemblyType.assembliesInstalled.count];
   _assembliesGroupsDictionary = [[NSMutableDictionary alloc] initWithCapacity:self.assemblyType.assembliesInstalled.count];
-  for (Assembly* assembly in [self.assemblyType.assembliesInstalled allObjects])
+  NSArray* assembliesInstalled = [self.assemblyType.assembliesInstalled allObjects];
+  for (Assembly* assembly in assembliesInstalled)
     {
     NSValue* key = [NSValue valueWithNonretainedObject:assembly.type];
     NSMutableArray* assemblies = [_assembliesGroupsDictionary objectForKey:key];
@@ -73,7 +74,8 @@
   
   _detailsGroups = [[NSMutableArray alloc] initWithCapacity:self.assemblyType.detailsInstalled.count];
   _detailsGroupsDictionary = [[NSMutableDictionary alloc] initWithCapacity:self.assemblyType.detailsInstalled.count];
-  for (Detail* detail in [self.assemblyType.detailsInstalled allObjects])
+  NSArray* detailsInstalled = [self.assemblyType.detailsInstalled allObjects];
+  for (Detail* detail in detailsInstalled)
     {
     NSValue* key = [NSValue valueWithNonretainedObject:detail.type];
     NSMutableArray* details = [_detailsGroupsDictionary objectForKey:key];

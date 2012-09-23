@@ -9,6 +9,7 @@
 
 #import "Detail.h"
 #import "DetailType.h"
+#import "AssemblyType.h"
 #import "EditDetailViewController.h"
 #import "EditDetailTypeViewController.h"
 #import "DetailTypeCellView.h"
@@ -105,6 +106,17 @@
     [self performSegueWithIdentifier:@"SelectDetailConnectionPointAfterTypeSelected" sender:nil];
   }
 
+- (DetailType*)detailTypeForIndexPath:(NSIndexPath*)indexPath
+  {
+  NSUInteger detailTypeIndex = indexPath.row;
+  if (_detailTypesTable.editing &&  detailTypeIndex == _addDetailTypeIndex)
+    return nil;//add type cell
+    
+  if (_detailTypesTable.editing &&  detailTypeIndex > _addDetailTypeIndex)
+    --detailTypeIndex;
+  return [_detailTypes objectAtIndex:detailTypeIndex];
+  }
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
   {
   if ([@"EditDetailType" isEqualToString:segue.identifier])
@@ -131,7 +143,13 @@
     }
   else if ([@"SelectDetailConnectionPointAfterTypeSelected" isEqualToString:segue.identifier])
     {
-    ((EditDetailViewController*)segue.destinationViewController).details = _details;
+    AssemblyType* assemblyToInstallTo = [[_details lastObject] assemblyToInstallTo];
+    NSArray* detailsInstalled = [assemblyToInstallTo.detailsInstalled allObjects];
+    NSMutableArray* detailsOfSelectedType = [[NSMutableArray alloc] initWithCapacity:self.details.count];
+    for (Detail* detail in detailsInstalled)
+      if (detail.type == [self detailTypeForIndexPath:[_detailTypesTable indexPathForSelectedRow]])
+        [detailsOfSelectedType addObject:detail];
+    ((EditDetailViewController*)segue.destinationViewController).details = detailsOfSelectedType;
     }
   }
   
@@ -198,10 +216,7 @@
   if (_detailTypesTable.editing &&  _addDetailTypeIndex == indexPath.row)
     return;
   
-  NSUInteger detailTypeIndex = indexPath.row;
-  if (_detailTypesTable.editing &&  detailTypeIndex > _addDetailTypeIndex)
-    --detailTypeIndex;
-  DetailType* type = [_detailTypes objectAtIndex:detailTypeIndex];
+  DetailType* type = [self detailTypeForIndexPath:indexPath];
   for (Detail* detail in self.details)
     detail.type = type;
   [self.detail.managedObjectContext saveAndHandleError];
