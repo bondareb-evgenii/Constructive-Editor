@@ -15,7 +15,8 @@
   {
   }
 
-  @property (nonatomic, weak) IBOutlet UIImageView* picture;
+  @property (weak, nonatomic) IBOutlet UIImageView* picture;
+  @property (weak, nonatomic) IBOutlet UILabel*     usageCountLabel;
   
 
 @end

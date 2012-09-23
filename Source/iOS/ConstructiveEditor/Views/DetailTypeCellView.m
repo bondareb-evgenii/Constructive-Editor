@@ -13,6 +13,4 @@
 // Implementation
 @implementation DetailTypeCellView
 
-@synthesize picture = _picture;
-
 @end

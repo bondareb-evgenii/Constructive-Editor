@@ -848,15 +848,26 @@
                                                         <constraint firstAttribute="height" constant="60" type="user" id="hBD-dZ-OtD"/>
                                                     </constraints>
                                                 </imageView>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Used 0 times" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C8E-2b-Enr">
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="163" id="N1m-CQ-hNI"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </label>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
+                                            <constraint firstItem="C8E-2b-Enr" firstAttribute="leading" secondItem="w7D-CZ-9TD" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="2mz-CF-4uI"/>
+                                            <constraint firstItem="C8E-2b-Enr" firstAttribute="top" secondItem="rS9-xE-t3Z" secondAttribute="top" constant="20" type="default" id="96V-fp-3rI"/>
                                             <constraint firstItem="w7D-CZ-9TD" firstAttribute="leading" secondItem="rS9-xE-t3Z" secondAttribute="leading" constant="45" id="ich-Nu-SFU"/>
                                             <constraint firstItem="w7D-CZ-9TD" firstAttribute="centerY" secondItem="rS9-xE-t3Z" secondAttribute="centerY" type="user" id="r7w-np-fmg"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="picture" destination="w7D-CZ-9TD" id="0wA-TW-U84"/>
+                                            <outlet property="usageCountLabel" destination="C8E-2b-Enr" id="9ZR-sA-Psy"/>
                                             <segue destination="dwe-AE-hYd" kind="push" identifier="EditDetailType" trigger="accessoryAction" id="rj4-jI-v62"/>
                                         </connections>
                                     </tableViewCell>

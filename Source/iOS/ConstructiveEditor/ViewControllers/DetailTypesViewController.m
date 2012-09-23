@@ -199,6 +199,8 @@
     cell.picture.image = [detailType pictureToShow]
                        ? [detailType pictureToShow]
                        : [UIImage imageNamed:@"camera.png"];
+    NSString* formatString = NSLocalizedString(@"Used %d times", @"Usage count label text");
+    cell.usageCountLabel.text = [NSString stringWithFormat:formatString, detailType.details.count];
     return cell;
     }
   return nil;
