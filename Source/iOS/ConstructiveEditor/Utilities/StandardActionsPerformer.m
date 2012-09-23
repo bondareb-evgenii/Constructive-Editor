@@ -41,7 +41,25 @@
     }
   return isAnythingChanged;
   }
-  
+
++ (void)createDetailToSplitTheAssemblyToIfNeeded:(AssemblyType*)assemblyTypeToInterpret
+  {
+  if (!assemblyTypeToInterpret.detailsInstalled.count)//at list two details should be present in split assembly, but we don't actually know wheter those two details should have the same type or different ones so we will create only one detail for user automatically
+    {
+    Detail* detail = (Detail*)[NSEntityDescription insertNewObjectForEntityForName:@"Detail" inManagedObjectContext:assemblyTypeToInterpret.managedObjectContext];
+    [assemblyTypeToInterpret addDetailsInstalledObject:detail];
+    }
+  }
+
++ (Assembly*)createAssemblyInManagedObjectContextNoSave:(NSManagedObjectContext*)managedObjectContext
+  {
+  Assembly* assembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:managedObjectContext];
+  AssemblyType* assemblyType = (AssemblyType*)[NSEntityDescription insertNewObjectForEntityForName:@"AssemblyType" inManagedObjectContext:managedObjectContext];
+  assembly.type = assemblyType;
+  return assembly;
+  }
+
+
 + (void)performStandardActionNamed:(NSString*)standardActionName onAssemblyType:(AssemblyType*)assemblyTypeToInterpret inView:(UIView*)view withCompletionBlock:(void(^)(BOOL actionPerformed)) completion
   {
   BOOL isAssemblySplit = assemblyTypeToInterpret.detailsInstalled.count && !assemblyTypeToInterpret.assemblyBase;
@@ -70,10 +88,7 @@
       
       void (^prepareReinterpret)() = ^()
         {
-        Assembly* assembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:managedObjectContext];
-        AssemblyType* assemblyType = (AssemblyType*)[NSEntityDescription insertNewObjectForEntityForName:@"AssemblyType" inManagedObjectContext:managedObjectContext];
-        assembly.type = assemblyType;
-        assemblyTypeToInterpret.assemblyBase = assembly;
+        assemblyTypeToInterpret.assemblyBase = [self createAssemblyInManagedObjectContextNoSave:managedObjectContext];
         };
         
       void (^removeDetails)() = ^()
@@ -141,10 +156,7 @@
         
       void (^prepareReinterpret)() = ^()
         {
-        Assembly* assembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:managedObjectContext];
-        AssemblyType* assemblyType = (AssemblyType*)[NSEntityDescription insertNewObjectForEntityForName:@"AssemblyType" inManagedObjectContext:managedObjectContext];
-        assembly.type = assemblyType;
-        assemblyTypeToInterpret.assemblyBeforeRotation = assembly;
+        assemblyTypeToInterpret.assemblyBeforeRotation = [self createAssemblyInManagedObjectContextNoSave:managedObjectContext];
         };
         
       void (^removeDetails)() = ^()
@@ -202,10 +214,7 @@
       
       void (^prepareReinterpret)() = ^()
         {
-        Assembly* assembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:managedObjectContext];
-        AssemblyType* assemblyType = (AssemblyType*)[NSEntityDescription insertNewObjectForEntityForName:@"AssemblyType" inManagedObjectContext:managedObjectContext];
-        assembly.type = assemblyType;
-        assemblyTypeToInterpret.assemblyBeforeTransformation = assembly;
+        assemblyTypeToInterpret.assemblyBeforeTransformation = [self createAssemblyInManagedObjectContextNoSave:managedObjectContext];
         };
         
       void (^removeDetails)() = ^()
@@ -267,11 +276,7 @@
         
       void (^deleteAllAssemblies)() = ^()
         {
-        if (!assemblyTypeToInterpret.detailsInstalled.count)//at list two details should be present in split assembly, but we don't actually know wheter those two details should have the same type or different ones so we will create only one detail for user automatically
-          {
-          Detail* detail = (Detail*)[NSEntityDescription insertNewObjectForEntityForName:@"Detail" inManagedObjectContext:managedObjectContext];
-          [assemblyTypeToInterpret addDetailsInstalledObject:detail];
-          }
+        [self createDetailToSplitTheAssemblyToIfNeeded:assemblyTypeToInterpret];
         [managedObjectContext deleteObject:assemblyTypeToInterpret.assemblyBase];
         [assemblyTypeToInterpret.assembliesInstalled enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
           {
@@ -311,10 +316,7 @@
       
       void (^prepareReinterpret)() = ^()
         {
-        Assembly* assembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:managedObjectContext];
-        AssemblyType* assemblyType = (AssemblyType*)[NSEntityDescription insertNewObjectForEntityForName:@"AssemblyType" inManagedObjectContext:managedObjectContext];
-        assembly.type = assemblyType;
-        assemblyTypeToInterpret.assemblyBeforeRotation = assembly;
+        assemblyTypeToInterpret.assemblyBeforeRotation = [self createAssemblyInManagedObjectContextNoSave:managedObjectContext];
         };
         
       void (^removeAllParts)() = ^()
@@ -403,10 +405,7 @@
       
       void (^prepareReinterpret)() = ^()
         {
-        Assembly* assembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:managedObjectContext];
-        AssemblyType* assemblyType = (AssemblyType*)[NSEntityDescription insertNewObjectForEntityForName:@"AssemblyType" inManagedObjectContext:managedObjectContext];
-        assembly.type = assemblyType;
-        assemblyTypeToInterpret.assemblyBeforeTransformation = assembly;
+        assemblyTypeToInterpret.assemblyBeforeTransformation = [self createAssemblyInManagedObjectContextNoSave:managedObjectContext];
         };
         
       void (^removeAllParts)() = ^()
@@ -498,10 +497,7 @@
       
       void (^prepareReinterpret)() = ^()
         {
-        Assembly* assembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:managedObjectContext];
-        AssemblyType* assemblyType = (AssemblyType*)[NSEntityDescription insertNewObjectForEntityForName:@"AssemblyType" inManagedObjectContext:managedObjectContext];
-        assembly.type = assemblyType;
-        assemblyTypeToInterpret.assemblyBase = assembly;
+        assemblyTypeToInterpret.assemblyBase = [self createAssemblyInManagedObjectContextNoSave:managedObjectContext];
         };
         
       void (^removeAssembly)() = ^()
@@ -570,11 +566,7 @@
         
       void (^removeAssembly)() = ^()
         {
-        while (assemblyTypeToInterpret.detailsInstalled.count < 2)//at list two details should be present in split assembly
-          {
-          Detail* detail = (Detail*)[NSEntityDescription insertNewObjectForEntityForName:@"Detail" inManagedObjectContext:managedObjectContext];
-          [assemblyTypeToInterpret addDetailsInstalledObject:detail];
-          }
+        [self createDetailToSplitTheAssemblyToIfNeeded:assemblyTypeToInterpret];
         [managedObjectContext deleteObject:assemblyTypeToInterpret.assemblyBeforeRotation];
         commitReinterpret();
         };
@@ -611,10 +603,7 @@
         actionOnReinterpretRotatedAsTransformedAndViceVersa = preferredActionOnReinterpretRotatedAsTransformedAndViceVersa_Default;
       void (^prepareReinterpret)() = ^()
         {
-        Assembly* assembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:managedObjectContext];
-        AssemblyType* assemblyType = (AssemblyType*)[NSEntityDescription insertNewObjectForEntityForName:@"AssemblyType" inManagedObjectContext:managedObjectContext];
-        assembly.type = assemblyType;
-        assemblyTypeToInterpret.assemblyBeforeTransformation = assembly;
+        assemblyTypeToInterpret.assemblyBeforeTransformation = [self createAssemblyInManagedObjectContextNoSave:managedObjectContext];
         };
         
       void (^removeAssembly)() = ^()
@@ -686,10 +675,7 @@
       
       void (^prepareReinterpret)() = ^()
         {
-        Assembly* assembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:managedObjectContext];
-        AssemblyType* assemblyType = (AssemblyType*)[NSEntityDescription insertNewObjectForEntityForName:@"AssemblyType" inManagedObjectContext:managedObjectContext];
-        assembly.type = assemblyType;
-        assemblyTypeToInterpret.assemblyBase = assembly;
+        assemblyTypeToInterpret.assemblyBase = [self createAssemblyInManagedObjectContextNoSave:managedObjectContext];
         };
         
       void (^removeAssembly)() = ^()
@@ -758,11 +744,7 @@
       
       void (^removeAssembly)() = ^()
         {
-        while (assemblyTypeToInterpret.detailsInstalled.count < 2)//at list two details should be present in split assembly
-          {
-          Detail* detail = (Detail*)[NSEntityDescription insertNewObjectForEntityForName:@"Detail" inManagedObjectContext:managedObjectContext];
-          [assemblyTypeToInterpret addDetailsInstalledObject:detail];
-          }
+        [self createDetailToSplitTheAssemblyToIfNeeded:assemblyTypeToInterpret];
         [managedObjectContext deleteObject:assemblyTypeToInterpret.assemblyBeforeTransformation];
         commitReinterpret();
         };
@@ -800,10 +782,7 @@
       
       void (^prepareReinterpret)() = ^()
         {
-        Assembly* assembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:managedObjectContext];
-        AssemblyType* assemblyType = (AssemblyType*)[NSEntityDescription insertNewObjectForEntityForName:@"AssemblyType" inManagedObjectContext:managedObjectContext];
-        assembly.type = assemblyType;
-        assemblyTypeToInterpret.assemblyBeforeRotation = assembly;
+        assemblyTypeToInterpret.assemblyBeforeRotation = [self createAssemblyInManagedObjectContextNoSave:managedObjectContext];
         };
         
       void (^removeAssembly)() = ^()
@@ -869,38 +848,25 @@
     {
     if ([standardActionOnAssembly_DetachSmallerParts isEqualToString:standardActionName])
       {
-      Assembly* assembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:managedObjectContext];
-      AssemblyType* assemblyType = (AssemblyType*)[NSEntityDescription insertNewObjectForEntityForName:@"AssemblyType" inManagedObjectContext:managedObjectContext];
-      assembly.type = assemblyType;
-      assemblyTypeToInterpret.assemblyBase = assembly;
+      assemblyTypeToInterpret.assemblyBase = [self createAssemblyInManagedObjectContextNoSave:managedObjectContext];
       // Commit the change.
       [managedObjectContext saveAndHandleError];
       }
     else if ([standardActionOnAssembly_SplitToDetails isEqualToString:standardActionName])
       {
-      while (assemblyTypeToInterpret.detailsInstalled.count < 2)//at list two details should be present in split assembly
-        {
-        Detail* detail = (Detail*)[NSEntityDescription insertNewObjectForEntityForName:@"Detail" inManagedObjectContext:managedObjectContext];
-        [assemblyTypeToInterpret addDetailsInstalledObject:detail];
-        }
+      [self createDetailToSplitTheAssemblyToIfNeeded:assemblyTypeToInterpret];
       // Commit the change.
       [managedObjectContext saveAndHandleError];
       }
     else if ([standardActionOnAssembly_Rotate isEqualToString:standardActionName])
       {
-      Assembly* assembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:managedObjectContext];
-      AssemblyType* assemblyType = (AssemblyType*)[NSEntityDescription insertNewObjectForEntityForName:@"AssemblyType" inManagedObjectContext:managedObjectContext];
-      assembly.type = assemblyType;
-      assemblyTypeToInterpret.assemblyBeforeRotation = assembly;
+      assemblyTypeToInterpret.assemblyBeforeRotation = [self createAssemblyInManagedObjectContextNoSave:managedObjectContext];
       // Commit the change.
       [managedObjectContext saveAndHandleError];
       }
     else if ([standardActionOnAssembly_Transform isEqualToString:standardActionName])
       {
-      Assembly* assembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:managedObjectContext];
-      AssemblyType* assemblyType = (AssemblyType*)[NSEntityDescription insertNewObjectForEntityForName:@"AssemblyType" inManagedObjectContext:managedObjectContext];
-      assembly.type = assemblyType;
-      assemblyTypeToInterpret.assemblyBeforeTransformation = assembly;
+      assemblyTypeToInterpret.assemblyBeforeTransformation = [self createAssemblyInManagedObjectContextNoSave:managedObjectContext];
       // Commit the change.
       [managedObjectContext saveAndHandleError];
       }
