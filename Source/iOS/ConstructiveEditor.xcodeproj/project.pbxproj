@@ -31,6 +31,8 @@
 		757A153C15ED256E00E89FBC /* PreferencesKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = 757A153B15ED256E00E89FBC /* PreferencesKeys.m */; };
 		757A153F15EE77B400E89FBC /* ActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 757A153E15EE77B400E89FBC /* ActionSheet.m */; };
 		757B0CB6160DF82B008883C0 /* VisualSelectablePointer.m in Sources */ = {isa = PBXBuildFile; fileRef = 757B0CB5160DF82B008883C0 /* VisualSelectablePointer.m */; };
+		757B0CBA160F137C008883C0 /* PreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 757B0CB9160F137C008883C0 /* PreferencesViewController.m */; };
+		757B0CBD160F5033008883C0 /* PreferenceOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 757B0CBC160F5033008883C0 /* PreferenceOptionsViewController.m */; };
 		757EBCEF15F0E7B8004218D2 /* NoPhotoBig.png in Resources */ = {isa = PBXBuildFile; fileRef = 757EBCEE15F0E7B8004218D2 /* NoPhotoBig.png */; };
 		757F600A15EF8F490022FC67 /* StandardActionsPerformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 757F600915EF8F490022FC67 /* StandardActionsPerformer.m */; };
 		75800F9215FC90A800E5262E /* DirectoryWatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 75800F9115FC90A800E5262E /* DirectoryWatcher.m */; };
@@ -131,6 +133,10 @@
 		757A153E15EE77B400E89FBC /* ActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionSheet.m; sourceTree = "<group>"; };
 		757B0CB4160DF82B008883C0 /* VisualSelectablePointer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VisualSelectablePointer.h; path = ConstructiveEditor/Utilities/VisualSelectablePointer.h; sourceTree = "<group>"; };
 		757B0CB5160DF82B008883C0 /* VisualSelectablePointer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VisualSelectablePointer.m; path = ConstructiveEditor/Utilities/VisualSelectablePointer.m; sourceTree = "<group>"; };
+		757B0CB8160F137C008883C0 /* PreferencesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferencesViewController.h; sourceTree = "<group>"; };
+		757B0CB9160F137C008883C0 /* PreferencesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferencesViewController.m; sourceTree = "<group>"; };
+		757B0CBB160F5033008883C0 /* PreferenceOptionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferenceOptionsViewController.h; sourceTree = "<group>"; };
+		757B0CBC160F5033008883C0 /* PreferenceOptionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferenceOptionsViewController.m; sourceTree = "<group>"; };
 		757EBCEE15F0E7B8004218D2 /* NoPhotoBig.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = NoPhotoBig.png; path = en.lproj/Images/NoPhotoBig.png; sourceTree = "<group>"; };
 		757F600815EF8F490022FC67 /* StandardActionsPerformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StandardActionsPerformer.h; path = Utilities/StandardActionsPerformer.h; sourceTree = "<group>"; };
 		757F600915EF8F490022FC67 /* StandardActionsPerformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StandardActionsPerformer.m; path = Utilities/StandardActionsPerformer.m; sourceTree = "<group>"; };
@@ -275,6 +281,10 @@
 				7532EBC015DFA3B600395B11 /* DetailTypesViewController.m */,
 				7532EBC115DFA3B600395B11 /* EditDetailTypeViewController.h */,
 				7532EBC215DFA3B600395B11 /* EditDetailTypeViewController.m */,
+				757B0CB8160F137C008883C0 /* PreferencesViewController.h */,
+				757B0CB9160F137C008883C0 /* PreferencesViewController.m */,
+				757B0CBB160F5033008883C0 /* PreferenceOptionsViewController.h */,
+				757B0CBC160F5033008883C0 /* PreferenceOptionsViewController.m */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -622,6 +632,8 @@
 				75E5F33415FDAF4900C363FA /* AssemblyTypesShelf.m in Sources */,
 				75EE288D160B17C400050997 /* Constants.m in Sources */,
 				757B0CB6160DF82B008883C0 /* VisualSelectablePointer.m in Sources */,
+				757B0CBA160F137C008883C0 /* PreferencesViewController.m in Sources */,
+				757B0CBD160F5033008883C0 /* PreferenceOptionsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
