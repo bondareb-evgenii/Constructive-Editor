@@ -191,7 +191,6 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="showPreferences:" destination="Xve-Pe-Zkp" eventType="touchUpInside" id="OQp-RW-acd"/>
                                             <segue destination="5Pe-kL-zda" kind="push" identifier="ShowPreferencesFromRootAssemblyVC" id="uSj-BE-uAj"/>
                                         </connections>
                                     </button>
@@ -234,7 +233,11 @@
                                             <rect key="frame" x="10" y="1" width="300" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="p8l-Mc-oSg"/>
+                                                <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="p8l-Mc-oSg">
+                                                    <connections>
+                                                        <action selector="onAskAboutImplicitPartsDeletionChanged:" destination="5Pe-kL-zda" eventType="valueChanged" id="mXY-nM-M7x"/>
+                                                    </connections>
+                                                </switch>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Implicit deletion alerts" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Az3-NN-Pvc">
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="200" id="6g4-uN-04V"/>
@@ -462,6 +465,7 @@
                         <outlet property="_preferredActionOnReinterpretRotatedOrTransformedAsDetachedLabel" destination="M0V-fc-4Tn" id="9UB-hA-ODR"/>
                         <outlet property="_preferredActionOnReinterpretSplitAsDetachedLabel" destination="6zP-hY-euk" id="wTZ-Rk-YG2"/>
                         <outlet property="_preferredActionOnReinterpretSplitAsRotatedOrTransformedLabel" destination="czu-Ke-DVg" id="wTU-Dx-ksN"/>
+                        <outlet property="_preferredAskAboutImplicitPartsDeletionSwitch" destination="p8l-Mc-oSg" id="ctv-17-6nc"/>
                         <outlet property="_preferredPicturesSourceLabel" destination="zHE-XA-nk1" id="zGd-4Y-lGk"/>
                         <outlet property="_standardActionOnAssemblyLabel" destination="shR-yX-ltx" id="xrV-J7-XhV"/>
                     </connections>
@@ -1230,7 +1234,6 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="showPreferences:" destination="BAE-IJ-KaX" eventType="touchUpInside" id="uHg-3h-Exo"/>
                                             <segue destination="5Pe-kL-zda" kind="push" identifier="ShowPreferencesFromAssembliesAndDetailsVC" id="xBv-Ap-JIy"/>
                                         </connections>
                                     </button>
@@ -1860,137 +1863,16 @@
         <image name="transform_Highlighted_iPhone.png" width="30" height="30"/>
         <image name="transform_Normal_iPhone.png" width="30" height="30"/>
     </resources>
-    <classes>
-        <class className="AssembliesAndDetailsViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/AssembliesAndDetailsViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="_assembliesAndDetailsTable" candidateClass="UITableView"/>
-                <relationship kind="outlet" name="_detachButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="_exportButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="_preferencesButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="_rotateButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="_splitButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="_transformButton" candidateClass="UIButton"/>
-            </relationships>
-        </class>
-        <class className="AssemblyCellView" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/AssemblyCellView.h"/>
-            <relationships>
-                <relationship kind="outlet" name="countLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="countStepper" candidateClass="UIStepper"/>
-                <relationship kind="outlet" name="picture" candidateClass="UIImageView"/>
-            </relationships>
-        </class>
-        <class className="DetailCellView" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/DetailCellView.h"/>
-            <relationships>
-                <relationship kind="outlet" name="countLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="countStepper" candidateClass="UIStepper"/>
-                <relationship kind="outlet" name="picture" candidateClass="UIImageView"/>
-            </relationships>
-        </class>
-        <class className="DetailTypeCellView" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/DetailTypeCellView.h"/>
-            <relationships>
-                <relationship kind="outlet" name="picture" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="usageCountLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="DetailTypesViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/DetailTypesViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="_connectionPointButton" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="_detailTypesTable" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="EditAssemblyViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/EditAssemblyViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="_constraintViewAspectFitHeight" candidateClass="NSLayoutConstraint"/>
-                <relationship kind="outlet" name="_constraintViewAspectFitWidth" candidateClass="NSLayoutConstraint"/>
-                <relationship kind="outlet" name="_containerViewForParentImageView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="_countLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="_countStepper" candidateClass="UIStepper"/>
-                <relationship kind="outlet" name="_doneButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="_imageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="_imageViewParent" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="_tapOnParentImageGestureRecognizer" candidateClass="UITapGestureRecognizer"/>
-                <relationship kind="outlet" name="_viewAspectFit" candidateClass="UIView"/>
-            </relationships>
-        </class>
-        <class className="EditDetailTypeViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/EditDetailTypeViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="_constraintImageViewLeadingSpaceToSuperview" candidateClass="NSLayoutConstraint"/>
-                <relationship kind="outlet" name="_constraintPickerTrainlingSpaceToSuperview" candidateClass="NSLayoutConstraint"/>
-                <relationship kind="outlet" name="_constraintVerticalSpaceFromPickerToImageView" candidateClass="NSLayoutConstraint"/>
-                <relationship kind="outlet" name="_detailClassPicker" candidateClass="UIPickerView"/>
-                <relationship kind="outlet" name="_detailLabelTextField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="_detailLengthLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="_detailLengthStepper" candidateClass="UIStepper"/>
-                <relationship kind="outlet" name="_pictureImageView" candidateClass="UIImageView"/>
-            </relationships>
-        </class>
-        <class className="EditDetailViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/EditDetailViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="_constraintViewAspectFitHeight" candidateClass="NSLayoutConstraint"/>
-                <relationship kind="outlet" name="_constraintViewAspectFitWidth" candidateClass="NSLayoutConstraint"/>
-                <relationship kind="outlet" name="_containerViewForParentImageView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="_countLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="_countStepper" candidateClass="UIStepper"/>
-                <relationship kind="outlet" name="_doneButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="_imageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="_imageViewParent" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="_tapOnParentImageGestureRecognizer" candidateClass="UITapGestureRecognizer"/>
-                <relationship kind="outlet" name="_viewAspectFit" candidateClass="UIView"/>
-            </relationships>
-        </class>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-        <class className="PreferenceOptionsViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PreferenceOptionsViewController.h"/>
-        </class>
-        <class className="PreferencesViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PreferencesViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="_preferredActionOnReinterpretDetachedAsRotatedOrTransformedLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="_preferredActionOnReinterpretRotatedAsTransformedAndViceVersaLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="_preferredActionOnReinterpretRotatedOrTransformedAsDetachedLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="_preferredActionOnReinterpretSplitAsDetachedLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="_preferredActionOnReinterpretSplitAsRotatedOrTransformedLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="_preferredPicturesSourceLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="_standardActionOnAssemblyLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="RootAssemblyViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/RootAssemblyViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="_exportButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="_preferencesButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="_rootAssemblyTable" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="StartMenuViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/StartMenuViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="_documentsTable" candidateClass="UITableView"/>
-                <relationship kind="outlet" name="_newDocumentCreateButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="_newDocumentNameTextField" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="xBv-Ap-JIy"/>
         <segue reference="NZ4-iz-omb"/>
+        <segue reference="uSj-BE-uAj"/>
         <segue reference="JDV-Nc-Od8"/>
-        <segue reference="6og-4r-VGt"/>
+        <segue reference="Kt3-Kg-qnc"/>
         <segue reference="YU5-mj-WCP"/>
     </inferredMetricsTieBreakers>
 </document>

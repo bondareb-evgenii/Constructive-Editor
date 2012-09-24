@@ -11,6 +11,7 @@
 
 @interface PreferencesViewController ()
   {
+    __weak IBOutlet UISwitch* _preferredAskAboutImplicitPartsDeletionSwitch;
     __weak IBOutlet UILabel*  _preferredPicturesSourceLabel;
     __weak IBOutlet UILabel*  _standardActionOnAssemblyLabel;
     __weak IBOutlet UILabel*  _preferredActionOnReinterpretSplitAsDetachedLabel;
@@ -26,6 +27,14 @@
 - (void)viewWillAppear:(BOOL)animated
   {
   NSUserDefaults* preferences = [NSUserDefaults standardUserDefaults];
+  
+  BOOL askAboutImplicitPartsDeletion = preferredAskAboutImplicitPartsDeletion_Default;
+  NSNumber* askAboutImplicitPartsDeletionNumber = [preferences objectForKey:preferredAskAboutImplicitPartsDeletion];
+  if (askAboutImplicitPartsDeletionNumber)
+    askAboutImplicitPartsDeletion = [askAboutImplicitPartsDeletionNumber boolValue];
+    
+  _preferredAskAboutImplicitPartsDeletionSwitch.on = askAboutImplicitPartsDeletion;
+  
   NSString* preferredPicturesSourceStringValue = [preferences stringForKey:preferredPicturesSource];
   if ([preferredPicturesSourceStringValue isEqualToString:preferredPicturesSource_Camera])
     _preferredPicturesSourceLabel.text = NSLocalizedString(@"Camera", @"Camera");
@@ -89,6 +98,10 @@
     _preferredActionOnReinterpretRotatedAsTransformedAndViceVersaLabel.text = NSLocalizedString(@"Remove rotated/transformed", @"Table view label text");
   else if ([preferredActionOnReinterpretRotatedAsTransformedAndViceVersaStringValue isEqualToString:preferredActionOnReinterpretRotatedAsTransformedAndViceVersa_TransformeOrRotateRotatedOrTransformedAssembly])
     _preferredActionOnReinterpretRotatedAsTransformedAndViceVersaLabel.text = NSLocalizedString(@"Transform rotated and vice versa", @"Table view label text");
+  }
+- (IBAction)onAskAboutImplicitPartsDeletionChanged:(id)sender
+  {
+  [[NSUserDefaults standardUserDefaults] setBool:_preferredAskAboutImplicitPartsDeletionSwitch.on forKey:preferredAskAboutImplicitPartsDeletion];
   }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

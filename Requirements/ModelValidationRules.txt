@@ -2,9 +2,5 @@ Model validation rules:
 1) Every detail or assembly that is installed to some assembly (has an assemblyToInstallTo property set) should have a connectionPoint property set also.
 2) Only one assembly in a model - the resulting one may have extendedAssembly as well as no assemblyToInstallTo properties set, all others should have only one of those properties set.
 3) Every detail should have both assemblyToInstallTo and connectionPoint properties set.
-
-User interface restrictions description:
-1) Every new level is always started with assembly consisting of more than one detail, so only 1 detail could be present in concrete section of a general hierarchy level and if it is there then there can be no assemblies.
-2) If there is an assembly present in concrete section of a general hierarchy level than there should be no details there.
-3) Both Add Assembly and Add Detail rows should automatically disappear from a section where any of green add buttons is pressed once (the new section with only those two rows should be added to the table automatically), while both of those rows should appear again if the user removes the last row in a section (the additional section with only those two rows should be automatically removed from a table)
-4) Every section in a table (but the root assemblies level table) should have a Set Connection Point button which is disabled in an additional section where there are only Add Detail and Add Assembly rows present and automatically enabled as a first detail or assembly is added to the section.
+4) Every assembly should be either split to details (at least two), rotated, transformed or smaller parts should be detached from it (base assembly should be present and at  least one detail or assembly)
+5) Every detail should have a complete type
