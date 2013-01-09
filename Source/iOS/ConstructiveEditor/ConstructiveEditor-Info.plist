@@ -6,6 +6,23 @@
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
 	<string>${PRODUCT_NAME}</string>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>constr</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>Constructive Editor document</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.Constructive.editor.sqlite</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFiles</key>
@@ -24,7 +41,13 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>6.0</string>
 	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>NSPersistentStoreTypeKey</key>
+	<string>NSSQLiteStoreType</string>
+	<key>UIFileSharingEnabled</key>
 	<true/>
 	<key>UIMainStoryboardFile</key>
 	<string>MainStoryboard_iPhone</string>
@@ -47,29 +70,6 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>NSPersistentStoreTypeKey</key>
-	<string>NSSQLiteStoreType</string>
-	<key>CFBundleDocumentTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeName</key>
-			<string>Constructive Editor document</string>
-			<key>LSHandlerRank</key>
-			<string>Owner</string>
-			<key>CFBundleTypeExtensions</key>
-			<array>
-				<string>constr</string>
-			</array>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>com.Constructive.editor.sqlite</string>
-			</array>
-		</dict>
-	</array>
-	<key>LSMinimumSystemVersion</key>
-	<string>6.0</string>
-	<key>UIFileSharingEnabled</key>
-	<true/>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict>
@@ -77,6 +77,8 @@
 			<array>
 				<string>public.database</string>
 			</array>
+			<key>UTTypeDescription</key>
+			<string>Constructive editor sqlite document</string>
 			<key>UTTypeIdentifier</key>
 			<string>com.Constructive.editor.sqlite</string>
 			<key>UTTypeTagSpecification</key>
@@ -86,8 +88,6 @@
 					<string>constr</string>
 				</array>
 			</dict>
-			<key>UTTypeDescription</key>
-			<string>Constructive editor sqlite document</string>
 		</dict>
 	</array>
 </dict>

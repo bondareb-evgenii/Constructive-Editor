@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1803" systemVersion="11E53" minimumToolsVersion="Xcode 4.1" macOSVersion="Automatic" iOSVersion="Automatic">
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1810" systemVersion="11G63" minimumToolsVersion="Xcode 4.1" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Assembly" representedClassName="Assembly" syncable="YES">
         <attribute name="connectionPoint" optional="YES" attributeType="Transformable" valueTransformerName="NSValueToDataTransformer" syncable="YES"/>
         <relationship name="assemblyExtended" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="AssemblyType" inverseName="assemblyBase" inverseEntity="AssemblyType" syncable="YES"/>
@@ -41,9 +41,9 @@
     </entity>
     <elements>
         <element name="Assembly" positionX="0" positionY="0" width="128" height="135"/>
-        <element name="AssemblyType" positionX="0" positionY="0" width="128" height="180"/>
-        <element name="AssemblyTypesShelf" positionX="0" positionY="0" width="128" height="60"/>
-        <element name="Detail" positionX="0" positionY="0" width="128" height="90"/>
-        <element name="DetailType" positionX="0" positionY="0" width="128" height="195"/>
+        <element name="AssemblyType" positionX="241" positionY="-9" width="128" height="180"/>
+        <element name="AssemblyTypesShelf" positionX="133" positionY="-315" width="128" height="60"/>
+        <element name="Detail" positionX="-297" positionY="-207" width="128" height="90"/>
+        <element name="DetailType" positionX="-344" positionY="126" width="128" height="195"/>
     </elements>
 </model>

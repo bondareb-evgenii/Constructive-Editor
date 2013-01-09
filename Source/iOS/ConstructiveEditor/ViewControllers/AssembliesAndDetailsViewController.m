@@ -10,6 +10,7 @@
 #import "Assembly.h"
 #import "AssemblyType.h"
 #import "AssemblyCellView.h"
+#import "AssemblyValidator.h"
 #import "Detail.h"
 #import "DetailType.h"
 #import "DetailCellView.h"
@@ -107,7 +108,7 @@
   _rotateButton.enabled = !isAssemblyRotated;
   _transformButton.enabled = !isAssemblyTransformed;
   }
-  
+
 - (void)removeDetailsAtIndexPath:(NSIndexPath*)indexPath
   {
   BOOL afterAddItem = indexPath.row > _addDetailIndex;
@@ -136,7 +137,7 @@
       [_assembliesAndDetailsTable reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]]withRowAnimation:UITableViewRowAnimationNone];
     }
   }
-  
+
 - (void)viewWillAppear:(BOOL)animated
   {
 	[super viewWillAppear:animated];
@@ -149,7 +150,7 @@
   //activate appropriate buttons on navigation bar
   [self updateInterpretButtons];
   _preferencesButton.enabled = YES;
-  _exportButton.enabled = NO;
+  _exportButton.enabled = [AssemblyValidator isAssemblyComplete:[AssemblyValidator rootAssemblyInContext:_assemblyType.managedObjectContext] withError:nil];
   
   NSIndexPath* selectedIndexPath = [_assembliesAndDetailsTable indexPathForSelectedRow];
   Detail* detail = [self detailForRowAtIndexPath:selectedIndexPath];
@@ -377,10 +378,6 @@
     [self reloadTableViewAnimated:YES];
     [self updateInterpretButtons];
     }];
-  }
-  
-- (IBAction)showPreferences:(id)sender
-  {
   }
   
 - (IBAction)exportDocument:(id)sender

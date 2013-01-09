@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7517F5AA15217494000EF32F /* EditAssemblyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7517F5A915217494000EF32F /* EditAssemblyViewController.m */; };
+		751C5F65161054B20025AFA4 /* AssemblyValidator.mm in Sources */ = {isa = PBXBuildFile; fileRef = 751C5F64161054B20025AFA4 /* AssemblyValidator.mm */; };
 		7526384215DFAD4300E2A8A9 /* DetailCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7526384115DFAD4300E2A8A9 /* DetailCellView.m */; };
 		7529F96115199C3200C13C90 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7529F94615199C3200C13C90 /* AppDelegate.m */; };
 		7529F96215199C3200C13C90 /* NSValueToDataTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7529F94915199C3200C13C90 /* NSValueToDataTransformer.m */; };
@@ -93,6 +94,8 @@
 /* Begin PBXFileReference section */
 		7517F5A815217494000EF32F /* EditAssemblyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditAssemblyViewController.h; sourceTree = "<group>"; };
 		7517F5A915217494000EF32F /* EditAssemblyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditAssemblyViewController.m; sourceTree = "<group>"; };
+		751C5F63161054B20025AFA4 /* AssemblyValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AssemblyValidator.h; path = Utilities/AssemblyValidator.h; sourceTree = "<group>"; };
+		751C5F64161054B20025AFA4 /* AssemblyValidator.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AssemblyValidator.mm; path = Utilities/AssemblyValidator.mm; sourceTree = "<group>"; };
 		7526384015DFAD4300E2A8A9 /* DetailCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailCellView.h; sourceTree = "<group>"; };
 		7526384115DFAD4300E2A8A9 /* DetailCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailCellView.m; sourceTree = "<group>"; };
 		7529F94515199C3200C13C90 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -328,6 +331,8 @@
 				75800F9115FC90A800E5262E /* DirectoryWatcher.m */,
 				757F600815EF8F490022FC67 /* StandardActionsPerformer.h */,
 				757F600915EF8F490022FC67 /* StandardActionsPerformer.m */,
+				751C5F63161054B20025AFA4 /* AssemblyValidator.h */,
+				751C5F64161054B20025AFA4 /* AssemblyValidator.mm */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -634,6 +639,7 @@
 				757B0CB6160DF82B008883C0 /* VisualSelectablePointer.m in Sources */,
 				757B0CBA160F137C008883C0 /* PreferencesViewController.m in Sources */,
 				757B0CBD160F5033008883C0 /* PreferenceOptionsViewController.m in Sources */,
+				751C5F65161054B20025AFA4 /* AssemblyValidator.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,6 +8,7 @@
 #import "StartMenuViewController.h"
 #import "Assembly.h"
 #import "AssemblyType.h"
+#import "AssemblyValidator.h"
 #import "AppDelegate.h"
 #import "AlertView.h"
 #import "DirectoryWatcher.h"
@@ -135,41 +136,7 @@
   if ([segue.identifier isEqualToString:@"OpenURL"])
     {
     [self.navigationController popToViewController:self animated:NO];
-    _managedObjectContext = [self managedObjectContext];
-    /*
-     Fetch existing assemblies.
-     Create a fetch request, add a sort descriptor, then execute the fetch.
-     */
-    NSFetchRequest *assembliesRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *assemblyEntity = [NSEntityDescription entityForName:@"Assembly" inManagedObjectContext:_managedObjectContext];
-    [assembliesRequest setEntity:assemblyEntity];
-    [assembliesRequest setPredicate:[NSPredicate predicateWithFormat:@"(assemblyToInstallTo = nil) AND (assemblyExtended = nil) AND (assemblyTransformed = nil) AND (assemblyRotated = nil)"]];
-    
-    // Execute the fetch -- create a mutable copy of the result.
-    NSError *assembliesError = nil;
-    NSArray* rootAssemblies = [[_managedObjectContext executeFetchRequest:assembliesRequest error:&assembliesError] mutableCopy];
-    if (rootAssemblies == nil)
-      {
-      NSLog(@"Error: %@", assembliesError.debugDescription);
-      return;
-      }
-
-    if (1 == rootAssemblies.count)
-      ((RootAssemblyViewController*)segue.destinationViewController).rootAssembly = [rootAssemblies objectAtIndex:0];
-    else if (rootAssemblies.count > 1)
-      NSLog(@"There is more then one root assembly in model: %@", rootAssemblies);
-    else if (0 == rootAssemblies.count)
-      {
-      Assembly* rootAssembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:self.managedObjectContext];
-      AssemblyType* assemblyType = (AssemblyType*)[NSEntityDescription insertNewObjectForEntityForName:@"AssemblyType" inManagedObjectContext:self.managedObjectContext];
-      rootAssembly.type = assemblyType;
-      rootAssembly.assemblyExtended = nil;
-      rootAssembly.type.assemblyBase = nil;
-      ((RootAssemblyViewController*)segue.destinationViewController).rootAssembly = rootAssembly;
-      // Commit the change.
-      [_managedObjectContext saveAndHandleError];
-      }
-    rootAssemblies = nil;
+    ((RootAssemblyViewController*)segue.destinationViewController).rootAssembly = [AssemblyValidator rootAssemblyInContext:[self managedObjectContext]];
     }
   }
 

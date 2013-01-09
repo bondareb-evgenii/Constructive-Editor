@@ -1,6 +1,6 @@
 Model validation rules:
 1) Every detail or assembly that is installed to some assembly (has an assemblyToInstallTo property set) should have a connectionPoint property set also.
-2) Only one assembly in a model - the resulting one may have extendedAssembly as well as no assemblyToInstallTo properties set, all others should have only one of those properties set.
+2) Only one assembly in a model - the resulting one may have no extendedAssembly, rotatedAssembly, transformedAssembly and assemblyToInstallTo properties set, all others should have only one of those properties set.
 3) Every detail should have both assemblyToInstallTo and connectionPoint properties set.
-4) Every assembly should be either split to details (at least two), rotated, transformed or smaller parts should be detached from it (base assembly should be present and at  least one detail or assembly)
+4) Every assembly should be either split to details (at least two), rotated, transformed or smaller parts should be detached from it (base assembly should be present and have a valid type assigned and at  least one detail or assembly should be in list of installed details/assemblies)
 5) Every detail should have a complete type

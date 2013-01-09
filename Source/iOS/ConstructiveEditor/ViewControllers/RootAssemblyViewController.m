@@ -14,6 +14,7 @@
 #import "DetailType.h"
 #import "EditAssemblyViewController.h"
 #import "AssembliesAndDetailsViewController.h"
+#import "AssemblyValidator.h"
 #import "ActionSheet.h"
 #import "PreferencesKeys.h"
 #import "StandardActionsPerformer.h"
@@ -52,7 +53,7 @@
   
   //activate appropriate buttons on navigation bar
   _preferencesButton.enabled = YES;
-  _exportButton.enabled = NO;
+  _exportButton.enabled = [AssemblyValidator isAssemblyComplete:_rootAssembly withError:nil];
   
   _rootAssemblyTable.delegate = self;
   _rootAssemblyTable.dataSource = self;
@@ -83,10 +84,6 @@
       }
     ((AssembliesAndDetailsViewController*)segue.destinationViewController).assemblyType = _rootAssembly.type;
     }
-  }
-
-- (IBAction)showPreferences:(id)sender
-  {
   }
 
 - (IBAction)exportDocument:(id)sender
