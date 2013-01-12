@@ -150,7 +150,7 @@
   //activate appropriate buttons on navigation bar
   [self updateInterpretButtons];
   _preferencesButton.enabled = YES;
-  _exportButton.enabled = [AssemblyValidator isAssemblyComplete:[AssemblyValidator rootAssemblyInContext:_assemblyType.managedObjectContext] withError:nil];
+  _exportButton.enabled = YES;
   
   NSIndexPath* selectedIndexPath = [_assembliesAndDetailsTable indexPathForSelectedRow];
   Detail* detail = [self detailForRowAtIndexPath:selectedIndexPath];
@@ -382,6 +382,7 @@
   
 - (IBAction)exportDocument:(id)sender
   {
+  [AssemblyValidator showExportMenuForRootAssembly:[AssemblyValidator rootAssemblyInContext:_assemblyType.managedObjectContext] currentAssembly:[_assemblyType.assemblies anyObject] inView:self.view];
   }
   
 - (IBAction)onAssembliesCountChanged:(UIStepper*)stepper

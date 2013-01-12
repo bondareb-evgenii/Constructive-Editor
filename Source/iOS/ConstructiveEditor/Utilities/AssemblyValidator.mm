@@ -6,6 +6,8 @@
 //
 
 #import "AssemblyValidator.h"
+
+#import "ActionSheet.h"
 #import "Assembly.h"
 #import "AssemblyType.h"
 #import "Detail.h"
@@ -66,18 +68,9 @@ struct SmallerAssembliesEnumerationCache
   return rootAssembly;
   }
 
-+ (BOOL)isAssemblyComplete:(Assembly*)assemblyToCheck withError:(NSError*)error
++ (BOOL)isAssemblyComplete:(Assembly*)assemblyToCheck withError:(NSError**)error
   {
-  typedef enum
-    {
-    kErrorCodeOK = 0,
-    kErrorCodeMutuallyExclusivePropertiesAreSetSimultaneously,
-    kErrorCodeLessThenTwoDetailsInSplitAssembly,
-    kErrorCodeNoPartsDetachedFromAssembly,
-    kErrorCodeAssemblyNotBrokenUp,
-    kErrorCodeDetailHasNoConnectionPoint,
-    kErrorCodeSubassemblyHasNoConnectionPoint,
-    } ErrorCode;
+  *error = nil;
     
   __block AssemblyType* currentAssemblyType = assemblyToCheck.type;
   
@@ -200,12 +193,12 @@ struct SmallerAssembliesEnumerationCache
         {
         if (currentAssemblyType.detailsInstalled.count < 2)
           {
-          error = [NSError errorWithDomain:@"Assembly description is incomplete" code:kErrorCodeLessThenTwoDetailsInSplitAssembly userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"There are less then two details in a split assembly", @"description", currentAssemblyType, @"assemblyType", nil]];
+          *error = [NSError errorWithDomain:@"Assembly description is incomplete" code:kModelValidationErrorCodeLessThenTwoDetailsInSplitAssembly userInfo:[NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"There are less then two details in a split assembly", @"Model validation error message"), NSLocalizedDescriptionKey, currentAssemblyType, @"assemblyType", nil]];
           return NO;
           }
         else if (isAssemblyTransformed || isAssemblyRotated)
           {
-          error = [NSError errorWithDomain:@"Assembly description is incomplete" code:kErrorCodeMutuallyExclusivePropertiesAreSetSimultaneously userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Mutually exclusive properties of the assembly are set simultaneously", @"description", currentAssemblyType, @"assemblyType", nil]];
+          *error = [NSError errorWithDomain:@"Assembly description is incomplete" code:kModelValidationErrorCodeMutuallyExclusivePropertiesAreSetSimultaneously userInfo:[NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"Mutually exclusive properties of some assembly are set simultaneously", @"Model validation error message"), NSLocalizedDescriptionKey, currentAssemblyType, @"assemblyType", nil]];
           return NO;
           }
         else
@@ -230,12 +223,12 @@ struct SmallerAssembliesEnumerationCache
             }
           if (!allDetailsHaveConnectionPoint)
             {
-            error = [NSError errorWithDomain:@"Assembly description is incomplete" code:kErrorCodeDetailHasNoConnectionPoint userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Connection point is not specified at least for one detail the assembly is split to", @"description", currentAssemblyType, @"assemblyType", problematicDetail, @"problematicDetail", nil]];
+            *error = [NSError errorWithDomain:@"Assembly description is incomplete" code:kModelValidationErrorCodeDetailHasNoConnectionPoint userInfo:[NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"Connection point is not specified at least for one detail some assembly is split to", @"Model validation error message"), NSLocalizedDescriptionKey, currentAssemblyType, @"assemblyType", problematicDetail, @"problematicDetail", nil]];
             return NO;
             }
           else if (!allDetailsHaveCompleteType)
             {
-            error = [NSError errorWithDomain:@"Assembly description is incomplete" code:kErrorCodeDetailHasNoConnectionPoint userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"At least one detail the assembly is split to has no type selected", @"description", currentAssemblyType, @"assemblyType", problematicDetail, @"problematicDetail", nil]];
+            *error = [NSError errorWithDomain:@"Assembly description is incomplete" code:kModelValidationErrorCodeDetailHasNoConnectionPoint userInfo:[NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"At least one detail some assembly is split to has no type selected", @"Model validation error message"), NSLocalizedDescriptionKey, currentAssemblyType, @"assemblyType", problematicDetail, @"problematicDetail", nil]];
             return NO;
             }
           else//the assembly is split to details correctly
@@ -247,12 +240,12 @@ struct SmallerAssembliesEnumerationCache
       else if (arePartsDetachedFromAssembly)
         if (!currentAssemblyType.detailsInstalled.count && !currentAssemblyType.assembliesInstalled.count)
           {
-          error = [NSError errorWithDomain:@"Assembly description is incomplete" code:kErrorCodeNoPartsDetachedFromAssembly userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"There are no parts detached from assembly", @"description", currentAssemblyType, @"assemblyType", nil]];
+          *error = [NSError errorWithDomain:@"Assembly description is incomplete" code:kModelValidationErrorCodeNoPartsDetachedFromAssembly userInfo:[NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"There are no parts detached from some assembly", @"Model validation error message"), NSLocalizedDescriptionKey, currentAssemblyType, @"assemblyType", nil]];
           return NO;
           }
         else if (isAssemblyTransformed || isAssemblyRotated)
           {
-          error = [NSError errorWithDomain:@"Assembly description is incomplete" code:kErrorCodeMutuallyExclusivePropertiesAreSetSimultaneously userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Mutually exclusive properties of the assembly are set simultaneously", @"description", currentAssemblyType, @"assemblyType", nil]];
+          *error = [NSError errorWithDomain:@"Assembly description is incomplete" code:kModelValidationErrorCodeMutuallyExclusivePropertiesAreSetSimultaneously userInfo:[NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"Mutually exclusive properties of some assembly are set simultaneously", @"Model validation error message"), NSLocalizedDescriptionKey, currentAssemblyType, @"assemblyType", nil]];
           return NO;
           }
         else
@@ -277,12 +270,12 @@ struct SmallerAssembliesEnumerationCache
             }
           if (!allDetailsHaveConnectionPoint)
             {
-            error = [NSError errorWithDomain:@"Assembly description is incomplete" code:kErrorCodeDetailHasNoConnectionPoint userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Connection point is not specified at least for one subdetail of the assembly", @"description", currentAssemblyType, @"assemblyType", problematicDetail, @"problematicDetail", nil]];
+            *error = [NSError errorWithDomain:@"Assembly description is incomplete" code:kModelValidationErrorCodeDetailHasNoConnectionPoint userInfo:[NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"Connection point is not specified at least for one subdetail of some assembly", @"Model validation error message"), NSLocalizedDescriptionKey, currentAssemblyType, @"assemblyType", problematicDetail, @"problematicDetail", nil]];
             return NO;
             }
           else if (!allDetailsHaveCompleteType)
             {
-            error = [NSError errorWithDomain:@"Assembly description is incomplete" code:kErrorCodeDetailHasNoConnectionPoint userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"At least one subdetail of the assembly has no type selected", @"description", currentAssemblyType, @"assemblyType", problematicDetail, @"problematicDetail", nil]];
+            *error = [NSError errorWithDomain:@"Assembly description is incomplete" code:kModelValidationErrorCodeDetailHasNoConnectionPoint userInfo:[NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"At least one subdetail of some assembly has no type selected", @"Model validation error message"), NSLocalizedDescriptionKey, currentAssemblyType, @"assemblyType", problematicDetail, @"problematicDetail", nil]];
             return NO;
             }
           else
@@ -298,7 +291,7 @@ struct SmallerAssembliesEnumerationCache
                 }
             if (!allSubassembliesHaveConnectionPoint)
               {
-              error = [NSError errorWithDomain:@"Assembly description is incomplete" code:kErrorCodeSubassemblyHasNoConnectionPoint userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Connection point is not specified at least for one subassembly of the assembly", @"description", currentAssemblyType, @"assemblyType", problematicSubassembly, @"problematicSubassembly", nil]];
+              *error = [NSError errorWithDomain:@"Assembly description is incomplete" code:kModelValidationErrorCodeSubassemblyHasNoConnectionPoint userInfo:[NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"Connection point is not specified at least for one subassembly of some assembly", @"Model validation error message"), NSLocalizedDescriptionKey, currentAssemblyType, @"assemblyType", problematicSubassembly, @"problematicSubassembly", nil]];
               return NO;
               }
             else//smaller parts are detached from the assembly correctly so let's go to the base assembly
@@ -315,7 +308,7 @@ struct SmallerAssembliesEnumerationCache
         {
         if (isAssemblyTransformed || isAssemblySplit || arePartsDetachedFromAssembly)
           {
-          error = [NSError errorWithDomain:@"Assembly description is incomplete" code:kErrorCodeMutuallyExclusivePropertiesAreSetSimultaneously userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Mutually exclusive properties of the assembly are set simultaneously", @"description", currentAssemblyType, @"assemblyType", nil]];
+          *error = [NSError errorWithDomain:@"Assembly description is incomplete" code:kModelValidationErrorCodeMutuallyExclusivePropertiesAreSetSimultaneously userInfo:[NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"Mutually exclusive properties of some assembly are set simultaneously", @"Model validation error message"), NSLocalizedDescriptionKey, currentAssemblyType, @"assemblyType", nil]];
           return NO;
           }
         else
@@ -329,7 +322,7 @@ struct SmallerAssembliesEnumerationCache
         {
         if (isAssemblyRotated || isAssemblySplit || arePartsDetachedFromAssembly)
           {
-          error = [NSError errorWithDomain:@"Assembly description is incomplete" code:kErrorCodeMutuallyExclusivePropertiesAreSetSimultaneously userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Mutually exclusive properties of the assembly are set simultaneously", @"description", currentAssemblyType, @"assemblyType", nil]];
+          *error = [NSError errorWithDomain:@"Assembly description is incomplete" code:kModelValidationErrorCodeMutuallyExclusivePropertiesAreSetSimultaneously userInfo:[NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"Mutually exclusive properties of some assembly are set simultaneously", @"Model validation error message"), NSLocalizedDescriptionKey, currentAssemblyType, @"assemblyType", nil]];
           return NO;
           }
         else
@@ -341,8 +334,11 @@ struct SmallerAssembliesEnumerationCache
         }
       else
         {
-        error = [NSError errorWithDomain:@"Assembly description is incomplete" code:kErrorCodeAssemblyNotBrokenUp userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"The assembly hasn't been broken up yet", @"description", currentAssemblyType, @"assemblyType", nil]];
-        return NO;
+        *error = [NSError errorWithDomain:@"Assembly description is incomplete" code:kModelValidationErrorCodeAssemblyNotBrokenUp userInfo:[NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"Some assembly hasn't been broken up yet", @"Model validation error message"), NSLocalizedDescriptionKey, currentAssemblyType, @"assemblyType", nil]];
+        //don't return NO here!!!
+        //let's continue checking the entire model for other types of errors as such situation is OK for exporting a model
+        //we initialized an error so the method will return NO anyway
+        //all the other error types have higher priority and will overwrite the error value
         }
         
       goToTheNextAssembly();
@@ -350,6 +346,87 @@ struct SmallerAssembliesEnumerationCache
       
     }
   while (currentAssemblyType != assemblyToCheck.type);//stop when we turn back to the assembly being checked
+  return *error == nil;
+  }
+
++ (void)showExportMenuForRootAssembly:(Assembly*)rootAssembly currentAssembly:(Assembly*)currentAssembly inView:(UIView *)view
+  {
+  //model is OK and can be exported if only one validation rule is broken: some assemblies are not broken up yet, all the other rules should be satisfied. For example if some assembly is split to 1 detail (less then 2) then the model cannot be expoted until the user removes the detail
+  NSError* error = nil;
+  BOOL isEntireModelValid = [self isAssemblyComplete:rootAssembly withError:&error];
+  
+  if (isEntireModelValid)
+    {
+    ActionSheet* actionSheet = [[ActionSheet alloc]
+         initWithTitle: NSLocalizedString(@"Export instruction to:", @"Action sheet: title")
+      clickButtonBlock:^(ActionSheet* ActionSheet, NSInteger buttonIndex)
+        {
+        switch (buttonIndex)
+          {
+          case 0://PDF document
+            {
+            NSError* error = nil;
+            [self exportToPDFAssembly:rootAssembly withError:&error];
+            break;
+            }
+          case 1://cancel
+          default:
+            break;
+          }
+        }
+     cancelButtonTitle: NSLocalizedString(@"Cancel", @"Action sheet: button")
+destructiveButtonTitle: nil
+     otherButtonTitles: NSLocalizedString(@"PDF document", @"Action sheet: button"),
+                        nil];
+    [actionSheet showInView:view];
+    }
+  else
+    {
+    switch (error.code)
+      {
+      case kModelValidationErrorCodeAssemblyNotBrokenUp:
+        {
+        ActionSheet* actionSheet = [[ActionSheet alloc]
+             initWithTitle: NSLocalizedString(@"Some assemblies are not broken up. Would you like to export instruction anyway to:", @"Action sheet: title")
+          clickButtonBlock:^(ActionSheet* ActionSheet, NSInteger buttonIndex)
+            {
+            switch (buttonIndex)
+              {
+              case 0://PDF document
+                {
+                NSError* error = nil;
+                [self exportToPDFAssembly:rootAssembly withError:&error];
+                break;
+                }
+              case 1://cancel
+              default:
+                break;
+              }
+            }
+         cancelButtonTitle: NSLocalizedString(@"Cancel", @"Action sheet: button")
+    destructiveButtonTitle: nil
+         otherButtonTitles: NSLocalizedString(@"PDF document", @"Action sheet: button"),
+                            nil];
+        [actionSheet showInView:view];
+        break;
+        }
+      case kModelValidationErrorCodeMutuallyExclusivePropertiesAreSetSimultaneously:
+      case kModelValidationErrorCodeLessThenTwoDetailsInSplitAssembly:
+      case kModelValidationErrorCodeNoPartsDetachedFromAssembly:
+      case kModelValidationErrorCodeDetailHasNoConnectionPoint:
+      case kModelValidationErrorCodeSubassemblyHasNoConnectionPoint:
+        {
+        [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Model is not valid.", @"Model validation error message") message:[error localizedDescription] delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"Button title") otherButtonTitles:nil] show];
+        break;
+        }
+      default:
+        break;
+      }
+    }
+  }
+
++ (BOOL)exportToPDFAssembly:(Assembly*)assembly withError:(NSError**)error
+  {
   return YES;
   }
 

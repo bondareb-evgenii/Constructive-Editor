@@ -53,7 +53,7 @@
   
   //activate appropriate buttons on navigation bar
   _preferencesButton.enabled = YES;
-  _exportButton.enabled = [AssemblyValidator isAssemblyComplete:_rootAssembly withError:nil];
+  _exportButton.enabled = YES;
   
   _rootAssemblyTable.delegate = self;
   _rootAssemblyTable.dataSource = self;
@@ -88,6 +88,7 @@
 
 - (IBAction)exportDocument:(id)sender
   {
+  [AssemblyValidator showExportMenuForRootAssembly:_rootAssembly currentAssembly:_rootAssembly inView:self.view];
   }
   
 @end
