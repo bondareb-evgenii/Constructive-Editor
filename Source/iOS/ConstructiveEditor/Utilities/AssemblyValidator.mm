@@ -71,9 +71,12 @@ struct SmallerAssembliesEnumerationCache
   typedef enum
     {
     kErrorCodeOK = 0,
+    kErrorCodeMutuallyExclusivePropertiesAreSetSimultaneously,
     kErrorCodeLessThenTwoDetailsInSplitAssembly,
     kErrorCodeNoPartsDetachedFromAssembly,
     kErrorCodeAssemblyNotBrokenUp,
+    kErrorCodeDetailHasNoConnectionPoint,
+    kErrorCodeSubassemblyHasNoConnectionPoint,
     } ErrorCode;
     
   __block AssemblyType* currentAssemblyType = assemblyToCheck.type;
@@ -200,9 +203,45 @@ struct SmallerAssembliesEnumerationCache
           error = [NSError errorWithDomain:@"Assembly description is incomplete" code:kErrorCodeLessThenTwoDetailsInSplitAssembly userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"There are less then two details in a split assembly", @"description", currentAssemblyType, @"assemblyType", nil]];
           return NO;
           }
-        else//the assembly is split to details correctly
+        else if (isAssemblyTransformed || isAssemblyRotated)
           {
-          //go to the next assembly
+          error = [NSError errorWithDomain:@"Assembly description is incomplete" code:kErrorCodeMutuallyExclusivePropertiesAreSetSimultaneously userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Mutually exclusive properties of the assembly are set simultaneously", @"description", currentAssemblyType, @"assemblyType", nil]];
+          return NO;
+          }
+        else
+          {
+          BOOL allDetailsHaveConnectionPoint = YES;
+          BOOL allDetailsHaveCompleteType = YES;
+          Detail* problematicDetail = nil;
+          for (Detail* detail in currentAssemblyType.detailsInstalled)
+            {
+            if (!detail.connectionPoint)
+              {
+              allDetailsHaveConnectionPoint = NO;
+              problematicDetail = detail;
+              break;
+              }
+            if (!detail.type)
+              {
+              allDetailsHaveCompleteType = NO;
+              problematicDetail = detail;
+              break;
+              }
+            }
+          if (!allDetailsHaveConnectionPoint)
+            {
+            error = [NSError errorWithDomain:@"Assembly description is incomplete" code:kErrorCodeDetailHasNoConnectionPoint userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Connection point is not specified at least for one detail the assembly is split to", @"description", currentAssemblyType, @"assemblyType", problematicDetail, @"problematicDetail", nil]];
+            return NO;
+            }
+          else if (!allDetailsHaveCompleteType)
+            {
+            error = [NSError errorWithDomain:@"Assembly description is incomplete" code:kErrorCodeDetailHasNoConnectionPoint userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"At least one detail the assembly is split to has no type selected", @"description", currentAssemblyType, @"assemblyType", problematicDetail, @"problematicDetail", nil]];
+            return NO;
+            }
+          else//the assembly is split to details correctly
+            {
+            //go to the next assembly
+            }
           }
         }
       else if (arePartsDetachedFromAssembly)
@@ -211,25 +250,94 @@ struct SmallerAssembliesEnumerationCache
           error = [NSError errorWithDomain:@"Assembly description is incomplete" code:kErrorCodeNoPartsDetachedFromAssembly userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"There are no parts detached from assembly", @"description", currentAssemblyType, @"assemblyType", nil]];
           return NO;
           }
-        else//smaller parts are detached from the assembly correctly so let's go to the base assembly
+        else if (isAssemblyTransformed || isAssemblyRotated)
           {
-          parentsStack.push_back(currentAssemblyType);
-          currentAssemblyType = currentAssemblyType.assemblyBase.type;
-          struct SmallerAssembliesEnumerationCache cache;
-          cacheStack.push_back(cache);
-          continue;
+          error = [NSError errorWithDomain:@"Assembly description is incomplete" code:kErrorCodeMutuallyExclusivePropertiesAreSetSimultaneously userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Mutually exclusive properties of the assembly are set simultaneously", @"description", currentAssemblyType, @"assemblyType", nil]];
+          return NO;
+          }
+        else
+          {
+          BOOL allDetailsHaveConnectionPoint = YES;
+          BOOL allDetailsHaveCompleteType = YES;
+          Detail* problematicDetail = nil;
+          for (Detail* detail in currentAssemblyType.detailsInstalled)
+            {
+            if (!detail.connectionPoint)
+              {
+              allDetailsHaveConnectionPoint = NO;
+              problematicDetail = detail;
+              break;
+              }
+            if (!detail.type)
+              {
+              allDetailsHaveCompleteType = NO;
+              problematicDetail = detail;
+              break;
+              }
+            }
+          if (!allDetailsHaveConnectionPoint)
+            {
+            error = [NSError errorWithDomain:@"Assembly description is incomplete" code:kErrorCodeDetailHasNoConnectionPoint userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Connection point is not specified at least for one subdetail of the assembly", @"description", currentAssemblyType, @"assemblyType", problematicDetail, @"problematicDetail", nil]];
+            return NO;
+            }
+          else if (!allDetailsHaveCompleteType)
+            {
+            error = [NSError errorWithDomain:@"Assembly description is incomplete" code:kErrorCodeDetailHasNoConnectionPoint userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"At least one subdetail of the assembly has no type selected", @"description", currentAssemblyType, @"assemblyType", problematicDetail, @"problematicDetail", nil]];
+            return NO;
+            }
+          else
+            {
+            BOOL allSubassembliesHaveConnectionPoint = YES;
+            Assembly* problematicSubassembly = nil;
+            for (Assembly* subassembly in currentAssemblyType.assembliesInstalled)
+              if (!subassembly.connectionPoint)
+                {
+                allSubassembliesHaveConnectionPoint = NO;
+                problematicSubassembly = subassembly;
+                break;
+                }
+            if (!allSubassembliesHaveConnectionPoint)
+              {
+              error = [NSError errorWithDomain:@"Assembly description is incomplete" code:kErrorCodeSubassemblyHasNoConnectionPoint userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Connection point is not specified at least for one subassembly of the assembly", @"description", currentAssemblyType, @"assemblyType", problematicSubassembly, @"problematicSubassembly", nil]];
+              return NO;
+              }
+            else//smaller parts are detached from the assembly correctly so let's go to the base assembly
+              {
+              parentsStack.push_back(currentAssemblyType);
+              currentAssemblyType = currentAssemblyType.assemblyBase.type;
+              struct SmallerAssembliesEnumerationCache cache;
+              cacheStack.push_back(cache);
+              continue;
+              }
+            }
           }
       else if (isAssemblyRotated)
         {
-        parentsStack.push_back(currentAssemblyType);
-        currentAssemblyType = currentAssemblyType.assemblyBeforeRotation.type;
-        continue;
+        if (isAssemblyTransformed || isAssemblySplit || arePartsDetachedFromAssembly)
+          {
+          error = [NSError errorWithDomain:@"Assembly description is incomplete" code:kErrorCodeMutuallyExclusivePropertiesAreSetSimultaneously userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Mutually exclusive properties of the assembly are set simultaneously", @"description", currentAssemblyType, @"assemblyType", nil]];
+          return NO;
+          }
+        else
+          {
+          parentsStack.push_back(currentAssemblyType);
+          currentAssemblyType = currentAssemblyType.assemblyBeforeRotation.type;
+          continue;
+          }
         }
       else if (isAssemblyTransformed)
         {
-        parentsStack.push_back(currentAssemblyType);
-        currentAssemblyType = currentAssemblyType.assemblyBeforeTransformation.type;
-        continue;
+        if (isAssemblyRotated || isAssemblySplit || arePartsDetachedFromAssembly)
+          {
+          error = [NSError errorWithDomain:@"Assembly description is incomplete" code:kErrorCodeMutuallyExclusivePropertiesAreSetSimultaneously userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Mutually exclusive properties of the assembly are set simultaneously", @"description", currentAssemblyType, @"assemblyType", nil]];
+          return NO;
+          }
+        else
+          {
+          parentsStack.push_back(currentAssemblyType);
+          currentAssemblyType = currentAssemblyType.assemblyBeforeTransformation.type;
+          continue;
+          }
         }
       else
         {
