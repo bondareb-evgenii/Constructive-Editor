@@ -115,6 +115,9 @@
   _constraintsForPortraitOrientation = [NSArray arrayWithObjects:_constraintImageViewLeadingSpaceToSuperview, _constraintPickerTrainlingSpaceToSuperview, _constraintVerticalSpaceFromPickerToImageView, nil];
   _constraintsHorizontalForLandscapeOrientation = [NSLayoutConstraint constraintsWithVisualFormat:@"[picker(==imageView)]-0-[imageView]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(imageView, picker)];
   _constraintsVerticalForLandscapeOrientation = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[picker(==imageView)]-0-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(imageView, picker)];
+  
+  if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
+    [self updateConstraintsAccordingToInterfaceOrientation:self.interfaceOrientation];
   }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -129,6 +132,11 @@
   }
   
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+  {
+  [self updateConstraintsAccordingToInterfaceOrientation:toInterfaceOrientation];
+  }
+
+- (void)updateConstraintsAccordingToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
   {
   if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation))
     {
