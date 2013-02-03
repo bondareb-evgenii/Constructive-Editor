@@ -1824,34 +1824,45 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView contentMode="scaleAspectFit" image="NoPhotoBig.png" translatesAutoresizingMaskIntoConstraints="NO" id="vE1-F5-1jm">
-                                <gestureRecognizers/>
-                                <connections>
-                                    <outletCollection property="gestureRecognizers" destination="lyN-uF-dCf" appends="YES" id="lXF-0T-9jT"/>
-                                </connections>
-                            </imageView>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bI2-cZ-GFS">
                                 <constraints>
                                     <constraint firstAttribute="height" constant="216" type="user" id="5J2-4A-H5Z"/>
                                 </constraints>
                             </pickerView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Qo-Xu-p1f">
+                                <subviews>
+                                    <imageView contentMode="scaleAspectFit" image="NoPhotoBig.png" translatesAutoresizingMaskIntoConstraints="NO" id="vE1-F5-1jm">
+                                        <gestureRecognizers/>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="lyN-uF-dCf" appends="YES" id="lXF-0T-9jT"/>
+                                        </connections>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="vE1-F5-1jm" firstAttribute="leading" secondItem="9Qo-Xu-p1f" secondAttribute="leading" type="user" id="84m-1Q-1Ii"/>
+                                    <constraint firstAttribute="trailing" secondItem="vE1-F5-1jm" secondAttribute="trailing" type="user" id="aTI-Pa-RFY"/>
+                                    <constraint firstAttribute="bottom" secondItem="vE1-F5-1jm" secondAttribute="bottom" type="user" id="cFc-5b-Goy"/>
+                                    <constraint firstItem="vE1-F5-1jm" firstAttribute="top" secondItem="9Qo-Xu-p1f" secondAttribute="top" type="user" id="jkx-gc-nxY"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="GYv-hC-aI5" firstAttribute="top" secondItem="SrZ-G1-VA6" secondAttribute="top" constant="8" type="user" id="6F2-oT-wgL"/>
-                            <constraint firstItem="vE1-F5-1jm" firstAttribute="leading" secondItem="SrZ-G1-VA6" secondAttribute="leading" type="user" id="7Ce-gZ-u0j"/>
-                            <constraint firstItem="vE1-F5-1jm" firstAttribute="trailing" secondItem="SrZ-G1-VA6" secondAttribute="trailing" type="default" id="9Ob-sD-e3k"/>
+                            <constraint firstItem="9Qo-Xu-p1f" firstAttribute="trailing" secondItem="SrZ-G1-VA6" secondAttribute="trailing" type="default" id="7Jm-Fj-Td4"/>
                             <constraint firstItem="8N6-Ir-tyn" firstAttribute="top" secondItem="SrZ-G1-VA6" secondAttribute="top" constant="9" type="user" id="ACh-KX-q1F"/>
                             <constraint firstItem="OV8-lJ-e9f" firstAttribute="centerY" secondItem="8N6-Ir-tyn" secondAttribute="centerY" type="user" id="Lgh-89-Cgo"/>
+                            <constraint firstItem="bI2-cZ-GFS" firstAttribute="top" secondItem="SrZ-G1-VA6" secondAttribute="top" priority="999" constant="45" type="user" id="N3q-IE-LLx"/>
+                            <constraint firstItem="9Qo-Xu-p1f" firstAttribute="leading" secondItem="SrZ-G1-VA6" secondAttribute="leading" type="user" id="Qvs-Jx-YNJ"/>
+                            <constraint firstItem="9Qo-Xu-p1f" firstAttribute="top" secondItem="bI2-cZ-GFS" secondAttribute="bottom" type="user" id="SEO-ch-3Xv"/>
+                            <constraint firstItem="9Qo-Xu-p1f" firstAttribute="bottom" secondItem="SrZ-G1-VA6" secondAttribute="bottom" type="user" id="UZh-Lu-5JV"/>
                             <constraint firstItem="OV8-lJ-e9f" firstAttribute="leading" secondItem="8N6-Ir-tyn" secondAttribute="trailing" constant="3" type="user" id="WlK-Df-XZ1"/>
-                            <constraint firstItem="bI2-cZ-GFS" firstAttribute="top" secondItem="SrZ-G1-VA6" secondAttribute="top" priority="999" constant="45" type="user" id="XC6-0m-SeU"/>
                             <constraint firstItem="bI2-cZ-GFS" firstAttribute="leading" secondItem="SrZ-G1-VA6" secondAttribute="leading" type="default" id="XQq-2B-Ijo"/>
                             <constraint firstItem="bI2-cZ-GFS" firstAttribute="trailing" secondItem="SrZ-G1-VA6" secondAttribute="trailing" type="user" id="aYT-gx-nHg"/>
                             <constraint firstAttribute="trailing" secondItem="GYv-hC-aI5" secondAttribute="trailing" constant="15" type="user" id="i8k-WD-Frm"/>
                             <constraint firstItem="8N6-Ir-tyn" firstAttribute="leading" secondItem="SrZ-G1-VA6" secondAttribute="leading" constant="20" symbolic="YES" type="user" id="qdJ-mU-PSs"/>
-                            <constraint firstItem="vE1-F5-1jm" firstAttribute="bottom" secondItem="SrZ-G1-VA6" secondAttribute="bottom" type="user" id="weX-kt-8ze"/>
                             <constraint firstAttribute="trailing" secondItem="OV8-lJ-e9f" secondAttribute="trailing" constant="20" symbolic="YES" type="user" id="xTt-jG-U7l"/>
-                            <constraint firstItem="vE1-F5-1jm" firstAttribute="top" secondItem="bI2-cZ-GFS" secondAttribute="bottom" type="user" id="xdK-FB-ojP"/>
                             <constraint firstItem="GYv-hC-aI5" firstAttribute="leading" secondItem="SrZ-G1-VA6" secondAttribute="leading" constant="20" symbolic="YES" type="user" id="zVE-pf-zbI"/>
                         </constraints>
                     </view>
@@ -1866,14 +1877,15 @@
                     </navigationItem>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <connections>
-                        <outlet property="_constraintImageViewLeadingSpaceToSuperview" destination="7Ce-gZ-u0j" id="kXZ-aC-mFb"/>
                         <outlet property="_constraintPickerTrainlingSpaceToSuperview" destination="aYT-gx-nHg" id="eM3-xe-xQ2"/>
-                        <outlet property="_constraintVerticalSpaceFromPickerToImageView" destination="xdK-FB-ojP" id="lCz-e2-aOf"/>
+                        <outlet property="_constraintVerticalSpaceFromPickerToViewContainer" destination="SEO-ch-3Xv" id="LT5-pm-J1D"/>
+                        <outlet property="_constraintViewContainerLeadingSpaceToSuperview" destination="Qvs-Jx-YNJ" id="CFZ-E0-sUe"/>
                         <outlet property="_detailClassPicker" destination="bI2-cZ-GFS" id="ddP-Y5-Fmt"/>
                         <outlet property="_detailLabelTextField" destination="GYv-hC-aI5" id="vEb-XR-ozZ"/>
                         <outlet property="_detailLengthLabel" destination="OV8-lJ-e9f" id="aPu-t3-B5O"/>
                         <outlet property="_detailLengthStepper" destination="8N6-Ir-tyn" id="EvT-xY-02A"/>
                         <outlet property="_pictureImageView" destination="vE1-F5-1jm" id="aRU-Fw-Kqj"/>
+                        <outlet property="_pictureImageViewContainer" destination="9Qo-Xu-p1f" id="pTk-fd-dca"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="enM-ii-eQg" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1962,19 +1974,24 @@
         <class className="EditDetailTypeViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/EditDetailTypeViewController.h"/>
             <relationships>
-                <relationship kind="outlet" name="_constraintImageViewLeadingSpaceToSuperview" candidateClass="NSLayoutConstraint"/>
+                <relationship kind="action" name="detailLengthStepperValueChanged:"/>
+                <relationship kind="action" name="onTapOnPicture:"/>
                 <relationship kind="outlet" name="_constraintPickerTrainlingSpaceToSuperview" candidateClass="NSLayoutConstraint"/>
-                <relationship kind="outlet" name="_constraintVerticalSpaceFromPickerToImageView" candidateClass="NSLayoutConstraint"/>
+                <relationship kind="outlet" name="_constraintVerticalSpaceFromPickerToViewContainer" candidateClass="NSLayoutConstraint"/>
+                <relationship kind="outlet" name="_constraintViewContainerLeadingSpaceToSuperview" candidateClass="NSLayoutConstraint"/>
                 <relationship kind="outlet" name="_detailClassPicker" candidateClass="UIPickerView"/>
                 <relationship kind="outlet" name="_detailLabelTextField" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="_detailLengthLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="_detailLengthStepper" candidateClass="UIStepper"/>
                 <relationship kind="outlet" name="_pictureImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="_pictureImageViewContainer" candidateClass="UIView"/>
             </relationships>
         </class>
         <class className="EditDetailViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/EditDetailViewController.h"/>
             <relationships>
+                <relationship kind="action" name="onDonePressed:"/>
+                <relationship kind="action" name="onTapOnParentImage:" candidateClass="UITapGestureRecognizer"/>
                 <relationship kind="outlet" name="_constraintViewAspectFitHeight" candidateClass="NSLayoutConstraint"/>
                 <relationship kind="outlet" name="_constraintViewAspectFitWidth" candidateClass="NSLayoutConstraint"/>
                 <relationship kind="outlet" name="_containerViewForParentImageView" candidateClass="UIView"/>
@@ -1999,6 +2016,7 @@
         <class className="PreferencesViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/PreferencesViewController.h"/>
             <relationships>
+                <relationship kind="action" name="onAskAboutImplicitPartsDeletionChanged:"/>
                 <relationship kind="outlet" name="_preferredActionOnReinterpretDetachedAsRotatedOrTransformedLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="_preferredActionOnReinterpretRotatedAsTransformedAndViceVersaLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="_preferredActionOnReinterpretRotatedOrTransformedAsDetachedLabel" candidateClass="UILabel"/>
@@ -2020,6 +2038,7 @@
         <class className="StartMenuViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/StartMenuViewController.h"/>
             <relationships>
+                <relationship kind="action" name="onCreateNewDocument:"/>
                 <relationship kind="outlet" name="_documentsTable" candidateClass="UITableView"/>
                 <relationship kind="outlet" name="_newDocumentCreateButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="_newDocumentNameTextField" candidateClass="UITextField"/>
@@ -2036,6 +2055,9 @@
         </class>
         <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
+        </class>
+        <class className="UICollectionViewLayout" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

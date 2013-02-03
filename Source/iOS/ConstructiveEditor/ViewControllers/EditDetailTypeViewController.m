@@ -25,13 +25,14 @@
 
 @interface EditDetailTypeViewController ()
   {
-  __weak IBOutlet UIImageView*        _pictureImageView;
-  __weak IBOutlet UIPickerView*       _detailClassPicker;
+  __weak IBOutlet UITextField*        _detailLabelTextField;
   __weak IBOutlet UIStepper*          _detailLengthStepper;
   __weak IBOutlet UILabel*            _detailLengthLabel;
-  __weak IBOutlet UITextField*        _detailLabelTextField;
-  __weak IBOutlet NSLayoutConstraint* _constraintVerticalSpaceFromPickerToImageView;
-  __weak IBOutlet NSLayoutConstraint* _constraintImageViewLeadingSpaceToSuperview;
+  __weak IBOutlet UIPickerView*       _detailClassPicker;
+  __weak IBOutlet UIView*             _pictureImageViewContainer;
+  __weak IBOutlet UIImageView*        _pictureImageView;
+  __weak IBOutlet NSLayoutConstraint* _constraintVerticalSpaceFromPickerToViewContainer;
+  __weak IBOutlet NSLayoutConstraint* _constraintViewContainerLeadingSpaceToSuperview;
   __weak IBOutlet NSLayoutConstraint* _constraintPickerTrainlingSpaceToSuperview;
   NSArray*                            _constraintsForPortraitOrientation;
   NSArray*                            _constraintsVerticalForLandscapeOrientation;
@@ -112,7 +113,7 @@
   //constraints initialization
   UIImageView* imageView = _pictureImageView;
   UIPickerView* picker = _detailClassPicker;
-  _constraintsForPortraitOrientation = [NSArray arrayWithObjects:_constraintImageViewLeadingSpaceToSuperview, _constraintPickerTrainlingSpaceToSuperview, _constraintVerticalSpaceFromPickerToImageView, nil];
+  _constraintsForPortraitOrientation = [NSArray arrayWithObjects:_constraintViewContainerLeadingSpaceToSuperview, _constraintPickerTrainlingSpaceToSuperview, _constraintVerticalSpaceFromPickerToViewContainer, nil];
   _constraintsHorizontalForLandscapeOrientation = [NSLayoutConstraint constraintsWithVisualFormat:@"[picker(==imageView)]-0-[imageView]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(imageView, picker)];
   _constraintsVerticalForLandscapeOrientation = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[picker(==imageView)]-0-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(imageView, picker)];
   
