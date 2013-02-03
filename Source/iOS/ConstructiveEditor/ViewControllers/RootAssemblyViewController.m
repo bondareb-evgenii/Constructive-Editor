@@ -84,11 +84,20 @@
       }
     ((AssembliesAndDetailsViewController*)segue.destinationViewController).assemblyType = _rootAssembly.type;
     }
+  else if ([@"PreviewInstructionFromRootAssemblyVC" isEqualToString:segue.identifier])
+    {
+    //Fill the instruction preview view controller with the data required
+    }
   }
 
 - (IBAction)exportDocument:(id)sender
   {
-  [AssemblyValidator showExportMenuForRootAssembly:_rootAssembly currentAssembly:_rootAssembly inView:self.view];
+  PreviewInstructionBlock previewInstructionBlock = ^(Assembly* assembly)
+    {
+    [self performSegueWithIdentifier:@"PreviewInstructionFromRootAssemblyVC" sender:self];
+    };
+    
+  [AssemblyValidator showExportMenuForRootAssembly:_rootAssembly currentAssembly:_rootAssembly inView:self.view previewInstructionBlock:previewInstructionBlock];
   }
   
 @end

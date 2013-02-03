@@ -338,6 +338,10 @@
 
     ((AssembliesAndDetailsViewController*)segue.destinationViewController).assemblyType = assembly.type;
     }
+  else if ([@"PreviewInstructionFromAssembliesAndDetailsVC" isEqualToString:segue.identifier])
+    {
+    //Fill the instruction preview view controller with the data required
+    }
   }
   
 - (IBAction)detachSmallerParts:(id)sender
@@ -382,7 +386,12 @@
   
 - (IBAction)exportDocument:(id)sender
   {
-  [AssemblyValidator showExportMenuForRootAssembly:[AssemblyValidator rootAssemblyInContext:_assemblyType.managedObjectContext] currentAssembly:[_assemblyType.assemblies anyObject] inView:self.view];
+  PreviewInstructionBlock previewInstructionBlock = ^(Assembly* assembly)
+    {
+    [self performSegueWithIdentifier:@"PreviewInstructionFromAssembliesAndDetailsVC" sender:self];
+    };
+    
+  [AssemblyValidator showExportMenuForRootAssembly:[AssemblyValidator rootAssemblyInContext:_assemblyType.managedObjectContext] currentAssembly:[_assemblyType.assemblies anyObject] inView:self.view previewInstructionBlock:previewInstructionBlock];
   }
   
 - (IBAction)onAssembliesCountChanged:(UIStepper*)stepper

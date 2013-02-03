@@ -20,11 +20,12 @@ typedef enum
 
 @class Assembly;
 
+typedef void (^PreviewInstructionBlock)(Assembly* assembly);
+
 @interface AssemblyValidator : NSObject
 
 + (Assembly*)rootAssemblyInContext:(NSManagedObjectContext*)context;
 + (BOOL)isAssemblyComplete:(Assembly*)assemblyToCheck withError:(NSError**)error;
-+ (void)showExportMenuForRootAssembly:(Assembly*)rootAssembly currentAssembly:(Assembly*)currentAssembly inView:(UIView*)view;
-+ (BOOL)exportToPDFAssembly:(Assembly*)assembly withError:(NSError**)error;
++ (void)showExportMenuForRootAssembly:(Assembly*)rootAssembly currentAssembly:(Assembly*)currentAssembly inView:(UIView *)view previewInstructionBlock:(PreviewInstructionBlock)previewInstructionBlock;
 
 @end

@@ -209,6 +209,7 @@
                         <outlet property="_exportButton" destination="Xs6-W7-XXr" id="yd1-UB-JoS"/>
                         <outlet property="_preferencesButton" destination="yBt-7F-v8a" id="r0c-QB-wxr"/>
                         <outlet property="_rootAssemblyTable" destination="01n-pf-naR" id="bGG-UP-vbs"/>
+                        <segue destination="c24-4w-kEc" kind="push" identifier="PreviewInstructionFromRootAssemblyVC" id="s2V-4K-7CJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eCM-zr-hOc" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1328,6 +1329,7 @@
                         <segue destination="jXA-4O-VJV" kind="push" identifier="SelectDetailConnectionPoint" id="Kt3-Kg-qnc"/>
                         <segue destination="i86-oC-str" kind="push" identifier="EditAssemblyPhotoSet" id="odX-Mn-7Wh"/>
                         <segue destination="3gT-Od-Kh7" kind="push" identifier="SelectDetailTypeForNewDetail" id="JDV-Nc-Od8"/>
+                        <segue destination="c24-4w-kEc" kind="push" identifier="PreviewInstructionFromAssembliesAndDetailsVC" id="cxm-4P-67r"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="n45-Wy-QvQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1658,6 +1660,42 @@
             </objects>
             <point key="canvasLocation" x="2886" y="135"/>
         </scene>
+        <!--Instruction Preview View Controller-->
+        <scene sceneID="R40-1W-FzA">
+            <objects>
+                <collectionViewController autoresizesArchivedViewToFullSize="NO" id="c24-4w-kEc" customClass="InstructionPreviewViewController" sceneMemberID="viewController">
+                    <collectionView key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="C9c-8I-e7l">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="RW8-Wm-Bos">
+                            <size key="itemSize" width="50" height="50"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="DetailCell" id="Yyg-iw-ukq">
+                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </collectionViewCell>
+                        </cells>
+                        <connections>
+                            <outlet property="dataSource" destination="c24-4w-kEc" id="it9-AS-bYv"/>
+                            <outlet property="delegate" destination="c24-4w-kEc" id="ENe-8t-65e"/>
+                        </connections>
+                    </collectionView>
+                    <navigationItem key="navigationItem" id="Bhn-Pp-D7Z"/>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WEI-XG-bhU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1851" y="977"/>
+        </scene>
         <!--Detail Types View Controller - Select detail type-->
         <scene sceneID="VmY-8p-2Ls">
             <objects>
@@ -1949,6 +1987,9 @@
                 <relationship kind="outlet" name="_viewAspectFit" candidateClass="UIView"/>
             </relationships>
         </class>
+        <class className="InstructionPreviewViewController" superclassName="UICollectionViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/InstructionPreviewViewController.h"/>
+        </class>
         <class className="NSLayoutConstraint" superclassName="NSObject">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
         </class>
@@ -1984,6 +2025,18 @@
                 <relationship kind="outlet" name="_newDocumentNameTextField" candidateClass="UITextField"/>
             </relationships>
         </class>
+        <class className="UICollectionReusableView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionReusableView.h"/>
+        </class>
+        <class className="UICollectionViewCell" superclassName="UICollectionReusableView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewCell.h"/>
+        </class>
+        <class className="UICollectionViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewController.h"/>
+        </class>
+        <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
+        </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
@@ -1991,9 +2044,10 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="xBv-Ap-JIy"/>
         <segue reference="NZ4-iz-omb"/>
-        <segue reference="uSj-BE-uAj"/>
         <segue reference="JDV-Nc-Od8"/>
+        <segue reference="cxm-4P-67r"/>
         <segue reference="Kt3-Kg-qnc"/>
         <segue reference="YU5-mj-WCP"/>
     </inferredMetricsTieBreakers>
