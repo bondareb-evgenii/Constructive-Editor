@@ -1837,13 +1837,21 @@
                                             <outletCollection property="gestureRecognizers" destination="lyN-uF-dCf" appends="YES" id="lXF-0T-9jT"/>
                                         </connections>
                                     </imageView>
+                                    <imageView contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="ShL-DJ-RmL">
+                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <gestureRecognizers/>
+                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="vE1-F5-1jm" firstAttribute="leading" secondItem="9Qo-Xu-p1f" secondAttribute="leading" type="user" id="84m-1Q-1Ii"/>
+                                    <constraint firstItem="ShL-DJ-RmL" firstAttribute="leading" secondItem="9Qo-Xu-p1f" secondAttribute="leading" priority="998" constant="20" type="user" id="Hz0-1U-tjR"/>
+                                    <constraint firstItem="ShL-DJ-RmL" firstAttribute="bottom" secondItem="9Qo-Xu-p1f" secondAttribute="bottom" priority="998" constant="-20" type="user" id="MTN-93-YUM"/>
+                                    <constraint firstItem="ShL-DJ-RmL" firstAttribute="trailing" secondItem="9Qo-Xu-p1f" secondAttribute="trailing" priority="998" constant="-20" type="user" id="SPW-9h-3sh"/>
                                     <constraint firstAttribute="trailing" secondItem="vE1-F5-1jm" secondAttribute="trailing" type="user" id="aTI-Pa-RFY"/>
                                     <constraint firstAttribute="bottom" secondItem="vE1-F5-1jm" secondAttribute="bottom" type="user" id="cFc-5b-Goy"/>
                                     <constraint firstItem="vE1-F5-1jm" firstAttribute="top" secondItem="9Qo-Xu-p1f" secondAttribute="top" type="user" id="jkx-gc-nxY"/>
+                                    <constraint firstItem="ShL-DJ-RmL" firstAttribute="top" secondItem="9Qo-Xu-p1f" secondAttribute="top" priority="997" constant="20" type="user" id="kWM-3g-zQ3"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -1886,6 +1894,7 @@
                         <outlet property="_detailLengthStepper" destination="8N6-Ir-tyn" id="EvT-xY-02A"/>
                         <outlet property="_pictureImageView" destination="vE1-F5-1jm" id="aRU-Fw-Kqj"/>
                         <outlet property="_pictureImageViewContainer" destination="9Qo-Xu-p1f" id="pTk-fd-dca"/>
+                        <outlet property="_pinPlatePictureImageView" destination="ShL-DJ-RmL" id="0cx-tc-MTx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="enM-ii-eQg" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1974,8 +1983,6 @@
         <class className="EditDetailTypeViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/EditDetailTypeViewController.h"/>
             <relationships>
-                <relationship kind="action" name="detailLengthStepperValueChanged:"/>
-                <relationship kind="action" name="onTapOnPicture:"/>
                 <relationship kind="outlet" name="_constraintPickerTrainlingSpaceToSuperview" candidateClass="NSLayoutConstraint"/>
                 <relationship kind="outlet" name="_constraintVerticalSpaceFromPickerToViewContainer" candidateClass="NSLayoutConstraint"/>
                 <relationship kind="outlet" name="_constraintViewContainerLeadingSpaceToSuperview" candidateClass="NSLayoutConstraint"/>
@@ -1985,13 +1992,12 @@
                 <relationship kind="outlet" name="_detailLengthStepper" candidateClass="UIStepper"/>
                 <relationship kind="outlet" name="_pictureImageView" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="_pictureImageViewContainer" candidateClass="UIView"/>
+                <relationship kind="outlet" name="_pinPlatePictureImageView" candidateClass="UIImageView"/>
             </relationships>
         </class>
         <class className="EditDetailViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/EditDetailViewController.h"/>
             <relationships>
-                <relationship kind="action" name="onDonePressed:"/>
-                <relationship kind="action" name="onTapOnParentImage:" candidateClass="UITapGestureRecognizer"/>
                 <relationship kind="outlet" name="_constraintViewAspectFitHeight" candidateClass="NSLayoutConstraint"/>
                 <relationship kind="outlet" name="_constraintViewAspectFitWidth" candidateClass="NSLayoutConstraint"/>
                 <relationship kind="outlet" name="_containerViewForParentImageView" candidateClass="UIView"/>
@@ -2016,7 +2022,6 @@
         <class className="PreferencesViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/PreferencesViewController.h"/>
             <relationships>
-                <relationship kind="action" name="onAskAboutImplicitPartsDeletionChanged:"/>
                 <relationship kind="outlet" name="_preferredActionOnReinterpretDetachedAsRotatedOrTransformedLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="_preferredActionOnReinterpretRotatedAsTransformedAndViceVersaLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="_preferredActionOnReinterpretRotatedOrTransformedAsDetachedLabel" candidateClass="UILabel"/>
@@ -2038,7 +2043,6 @@
         <class className="StartMenuViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/StartMenuViewController.h"/>
             <relationships>
-                <relationship kind="action" name="onCreateNewDocument:"/>
                 <relationship kind="outlet" name="_documentsTable" candidateClass="UITableView"/>
                 <relationship kind="outlet" name="_newDocumentCreateButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="_newDocumentNameTextField" candidateClass="UITextField"/>
@@ -2056,9 +2060,6 @@
         <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
         </class>
-        <class className="UICollectionViewLayout" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
-        </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
@@ -2068,9 +2069,9 @@
     <inferredMetricsTieBreakers>
         <segue reference="xBv-Ap-JIy"/>
         <segue reference="NZ4-iz-omb"/>
-        <segue reference="JDV-Nc-Od8"/>
-        <segue reference="cxm-4P-67r"/>
         <segue reference="Kt3-Kg-qnc"/>
+        <segue reference="cxm-4P-67r"/>
+        <segue reference="2U8-C6-nGa"/>
         <segue reference="YU5-mj-WCP"/>
     </inferredMetricsTieBreakers>
 </document>

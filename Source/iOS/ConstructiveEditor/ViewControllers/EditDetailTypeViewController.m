@@ -10,6 +10,7 @@
 #import "DetailType.h"
 #import "NSManagedObjectContextExtension.h"
 #import "PreferencesKeys.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface EditDetailTypeViewController (UIImagePickerControllerDelegate) <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 @end
@@ -31,6 +32,7 @@
   __weak IBOutlet UIPickerView*       _detailClassPicker;
   __weak IBOutlet UIView*             _pictureImageViewContainer;
   __weak IBOutlet UIImageView*        _pictureImageView;
+  __weak IBOutlet UIImageView*        _pinPlatePictureImageView;
   __weak IBOutlet NSLayoutConstraint* _constraintVerticalSpaceFromPickerToViewContainer;
   __weak IBOutlet NSLayoutConstraint* _constraintViewContainerLeadingSpaceToSuperview;
   __weak IBOutlet NSLayoutConstraint* _constraintPickerTrainlingSpaceToSuperview;
