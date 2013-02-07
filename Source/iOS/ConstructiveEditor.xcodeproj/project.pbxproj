@@ -24,6 +24,8 @@
 		7529F97A151AE69B00C13C90 /* DetailType.m in Sources */ = {isa = PBXBuildFile; fileRef = 7529F979151AE69A00C13C90 /* DetailType.m */; };
 		7529F97D151AE73100C13C90 /* Detail.m in Sources */ = {isa = PBXBuildFile; fileRef = 7529F97C151AE73100C13C90 /* Detail.m */; };
 		7529F983151B0C2A00C13C90 /* Assembly.m in Sources */ = {isa = PBXBuildFile; fileRef = 7529F982151B0C2A00C13C90 /* Assembly.m */; };
+		753270A516BEE7E5005A1B83 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 753270A416BEE7E5005A1B83 /* QuartzCore.framework */; };
+		753270AD16C414A2005A1B83 /* ImageVisualFrameCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = 753270AC16C414A2005A1B83 /* ImageVisualFrameCalculator.m */; };
 		7532EBC315DFA3B600395B11 /* DetailTypesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7532EBC015DFA3B600395B11 /* DetailTypesViewController.m */; };
 		7532EBC415DFA3B600395B11 /* EditDetailTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7532EBC215DFA3B600395B11 /* EditDetailTypeViewController.m */; };
 		754FF90D15FCD01400A2D555 /* AssemblyType.m in Sources */ = {isa = PBXBuildFile; fileRef = 754FF90C15FCD01400A2D555 /* AssemblyType.m */; };
@@ -123,6 +125,9 @@
 		7529F97C151AE73100C13C90 /* Detail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Detail.m; sourceTree = "<group>"; };
 		7529F981151B0C2A00C13C90 /* Assembly.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Assembly.h; sourceTree = "<group>"; };
 		7529F982151B0C2A00C13C90 /* Assembly.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Assembly.m; sourceTree = "<group>"; };
+		753270A416BEE7E5005A1B83 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		753270AB16C414A2005A1B83 /* ImageVisualFrameCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageVisualFrameCalculator.h; path = Utilities/ImageVisualFrameCalculator.h; sourceTree = "<group>"; };
+		753270AC16C414A2005A1B83 /* ImageVisualFrameCalculator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImageVisualFrameCalculator.m; path = Utilities/ImageVisualFrameCalculator.m; sourceTree = "<group>"; };
 		7532EBBF15DFA3B600395B11 /* DetailTypesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailTypesViewController.h; sourceTree = "<group>"; };
 		7532EBC015DFA3B600395B11 /* DetailTypesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailTypesViewController.m; sourceTree = "<group>"; };
 		7532EBC115DFA3B600395B11 /* EditDetailTypeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditDetailTypeViewController.h; sourceTree = "<group>"; };
@@ -210,6 +215,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				753270A516BEE7E5005A1B83 /* QuartzCore.framework in Frameworks */,
 				7529F96E15199CBD00C13C90 /* CoreData.framework in Frameworks */,
 				84EA63AE1514C4AF00C7177E /* UIKit.framework in Frameworks */,
 				84EA63B01514C4AF00C7177E /* Foundation.framework in Frameworks */,
@@ -340,6 +346,8 @@
 				757F600915EF8F490022FC67 /* StandardActionsPerformer.m */,
 				751C5F63161054B20025AFA4 /* AssemblyValidator.h */,
 				751C5F64161054B20025AFA4 /* AssemblyValidator.mm */,
+				753270AB16C414A2005A1B83 /* ImageVisualFrameCalculator.h */,
+				753270AC16C414A2005A1B83 /* ImageVisualFrameCalculator.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -406,6 +414,7 @@
 		84EA639E1514C4AF00C7177E = {
 			isa = PBXGroup;
 			children = (
+				753270A416BEE7E5005A1B83 /* QuartzCore.framework */,
 				757B0CB4160DF82B008883C0 /* VisualSelectablePointer.h */,
 				757B0CB5160DF82B008883C0 /* VisualSelectablePointer.m */,
 				7529F96D15199CBD00C13C90 /* CoreData.framework */,
@@ -650,6 +659,7 @@
 				757B0CBD160F5033008883C0 /* PreferenceOptionsViewController.m in Sources */,
 				751C5F65161054B20025AFA4 /* AssemblyValidator.mm in Sources */,
 				75CF686116B58D2900DEE4B4 /* InstructionPreviewViewController.m in Sources */,
+				753270AD16C414A2005A1B83 /* ImageVisualFrameCalculator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
