@@ -41,9 +41,9 @@
 
 - (BOOL)shouldSelectPointerPointingTo:(CGPoint)targetPoint byPoint:(CGPoint)point
   {
-  CGPoint selectionCanter = [self selectionCenterForTargetPoint:targetPoint];
-  float distanceX = selectionCanter.x - point.x;
-  float distanceY = selectionCanter.y - point.y;
+  CGPoint selectionCenter = [self selectionCenterForTargetPoint:targetPoint];
+  float distanceX = selectionCenter.x - point.x;
+  float distanceY = selectionCenter.y - point.y;
   return _selectionRadius > sqrtf(distanceX*distanceX + distanceY*distanceY);
   }
 

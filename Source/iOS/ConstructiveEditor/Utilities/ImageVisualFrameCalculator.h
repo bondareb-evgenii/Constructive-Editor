@@ -1,5 +1,5 @@
 //
-//  ImageFrameCalculator.h
+//  ImageVisualFrameCalculator.h
 //  ConstructiveEditor
 //
 //  Created by 007 on 2/7/13.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ImageFrameCalculator : NSObject
+@interface ImageVisualFrameCalculator : NSObject
 
 - (id)initWithImageView:(UIImageView*)imageView;
 

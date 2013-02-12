@@ -1344,40 +1344,21 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5rX-Ip-u1J">
-                                <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="NoPhotoBig.png" translatesAutoresizingMaskIntoConstraints="NO" id="J4y-kJ-3jz">
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    </imageView>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2II-zP-iIv">
-                                        <color key="backgroundColor" red="0.065217391304347783" green="0.065217391304347783" blue="0.065217391304347783" alpha="0.0" colorSpace="calibratedRGB"/>
-                                        <gestureRecognizers/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="100" type="user" id="F6j-vB-0rP"/>
-                                            <constraint firstAttribute="width" constant="160" type="user" id="fpB-R7-lKj"/>
-                                        </constraints>
-                                        <connections>
-                                            <outletCollection property="gestureRecognizers" destination="Qq1-IZ-4RD" appends="YES" id="Glq-K0-dXz"/>
-                                            <outletCollection property="gestureRecognizers" destination="lIF-kP-SyI" appends="YES" id="j0u-cO-ggE"/>
-                                        </connections>
-                                    </view>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstItem="J4y-kJ-3jz" firstAttribute="top" secondItem="5rX-Ip-u1J" secondAttribute="top" type="user" id="ICk-r7-J5S"/>
-                                    <constraint firstItem="J4y-kJ-3jz" firstAttribute="trailing" secondItem="5rX-Ip-u1J" secondAttribute="trailing" type="user" id="JWb-vx-j9o"/>
-                                    <constraint firstItem="J4y-kJ-3jz" firstAttribute="bottom" secondItem="5rX-Ip-u1J" secondAttribute="bottom" type="user" id="MLh-75-Kbi"/>
-                                    <constraint firstItem="2II-zP-iIv" firstAttribute="centerY" secondItem="J4y-kJ-3jz" secondAttribute="centerY" type="default" id="Nl7-Ag-2tv"/>
-                                    <constraint firstItem="J4y-kJ-3jz" firstAttribute="leading" secondItem="5rX-Ip-u1J" secondAttribute="leading" type="user" id="PYY-PT-SZw"/>
-                                    <constraint firstAttribute="centerX" secondItem="2II-zP-iIv" secondAttribute="centerX" type="user" id="mqw-R7-0uz"/>
-                                </constraints>
-                            </view>
+                            <imageView contentMode="scaleAspectFit" image="NoPhotoBig.png" translatesAutoresizingMaskIntoConstraints="NO" id="J4y-kJ-3jz">
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="lIF-kP-SyI" appends="YES" id="ikJ-gb-8ul"/>
+                                    <outletCollection property="gestureRecognizers" destination="Qq1-IZ-4RD" appends="YES" id="pyd-Th-0PR"/>
+                                </connections>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="5rX-Ip-u1J" firstAttribute="trailing" secondItem="DZi-na-vWP" secondAttribute="trailing" type="user" id="BGQ-bu-nbS"/>
-                            <constraint firstItem="5rX-Ip-u1J" firstAttribute="leading" secondItem="DZi-na-vWP" secondAttribute="leading" type="user" id="gCC-3V-IZs"/>
-                            <constraint firstItem="5rX-Ip-u1J" firstAttribute="bottom" secondItem="DZi-na-vWP" secondAttribute="bottom" type="user" id="k8o-j4-49t"/>
-                            <constraint firstItem="5rX-Ip-u1J" firstAttribute="top" secondItem="DZi-na-vWP" secondAttribute="top" type="default" id="ryH-jC-Y5s"/>
+                            <constraint firstItem="J4y-kJ-3jz" firstAttribute="trailing" secondItem="DZi-na-vWP" secondAttribute="trailing" type="default" id="Don-03-dNr"/>
+                            <constraint firstItem="J4y-kJ-3jz" firstAttribute="leading" secondItem="DZi-na-vWP" secondAttribute="leading" type="default" id="Ke2-B7-VND"/>
+                            <constraint firstItem="J4y-kJ-3jz" firstAttribute="top" secondItem="DZi-na-vWP" secondAttribute="top" type="default" id="WDl-h9-l0W"/>
+                            <constraint firstItem="J4y-kJ-3jz" firstAttribute="bottom" secondItem="DZi-na-vWP" secondAttribute="bottom" type="default" id="clv-oo-ydw"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="PP6-gb-Jhp">
@@ -1458,24 +1439,16 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="_constraintViewAspectFitHeight" destination="F6j-vB-0rP" id="bat-Zl-ORQ"/>
-                        <outlet property="_constraintViewAspectFitWidth" destination="fpB-R7-lKj" id="lDs-y4-2fO"/>
-                        <outlet property="_containerViewForParentImageView" destination="5rX-Ip-u1J" id="b9I-Gf-KS7"/>
                         <outlet property="_countLabel" destination="IM5-ns-CeC" id="OsK-Zx-Dch"/>
                         <outlet property="_countStepper" destination="04z-T3-LLh" id="rA8-MR-5Ig"/>
                         <outlet property="_doneButton" destination="R7L-3D-SeM" id="2TT-Zp-Qts"/>
+                        <outlet property="_dragOnParentImageGestureRecognizer" destination="lIF-kP-SyI" id="7z6-aC-VYz"/>
                         <outlet property="_imageView" destination="xkg-61-buM" id="dnT-gw-T8H"/>
                         <outlet property="_imageViewParent" destination="J4y-kJ-3jz" id="q8A-7K-Tqd"/>
                         <outlet property="_tapOnParentImageGestureRecognizer" destination="Qq1-IZ-4RD" id="gvJ-vr-Sgy"/>
-                        <outlet property="_viewAspectFit" destination="2II-zP-iIv" id="Dx1-J6-Tsm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JBy-8E-SYP" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="JSo-Fr-M0b">
-                    <connections>
-                        <action selector="onTapOnImage:" destination="i86-oC-str" id="l9X-GR-Mee"/>
-                    </connections>
-                </tapGestureRecognizer>
                 <tapGestureRecognizer id="Qq1-IZ-4RD">
                     <connections>
                         <action selector="onTapOnParentImage:" destination="i86-oC-str" id="Elf-pH-gpE"/>
@@ -1516,39 +1489,19 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="trv-wh-wOe">
-                                <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="NoPhotoBig.png" translatesAutoresizingMaskIntoConstraints="NO" id="xs4-y7-aHZ"/>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iy6-ls-JE0">
-                                        <color key="backgroundColor" red="0.065217391299999997" green="0.065217391299999997" blue="0.065217391299999997" alpha="0.0" colorSpace="calibratedRGB"/>
-                                        <gestureRecognizers/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="160" type="user" id="266-Vq-hvp"/>
-                                            <constraint firstAttribute="height" constant="100" type="user" id="eTT-Qy-lbc"/>
-                                        </constraints>
-                                        <connections>
-                                            <outletCollection property="gestureRecognizers" destination="Oak-P0-8RX" appends="YES" id="QV2-1J-znT"/>
-                                            <outletCollection property="gestureRecognizers" destination="tqd-nU-sWJ" appends="YES" id="bPb-np-s4X"/>
-                                        </connections>
-                                    </view>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstItem="xs4-y7-aHZ" firstAttribute="leading" secondItem="trv-wh-wOe" secondAttribute="leading" type="default" id="1Nq-lr-tus"/>
-                                    <constraint firstItem="xs4-y7-aHZ" firstAttribute="top" secondItem="trv-wh-wOe" secondAttribute="top" type="default" id="ITd-xr-cXd"/>
-                                    <constraint firstItem="xs4-y7-aHZ" firstAttribute="trailing" secondItem="trv-wh-wOe" secondAttribute="trailing" type="default" id="PZJ-nK-daW"/>
-                                    <constraint firstAttribute="centerX" secondItem="iy6-ls-JE0" secondAttribute="centerX" type="user" id="duj-yJ-3rM"/>
-                                    <constraint firstAttribute="centerY" secondItem="iy6-ls-JE0" secondAttribute="centerY" type="user" id="gBe-sm-Eep"/>
-                                    <constraint firstItem="xs4-y7-aHZ" firstAttribute="bottom" secondItem="trv-wh-wOe" secondAttribute="bottom" type="default" id="gFw-iK-nFo"/>
-                                </constraints>
-                            </view>
+                            <imageView contentMode="scaleAspectFit" image="NoPhotoBig.png" translatesAutoresizingMaskIntoConstraints="NO" id="xs4-y7-aHZ">
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="tqd-nU-sWJ" appends="YES" id="E6u-AJ-hFq"/>
+                                    <outletCollection property="gestureRecognizers" destination="Oak-P0-8RX" appends="YES" id="zej-W3-RTa"/>
+                                </connections>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="trv-wh-wOe" firstAttribute="trailing" secondItem="WoG-ia-hzf" secondAttribute="trailing" type="user" id="Apc-I5-8tZ"/>
-                            <constraint firstAttribute="bottom" secondItem="trv-wh-wOe" secondAttribute="bottom" type="user" id="Lm9-we-XjC"/>
-                            <constraint firstItem="trv-wh-wOe" firstAttribute="leading" secondItem="WoG-ia-hzf" secondAttribute="leading" type="user" id="Sj7-ZV-aph"/>
-                            <constraint firstItem="trv-wh-wOe" firstAttribute="top" secondItem="WoG-ia-hzf" secondAttribute="top" type="user" id="bER-d3-05P"/>
+                            <constraint firstItem="xs4-y7-aHZ" firstAttribute="top" secondItem="WoG-ia-hzf" secondAttribute="top" type="default" id="Era-Wq-m2d"/>
+                            <constraint firstItem="xs4-y7-aHZ" firstAttribute="leading" secondItem="WoG-ia-hzf" secondAttribute="leading" type="default" id="joS-5Z-KZc"/>
+                            <constraint firstItem="xs4-y7-aHZ" firstAttribute="bottom" secondItem="WoG-ia-hzf" secondAttribute="bottom" type="default" id="puY-I5-DJl"/>
+                            <constraint firstItem="xs4-y7-aHZ" firstAttribute="trailing" secondItem="WoG-ia-hzf" secondAttribute="trailing" type="default" id="xVA-yN-Eyz"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="mjG-pw-lRb">
@@ -1633,30 +1586,27 @@
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
-                        <outlet property="_constraintViewAspectFitHeight" destination="eTT-Qy-lbc" id="Sj1-jH-Rvq"/>
-                        <outlet property="_constraintViewAspectFitWidth" destination="266-Vq-hvp" id="Ggb-56-vIC"/>
-                        <outlet property="_containerViewForParentImageView" destination="trv-wh-wOe" id="W3I-CV-3De"/>
                         <outlet property="_countLabel" destination="Xb6-4c-S3B" id="J7a-MY-qQO"/>
                         <outlet property="_countStepper" destination="zdP-AX-F8U" id="jtO-Ir-AkF"/>
                         <outlet property="_doneButton" destination="3D1-Ie-fvQ" id="9Ub-pn-fSw"/>
+                        <outlet property="_dragOnParentImageGestureRecognizer" destination="tqd-nU-sWJ" id="5eH-AS-vEb"/>
                         <outlet property="_imageView" destination="m9v-DH-0zD" id="e5s-nU-CeG"/>
                         <outlet property="_imageViewParent" destination="xs4-y7-aHZ" id="E0r-L1-r9e"/>
                         <outlet property="_tapOnParentImageGestureRecognizer" destination="Oak-P0-8RX" id="Sqc-7b-WAX"/>
-                        <outlet property="_viewAspectFit" destination="iy6-ls-JE0" id="A2O-nH-AnV"/>
                         <segue destination="3gT-Od-Kh7" kind="push" identifier="ChangeDetailType" id="2U8-C6-nGa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sak-S8-Xej" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="Oak-P0-8RX">
-                    <connections>
-                        <action selector="onTapOnParentImage:" destination="jXA-4O-VJV" id="Sej-Xx-MDw"/>
-                    </connections>
-                </tapGestureRecognizer>
                 <panGestureRecognizer minimumNumberOfTouches="1" id="tqd-nU-sWJ">
                     <connections>
                         <action selector="onDragOnParentImage:" destination="jXA-4O-VJV" id="zvw-rq-zBv"/>
                     </connections>
                 </panGestureRecognizer>
+                <tapGestureRecognizer id="Oak-P0-8RX">
+                    <connections>
+                        <action selector="onTapOnParentImage:" destination="jXA-4O-VJV" id="Sej-Xx-MDw"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="2886" y="135"/>
         </scene>
@@ -1968,16 +1918,13 @@
         <class className="EditAssemblyViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/EditAssemblyViewController.h"/>
             <relationships>
-                <relationship kind="outlet" name="_constraintViewAspectFitHeight" candidateClass="NSLayoutConstraint"/>
-                <relationship kind="outlet" name="_constraintViewAspectFitWidth" candidateClass="NSLayoutConstraint"/>
-                <relationship kind="outlet" name="_containerViewForParentImageView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="_countLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="_countStepper" candidateClass="UIStepper"/>
                 <relationship kind="outlet" name="_doneButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="_dragOnParentImageGestureRecognizer" candidateClass="UIPanGestureRecognizer"/>
                 <relationship kind="outlet" name="_imageView" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="_imageViewParent" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="_tapOnParentImageGestureRecognizer" candidateClass="UITapGestureRecognizer"/>
-                <relationship kind="outlet" name="_viewAspectFit" candidateClass="UIView"/>
             </relationships>
         </class>
         <class className="EditDetailTypeViewController" superclassName="UIViewController">
@@ -1998,16 +1945,13 @@
         <class className="EditDetailViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/EditDetailViewController.h"/>
             <relationships>
-                <relationship kind="outlet" name="_constraintViewAspectFitHeight" candidateClass="NSLayoutConstraint"/>
-                <relationship kind="outlet" name="_constraintViewAspectFitWidth" candidateClass="NSLayoutConstraint"/>
-                <relationship kind="outlet" name="_containerViewForParentImageView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="_countLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="_countStepper" candidateClass="UIStepper"/>
                 <relationship kind="outlet" name="_doneButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="_dragOnParentImageGestureRecognizer" candidateClass="UIPanGestureRecognizer"/>
                 <relationship kind="outlet" name="_imageView" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="_imageViewParent" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="_tapOnParentImageGestureRecognizer" candidateClass="UITapGestureRecognizer"/>
-                <relationship kind="outlet" name="_viewAspectFit" candidateClass="UIView"/>
             </relationships>
         </class>
         <class className="InstructionPreviewViewController" superclassName="UICollectionViewController">

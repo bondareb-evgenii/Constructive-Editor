@@ -8,6 +8,7 @@
 #import "EditAssemblyViewController.h"
 #import "Assembly.h"
 #import "AssemblyType.h"
+#import "ImageVisualFrameCalculator.h"
 #import "NSManagedObjectContextExtension.h"
 #import "PreferencesKeys.h"
 #import "VisualSelectablePointer.h"
@@ -25,13 +26,11 @@
   NSMutableArray*                     _pinsVerticalConstraints;
   UIImage*                            _pinImage;
   UIImage*                            _selectedPinImage;
+  ImageVisualFrameCalculator*         _parentImageVisualFrameCalculator;
   __weak IBOutlet UIImageView*        _imageView;
-  __weak IBOutlet UIView*             _containerViewForParentImageView;
   __weak IBOutlet UIImageView*        _imageViewParent;
-  __weak IBOutlet UIView*             _viewAspectFit;
-  __weak IBOutlet NSLayoutConstraint* _constraintViewAspectFitWidth;
-  __weak IBOutlet NSLayoutConstraint* _constraintViewAspectFitHeight;
-    IBOutlet UITapGestureRecognizer*  _tapOnParentImageGestureRecognizer;
+  IBOutlet UITapGestureRecognizer*    _tapOnParentImageGestureRecognizer;
+  IBOutlet UIPanGestureRecognizer*    _dragOnParentImageGestureRecognizer;
   __weak IBOutlet UIButton*           _doneButton;
   __weak IBOutlet UIStepper*          _countStepper;
   __weak IBOutlet UILabel*            _countLabel;
@@ -48,42 +47,19 @@
   return (Assembly*)[self.assemblies lastObject];
   }
 
-- (CGSize)updatedViewAspectFitSize
-  {
-  float containerWidth = _containerViewForParentImageView.bounds.size.width;
-  float containerHeight = _containerViewForParentImageView.bounds.size.height;
-  float containerWidthToHeightProportion = containerWidth/containerHeight;
-  UIImage* parentPicture = [[self.assembly assemblyToInstallTo] pictureToShow];
-  float widthToHeightProportionOfParentImage = nil != parentPicture
-                                             ? parentPicture.size.width/parentPicture.size.height
-                                             : 1;//just a value bigger then 0
-  if (containerWidthToHeightProportion > widthToHeightProportionOfParentImage)//allign by height
-    return CGSizeMake(containerHeight*widthToHeightProportionOfParentImage, containerHeight);
-  else//allign by width
-    return CGSizeMake(containerWidth, containerWidth/widthToHeightProportionOfParentImage);
-  }
-
-- (void)updateViewAspectFit
-  {
-  CGSize updatedViewAspectFitSize = [self updatedViewAspectFitSize];
-  _constraintViewAspectFitWidth.constant = updatedViewAspectFitSize.width;
-  _constraintViewAspectFitHeight.constant = updatedViewAspectFitSize.height;
-  [self.view layoutIfNeeded];
-  }
-
 - (void)updatePins
   {
   while (_pins.count < _assemblies.count)
     {
     UIImageView* pin = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, _pinImage.size.width, _pinImage.size.width)];
     pin.translatesAutoresizingMaskIntoConstraints = NO;
-    [_viewAspectFit addSubview:pin];
+    [_imageViewParent addSubview:pin];
     [_pins addObject:pin];
     NSArray* pinHorizontalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"|-0-[pin]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(pin)];
-    [_viewAspectFit addConstraints:pinHorizontalConstraints];
+    [_imageViewParent addConstraints:pinHorizontalConstraints];
     NSArray* pinVerticalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[pin]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(pin)];
     [_pinsHorizontalConstraints addObjectsFromArray:pinHorizontalConstraints];
-    [_viewAspectFit addConstraints:pinVerticalConstraints];
+    [_imageViewParent addConstraints:pinVerticalConstraints];
     [_pinsVerticalConstraints addObjectsFromArray:pinVerticalConstraints];
     }
   
@@ -95,14 +71,14 @@
     [_pinsVerticalConstraints removeLastObject];
     }
     
-  CGSize updatedViewAspectFitSize = [self updatedViewAspectFitSize];
+  CGRect imageVisualFrame = [_parentImageVisualFrameCalculator imageVisualFrameInViewCoordinates];
   for (int i = 0; i < _assemblies.count; ++i)
     {
     NSValue* connectionPointValue = [[self.assemblies objectAtIndex:i] connectionPoint];
     CGPoint pinPointRelativeToParentImageSize = nil!= connectionPointValue
                                               ? [connectionPointValue CGPointValue]
                                               : CGPointZero;
-    CGPoint topLeftPinViewCorner = [_pinMetaInfo topLeftImageCornerPointForTargetPoint:CGPointMake(updatedViewAspectFitSize.width*pinPointRelativeToParentImageSize.x, updatedViewAspectFitSize.height - updatedViewAspectFitSize.height*pinPointRelativeToParentImageSize.y)];
+    CGPoint topLeftPinViewCorner = [_pinMetaInfo topLeftImageCornerPointForTargetPoint:CGPointMake(imageVisualFrame.origin.x + imageVisualFrame.size.width*pinPointRelativeToParentImageSize.x, imageVisualFrame.origin.y + imageVisualFrame.size.height - imageVisualFrame.size.height*pinPointRelativeToParentImageSize.y)];
     ((NSLayoutConstraint*)[_pinsHorizontalConstraints objectAtIndex:i]).constant =  topLeftPinViewCorner.x;
     ((NSLayoutConstraint*)[_pinsVerticalConstraints objectAtIndex:i]).constant = topLeftPinViewCorner.y;
     
@@ -111,7 +87,7 @@
     else
       [[_pins objectAtIndex:i] setImage:_pinImage];
     }
-  [_viewAspectFit bringSubviewToFront:[_pins objectAtIndex:_selectedPointIndex]];
+  [_imageViewParent bringSubviewToFront:[_pins objectAtIndex:_selectedPointIndex]];
   [self.view layoutIfNeeded];
   }
 
@@ -143,6 +119,9 @@
 - (void)viewDidLoad
   {
   [super viewDidLoad];
+  
+  _parentImageVisualFrameCalculator = [[ImageVisualFrameCalculator alloc] initWithImageView:_imageViewParent];
+  
   _selectedPointIndex = _assemblies.count-1;
   [self correctSelectedPointIndex];
   _pinImage = [UIImage imageNamed:@"pin.png"];
@@ -167,6 +146,7 @@
   for (UIView* pin in _pins)
     pin.alpha = 0;
   _tapOnParentImageGestureRecognizer.enabled = nil != parentPicture;
+  _dragOnParentImageGestureRecognizer.enabled = nil != parentPicture;
   }
 
 - (void)updateDoneButton
@@ -198,14 +178,12 @@
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
   {
-  [self updateViewAspectFit];
   [self updatePins];
   [self showPinAnimated:YES];
   }
   
 - (void)viewDidAppear:(BOOL)animated
   {
-  [self updateViewAspectFit];
   [self updatePins];
   [self showPinAnimated:YES];
   }
@@ -236,15 +214,11 @@
   {
   [self.navigationController popViewControllerAnimated:YES];
   }
-    
-- (IBAction)onTapOnImage:(UITapGestureRecognizer *)gestureRecognizer
-  {
-  [self selectPhoto];
-  }
   
 - (void)movePinToPoint:(CGPoint)position
   {
-  CGPoint pinPointRelativeToParentImageSize = CGPointMake((position.x+_deltaFromDraggingPointToThePinTargetPoint.x)/_viewAspectFit.bounds.size.width, (_viewAspectFit.bounds.size.height-(position.y+_deltaFromDraggingPointToThePinTargetPoint.y))/_viewAspectFit.bounds.size.height);
+  CGRect imageVisualFrame = [_parentImageVisualFrameCalculator imageVisualFrameInViewCoordinates];
+  CGPoint pinPointRelativeToParentImageSize = CGPointMake((position.x+_deltaFromDraggingPointToThePinTargetPoint.x)/imageVisualFrame.size.width, (imageVisualFrame.size.height-(position.y+_deltaFromDraggingPointToThePinTargetPoint.y))/imageVisualFrame.size.height);
   [(Assembly*)[self.assemblies objectAtIndex:_selectedPointIndex] setConnectionPoint:[NSValue valueWithCGPoint:pinPointRelativeToParentImageSize]];
   [self updatePins];
   [self showPinAnimated:NO];
@@ -252,17 +226,17 @@
 
 - (BOOL)tryToSelectPinAtPoint:(CGPoint)point
   {
-  return NO;
+  return [self tryToSelectPinAtPoint:point andGetDeltaFromItToPinTargetPoint:nil];
   }
 
-- (BOOL)tryToSelectPinAtPoint:(CGPoint)point delta:(CGPoint*)delta
+- (BOOL)tryToSelectPinAtPoint:(CGPoint)point andGetDeltaFromItToPinTargetPoint:(CGPoint*)delta
   {
+  CGRect imageVisualFrame = [_parentImageVisualFrameCalculator imageVisualFrameInViewCoordinates];
   for (int i = 0; i < _assemblies.count; ++i)
     {
     Assembly* assembly = [_assemblies objectAtIndex:i];
-    CGSize updatedViewAspectFitSize = [self updatedViewAspectFitSize];
     CGPoint connectionPointRelativeToImageSize = [assembly.connectionPoint CGPointValue];
-    CGPoint targetPoint = CGPointMake(updatedViewAspectFitSize.width*connectionPointRelativeToImageSize.x, updatedViewAspectFitSize.height - updatedViewAspectFitSize.height*connectionPointRelativeToImageSize.y);
+    CGPoint targetPoint = CGPointMake(imageVisualFrame.size.width*connectionPointRelativeToImageSize.x, imageVisualFrame.size.height - imageVisualFrame.size.height*connectionPointRelativeToImageSize.y);
     if ([_pinMetaInfo shouldSelectPointerPointingTo:targetPoint byPoint:point])
       {
       if (delta)
@@ -280,21 +254,26 @@
 
 - (IBAction)onTapOnParentImage:(UITapGestureRecognizer *)gestureRecognizer
   {
-  CGPoint position = [gestureRecognizer locationInView:_viewAspectFit];
+  CGRect imageVisualFrame = [_parentImageVisualFrameCalculator imageVisualFrameInViewCoordinates];
+  CGPoint position = [gestureRecognizer locationInView:_imageViewParent];
+  position.x += imageVisualFrame.origin.x;
+  position.y -= imageVisualFrame.origin.y;
   if ([self tryToSelectPinAtPoint:position])
     return;
-  if ([self tryToSelectPinAtPoint:position delta:nil])//we should not change the _deltaFromDraggingPointToThePinTargetPoint here
-    return;
   [self movePinToPoint:position];
+  [self correctSelectedPinPosition];
   [self.assembly.managedObjectContext saveAndHandleError];
   [self updateDoneButton];
   }
   
 - (IBAction)onDragOnParentImage:(UIPanGestureRecognizer*)gestureRecognizer
   {
-  CGPoint position = [gestureRecognizer locationInView:_viewAspectFit];
+  CGRect imageVisualFrame = [_parentImageVisualFrameCalculator imageVisualFrameInViewCoordinates];
+  CGPoint position = [gestureRecognizer locationInView:_imageViewParent];
+  position.x += imageVisualFrame.origin.x;
+  position.y -= imageVisualFrame.origin.y;
   if (gestureRecognizer.state == UIGestureRecognizerStateBegan)
-    if ([self tryToSelectPinAtPoint:position delta:&_deltaFromDraggingPointToThePinTargetPoint])
+    if ([self tryToSelectPinAtPoint:position andGetDeltaFromItToPinTargetPoint:&_deltaFromDraggingPointToThePinTargetPoint])
       [self updatePins];
   if (gestureRecognizer.state == UIGestureRecognizerStateBegan ||
       gestureRecognizer.state == UIGestureRecognizerStateChanged)

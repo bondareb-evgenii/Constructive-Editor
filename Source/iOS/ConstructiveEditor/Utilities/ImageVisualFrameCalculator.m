@@ -1,5 +1,5 @@
 //
-//  ImageFrameCalculator.m
+//  ImageVisualFrameCalculator.m
 //  ConstructiveEditor
 //
 //  Created by 007 on 2/7/13.
@@ -8,7 +8,7 @@
 
 #import "ImageVisualFrameCalculator.h"
 
-@implementation ImageFrameCalculator
+@implementation ImageVisualFrameCalculator
 
 - (id)initWithImageView:(UIImageView*)imageView
   {
@@ -56,12 +56,12 @@
       if (imageRelationW2H > viewRelationW2H)//image takes entire view width
         {
         float visibleImageHeight = imageSize.height*viewSize.width/imageSize.width;
-        return CGRectMake(0, (viewSize.height - imageSize.height)/2, viewSize.width, visibleImageHeight);
+        return CGRectMake(0, (viewSize.height - visibleImageHeight)/2, viewSize.width, visibleImageHeight);
         }
       else
         {
         float visibleImageWidth = imageSize.width*viewSize.height/imageSize.height;
-        return CGRectMake((viewSize.width - imageSize.width)/2, 0, visibleImageWidth, viewSize.height);
+        return CGRectMake((viewSize.width - visibleImageWidth)/2, 0, visibleImageWidth, viewSize.height);
         }
       }
       break;
