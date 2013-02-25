@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2840" systemVersion="11G63" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="bLx-fi-UEK">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="11G63" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="bLx-fi-UEK">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1926"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
     <scenes>
         <!--Start Menu View Controller-->
@@ -1779,36 +1779,32 @@
                                     <constraint firstAttribute="height" constant="216" type="user" id="5J2-4A-H5Z"/>
                                 </constraints>
                             </pickerView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Qo-Xu-p1f">
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Qo-Xu-p1f">
                                 <subviews>
-                                    <imageView contentMode="scaleAspectFit" image="NoPhotoBig.png" translatesAutoresizingMaskIntoConstraints="NO" id="vE1-F5-1jm">
-                                        <gestureRecognizers/>
-                                        <connections>
-                                            <outletCollection property="gestureRecognizers" destination="lyN-uF-dCf" appends="YES" id="lXF-0T-9jT"/>
-                                        </connections>
-                                    </imageView>
-                                    <imageView contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="ShL-DJ-RmL">
-                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="NoPhotoBig.png" translatesAutoresizingMaskIntoConstraints="NO" id="vE1-F5-1jm">
                                         <gestureRecognizers/>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <gestureRecognizers/>
                                 <constraints>
-                                    <constraint firstItem="vE1-F5-1jm" firstAttribute="leading" secondItem="9Qo-Xu-p1f" secondAttribute="leading" type="user" id="84m-1Q-1Ii"/>
-                                    <constraint firstItem="ShL-DJ-RmL" firstAttribute="leading" secondItem="9Qo-Xu-p1f" secondAttribute="leading" priority="998" constant="20" type="user" id="Hz0-1U-tjR"/>
-                                    <constraint firstItem="ShL-DJ-RmL" firstAttribute="bottom" secondItem="9Qo-Xu-p1f" secondAttribute="bottom" priority="998" constant="-20" type="user" id="MTN-93-YUM"/>
-                                    <constraint firstItem="ShL-DJ-RmL" firstAttribute="trailing" secondItem="9Qo-Xu-p1f" secondAttribute="trailing" priority="998" constant="-20" type="user" id="SPW-9h-3sh"/>
-                                    <constraint firstAttribute="trailing" secondItem="vE1-F5-1jm" secondAttribute="trailing" type="user" id="aTI-Pa-RFY"/>
-                                    <constraint firstAttribute="bottom" secondItem="vE1-F5-1jm" secondAttribute="bottom" type="user" id="cFc-5b-Goy"/>
-                                    <constraint firstItem="vE1-F5-1jm" firstAttribute="top" secondItem="9Qo-Xu-p1f" secondAttribute="top" type="user" id="jkx-gc-nxY"/>
-                                    <constraint firstItem="ShL-DJ-RmL" firstAttribute="top" secondItem="9Qo-Xu-p1f" secondAttribute="top" priority="997" constant="20" type="user" id="kWM-3g-zQ3"/>
+                                    <constraint firstItem="vE1-F5-1jm" firstAttribute="leading" secondItem="9Qo-Xu-p1f" secondAttribute="leading" priority="999" type="user" id="84m-1Q-1Ii"/>
+                                    <constraint firstAttribute="trailing" secondItem="vE1-F5-1jm" secondAttribute="trailing" priority="999" type="user" id="aTI-Pa-RFY"/>
+                                    <constraint firstAttribute="bottom" secondItem="vE1-F5-1jm" secondAttribute="bottom" priority="999" type="user" id="cFc-5b-Goy"/>
+                                    <constraint firstItem="vE1-F5-1jm" firstAttribute="top" secondItem="9Qo-Xu-p1f" secondAttribute="top" priority="999" type="user" id="jkx-gc-nxY"/>
                                 </constraints>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="SZL-FB-VMw" appends="YES" id="UdO-aA-QZQ"/>
+                                    <outletCollection property="gestureRecognizers" destination="zEd-mb-TfR" appends="YES" id="ibV-Wy-XET"/>
+                                    <outletCollection property="gestureRecognizers" destination="YkD-T1-yc7" appends="YES" id="5et-OA-cOb"/>
+                                    <outletCollection property="gestureRecognizers" destination="lyN-uF-dCf" appends="YES" id="pnR-ep-7sa"/>
+                                </connections>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="GYv-hC-aI5" firstAttribute="top" secondItem="SrZ-G1-VA6" secondAttribute="top" constant="8" type="user" id="6F2-oT-wgL"/>
-                            <constraint firstItem="9Qo-Xu-p1f" firstAttribute="trailing" secondItem="SrZ-G1-VA6" secondAttribute="trailing" type="default" id="7Jm-Fj-Td4"/>
+                            <constraint firstItem="9Qo-Xu-p1f" firstAttribute="trailing" secondItem="SrZ-G1-VA6" secondAttribute="trailing" type="user" id="7Jm-Fj-Td4"/>
                             <constraint firstItem="8N6-Ir-tyn" firstAttribute="top" secondItem="SrZ-G1-VA6" secondAttribute="top" constant="9" type="user" id="ACh-KX-q1F"/>
                             <constraint firstItem="OV8-lJ-e9f" firstAttribute="centerY" secondItem="8N6-Ir-tyn" secondAttribute="centerY" type="user" id="Lgh-89-Cgo"/>
                             <constraint firstItem="bI2-cZ-GFS" firstAttribute="top" secondItem="SrZ-G1-VA6" secondAttribute="top" priority="999" constant="45" type="user" id="N3q-IE-LLx"/>
@@ -1844,15 +1840,33 @@
                         <outlet property="_detailLengthStepper" destination="8N6-Ir-tyn" id="EvT-xY-02A"/>
                         <outlet property="_pictureImageView" destination="vE1-F5-1jm" id="aRU-Fw-Kqj"/>
                         <outlet property="_pictureImageViewContainer" destination="9Qo-Xu-p1f" id="pTk-fd-dca"/>
-                        <outlet property="_pinPlatePictureImageView" destination="ShL-DJ-RmL" id="0cx-tc-MTx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="enM-ii-eQg" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="lyN-uF-dCf">
                     <connections>
                         <action selector="onTapOnPicture:" destination="dwe-AE-hYd" id="5Hz-Nl-xsU"/>
+                        <outlet property="delegate" destination="dwe-AE-hYd" id="ONf-Fu-A99"/>
                     </connections>
                 </tapGestureRecognizer>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="SZL-FB-VMw">
+                    <connections>
+                        <action selector="moveRuler:" destination="dwe-AE-hYd" id="0xW-qF-ac7"/>
+                        <outlet property="delegate" destination="dwe-AE-hYd" id="0Ux-pl-eLR"/>
+                    </connections>
+                </panGestureRecognizer>
+                <pinchGestureRecognizer id="zEd-mb-TfR">
+                    <connections>
+                        <action selector="zoomRuler:" destination="dwe-AE-hYd" id="d9p-HM-rc9"/>
+                        <outlet property="delegate" destination="dwe-AE-hYd" id="MFk-tE-Khn"/>
+                    </connections>
+                </pinchGestureRecognizer>
+                <rotationGestureRecognizer id="YkD-T1-yc7">
+                    <connections>
+                        <action selector="rotateRuler:" destination="dwe-AE-hYd" id="Uue-jg-yij"/>
+                        <outlet property="delegate" destination="dwe-AE-hYd" id="vbn-J1-0Ol"/>
+                    </connections>
+                </rotationGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="2860" y="777"/>
         </scene>
@@ -1930,6 +1944,9 @@
         <class className="EditDetailTypeViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/EditDetailTypeViewController.h"/>
             <relationships>
+                <relationship kind="action" name="onTapOnPicture:"/>
+                <relationship kind="action" name="rotateRuler:" candidateClass="UIRotationGestureRecognizer"/>
+                <relationship kind="action" name="zoomRuler:" candidateClass="UIPinchGestureRecognizer"/>
                 <relationship kind="outlet" name="_constraintPickerTrainlingSpaceToSuperview" candidateClass="NSLayoutConstraint"/>
                 <relationship kind="outlet" name="_constraintVerticalSpaceFromPickerToViewContainer" candidateClass="NSLayoutConstraint"/>
                 <relationship kind="outlet" name="_constraintViewContainerLeadingSpaceToSuperview" candidateClass="NSLayoutConstraint"/>
@@ -1939,7 +1956,6 @@
                 <relationship kind="outlet" name="_detailLengthStepper" candidateClass="UIStepper"/>
                 <relationship kind="outlet" name="_pictureImageView" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="_pictureImageViewContainer" candidateClass="UIView"/>
-                <relationship kind="outlet" name="_pinPlatePictureImageView" candidateClass="UIImageView"/>
             </relationships>
         </class>
         <class className="EditDetailViewController" superclassName="UIViewController">
