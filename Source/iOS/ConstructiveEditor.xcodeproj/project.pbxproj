@@ -48,6 +48,7 @@
 		75A26DA215218B2200449686 /* camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 75A26D9E15218B2200449686 /* camera.png */; };
 		75B7DA441521796100C02F18 /* AssemblyCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 75B7DA431521796100C02F18 /* AssemblyCellView.m */; };
 		75CF686116B58D2900DEE4B4 /* InstructionPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75CF686016B58D2900DEE4B4 /* InstructionPreviewViewController.m */; };
+		75E28A4116DBDBDA004FBCF5 /* EditDetailTypeAdditionalInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75E28A4016DBDBDA004FBCF5 /* EditDetailTypeAdditionalInfoViewController.m */; };
 		75E5F33415FDAF4900C363FA /* AssemblyTypesShelf.m in Sources */ = {isa = PBXBuildFile; fileRef = 75E5F33315FDAF4900C363FA /* AssemblyTypesShelf.m */; };
 		75E5F36E16013BCD00C363FA /* convertDocument_Highlighted_iPhone.png in Resources */ = {isa = PBXBuildFile; fileRef = 75E5F36616013BCC00C363FA /* convertDocument_Highlighted_iPhone.png */; };
 		75E5F36F16013BCD00C363FA /* convertDocument_Highlighted_iPhone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 75E5F36716013BCC00C363FA /* convertDocument_Highlighted_iPhone@2x.png */; };
@@ -168,6 +169,8 @@
 		75B7DA431521796100C02F18 /* AssemblyCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AssemblyCellView.m; sourceTree = "<group>"; };
 		75CF685F16B58D2900DEE4B4 /* InstructionPreviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstructionPreviewViewController.h; sourceTree = "<group>"; };
 		75CF686016B58D2900DEE4B4 /* InstructionPreviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstructionPreviewViewController.m; sourceTree = "<group>"; };
+		75E28A3F16DBDBDA004FBCF5 /* EditDetailTypeAdditionalInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditDetailTypeAdditionalInfoViewController.h; sourceTree = "<group>"; };
+		75E28A4016DBDBDA004FBCF5 /* EditDetailTypeAdditionalInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditDetailTypeAdditionalInfoViewController.m; sourceTree = "<group>"; };
 		75E5F33215FDAF4900C363FA /* AssemblyTypesShelf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AssemblyTypesShelf.h; sourceTree = "<group>"; };
 		75E5F33315FDAF4900C363FA /* AssemblyTypesShelf.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AssemblyTypesShelf.m; sourceTree = "<group>"; };
 		75E5F36616013BCC00C363FA /* convertDocument_Highlighted_iPhone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = convertDocument_Highlighted_iPhone.png; sourceTree = "<group>"; };
@@ -299,6 +302,8 @@
 				7532EBC015DFA3B600395B11 /* DetailTypesViewController.m */,
 				7532EBC115DFA3B600395B11 /* EditDetailTypeViewController.h */,
 				7532EBC215DFA3B600395B11 /* EditDetailTypeViewController.m */,
+				75E28A3F16DBDBDA004FBCF5 /* EditDetailTypeAdditionalInfoViewController.h */,
+				75E28A4016DBDBDA004FBCF5 /* EditDetailTypeAdditionalInfoViewController.m */,
 				757B0CB8160F137C008883C0 /* PreferencesViewController.h */,
 				757B0CB9160F137C008883C0 /* PreferencesViewController.m */,
 				757B0CBB160F5033008883C0 /* PreferenceOptionsViewController.h */,
@@ -668,6 +673,7 @@
 				751C5F65161054B20025AFA4 /* AssemblyValidator.mm in Sources */,
 				75CF686116B58D2900DEE4B4 /* InstructionPreviewViewController.m in Sources */,
 				753270AD16C414A2005A1B83 /* ImageVisualFrameCalculator.m in Sources */,
+				75E28A4116DBDBDA004FBCF5 /* EditDetailTypeAdditionalInfoViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

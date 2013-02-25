@@ -11,4 +11,3 @@ NSString* const detailClassOther = @"detailClassOther";
 NSString* const detailClassTechnicAxle = @"detailClassTechnicAxle";
 NSString* const detailClassTechnicLiftarm = @"detailClassTechnicLiftarm";
 NSString* const detailClassTechnicBrick = @"detailClassTechnicBrick";
-NSString* const detailClassTechnicGear = @"detailClassTechnicGear";

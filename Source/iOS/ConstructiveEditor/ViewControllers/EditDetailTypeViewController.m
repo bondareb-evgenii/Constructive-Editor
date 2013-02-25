@@ -6,6 +6,7 @@
 //
 
 #import "EditDetailTypeViewController.h"
+#import "EditDetailTypeAdditionalInfoViewController.h"
 #import "Constants.h"
 #import "DetailType.h"
 #import "NSManagedObjectContextExtension.h"
@@ -26,25 +27,10 @@
 
 @interface EditDetailTypeViewController ()
   {
-  __weak IBOutlet UITextField*        _detailLabelTextField;
-  __weak IBOutlet UIStepper*          _detailLengthStepper;
-  __weak IBOutlet UILabel*            _detailLengthLabel;
-  
   __weak IBOutlet UIView*             _pictureImageViewContainer;
-  __weak IBOutlet NSLayoutConstraint* _constraintViewContainerLeadingSpaceToSuperview;
-  
-  __weak IBOutlet UIPickerView*       _detailClassPicker;
-  __weak IBOutlet NSLayoutConstraint* _constraintVerticalSpaceFromPickerToViewContainer;
-  __weak IBOutlet NSLayoutConstraint* _constraintPickerTrainlingSpaceToSuperview;
-  
   __weak IBOutlet UIImageView*        _pictureImageView;
-  
+  __weak IBOutlet UILabel*            _additionalInfoLabel;
   UIImageView*                        _rulerImageView;
-  
-  NSArray*                            _constraintsForPortraitOrientation;
-  NSArray*                            _constraintsVerticalForLandscapeOrientation;
-  NSArray*                            _constraintsHorizontalForLandscapeOrientation;
-  NSArray*                            _detailClassesLabels;
   }
 @end
   
@@ -54,18 +40,16 @@
 
 - (NSInteger)pickerRowByDetailClassIdentifier:(NSString*)classIdentifier
   {
-  if ([detailClassCustomLabeled isEqualToString:_detailType.classIdentifier])
+  if ([detailClassCustomLabeled isEqualToString:classIdentifier])
     return 0;
-  //if ([detailClassOther isEqualToString:_detailType.classIdentifier])
+  //if ([detailClassOther isEqualToString:classIdentifier])
     //return 1;
-  if ([detailClassTechnicAxle isEqualToString:_detailType.classIdentifier])
+  if ([detailClassTechnicAxle isEqualToString:classIdentifier])
     return 2;
-  if ([detailClassTechnicLiftarm isEqualToString:_detailType.classIdentifier])
+  if ([detailClassTechnicLiftarm isEqualToString:classIdentifier])
     return 3;
-  if ([detailClassTechnicBrick isEqualToString:_detailType.classIdentifier])
+  if ([detailClassTechnicBrick isEqualToString:classIdentifier])
     return 4;
-  if ([detailClassTechnicGear isEqualToString:_detailType.classIdentifier])
-    return 5;
   return 1;//detailClassOther
   }
 
@@ -85,9 +69,6 @@
     case 4:
       return detailClassTechnicBrick;
       
-    case 5:
-      return detailClassTechnicGear;
-      
     default://1
       return detailClassOther;
     }
@@ -96,44 +77,23 @@
 - (void)viewDidLoad
   {
   [super viewDidLoad];
-  _detailLabelTextField.text = _detailType.identifier;
-  _detailLabelTextField.delegate = self;
   _pictureImageView.image = [_detailType pictureToShow]
                   ? [_detailType pictureToShow]
                   : [UIImage imageNamed:@"NoPhotoBig.png"];
-  _detailClassesLabels = [NSArray arrayWithObjects:
-      NSLocalizedString(@"Custom, labeled", @"detail class"),
-      NSLocalizedString(@"Other",  @"detail class"),
-      NSLocalizedString(@"Technic Axle",  @"detail class"),
-      NSLocalizedString(@"Technic Liftarm",  @"detail class"),
-      NSLocalizedString(@"Technic Brick", @"detail class"),
-      //Not implemented yet, is it really needed?
-      //NSLocalizedString(@"Technic Gear" @"detail class"),
-      nil];
-  _detailClassPicker.dataSource = self;
-  _detailClassPicker.delegate = self;
-  
-  NSInteger defaultRowToSelect = [self pickerRowByDetailClassIdentifier:_detailType.classIdentifier];
-  [_detailClassPicker selectRow:defaultRowToSelect inComponent:0 animated:NO];
-  [self pickerView:_detailClassPicker didSelectRow:defaultRowToSelect inComponent:0];
-  
-  //constraints initialization
-  UIImageView* imageView = _pictureImageView;
-  UIPickerView* picker = _detailClassPicker;
-  _constraintsForPortraitOrientation = [NSArray arrayWithObjects:_constraintViewContainerLeadingSpaceToSuperview, _constraintPickerTrainlingSpaceToSuperview, _constraintVerticalSpaceFromPickerToViewContainer, nil];
-  _constraintsHorizontalForLandscapeOrientation = [NSLayoutConstraint constraintsWithVisualFormat:@"[picker(==imageView)]-0-[imageView]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(imageView, picker)];
-  _constraintsVerticalForLandscapeOrientation = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[picker(==imageView)]-0-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(imageView, picker)];
-  
-  if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
-    [self updateConstraintsAccordingToInterfaceOrientation:self.interfaceOrientation];
   }
 
 - (void)viewWillAppear:(BOOL)animated
   {
-  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  //Layout first!
-  [self.view layoutIfNeeded];
-  
+  [self.view layoutIfNeeded];//Layout first to use the views frames for calculations
+  _additionalInfoLabel.text = [self additionalInfoString];
+  [self showRuler];
+  }
+
+- (void)showRuler
+  {
+  if (_rulerImageView)
+    return;
+    
   NSUInteger liftarmLengthInPins = 15;//maximum length of real liftarms
   UIImage* liftarmImage = [self liftarmImageOfLength:liftarmLengthInPins];
   
@@ -155,6 +115,46 @@
   _rulerImageView.alpha = 0.7;
   
   [_pictureImageViewContainer addSubview:_rulerImageView];
+  }
+
+- (NSString*)additionalInfoString
+  {
+  if ([detailClassCustomLabeled isEqualToString:_detailType.classIdentifier])
+    {
+    NSString* formatString = NSLocalizedString(@"Custom detail with label: %@", @"detail type additional info");
+    NSString* label = _detailType.identifier;
+    if (!label)
+      label = NSLocalizedString(@"(Not specified)", @"detail type additional info");
+    return [NSString stringWithFormat:formatString, label];
+    }
+  //if ([detailClassOther isEqualToString:_detailType.classIdentifier])
+    //return  NSLocalizedString(@"No additional information", @"detail type additional info");
+    
+  int length = _detailType.length.intValue;
+  if (length < 2)
+    {
+    length = 2;
+    _detailType.length = [NSNumber numberWithInt:length];
+    [_detailType.managedObjectContext saveAndHandleError];
+    }
+    
+  if ([detailClassTechnicAxle isEqualToString:_detailType.classIdentifier])
+    {
+    NSString* formatString = NSLocalizedString(@"Lego Technic Axle of length: %d", @"detail type additional info");
+    return [NSString stringWithFormat:formatString, length];
+    }
+  if ([detailClassTechnicLiftarm isEqualToString:_detailType.classIdentifier])
+    {
+    NSString* formatString = NSLocalizedString(@"Lego Technic Liftarm of length: %d", @"detail type additional info");
+    return [NSString stringWithFormat:formatString, length];
+    }
+  if ([detailClassTechnicBrick isEqualToString:_detailType.classIdentifier])
+    {
+    NSString* formatString = NSLocalizedString(@"Lego Technic Brick of length: %d", @"detail type additional info");
+    return [NSString stringWithFormat:formatString, length];
+    }
+
+  return  NSLocalizedString(@"No additional information", @"detail type additional info");//detailClassOther
   }
 
 - (UIImage*)liftarmImageOfLength:(NSUInteger)length
@@ -187,12 +187,12 @@
   return resultingImage;
   }
 
-- (void)viewWillDisappear:(BOOL)animated
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
   {
-  if (!_detailLabelTextField.hidden)
-    [self textFieldShouldReturn:_detailLabelTextField];
+  if ([@"EditAdditionalInfo" isEqualToString:segue.identifier])
+    ((EditDetailTypeAdditionalInfoViewController*)segue.destinationViewController).detailType = self.detailType;
   }
-  
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
   {
   return YES;
@@ -200,23 +200,6 @@
   
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
   {
-  [self updateConstraintsAccordingToInterfaceOrientation:toInterfaceOrientation];
-  }
-
-- (void)updateConstraintsAccordingToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
-  {
-  if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation))
-    {
-    [self.view removeConstraints:_constraintsForPortraitOrientation];
-    [self.view addConstraints:_constraintsHorizontalForLandscapeOrientation];
-    [self.view addConstraints:_constraintsVerticalForLandscapeOrientation];
-    }
-  else
-    {
-    [self.view removeConstraints:_constraintsHorizontalForLandscapeOrientation];
-    [self.view removeConstraints:_constraintsVerticalForLandscapeOrientation];
-    [self.view addConstraints:_constraintsForPortraitOrientation];
-    }
   }
   
 - (void)selectPicture
@@ -310,31 +293,6 @@
   
   return YES;
   }
-
-- (void)updateLengthControls
-  {
-  int length = _detailType.length.intValue;
-  if (length < 2)
-    {
-    length = 2;
-    _detailType.length = [NSNumber numberWithInt:length];
-    [_detailType.managedObjectContext saveAndHandleError];
-    }
-  _detailLengthLabel.text = [NSString stringWithFormat:@"Length = %d", length];
-  _detailLengthStepper.value = length;
-  }
-  
-- (void)updateLabelConrol
-  {
-  _detailLabelTextField.text = _detailType.identifier;
-  }
-  
-- (IBAction)detailLengthStepperValueChanged:(id)sender
-  {
-  _detailType.length = [NSNumber numberWithInt:(int)_detailLengthStepper.value];
-  [_detailType.managedObjectContext saveAndHandleError];
-  [self updateLengthControls];
-  }
   
 @end
 
@@ -357,81 +315,6 @@
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
   {
 	[self dismissModalViewControllerAnimated:YES];
-  }
-
-@end
-
-@implementation EditDetailTypeViewController (UIPickerViewDataSource)
-
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
-  {
-  return 1;
-  }
-  
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
-  {
-  return _detailClassesLabels.count;
-  }
-  
-@end
-
-@implementation EditDetailTypeViewController (UIPickerViewDelegate)
-  
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
-  {
-  return [_detailClassesLabels objectAtIndex:row];
-  }
-  
-- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
-  {
-  _detailType.classIdentifier = [self detailClassIdentifierByPickerRow:row];
-  switch (row)
-    {
-    case 0://Custom, labeled
-      _detailLabelTextField.hidden = NO;
-      _detailLengthLabel.hidden = YES;
-      _detailLengthStepper.hidden = YES;
-      _detailType.length = nil;
-      [self updateLabelConrol];
-      break;
-    case 2://Technic Axle
-    case 3://Technic Liftarm
-    case 4://Technic Brick
-      _detailLabelTextField.hidden = YES;
-      _detailLengthLabel.hidden = NO;
-      _detailLengthStepper.hidden = NO;
-      _detailType.identifier = nil;
-      [self updateLengthControls];
-      break;
-//    case 5://Technic Gear
-//      _detailLabelTextField.hidden = YES;
-//      _detailLengthLabel.hidden = NO;
-//      _detailLengthStepper.hidden = NO;
-//      break;
-    default://Other (1)
-      _detailLabelTextField.hidden = YES;
-      _detailLengthLabel.hidden = YES;
-      _detailLengthStepper.hidden = YES;
-      _detailType.identifier = nil;
-      _detailType.length = nil;
-      break;
-    }
-  [_detailType.managedObjectContext saveAndHandleError];
-  }
-  
-@end
-
-@implementation EditDetailTypeViewController (UITextFieldDelegate)
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-  {
-  [_detailLabelTextField resignFirstResponder];
-  NSString* label = _detailLabelTextField.text;
-  if (!label.length)
-    label = nil;
-  _detailType.identifier = label;
-  [_detailType.managedObjectContext saveAndHandleError];
-  return YES;
   }
 
 @end
