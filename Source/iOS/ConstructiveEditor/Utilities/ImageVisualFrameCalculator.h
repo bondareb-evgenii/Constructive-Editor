@@ -14,5 +14,6 @@
 
 @property (nonatomic, weak) UIImageView*  imageView;
 @property (nonatomic) CGRect              imageVisualFrameInViewCoordinates;
+@property (nonatomic) CGRect              imageVisualFrameInViewCoordinatesCached;
 
 @end

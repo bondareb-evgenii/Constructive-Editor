@@ -8,7 +8,15 @@
 
 #import "ImageVisualFrameCalculator.h"
 
+@interface ImageVisualFrameCalculator ()
+  {
+  CGRect _imageVisualFrameInViewCoordinatesCached;
+  }
+@end
+
 @implementation ImageVisualFrameCalculator
+
+@synthesize imageVisualFrameInViewCoordinatesCached = _imageVisualFrameInViewCoordinatesCached;
 
 - (id)initWithImageView:(UIImageView*)imageView
   {
@@ -56,16 +64,17 @@
       if (imageRelationW2H > viewRelationW2H)//image takes entire view width
         {
         float visibleImageHeight = imageSize.height*viewSize.width/imageSize.width;
-        return CGRectMake(0, (viewSize.height - visibleImageHeight)/2, viewSize.width, visibleImageHeight);
+        _imageVisualFrameInViewCoordinatesCached = CGRectMake(0, (viewSize.height - visibleImageHeight)/2, viewSize.width, visibleImageHeight);
         }
       else
         {
         float visibleImageWidth = imageSize.width*viewSize.height/imageSize.height;
-        return CGRectMake((viewSize.width - visibleImageWidth)/2, 0, visibleImageWidth, viewSize.height);
+        _imageVisualFrameInViewCoordinatesCached = CGRectMake((viewSize.width - visibleImageWidth)/2, 0, visibleImageWidth, viewSize.height);
         }
       }
       break;
     }//switch
+  return _imageVisualFrameInViewCoordinatesCached;
   }
 
 @end

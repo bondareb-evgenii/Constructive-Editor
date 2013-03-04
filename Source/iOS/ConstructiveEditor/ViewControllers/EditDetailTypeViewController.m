@@ -9,6 +9,7 @@
 #import "EditDetailTypeAdditionalInfoViewController.h"
 #import "Constants.h"
 #import "DetailType.h"
+#import "ImageVisualFrameCalculator.h"
 #import "NSManagedObjectContextExtension.h"
 #import "PreferencesKeys.h"
 #import <QuartzCore/QuartzCore.h>
@@ -31,6 +32,8 @@
   __weak IBOutlet UIImageView*        _pictureImageView;
   __weak IBOutlet UILabel*            _additionalInfoLabel;
   UIImageView*                        _rulerImageView;
+  ImageVisualFrameCalculator*         _pictureImageVisualFrameCalculator;
+  CGRect                              _pictureImageViewRealFrameBeforeRotation;
   }
 @end
   
@@ -76,6 +79,7 @@
     
 - (void)viewDidLoad
   {
+  _pictureImageVisualFrameCalculator = [[ImageVisualFrameCalculator alloc] initWithImageView:_pictureImageView];
   [super viewDidLoad];
   _pictureImageView.image = [_detailType pictureToShow]
                   ? [_detailType pictureToShow]
@@ -200,6 +204,31 @@
   
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
   {
+  //populate the cache with current image frame
+  [_pictureImageVisualFrameCalculator imageVisualFrameInViewCoordinates];
+  //Don't call this method again in between the willRotateToInterfaceOrientation and didRotateFromInterfaceOrientation!!!
+  
+  _pictureImageViewRealFrameBeforeRotation = _pictureImageView.frame;
+  }
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+  {
+  //Take a value calculated and cached in willRotateToInterfaceOrientation
+  CGRect _pictureImageVisualFrameBeforeRotation = _pictureImageVisualFrameCalculator.imageVisualFrameInViewCoordinatesCached;
+  CGRect _pictureImageVisualFrameAfterRotation = _pictureImageVisualFrameCalculator.imageVisualFrameInViewCoordinates;
+  
+  //calculate multiplier for the new zoom factor of a ruler
+  float zoomFactorX = _pictureImageVisualFrameAfterRotation.size.width/_pictureImageVisualFrameBeforeRotation.size.width;
+  float zoomFactorY = _pictureImageVisualFrameAfterRotation.size.height/_pictureImageVisualFrameBeforeRotation.size.height;
+  assert(fabs(zoomFactorX-zoomFactorY) < 0.00001);
+  float zoomFactor = zoomFactorX;
+  
+  //calculate new center of a ruler
+  CGPoint rullerCenterInImageCoordinates = CGPointMake((_rulerImageView.center.x - _pictureImageVisualFrameBeforeRotation.origin.x)*zoomFactor, (_rulerImageView.center.y - _pictureImageVisualFrameBeforeRotation.origin.y)*zoomFactor);
+  CGPoint newRulerCenter = CGPointMake(rullerCenterInImageCoordinates.x + _pictureImageVisualFrameAfterRotation.origin.x, rullerCenterInImageCoordinates.y + _pictureImageVisualFrameAfterRotation.origin.y);
+  
+  _rulerImageView.center = newRulerCenter;
+  _rulerImageView.transform = CGAffineTransformScale(_rulerImageView.transform, zoomFactor, zoomFactor);
   }
   
 - (void)selectPicture
