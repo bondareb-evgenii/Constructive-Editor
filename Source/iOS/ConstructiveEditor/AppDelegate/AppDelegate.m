@@ -6,9 +6,12 @@
 //
 
 #import "AppDelegate.h"
-#import "StartMenuViewController.h"
-#import "NSManagedObjectContextExtension.h"
 #import "Constants.h"
+#import "StartMenuViewController.h"
+#import "MBProgressHUD.h"
+#import "NSManagedObjectContextExtension.h"
+
+NSString* const NSManagedObjectContextWillSaveAsyncNotification = @"NSManagedObjectContextWillSaveAsyncNotification";
 
 @interface AppDelegate ()
   {
@@ -16,6 +19,10 @@
   NSPersistentStoreCoordinator*           _persistentStoreCoordinator;
   NSManagedObjectModel*                   _managedObjectModel;
   NSManagedObjectContext*                 _managedObjectContext;
+  NSManagedObjectContext*                 _privateManagedObjectContextForSaving;
+  BOOL                                    _goingIntoBackground;
+  BOOL                                    _saving;
+  NSTimer*                                _savingTimer;
   }
 @end
 
@@ -68,19 +75,78 @@
  Returns the managed object context for the application.
  If the context doesn't already exist, it is created and bound to the persistent store coordinator for the application.
  */
-- (NSManagedObjectContext *) managedObjectContext {
-	
-    if (_managedObjectContext != nil) {
-        return _managedObjectContext;
-    }
-	
-    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-    if (coordinator != nil) {
-        _managedObjectContext = [[NSManagedObjectContext alloc] init];
-        [_managedObjectContext setPersistentStoreCoordinator: coordinator];
-    }
+- (NSManagedObjectContext *) managedObjectContext
+  {
+  if (_managedObjectContext != nil)
     return _managedObjectContext;
-}
+
+  NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
+  if (coordinator != nil)
+    {
+    _privateManagedObjectContextForSaving = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    [_privateManagedObjectContextForSaving setPersistentStoreCoordinator: coordinator];
+    
+    _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+    [_managedObjectContext setParentContext:_privateManagedObjectContextForSaving];
+    
+    [[NSNotificationCenter defaultCenter]
+        addObserver:self
+           selector:@selector(contextWillSaveAsync:)
+               name:NSManagedObjectContextWillSaveAsyncNotification
+             object:_managedObjectContext];
+    [[NSNotificationCenter defaultCenter]
+        addObserver:self
+           selector:@selector(contextDidSave:)
+               name:NSManagedObjectContextDidSaveNotification
+             object:_managedObjectContext];
+    [[NSNotificationCenter defaultCenter]
+        addObserver:self
+           selector:@selector(privateContextDidSave:)
+               name:NSManagedObjectContextDidSaveNotification
+             object:_privateManagedObjectContextForSaving];
+    }
+  return _managedObjectContext;
+  }
+
+- (void)contextWillSaveAsync:(NSNotification*)saveNotification
+  {
+  [self tryToSave];
+  }
+
+- (void)tryToSave
+  {
+  _savingTimer = nil;
+  if (_saving)
+    _savingTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(tryToSave) userInfo:nil repeats:NO];
+  else
+    //this call may still freaze the main thread in case if the _privateManagedObjectContextForSaving is currently saving
+    [_managedObjectContext saveAndHandleError];
+  }
+
+- (void)contextDidSave:(NSNotification*)saveNotification
+  {
+  void (^save) (void) = ^
+    {
+    [_privateManagedObjectContextForSaving saveAndHandleError];
+    };
+
+  if ([_privateManagedObjectContextForSaving hasChanges])
+    {
+    if (_goingIntoBackground)
+      [_privateManagedObjectContextForSaving performBlockAndWait:save];
+    else
+      {
+      _saving = YES;
+      [_privateManagedObjectContextForSaving performBlock:save];
+      }
+    }
+  }
+
+- (void)privateContextDidSave:(NSNotification*)saveNotification
+  {
+  _saving = NO;
+  [MBProgressHUD hideHUDForView:self.window animated:YES];
+  }
 
 - (NSString *)applicationDocumentsDirectory
   {
@@ -139,14 +205,23 @@
   [self.startMenuViewController performSegueWithIdentifier:@"OpenURL" sender:nil];
   return YES;
   }
-							
+
+- (void)applicationDidReceiveMemoryWarning:(UIApplication *)application
+  {
+  if (_saving)
+    {
+    [MBProgressHUD showHUDAddedTo:self.window animated:YES];
+    }
+  }
+
 - (void)applicationWillResignActive:(UIApplication *)application
-{
+  {
+  _goingIntoBackground = YES;
   /*
    Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
    Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
    */
-}
+  }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
@@ -157,11 +232,12 @@
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
-{
+  {
+  _goingIntoBackground = NO;
   /*
    Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
    */
-}
+  }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {

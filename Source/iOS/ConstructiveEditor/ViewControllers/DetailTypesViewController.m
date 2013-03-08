@@ -134,7 +134,7 @@
     self.detail.type = detailType;
     ((EditDetailTypeViewController*)segue.destinationViewController).detailType = detailType;
     // Commit the change.
-    [self.detail.managedObjectContext saveAndHandleError];
+    [self.detail.managedObjectContext saveAsyncAndHandleError];
     
     //update cache
     [_detailTypes insertObject:detailType atIndex:_addDetailTypeIndex];
@@ -221,7 +221,7 @@
   DetailType* type = [self detailTypeForIndexPath:indexPath];
   for (Detail* detail in self.details)
     detail.type = type;
-  [self.detail.managedObjectContext saveAndHandleError];
+  [self.detail.managedObjectContext saveAsyncAndHandleError];
   _connectionPointButton.enabled = YES;
   }
   
@@ -249,7 +249,7 @@
         
       [self.detail.managedObjectContext deleteObject:[_detailTypes objectAtIndex:detailTypeIndex]];
       // Commit the change.
-      [self.detail.managedObjectContext saveAndHandleError];
+      [self.detail.managedObjectContext saveAsyncAndHandleError];
 
       //update cache and UI
       [_detailTypes removeObjectAtIndex:detailTypeIndex];

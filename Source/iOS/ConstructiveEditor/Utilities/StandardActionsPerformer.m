@@ -74,7 +74,7 @@
   
   void (^commitReinterpret)() = ^()
     {
-    [managedObjectContext saveAndHandleError];
+    [managedObjectContext saveAsyncAndHandleError];
     completion(YES);
     };
           
@@ -850,25 +850,25 @@
       {
       assemblyTypeToInterpret.assemblyBase = [self createAssemblyInManagedObjectContextNoSave:managedObjectContext];
       // Commit the change.
-      [managedObjectContext saveAndHandleError];
+      [managedObjectContext saveAsyncAndHandleError];
       }
     else if ([standardActionOnAssembly_SplitToDetails isEqualToString:standardActionName])
       {
       [self createDetailToSplitTheAssemblyToIfNeeded:assemblyTypeToInterpret];
       // Commit the change.
-      [managedObjectContext saveAndHandleError];
+      [managedObjectContext saveAsyncAndHandleError];
       }
     else if ([standardActionOnAssembly_Rotate isEqualToString:standardActionName])
       {
       assemblyTypeToInterpret.assemblyBeforeRotation = [self createAssemblyInManagedObjectContextNoSave:managedObjectContext];
       // Commit the change.
-      [managedObjectContext saveAndHandleError];
+      [managedObjectContext saveAsyncAndHandleError];
       }
     else if ([standardActionOnAssembly_Transform isEqualToString:standardActionName])
       {
       assemblyTypeToInterpret.assemblyBeforeTransformation = [self createAssemblyInManagedObjectContextNoSave:managedObjectContext];
       // Commit the change.
-      [managedObjectContext saveAndHandleError];
+      [managedObjectContext saveAsyncAndHandleError];
       }
     }
   else

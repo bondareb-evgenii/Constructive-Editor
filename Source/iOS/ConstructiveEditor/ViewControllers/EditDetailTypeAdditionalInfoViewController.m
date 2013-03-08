@@ -115,7 +115,7 @@
     {
     length = 2;
     _detailType.length = [NSNumber numberWithInt:length];
-    [_detailType.managedObjectContext saveAndHandleError];
+    [_detailType.managedObjectContext saveAsyncAndHandleError];
     }
   _detailLengthLabel.text = [NSString stringWithFormat:@"Length = %d", length];
   _detailLengthStepper.value = length;
@@ -129,7 +129,7 @@
 - (IBAction)detailLengthStepperValueChanged:(id)sender
   {
   _detailType.length = [NSNumber numberWithInt:(int)_detailLengthStepper.value];
-  [_detailType.managedObjectContext saveAndHandleError];
+  [_detailType.managedObjectContext saveAsyncAndHandleError];
   [self updateLengthControls];
   }
   
@@ -190,7 +190,7 @@
       _detailType.length = nil;
       break;
     }
-  [_detailType.managedObjectContext saveAndHandleError];
+  [_detailType.managedObjectContext saveAsyncAndHandleError];
   }
   
 @end
@@ -204,7 +204,7 @@
   if (!label.length)
     label = nil;
   _detailType.identifier = label;
-  [_detailType.managedObjectContext saveAndHandleError];
+  [_detailType.managedObjectContext saveAsyncAndHandleError];
   return YES;
   }
 

@@ -176,7 +176,7 @@ static const float RulerImageLengthInPins = 14.8854449406065;//manually calculat
     {
     length = 2;
     _detailType.length = [NSNumber numberWithInt:length];
-    [_detailType.managedObjectContext saveAndHandleError];
+    [_detailType.managedObjectContext saveAsyncAndHandleError];
     }
     
   if ([detailClassTechnicAxle isEqualToString:_detailType.classIdentifier])
@@ -304,7 +304,7 @@ static const float RulerImageLengthInPins = 14.8854449406065;//manually calculat
   else if (gestureRecognizer.state != UIGestureRecognizerStatePossible)//ended, cancelled, failed or recognized states
     {
     [self updateDetailTypesZoomFactorAndRulerTransform];
-    [self.detailType.managedObjectContext saveAndHandleError];
+    [self.detailType.managedObjectContext saveAsyncAndHandleError];
     }
   }
 
@@ -320,7 +320,7 @@ static const float RulerImageLengthInPins = 14.8854449406065;//manually calculat
   else if (gestureRecognizer.state != UIGestureRecognizerStatePossible)//ended, cancelled, failed or recognized states
     {
     [self updateDetailTypesZoomFactorAndRulerTransform];
-    [self.detailType.managedObjectContext saveAndHandleError];
+    [self.detailType.managedObjectContext saveAsyncAndHandleError];
     }
   }
 
@@ -336,7 +336,7 @@ static const float RulerImageLengthInPins = 14.8854449406065;//manually calculat
   else if (gestureRecognizer.state != UIGestureRecognizerStatePossible)//ended, cancelled, failed or recognized states
     {
     [self updateDetailTypesZoomFactorAndRulerTransform];
-    [self.detailType.managedObjectContext saveAndHandleError];
+    [self.detailType.managedObjectContext saveAsyncAndHandleError];
     }
   }
 
@@ -403,7 +403,7 @@ static const float RulerImageLengthInPins = 14.8854449406065;//manually calculat
   //WORKS REALLY LONG TIME: check the photo picker example to see how we can speed it up
 	_detailType.picture = selectedImage;
   // Commit the change.
-	[_detailType.managedObjectContext saveAndHandleError];
+	[_detailType.managedObjectContext saveAsyncAndHandleError];
   _pictureImageView.image = [_detailType pictureToShow]
                   ? [_detailType pictureToShow]
                   : [UIImage imageNamed:@"NoPhotoBig.png"];

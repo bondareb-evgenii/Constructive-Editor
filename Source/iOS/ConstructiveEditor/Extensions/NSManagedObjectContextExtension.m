@@ -6,11 +6,19 @@
 //
 
 #import "NSManagedObjectContextExtension.h"
+#import "Constants.h"
 
 @implementation NSManagedObjectContext (Extension)
 
+- (void)saveAsyncAndHandleError
+  {
+  if ([self hasChanges])
+    [[NSNotificationCenter defaultCenter] postNotificationName:NSManagedObjectContextWillSaveAsyncNotification object:self];
+  }
+
 - (void)saveAndHandleError
   {
+  NSLog(@"Saving context: %@", self);
   NSError *error = nil;
   if ([self hasChanges] && ![self save:&error])
     {

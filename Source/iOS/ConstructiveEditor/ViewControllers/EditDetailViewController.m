@@ -240,7 +240,7 @@
     return;
   [self movePinToPoint:position];
   [self correctSelectedPinPosition];
-  [self.detail.managedObjectContext saveAndHandleError];
+  [self.detail.managedObjectContext saveAsyncAndHandleError];
   [self updateDoneButton];
   }
   
@@ -263,7 +263,7 @@
     {
     _deltaFromDraggingPointToThePinTargetPoint = CGPointZero;
     [self correctSelectedPinPosition];
-    [self.detail.managedObjectContext saveAndHandleError];
+    [self.detail.managedObjectContext saveAsyncAndHandleError];
     [self updateDoneButton];
     }
   }
@@ -364,7 +364,7 @@
         [lastDetail.managedObjectContext deleteObject:detail];
       }
     }
-  [lastDetail.managedObjectContext saveAndHandleError];
+  [lastDetail.managedObjectContext saveAsyncAndHandleError];
   [self correctSelectedPointIndex];
   [self updateDoneButton];
   [self updatePins];

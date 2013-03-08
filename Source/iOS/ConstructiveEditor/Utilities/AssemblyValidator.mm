@@ -62,7 +62,7 @@ struct SmallerAssembliesEnumerationCache
     rootAssembly.type.assemblyBase = nil;
     
     // Commit the change.
-    [managedObjectContext saveAndHandleError];
+    [managedObjectContext saveAsyncAndHandleError];
     }
   rootAssemblies = nil;
   return rootAssembly;

@@ -175,7 +175,7 @@
   //WORKS REALLY LONG TIME: check the photo picker example to see how we can speed it up
   _rootAssembly.type.picture = selectedImage;
   // Commit the change.
-	[_rootAssembly.managedObjectContext saveAndHandleError];
+	[_rootAssembly.managedObjectContext saveAsyncAndHandleError];
 
   [self dismissModalViewControllerAnimated:YES];
   }

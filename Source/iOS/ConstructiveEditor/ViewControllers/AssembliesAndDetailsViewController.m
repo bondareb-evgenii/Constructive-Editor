@@ -53,6 +53,11 @@
 
 @synthesize assemblyType = _assemblyType;
 
+- (void)dealloc
+  {
+  NSLog(@"AssembliesAndDetailsViewController::dealloc");
+  }
+
 - (void)updateData
   {
   _assembliesGroups = [[NSMutableArray alloc] initWithCapacity:self.assemblyType.assembliesInstalled.count];
@@ -120,7 +125,7 @@
   for (Detail* detail in [_detailsGroupsDictionary objectForKey:key])
     [_assemblyType.managedObjectContext deleteObject:detail];
   // Commit the change.
-  [_assemblyType.managedObjectContext saveAndHandleError];
+  [_assemblyType.managedObjectContext saveAsyncAndHandleError];
   
   [_detailsGroups removeObjectAtIndex:detailIndex];
   [_detailsGroupsDictionary removeObjectForKey:key];
@@ -298,7 +303,7 @@
     Detail* detail = (Detail*)[NSEntityDescription insertNewObjectForEntityForName:@"Detail" inManagedObjectContext:self.assemblyType.managedObjectContext];
     [self.assemblyType addDetailsInstalledObject:detail];
     // Commit the change.
-    [_assemblyType.managedObjectContext saveAndHandleError];
+    [_assemblyType.managedObjectContext saveAsyncAndHandleError];
 
     //update cache
     NSMutableArray* details = [NSMutableArray arrayWithCapacity:1];
@@ -425,7 +430,7 @@
     for (Assembly* assembly in assembliesToRemove)
       [_assemblyType.managedObjectContext deleteObject:assembly];
     }
-  [_assemblyType.managedObjectContext saveAndHandleError];
+  [_assemblyType.managedObjectContext saveAsyncAndHandleError];
   }
   
 - (IBAction)onDetailsCountChanged:(UIStepper*)stepper
@@ -459,7 +464,7 @@
     for (Detail* detail in detailsToRemove)
       [_assemblyType.managedObjectContext deleteObject:detail];
     }
-  [_assemblyType.managedObjectContext saveAndHandleError];
+  [_assemblyType.managedObjectContext saveAsyncAndHandleError];
   }
   
 @end
@@ -597,7 +602,7 @@
   assembly.type = assemblyType;
   [self.assemblyType addAssembliesInstalledObject:assembly];
   // Commit the change.
-  [_assemblyType.managedObjectContext saveAndHandleError];
+  [_assemblyType.managedObjectContext saveAsyncAndHandleError];
   
   //update cache
   NSMutableArray* assemblies = [NSMutableArray arrayWithCapacity:1];
@@ -682,7 +687,7 @@
   for (Assembly* assembly in [_assembliesGroupsDictionary objectForKey:key])
     [_assemblyType.managedObjectContext deleteObject:assembly];
   // Commit the change.
-  [_assemblyType.managedObjectContext saveAndHandleError];
+  [_assemblyType.managedObjectContext saveAsyncAndHandleError];
   
   //update cache
   [_assembliesGroups removeObjectAtIndex:assemblyIndex];
@@ -715,7 +720,7 @@
         [_assemblyType.managedObjectContext deleteObject:self.assemblyType.assemblyBeforeRotation];
         
       // Commit the change.
-      [_assemblyType.managedObjectContext saveAndHandleError];
+      [_assemblyType.managedObjectContext saveAsyncAndHandleError];
       //go to previous screen
       [self.navigationController popViewControllerAnimated:YES];
       }
@@ -772,7 +777,7 @@
   for (Assembly* assembly in selectedAssemblies)
     assembly.type.picture = selectedImage;
   // Commit the change.
-	[_assemblyType.managedObjectContext saveAndHandleError];
+	[_assemblyType.managedObjectContext saveAsyncAndHandleError];
   
   NSArray* viewControllers = self.navigationController.viewControllers;
   Assembly* lastAssembly = [selectedAssemblies lastObject];

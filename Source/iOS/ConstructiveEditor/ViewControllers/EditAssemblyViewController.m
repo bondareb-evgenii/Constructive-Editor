@@ -262,7 +262,7 @@
     return;
   [self movePinToPoint:position];
   [self correctSelectedPinPosition];
-  [self.assembly.managedObjectContext saveAndHandleError];
+  [self.assembly.managedObjectContext saveAsyncAndHandleError];
   [self updateDoneButton];
   }
   
@@ -284,7 +284,7 @@
     {
     _deltaFromDraggingPointToThePinTargetPoint = CGPointZero;
     [self correctSelectedPinPosition];
-    [self.assembly.managedObjectContext saveAndHandleError];
+    [self.assembly.managedObjectContext saveAsyncAndHandleError];
     [self updateDoneButton];
     }
   }
@@ -356,7 +356,7 @@
         [lastAssembly.managedObjectContext deleteObject:assembly];
       }
     }
-  [lastAssembly.managedObjectContext saveAndHandleError];
+  [lastAssembly.managedObjectContext saveAsyncAndHandleError];
   [self correctSelectedPointIndex];
   [self updateDoneButton];
   [self updatePins];
@@ -371,7 +371,7 @@
   //WORKS REALLY LONG TIME: check the photo picker example to see how we can speed it up
 	self.assembly.type.picture = selectedImage;
   // Commit the change.
-  [self.assembly.managedObjectContext saveAndHandleError];
+  [self.assembly.managedObjectContext saveAsyncAndHandleError];
 	_imageView.image = [self.assembly.type pictureToShow]
                    ? [self.assembly.type pictureToShow]
                    : [UIImage imageNamed:@"NoPhotoBig.png"];
