@@ -280,7 +280,7 @@
     {
     [self movePinToPoint:position];
     }
-  else if (gestureRecognizer.state == UIGestureRecognizerStateEnded)
+  else if (gestureRecognizer.state != UIGestureRecognizerStatePossible)//ended, cancelled, failed or recognized states
     {
     _deltaFromDraggingPointToThePinTargetPoint = CGPointZero;
     [self correctSelectedPinPosition];

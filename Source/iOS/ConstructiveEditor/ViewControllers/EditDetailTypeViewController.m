@@ -14,6 +14,9 @@
 #import "PreferencesKeys.h"
 #import <QuartzCore/QuartzCore.h>
 
+static const NSUInteger LiftarmLengthInPins = 15;//maximum length of real liftarms
+static const float RulerImageLengthInPins = 14.8854449406065;//manually calculated value for the generated image of ruler of length 15
+
 @interface EditDetailTypeViewController (UIImagePickerControllerDelegate) <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 @end
 
@@ -32,7 +35,9 @@
   __weak IBOutlet UIImageView*        _pictureImageView;
   __weak IBOutlet UILabel*            _additionalInfoLabel;
   UIImageView*                        _rulerImageView;
+  UIImage*                            _rulerImage;
   ImageVisualFrameCalculator*         _pictureImageVisualFrameCalculator;
+  CGRect                              _pictureImageVisualFrameBeforeRotation;
   CGRect                              _pictureImageViewRealFrameBeforeRotation;
   }
 @end
@@ -79,11 +84,11 @@
     
 - (void)viewDidLoad
   {
+  _rulerImage = [self liftarmImageOfLength:LiftarmLengthInPins];
   _pictureImageVisualFrameCalculator = [[ImageVisualFrameCalculator alloc] initWithImageView:_pictureImageView];
   [super viewDidLoad];
-  _pictureImageView.image = [_detailType pictureToShow]
-                  ? [_detailType pictureToShow]
-                  : [UIImage imageNamed:@"NoPhotoBig.png"];
+  UIImage* picture = _detailType.pictureToShow;
+  _pictureImageView.image = picture ? picture : [UIImage imageNamed:@"NoPhotoBig.png"];
   }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -95,30 +100,62 @@
 
 - (void)showRuler
   {
-  if (_rulerImageView)
+  if (_rulerImageView || !_detailType.pictureToShow)
     return;
-    
-  NSUInteger liftarmLengthInPins = 15;//maximum length of real liftarms
-  UIImage* liftarmImage = [self liftarmImageOfLength:liftarmLengthInPins];
   
-  _rulerImageView = [[UIImageView alloc] initWithImage:liftarmImage];
+  _rulerImageView = [[UIImageView alloc] initWithImage:_rulerImage];
   _rulerImageView.autoresizingMask = UIViewAutoresizingNone;
   _rulerImageView.translatesAutoresizingMaskIntoConstraints = YES;//make autolayout to simulate the old behavior for this view
   _rulerImageView.userInteractionEnabled = NO;
-  
-  CGSize superviewSize = _pictureImageViewContainer.bounds.size;
-  CGSize imageSize = liftarmImage.size;
-  float xScale = superviewSize.width/imageSize.width;
-  float yScale = superviewSize.height/imageSize.height;
-  float minScale = xScale;
-  if (minScale > yScale)
-    minScale = yScale;
-    
-  _rulerImageView.center = CGPointMake(superviewSize.width/2, superviewSize.height/2);
-  _rulerImageView.transform = CGAffineTransformScale(_rulerImageView.transform, minScale, minScale);
+  _rulerImageView.layer.anchorPoint = self.initialRulerImageViewAnchorPoint;
+  _rulerImageView.center = self.initialRulerImageViewCenter;
+  _rulerImageView.transform = self.initialRulerImageViewTransform;
   _rulerImageView.alpha = 0.7;
   
   [_pictureImageViewContainer addSubview:_rulerImageView];
+  }
+
+- (CGPoint)initialRulerImageViewAnchorPoint
+  {
+  if (_detailType.rulerImageAnchorPointX && _detailType.rulerImageAnchorPointY)
+    return CGPointMake(_detailType.rulerImageAnchorPointX.floatValue, _detailType.rulerImageAnchorPointY.floatValue);
+  else
+    return CGPointMake(0.5, 0.5);
+  }
+
+- (CGPoint)initialRulerImageViewCenter
+  {
+  CGSize superviewSize = _pictureImageViewContainer.bounds.size;
+  if (_detailType.rulerImageOffsetX && _detailType.rulerImageOffsetY)
+    return CGPointMake(_detailType.rulerImageOffsetX.floatValue, _detailType.rulerImageOffsetY.floatValue);
+  else
+    return CGPointMake(superviewSize.width/2, superviewSize.height/2);
+  }
+
+- (CGAffineTransform) initialRulerImageViewTransform
+  {
+  CGAffineTransform transform = CGAffineTransformIdentity;
+  //apply saved transformations of a ruler if it is present in a document, or calculate it so that the ruler fits detail picture
+  if (_detailType.pictureWidthInPins && _detailType.rulerImageRotationAngle)
+    {
+    [self.view layoutIfNeeded];//Layout first to use the views frames for calculations
+    float rulerImageZoomFactor = RulerImageLengthInPins*_pictureImageVisualFrameCalculator.imageVisualFrameInViewCoordinates.size.width/_rulerImage.size.width/_detailType.pictureWidthInPins.floatValue;
+    //transform = CGAffineTransformTranslate(transform, _detailType.rulerImageOffsetX.floatValue, _detailType.rulerImageOffsetY.floatValue);
+    transform = CGAffineTransformRotate(transform, _detailType.rulerImageRotationAngle.floatValue);
+    transform = CGAffineTransformScale(transform, rulerImageZoomFactor, rulerImageZoomFactor);
+    }
+  else
+    {
+    CGSize superviewSize = _pictureImageViewContainer.bounds.size;
+    CGSize imageSize = _rulerImage.size;
+    float xScale = superviewSize.width/imageSize.width;
+    float yScale = superviewSize.height/imageSize.height;
+    float minScale = xScale;
+    if (minScale > yScale)
+      minScale = yScale;
+    transform = CGAffineTransformScale(transform, minScale, minScale);
+    }
+  return transform;
   }
 
 - (NSString*)additionalInfoString
@@ -205,7 +242,7 @@
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
   {
   //populate the cache with current image frame
-  [_pictureImageVisualFrameCalculator imageVisualFrameInViewCoordinates];
+  _pictureImageVisualFrameBeforeRotation = _pictureImageVisualFrameCalculator.imageVisualFrameInViewCoordinates;
   //Don't call this method again in between the willRotateToInterfaceOrientation and didRotateFromInterfaceOrientation!!!
   
   _pictureImageViewRealFrameBeforeRotation = _pictureImageView.frame;
@@ -214,18 +251,17 @@
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
   {
   //Take a value calculated and cached in willRotateToInterfaceOrientation
-  CGRect _pictureImageVisualFrameBeforeRotation = _pictureImageVisualFrameCalculator.imageVisualFrameInViewCoordinatesCached;
-  CGRect _pictureImageVisualFrameAfterRotation = _pictureImageVisualFrameCalculator.imageVisualFrameInViewCoordinates;
+  CGRect pictureImageVisualFrameAfterRotation = _pictureImageVisualFrameCalculator.imageVisualFrameInViewCoordinates;
   
   //calculate multiplier for the new zoom factor of a ruler
-  float zoomFactorX = _pictureImageVisualFrameAfterRotation.size.width/_pictureImageVisualFrameBeforeRotation.size.width;
-  float zoomFactorY = _pictureImageVisualFrameAfterRotation.size.height/_pictureImageVisualFrameBeforeRotation.size.height;
+  float zoomFactorX = pictureImageVisualFrameAfterRotation.size.width/_pictureImageVisualFrameBeforeRotation.size.width;
+  float zoomFactorY = pictureImageVisualFrameAfterRotation.size.height/_pictureImageVisualFrameBeforeRotation.size.height;
   assert(fabs(zoomFactorX-zoomFactorY) < 0.00001);
   float zoomFactor = zoomFactorX;
   
   //calculate new center of a ruler
   CGPoint rullerCenterInImageCoordinates = CGPointMake((_rulerImageView.center.x - _pictureImageVisualFrameBeforeRotation.origin.x)*zoomFactor, (_rulerImageView.center.y - _pictureImageVisualFrameBeforeRotation.origin.y)*zoomFactor);
-  CGPoint newRulerCenter = CGPointMake(rullerCenterInImageCoordinates.x + _pictureImageVisualFrameAfterRotation.origin.x, rullerCenterInImageCoordinates.y + _pictureImageVisualFrameAfterRotation.origin.y);
+  CGPoint newRulerCenter = CGPointMake(rullerCenterInImageCoordinates.x + pictureImageVisualFrameAfterRotation.origin.x, rullerCenterInImageCoordinates.y + pictureImageVisualFrameAfterRotation.origin.y);
   
   _rulerImageView.center = newRulerCenter;
   _rulerImageView.transform = CGAffineTransformScale(_rulerImageView.transform, zoomFactor, zoomFactor);
@@ -265,6 +301,11 @@
     _rulerImageView.center = CGPointMake(_rulerImageView.center.x + translation.x, _rulerImageView.center.y + translation.y);
     [gestureRecognizer setTranslation:CGPointZero inView:view];
     }
+  else if (gestureRecognizer.state != UIGestureRecognizerStatePossible)//ended, cancelled, failed or recognized states
+    {
+    [self updateDetailTypesZoomFactorAndRulerTransform];
+    [self.detailType.managedObjectContext saveAndHandleError];
+    }
   }
 
 - (IBAction)zoomRuler:(UIPinchGestureRecognizer *)gestureRecognizer
@@ -275,6 +316,11 @@
     {
     _rulerImageView.transform = CGAffineTransformScale(_rulerImageView.transform, gestureRecognizer.scale, gestureRecognizer.scale);
     gestureRecognizer.scale = 1;
+    }
+  else if (gestureRecognizer.state != UIGestureRecognizerStatePossible)//ended, cancelled, failed or recognized states
+    {
+    [self updateDetailTypesZoomFactorAndRulerTransform];
+    [self.detailType.managedObjectContext saveAndHandleError];
     }
   }
 
@@ -287,6 +333,31 @@
     _rulerImageView.transform = CGAffineTransformRotate(_rulerImageView.transform, gestureRecognizer.rotation);
     gestureRecognizer.rotation = 0;
     }
+  else if (gestureRecognizer.state != UIGestureRecognizerStatePossible)//ended, cancelled, failed or recognized states
+    {
+    [self updateDetailTypesZoomFactorAndRulerTransform];
+    [self.detailType.managedObjectContext saveAndHandleError];
+    }
+  }
+
+- (void)updateDetailTypesZoomFactorAndRulerTransform
+  {
+  CGAffineTransform transform = _rulerImageView.transform;
+  
+  //Get a zoom factor, rotation and displacement from the ruler view transformation matrix, see explanations here: http://math.stackexchange.com/questions/13150/extracting-rotation-scale-values-from-2d-transformation-matrix
+  float rulerImageZoomFactor = sqrtf(transform.a*transform.a + transform.b*transform.b);
+  float rulerImageRotationAngle = acosf(transform.a/rulerImageZoomFactor);//[0, Pi]
+  if (transform.b < 0)
+    rulerImageRotationAngle = M_PI*2 - rulerImageRotationAngle;
+  
+  float pictureWidthInPins = RulerImageLengthInPins*_pictureImageVisualFrameCalculator.imageVisualFrameInViewCoordinates.size.width/_rulerImage.size.width/rulerImageZoomFactor;
+  
+  self.detailType.pictureWidthInPins = [NSNumber numberWithFloat:pictureWidthInPins];
+  self.detailType.rulerImageRotationAngle = [NSNumber numberWithFloat:rulerImageRotationAngle];
+  self.detailType.rulerImageOffsetX = [NSNumber numberWithFloat:_rulerImageView.center.x];
+  self.detailType.rulerImageOffsetY = [NSNumber numberWithFloat:_rulerImageView.center.y];
+  self.detailType.rulerImageAnchorPointX = [NSNumber numberWithFloat:_rulerImageView.layer.anchorPoint.x];
+  self.detailType.rulerImageAnchorPointY = [NSNumber numberWithFloat:_rulerImageView.layer.anchorPoint.y];
   }
 
 // scale and rotation transforms are applied relative to the layer's anchor point

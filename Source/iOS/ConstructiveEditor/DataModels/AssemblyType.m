@@ -15,6 +15,10 @@
 
 @dynamic picture;
 @dynamic picturePrepared;
+@dynamic preparedPicturePoint0_0X;
+@dynamic preparedPicturePoint0_0Y;
+@dynamic preparedPicturePoint1_1X;
+@dynamic preparedPicturePoint1_1Y;
 @dynamic assemblies;
 @dynamic assembliesInstalled;
 @dynamic detailsInstalled;

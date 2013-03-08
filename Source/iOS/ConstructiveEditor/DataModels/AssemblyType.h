@@ -14,6 +14,13 @@
 
 @property (nonatomic, retain) UIImage*            picture;
 @property (nonatomic, retain) UIImage*            picturePrepared;
+//coordinates of (0,0) and (1,1) points of the modified picture in the original picture's coordinate system
+@property (nonatomic, retain) NSNumber*           preparedPicturePoint0_0X;
+@property (nonatomic, retain) NSNumber*           preparedPicturePoint0_0Y;
+@property (nonatomic, retain) NSNumber*           preparedPicturePoint1_1X;
+@property (nonatomic, retain) NSNumber*           preparedPicturePoint1_1Y;
+
+//relations
 @property (nonatomic, retain) NSSet*              assemblies;
 @property (nonatomic, retain) NSSet*              assembliesInstalled;
 @property (nonatomic, retain) NSSet*              detailsInstalled;
