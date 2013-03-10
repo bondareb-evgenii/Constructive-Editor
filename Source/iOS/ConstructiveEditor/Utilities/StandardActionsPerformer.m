@@ -20,20 +20,20 @@
 + (BOOL)isAnythingChangedInAssemblyType:(AssemblyType*)assemblyTypeToCheck
   {
   BOOL isAnythingChanged = NO;
-  if (assemblyTypeToCheck.assemblyBase.type.pictureToShow ||
-      assemblyTypeToCheck.assemblyBeforeRotation.type.pictureToShow ||
-      assemblyTypeToCheck.assemblyBeforeTransformation.type.pictureToShow)
+  if (assemblyTypeToCheck.assemblyBase.type.pictureToShowThumbnail60x60AspectFit ||
+      assemblyTypeToCheck.assemblyBeforeRotation.type.pictureToShowThumbnail60x60AspectFit ||
+      assemblyTypeToCheck.assemblyBeforeTransformation.type.pictureToShowThumbnail60x60AspectFit)
     isAnythingChanged = YES;
   else
     {
     for (Assembly* assembly in assemblyTypeToCheck.assembliesInstalled)
-      if (assembly.type.pictureToShow)
+      if (assembly.type.pictureToShowThumbnail60x60AspectFit)
         {
         isAnythingChanged = YES;
         break;
         }
     for (Detail* detail in assemblyTypeToCheck.detailsInstalled)
-      if (detail.type.pictureToShow)
+      if (detail.type.pictureToShowThumbnail60x60AspectFit)
         {
         isAnythingChanged = YES;
         break;

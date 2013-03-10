@@ -75,6 +75,13 @@
 		75E5F39416013BDC00C363FA /* transform_Normal_iPhone.png in Resources */ = {isa = PBXBuildFile; fileRef = 75E5F38416013BDC00C363FA /* transform_Normal_iPhone.png */; };
 		75E5F39516013BDC00C363FA /* transform_Normal_iPhone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 75E5F38516013BDC00C363FA /* transform_Normal_iPhone@2x.png */; };
 		75EB423E16EA9DB300FB7540 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 75EB423D16EA9DB300FB7540 /* MBProgressHUD.m */; };
+		75EB424416EC683C00FB7540 /* Picture.m in Sources */ = {isa = PBXBuildFile; fileRef = 75EB424316EC683C00FB7540 /* Picture.m */; };
+		75EB424716EC814200FB7540 /* UINavigationControllerExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 75EB424616EC814200FB7540 /* UINavigationControllerExtension.m */; };
+		75EB424A16EC83BC00FB7540 /* UIImagePickerControllerExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 75EB424916EC83BC00FB7540 /* UIImagePickerControllerExtension.m */; };
+		75EB424C16EC906F00FB7540 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75EB424B16EC906E00FB7540 /* ImageIO.framework */; };
+		75EB424F16EC93BD00FB7540 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = 75EB424E16EC93BD00FB7540 /* UIImage+Resize.m */; };
+		75EB425416EC947E00FB7540 /* UIImage+Alpha.m in Sources */ = {isa = PBXBuildFile; fileRef = 75EB425116EC947E00FB7540 /* UIImage+Alpha.m */; };
+		75EB425516EC947E00FB7540 /* UIImage+RoundedCorner.m in Sources */ = {isa = PBXBuildFile; fileRef = 75EB425316EC947E00FB7540 /* UIImage+RoundedCorner.m */; };
 		75EE288D160B17C400050997 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 75EE288C160B17C400050997 /* Constants.m */; };
 		75EE2890160B524100050997 /* pinSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 75EE288F160B524100050997 /* pinSelected.png */; };
 		84EA63AE1514C4AF00C7177E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84EA63AD1514C4AF00C7177E /* UIKit.framework */; };
@@ -200,6 +207,19 @@
 		75E5F38516013BDC00C363FA /* transform_Normal_iPhone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "transform_Normal_iPhone@2x.png"; sourceTree = "<group>"; };
 		75EB423C16EA9DB300FB7540 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		75EB423D16EA9DB300FB7540 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		75EB424216EC683C00FB7540 /* Picture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Picture.h; sourceTree = "<group>"; };
+		75EB424316EC683C00FB7540 /* Picture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Picture.m; sourceTree = "<group>"; };
+		75EB424516EC814200FB7540 /* UINavigationControllerExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UINavigationControllerExtension.h; sourceTree = "<group>"; };
+		75EB424616EC814200FB7540 /* UINavigationControllerExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UINavigationControllerExtension.m; sourceTree = "<group>"; };
+		75EB424816EC83BC00FB7540 /* UIImagePickerControllerExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIImagePickerControllerExtension.h; sourceTree = "<group>"; };
+		75EB424916EC83BC00FB7540 /* UIImagePickerControllerExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIImagePickerControllerExtension.m; sourceTree = "<group>"; };
+		75EB424B16EC906E00FB7540 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		75EB424D16EC93BD00FB7540 /* UIImage+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Resize.h"; sourceTree = "<group>"; };
+		75EB424E16EC93BD00FB7540 /* UIImage+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Resize.m"; sourceTree = "<group>"; };
+		75EB425016EC947D00FB7540 /* UIImage+Alpha.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Alpha.h"; sourceTree = "<group>"; };
+		75EB425116EC947E00FB7540 /* UIImage+Alpha.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Alpha.m"; sourceTree = "<group>"; };
+		75EB425216EC947E00FB7540 /* UIImage+RoundedCorner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+RoundedCorner.h"; sourceTree = "<group>"; };
+		75EB425316EC947E00FB7540 /* UIImage+RoundedCorner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+RoundedCorner.m"; sourceTree = "<group>"; };
 		75EE288B160B17C400050997 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = Utilities/Constants.h; sourceTree = "<group>"; };
 		75EE288C160B17C400050997 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Constants.m; path = Utilities/Constants.m; sourceTree = "<group>"; };
 		75EE288F160B524100050997 /* pinSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pinSelected.png; sourceTree = "<group>"; };
@@ -225,6 +245,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				75EB424C16EC906F00FB7540 /* ImageIO.framework in Frameworks */,
 				753270A516BEE7E5005A1B83 /* QuartzCore.framework in Frameworks */,
 				7529F96E15199CBD00C13C90 /* CoreData.framework in Frameworks */,
 				84EA63AE1514C4AF00C7177E /* UIKit.framework in Frameworks */,
@@ -275,6 +296,8 @@
 				7529F95115199C3200C13C90 /* UIColorToDataTransformer.m */,
 				7529F95215199C3200C13C90 /* UIImageToDataTransformer.h */,
 				7529F95315199C3200C13C90 /* UIImageToDataTransformer.m */,
+				75EB424216EC683C00FB7540 /* Picture.h */,
+				75EB424316EC683C00FB7540 /* Picture.m */,
 			);
 			path = DataModels;
 			sourceTree = "<group>";
@@ -375,6 +398,16 @@
 				757A153715E3BF8D00E89FBC /* AlertView.m */,
 				75823397154177BF009BBA8B /* NSManagedObjectContextExtension.h */,
 				75823398154177BF009BBA8B /* NSManagedObjectContextExtension.m */,
+				75EB425016EC947D00FB7540 /* UIImage+Alpha.h */,
+				75EB425116EC947E00FB7540 /* UIImage+Alpha.m */,
+				75EB425216EC947E00FB7540 /* UIImage+RoundedCorner.h */,
+				75EB425316EC947E00FB7540 /* UIImage+RoundedCorner.m */,
+				75EB424D16EC93BD00FB7540 /* UIImage+Resize.h */,
+				75EB424E16EC93BD00FB7540 /* UIImage+Resize.m */,
+				75EB424516EC814200FB7540 /* UINavigationControllerExtension.h */,
+				75EB424616EC814200FB7540 /* UINavigationControllerExtension.m */,
+				75EB424816EC83BC00FB7540 /* UIImagePickerControllerExtension.h */,
+				75EB424916EC83BC00FB7540 /* UIImagePickerControllerExtension.m */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -430,6 +463,7 @@
 		84EA639E1514C4AF00C7177E = {
 			isa = PBXGroup;
 			children = (
+				75EB424B16EC906E00FB7540 /* ImageIO.framework */,
 				753270A416BEE7E5005A1B83 /* QuartzCore.framework */,
 				757B0CB4160DF82B008883C0 /* VisualSelectablePointer.h */,
 				757B0CB5160DF82B008883C0 /* VisualSelectablePointer.m */,
@@ -680,6 +714,12 @@
 				753270AD16C414A2005A1B83 /* ImageVisualFrameCalculator.m in Sources */,
 				75E28A4116DBDBDA004FBCF5 /* EditDetailTypeAdditionalInfoViewController.m in Sources */,
 				75EB423E16EA9DB300FB7540 /* MBProgressHUD.m in Sources */,
+				75EB424416EC683C00FB7540 /* Picture.m in Sources */,
+				75EB424716EC814200FB7540 /* UINavigationControllerExtension.m in Sources */,
+				75EB424A16EC83BC00FB7540 /* UIImagePickerControllerExtension.m in Sources */,
+				75EB424F16EC93BD00FB7540 /* UIImage+Resize.m in Sources */,
+				75EB425416EC947E00FB7540 /* UIImage+Alpha.m in Sources */,
+				75EB425516EC947E00FB7540 /* UIImage+RoundedCorner.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

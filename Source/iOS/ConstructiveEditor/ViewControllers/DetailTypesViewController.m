@@ -71,7 +71,7 @@
   
   //detail type should have a picture to be selected
   DetailType* selectedDetailType = self.detail.type;
-  if (selectedDetailType && !selectedDetailType.pictureToShow)
+  if (selectedDetailType && !selectedDetailType.pictureToShowThumbnail60x60AspectFit)
     {
     self.detail.type = nil;
     [_detailTypes removeObject:selectedDetailType];
@@ -93,10 +93,6 @@
   _connectionPointButton.enabled = nil!=self.detail.type;
   }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-  {
-  return YES;
-  }
 - (IBAction)onSetConnectionPoint:(id)sender
   {
   NSArray* viewControllers = self.navigationController.viewControllers;
@@ -196,8 +192,8 @@
       --detailTypeIndex;
     DetailType* detailType = [_detailTypes objectAtIndex:detailTypeIndex];
     DetailTypeCellView* cell = (DetailTypeCellView*)[tableView dequeueReusableCellWithIdentifier:@"DetailTypeCell"];
-    cell.picture.image = [detailType pictureToShow]
-                       ? [detailType pictureToShow]
+    cell.picture.image = [detailType pictureToShowThumbnail60x60AspectFit]
+                       ? [detailType pictureToShowThumbnail60x60AspectFit]
                        : [UIImage imageNamed:@"camera.png"];
     NSString* formatString = NSLocalizedString(@"Used %d times", @"Usage count label text");
     cell.usageCountLabel.text = [NSString stringWithFormat:formatString, detailType.details.count];

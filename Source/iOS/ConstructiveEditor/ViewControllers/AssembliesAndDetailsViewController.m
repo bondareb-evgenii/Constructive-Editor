@@ -18,9 +18,11 @@
 #import "EditDetailViewController.h"
 #import "DetailTypesViewController.h"
 #import "NSManagedObjectContextExtension.h"
+#import "Picture.h"
 #import "PreferencesKeys.h"
 #import "StandardActionsPerformer.h"
-#import "CoreData/CoreData.h"
+#import "UIImage+Resize.h"
+#import <CoreData/CoreData.h>
 
 @interface AssembliesAndDetailsViewController (UITableViewDataSource) <UITableViewDataSource>
 @end
@@ -175,11 +177,6 @@
     }
   
 	[_assembliesAndDetailsTable reloadData];
-  }
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-  {
-  return YES;
   }
   
 - (NSInteger)assemblyIndexForRowAtIndexPath:(NSIndexPath*)indexPath
@@ -539,12 +536,12 @@
   Assembly* assembly = [assemblies lastObject];
   if (assembly)
     {
-    BOOL isAssemblyPhotoSelected = nil != assembly.type.pictureToShow;
+    BOOL isAssemblyPhotoSelected = nil != assembly.type.pictureToShowThumbnail60x60AspectFit;
     AssemblyCellView* cell = (AssemblyCellView*)[_assembliesAndDetailsTable dequeueReusableCellWithIdentifier: isAssemblyPhotoSelected
                            ? @"AssemblyWithPhotoCell"
                            : @"AssemblyNoPhotoCell"];
     cell.picture.image = isAssemblyPhotoSelected
-                       ? [assembly.type pictureToShow]
+                       ? [assembly.type pictureToShowThumbnail60x60AspectFit]
                        : [UIImage imageNamed:@"camera.png"];
     BOOL isBaseTransformedOrRotatedAsssembly = nil != assembly.assemblyExtended || nil != assembly.assemblyTransformed || nil != assembly.assemblyRotated;
     cell.countLabel.hidden = isBaseTransformedOrRotatedAsssembly;
@@ -562,8 +559,8 @@
   if (detail)
     {
     DetailCellView* cell = (DetailCellView*)[tableView dequeueReusableCellWithIdentifier:@"DetailCell"];
-    cell.picture.image = [detail.type pictureToShow]
-                       ? [detail.type pictureToShow]
+    cell.picture.image = [detail.type pictureToShowThumbnail60x60AspectFit]
+                       ? [detail.type pictureToShowThumbnail60x60AspectFit]
                        : [UIImage imageNamed:@"camera.png"];
     cell.countLabel.text = [NSString stringWithFormat:@"%d", details.count];
     cell.countStepper.value = details.count;
@@ -641,7 +638,7 @@
         [self selectPhoto];
       else
         {
-        if (!assembly.type.pictureToShow)
+        if (!assembly.type.pictureToShowThumbnail60x60AspectFit)
           [self selectPhoto];
         else
           [self performSegueWithIdentifier:@"EditAssemblyPhotoSet" sender:nil];
@@ -770,12 +767,25 @@
     NSInteger nullObjectIndex = [_assembliesGroups indexOfObject:[NSNull null]];
     [_assembliesGroups setObject:key atIndexedSubscript:nullObjectIndex];
     }
-    
-  //WORKS REALLY LONG TIME: check the photo picker example to see how we can speed it up
+  
   NSIndexPath* selectedIndexPath = [_assembliesAndDetailsTable indexPathForSelectedRow];
 	NSMutableArray* selectedAssemblies = [self assembliesForRowAtIndexPath:selectedIndexPath];
   for (Assembly* assembly in selectedAssemblies)
-    assembly.type.picture = selectedImage;
+    {
+    if (nil == assembly.type.picture)
+      {
+      Picture* picture = (Picture*)[NSEntityDescription insertNewObjectForEntityForName:@"Picture" inManagedObjectContext:assembly.type.managedObjectContext];
+      assembly.type.picture = picture;
+      }
+    if (nil == assembly.type.pictureThumbnail60x60AspectFit)
+      {
+      Picture* picture = (Picture*)[NSEntityDescription insertNewObjectForEntityForName:@"Picture" inManagedObjectContext:assembly.type.managedObjectContext];
+      assembly.type.pictureThumbnail60x60AspectFit = picture;
+      }
+    
+    assembly.type.picture.image = selectedImage;
+    assembly.type.pictureThumbnail60x60AspectFit.image = [selectedImage resizedImageWithContentMode:UIViewContentModeScaleAspectFit bounds:CGSizeMake(60, 60) interpolationQuality:kCGInterpolationHigh];
+    }
   // Commit the change.
 	[_assemblyType.managedObjectContext saveAsyncAndHandleError];
   
@@ -803,7 +813,7 @@
   {
   NSIndexPath* selectedIndexPath = [_assembliesAndDetailsTable indexPathForSelectedRow];
   Assembly* assembly = [self assemblyForRowAtIndexPath:selectedIndexPath];
-  if (assembly && !assembly.assemblyExtended && !assembly.type.pictureToShow)//remove the assembly added if there is no picture selected for it
+  if (assembly && !assembly.assemblyExtended && !assembly.type.pictureToShowThumbnail60x60AspectFit)//remove the assembly added if there is no picture selected for it
     [self removeSmallerAssembliesAtIndexPath:selectedIndexPath];
 	[self dismissModalViewControllerAnimated:YES];
   }

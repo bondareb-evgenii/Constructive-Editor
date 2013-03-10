@@ -9,8 +9,6 @@
         <relationship name="type" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="AssemblyType" inverseName="assemblies" inverseEntity="AssemblyType" syncable="YES"/>
     </entity>
     <entity name="AssemblyType" representedClassName="AssemblyType" syncable="YES">
-        <attribute name="picture" optional="YES" attributeType="Transformable" valueTransformerName="UIImageToDataTransformer" syncable="YES"/>
-        <attribute name="picturePrepared" optional="YES" attributeType="Transformable" valueTransformerName="UIImageToDataTransformer" syncable="YES"/>
         <attribute name="preparedPicturePoint0_0X" optional="YES" attributeType="Float" syncable="YES"/>
         <attribute name="preparedPicturePoint0_0Y" optional="YES" attributeType="Float" syncable="YES"/>
         <attribute name="preparedPicturePoint1_1X" optional="YES" attributeType="Float" syncable="YES"/>
@@ -21,6 +19,10 @@
         <relationship name="assemblyBeforeRotation" optional="YES" minCount="1" maxCount="1" deletionRule="Cascade" destinationEntity="Assembly" inverseName="assemblyRotated" inverseEntity="Assembly" syncable="YES"/>
         <relationship name="assemblyBeforeTransformation" optional="YES" minCount="1" maxCount="1" deletionRule="Cascade" destinationEntity="Assembly" inverseName="assemblyTransformed" inverseEntity="Assembly" syncable="YES"/>
         <relationship name="detailsInstalled" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Detail" inverseName="assemblyToInstallTo" inverseEntity="Detail" syncable="YES"/>
+        <relationship name="picture" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Picture" syncable="YES"/>
+        <relationship name="picturePrepared" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Picture" syncable="YES"/>
+        <relationship name="picturePreparedThumbnail60x60AspectFit" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Picture" syncable="YES"/>
+        <relationship name="pictureThumbnail60x60AspectFit" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Picture" syncable="YES"/>
         <relationship name="shelf" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="AssemblyTypesShelf" inverseName="assemblyTypes" inverseEntity="AssemblyTypesShelf" syncable="YES"/>
     </entity>
     <entity name="AssemblyTypesShelf" representedClassName="AssemblyTypesShelf" syncable="YES">
@@ -36,8 +38,6 @@
         <attribute name="color" optional="YES" attributeType="Transformable" valueTransformerName="UIIColorToDataTransformer" syncable="YES"/>
         <attribute name="identifier" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="length" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="picture" optional="YES" attributeType="Transformable" valueTransformerName="UIImageToDataTransformer" syncable="YES"/>
-        <attribute name="picturePrepared" optional="YES" attributeType="Transformable" valueTransformerName="UIImageToDataTransformer" syncable="YES"/>
         <attribute name="pictureWidthInPins" optional="YES" attributeType="Float" minValueString="0" syncable="YES"/>
         <attribute name="preparedPicturePoint0_0X" optional="YES" attributeType="Float" syncable="YES"/>
         <attribute name="preparedPicturePoint0_0Y" optional="YES" attributeType="Float" syncable="YES"/>
@@ -50,12 +50,20 @@
         <attribute name="rulerImageRotationAngle" optional="YES" attributeType="Float" syncable="YES"/>
         <attribute name="uid" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="details" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Detail" inverseName="type" inverseEntity="Detail" syncable="YES"/>
+        <relationship name="picture" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Picture" syncable="YES"/>
+        <relationship name="picturePrepared" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Picture" syncable="YES"/>
+        <relationship name="picturePreparedThumbnail60x60AspectFit" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Picture" syncable="YES"/>
+        <relationship name="pictureThumbnail60x60AspectFit" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Picture" syncable="YES"/>
+    </entity>
+    <entity name="Picture" syncable="YES">
+        <attribute name="image" optional="YES" attributeType="Transformable" valueTransformerName="UIImageToDataTransformer" syncable="YES"/>
     </entity>
     <elements>
         <element name="Assembly" positionX="0" positionY="0" width="128" height="135"/>
-        <element name="AssemblyType" positionX="241" positionY="-9" width="128" height="240"/>
+        <element name="AssemblyType" positionX="241" positionY="-9" width="128" height="270"/>
         <element name="AssemblyTypesShelf" positionX="133" positionY="-315" width="128" height="60"/>
         <element name="Detail" positionX="-297" positionY="-207" width="128" height="90"/>
-        <element name="DetailType" positionX="-344" positionY="126" width="128" height="315"/>
+        <element name="DetailType" positionX="-344" positionY="126" width="128" height="345"/>
+        <element name="Picture" positionX="160" positionY="192" width="128" height="60"/>
     </elements>
 </model>

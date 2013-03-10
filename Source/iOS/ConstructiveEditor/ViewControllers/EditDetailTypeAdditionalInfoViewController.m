@@ -102,11 +102,6 @@
   if (!_detailLabelTextField.hidden)
     [self textFieldShouldReturn:_detailLabelTextField];
   }
-  
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-  {
-  return YES;
-  }
 
 - (void)updateLengthControls
   {

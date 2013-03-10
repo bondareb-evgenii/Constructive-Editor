@@ -11,7 +11,9 @@
 #import "DetailType.h"
 #import "ImageVisualFrameCalculator.h"
 #import "NSManagedObjectContextExtension.h"
+#import "Picture.h"
 #import "PreferencesKeys.h"
+#import "UIImage+Resize.h"
 #import <QuartzCore/QuartzCore.h>
 
 static const NSUInteger LiftarmLengthInPins = 15;//maximum length of real liftarms
@@ -233,11 +235,6 @@ static const float RulerImageLengthInPins = 14.8854449406065;//manually calculat
   if ([@"EditAdditionalInfo" isEqualToString:segue.identifier])
     ((EditDetailTypeAdditionalInfoViewController*)segue.destinationViewController).detailType = self.detailType;
   }
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-  {
-  return YES;
-  }
   
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
   {
@@ -399,9 +396,19 @@ static const float RulerImageLengthInPins = 14.8854449406065;//manually calculat
 @implementation EditDetailTypeViewController (UIImagePickerControllerDelegate)
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)selectedImage editingInfo:(NSDictionary *)editingInfo
-  {	
-  //WORKS REALLY LONG TIME: check the photo picker example to see how we can speed it up
-	_detailType.picture = selectedImage;
+  {
+  if (nil == _detailType.picture)
+    {
+    Picture* picture = (Picture*)[NSEntityDescription insertNewObjectForEntityForName:@"Picture" inManagedObjectContext:_detailType.managedObjectContext];
+    _detailType.picture = picture;
+    }
+  if (nil == _detailType.pictureThumbnail60x60AspectFit)
+    {
+    Picture* picture = (Picture*)[NSEntityDescription insertNewObjectForEntityForName:@"Picture" inManagedObjectContext:_detailType.managedObjectContext];
+    _detailType.pictureThumbnail60x60AspectFit = picture;
+    }
+	_detailType.picture.image = selectedImage;
+  _detailType.pictureThumbnail60x60AspectFit.image = [selectedImage resizedImageWithContentMode:UIViewContentModeScaleAspectFit bounds:CGSizeMake(60, 60) interpolationQuality:kCGInterpolationHigh];;
   // Commit the change.
 	[_detailType.managedObjectContext saveAsyncAndHandleError];
   _pictureImageView.image = [_detailType pictureToShow]

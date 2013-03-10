@@ -2110,11 +2110,11 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="YU5-mj-WCP"/>
+        <segue reference="JDV-Nc-Od8"/>
         <segue reference="NZ4-iz-omb"/>
+        <segue reference="Kt3-Kg-qnc"/>
         <segue reference="xBv-Ap-JIy"/>
         <segue reference="cxm-4P-67r"/>
-        <segue reference="Kt3-Kg-qnc"/>
-        <segue reference="2U8-C6-nGa"/>
-        <segue reference="YU5-mj-WCP"/>
     </inferredMetricsTieBreakers>
 </document>

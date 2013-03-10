@@ -84,9 +84,11 @@ NSString* const NSManagedObjectContextWillSaveAsyncNotification = @"NSManagedObj
   if (coordinator != nil)
     {
     _privateManagedObjectContextForSaving = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    [_privateManagedObjectContextForSaving setUndoManager:nil];
     [_privateManagedObjectContextForSaving setPersistentStoreCoordinator: coordinator];
     
     _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+    [_managedObjectContext setUndoManager:nil];
     [_managedObjectContext setParentContext:_privateManagedObjectContextForSaving];
     
     [[NSNotificationCenter defaultCenter]

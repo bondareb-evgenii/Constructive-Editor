@@ -10,7 +10,9 @@
 #import "AssemblyType.h"
 #import "ImageVisualFrameCalculator.h"
 #import "NSManagedObjectContextExtension.h"
+#import "Picture.h"
 #import "PreferencesKeys.h"
+#import "UIImage+Resize.h"
 #import "VisualSelectablePointer.h"
 
 @interface EditAssemblyViewController (UIImagePickerControllerDelegate) <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
@@ -132,8 +134,9 @@
   _pinsHorizontalConstraints = [[NSMutableArray alloc] initWithCapacity:1];
   _pinsVerticalConstraints = [[NSMutableArray alloc] initWithCapacity:1];
   
-  _imageView.image = [self.assembly.type pictureToShow]
-                   ? [self.assembly.type pictureToShow]
+  _imageView.image = [self.assembly.type
+                     pictureToShowThumbnail60x60AspectFit]
+                   ? [self.assembly.type pictureToShowThumbnail60x60AspectFit]
                    : [UIImage imageNamed:@"NoPhotoBig.png"];
   UIImage* parentPicture = [self.assembly.assemblyToInstallTo pictureToShow];
   _imageViewParent.image = parentPicture
@@ -164,11 +167,6 @@
 - (void)viewWillAppear:(BOOL)animated
   {
   [self updateDoneButton];
-  }
-  
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-  {
-  return YES;
   }
   
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
@@ -368,12 +366,23 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)selectedImage editingInfo:(NSDictionary *)editingInfo
   {	
-  //WORKS REALLY LONG TIME: check the photo picker example to see how we can speed it up
-	self.assembly.type.picture = selectedImage;
+  if (nil == self.assembly.type.picture)
+    {
+    Picture* picture = (Picture*)[NSEntityDescription insertNewObjectForEntityForName:@"Picture" inManagedObjectContext:self.assembly.type.managedObjectContext];
+    self.assembly.type.picture = picture;
+    }
+  if (nil == self.assembly.type.pictureThumbnail60x60AspectFit)
+    {
+    Picture* picture = (Picture*)[NSEntityDescription insertNewObjectForEntityForName:@"Picture" inManagedObjectContext:self.assembly.type.managedObjectContext];
+    self.assembly.type.pictureThumbnail60x60AspectFit = picture;
+    }
+	self.assembly.type.picture.image = selectedImage;
+  self.assembly.type.pictureThumbnail60x60AspectFit.image = [selectedImage resizedImageWithContentMode:UIViewContentModeScaleAspectFit bounds:CGSizeMake(60, 60) interpolationQuality:kCGInterpolationHigh];
   // Commit the change.
   [self.assembly.managedObjectContext saveAsyncAndHandleError];
-	_imageView.image = [self.assembly.type pictureToShow]
-                   ? [self.assembly.type pictureToShow]
+	_imageView.image = [self.assembly.type
+                     pictureToShowThumbnail60x60AspectFit]
+                   ? [self.assembly.type pictureToShowThumbnail60x60AspectFit]
                    : [UIImage imageNamed:@"NoPhotoBig.png"];
 
   [self dismissModalViewControllerAnimated:YES];

@@ -7,19 +7,22 @@
 
 #import "RootAssemblyViewController.h"
 
+#import "ActionSheet.h"
 #import "Assembly.h"
 #import "AssemblyType.h"
 #import "AssemblyCellView.h"
+#import "AssembliesAndDetailsViewController.h"
+#import "AssemblyValidator.h"
 #import "Detail.h"
 #import "DetailType.h"
 #import "EditAssemblyViewController.h"
-#import "AssembliesAndDetailsViewController.h"
-#import "AssemblyValidator.h"
-#import "ActionSheet.h"
+#import "NSManagedObjectContextExtension.h"
+#import "Picture.h"
 #import "PreferencesKeys.h"
 #import "StandardActionsPerformer.h"
-#import "NSManagedObjectContextExtension.h"
-#import "CoreData/CoreData.h"
+#import "UIImage+Resize.h"
+
+#import <CoreData/CoreData.h>
 
 @interface RootAssemblyViewController ()
   {
@@ -59,11 +62,6 @@
   _rootAssemblyTable.dataSource = self;
   [_rootAssemblyTable setEditing:NO animated:NO];//nothing to move, add or delete here
 	[_rootAssemblyTable reloadData];
-  }
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-  {
-  return YES;
   }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -129,13 +127,15 @@
   {
   if (tableView != _rootAssemblyTable || indexPath.section != 0 || indexPath.row != 0)
     return nil;
+  
+  UIImage* pictureToShowThumbnail60x60AspectFit = _rootAssembly.type.pictureToShowThumbnail60x60AspectFit;
     
-  BOOL isPhotoSet = nil != _rootAssembly.type.pictureToShow;
+  BOOL isPhotoSet = nil != pictureToShowThumbnail60x60AspectFit;
   AssemblyCellView* cell = (AssemblyCellView*)[tableView dequeueReusableCellWithIdentifier: isPhotoSet
                          ? @"AssemblyWithPhotoCell"
                          : @"AssemblyNoPhotoCell"];
-  cell.picture.image = [_rootAssembly.type pictureToShow]
-                     ? [_rootAssembly.type pictureToShow]
+  cell.picture.image = isPhotoSet
+                     ? pictureToShowThumbnail60x60AspectFit
                      : [UIImage imageNamed:@"camera.png"];
   return cell;
   }
@@ -171,9 +171,20 @@
 @implementation RootAssemblyViewController (UIImagePickerControllerDelegate)
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)selectedImage editingInfo:(NSDictionary *)editingInfo
-  {	
-  //WORKS REALLY LONG TIME: check the photo picker example to see how we can speed it up
-  _rootAssembly.type.picture = selectedImage;
+  {
+  if (nil == _rootAssembly.type.picture)
+    {
+    Picture* picture = (Picture*)[NSEntityDescription insertNewObjectForEntityForName:@"Picture" inManagedObjectContext:_rootAssembly.type.managedObjectContext];
+    _rootAssembly.type.picture = picture;
+    }
+  if (nil == _rootAssembly.type.pictureThumbnail60x60AspectFit)
+    {
+    Picture* picture = (Picture*)[NSEntityDescription insertNewObjectForEntityForName:@"Picture" inManagedObjectContext:_rootAssembly.type.managedObjectContext];
+    _rootAssembly.type.pictureThumbnail60x60AspectFit = picture;
+    }
+  _rootAssembly.type.picture.image = selectedImage;
+  _rootAssembly.type.pictureThumbnail60x60AspectFit.image = [selectedImage resizedImageWithContentMode:UIViewContentModeScaleAspectFit bounds:CGSizeMake(60, 60) interpolationQuality:kCGInterpolationHigh];
+  
   // Commit the change.
 	[_rootAssembly.managedObjectContext saveAsyncAndHandleError];
 

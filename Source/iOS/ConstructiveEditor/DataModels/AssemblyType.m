@@ -9,12 +9,15 @@
 #import "Assembly.h"
 #import "AssemblyTypesShelf.h"
 #import "Detail.h"
+#import "Picture.h"
 
 
 @implementation AssemblyType
 
 @dynamic picture;
+@dynamic pictureThumbnail60x60AspectFit;
 @dynamic picturePrepared;
+@dynamic picturePreparedThumbnail60x60AspectFit;
 @dynamic preparedPicturePoint0_0X;
 @dynamic preparedPicturePoint0_0Y;
 @dynamic preparedPicturePoint1_1X;
@@ -29,9 +32,16 @@
 
 - (UIImage*)pictureToShow
   {
-  if (self.picturePrepared)
-    return self.picturePrepared;
-  return self.picture;
+  if (self.picturePrepared.image)
+    return self.picturePrepared.image;
+  return self.picture.image;
+  }
+
+- (UIImage*)pictureToShowThumbnail60x60AspectFit
+  {
+  if (self.picturePreparedThumbnail60x60AspectFit.image)
+    return self.picturePreparedThumbnail60x60AspectFit.image;
+  return self.pictureThumbnail60x60AspectFit.image;
   }
   
 - (void)awakeFromInsert

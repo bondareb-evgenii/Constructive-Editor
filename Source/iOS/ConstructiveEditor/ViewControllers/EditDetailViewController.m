@@ -117,11 +117,6 @@
     for (UIView* pin in _pins)
       pin.alpha = 1;
   }
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-  {
-  return YES;
-  }
   
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
   {
@@ -165,8 +160,9 @@
 - (void)viewWillAppear:(BOOL)animated
   {
   //moved to here from viewDidLoad because detail type updates when go back from DetailTypesViewController
-  _imageView.image = [self.detail.type pictureToShow]
-                   ? [self.detail.type pictureToShow]
+  _imageView.image = [self.detail.type
+                     pictureToShowThumbnail60x60AspectFit]
+                   ? [self.detail.type pictureToShowThumbnail60x60AspectFit]
                    : [UIImage imageNamed:@"NoPhotoBig.png"];
                    
   UIImage* parentPicture = [self.detail.assemblyToInstallTo pictureToShow];
