@@ -120,7 +120,7 @@ NSString* const NSManagedObjectContextWillSaveAsyncNotification = @"NSManagedObj
     _savingTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(tryToSave) userInfo:nil repeats:NO];
   else
     //this call may still freaze the main thread in case if the _privateManagedObjectContextForSaving is currently saving
-    [_managedObjectContext saveAndHandleError];
+    [self.managedObjectContext saveAndHandleError];
   }
 
 - (void)contextDidSave:(NSNotification*)saveNotification
@@ -175,10 +175,17 @@ NSString* const NSManagedObjectContextWillSaveAsyncNotification = @"NSManagedObj
 
 - (void)closeCurrentDocument
   {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
   _openedURL = nil;
   _managedObjectModel = nil;
   _persistentStoreCoordinator = nil;
   _managedObjectContext = nil;
+  }
+
+- (void)dealloc
+  {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
   }
   
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
