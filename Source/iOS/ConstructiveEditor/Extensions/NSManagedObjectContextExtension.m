@@ -16,7 +16,7 @@
 
 - (void)saveAndHandleError
   {
-  NSLog(@"Saving context: %@", self);
+  //NSLog(@"Saving context: %@", self);
   NSError *error = nil;
   if ([self hasChanges] && ![self save:&error])
     {
@@ -28,6 +28,7 @@
       NSLog(@"Unresolved error %@, %@", error, [error userInfo]);//error.debugDescription
       abort();
     }
+  //NSLog(@"Context saved: %@", self);
   }
 
 @end
