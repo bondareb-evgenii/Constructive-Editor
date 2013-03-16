@@ -360,6 +360,24 @@
   [self updatePins];
   }
 
+- (void)dealloc
+  {
+  //Do the same thing for the thumbnail also
+  Picture* parentPicture = self.assembly.assemblyToInstallTo.picture;
+  Picture* parentPicturePrepared = self.assembly.assemblyToInstallTo.picturePrepared;
+  if (parentPicturePrepared)
+    parentPicture = parentPicturePrepared;
+  if (parentPicture)
+    {
+    //This is just an example of what should be done to minimize memory consumption
+    //Even if the transformable objects is turned into fault succesfuly the cache is not cleared in fact (looks like a bug in CoreData)
+    //The bug is posted as 13403444. After it is resolved check if we need to refresh object with such id in a parent context also...
+    [self.assembly.type.managedObjectContext refreshObject:parentPicture mergeChanges:parentPicture.hasChanges];
+    NSManagedObjectContext* parentContext = self.assembly.type.managedObjectContext.parentContext;
+    [parentContext refreshObject:[parentContext objectWithID:parentPicture.objectID] mergeChanges:parentPicture.hasChanges];
+    }
+  }
+
 @end
 
 @implementation EditAssemblyViewController (UIImagePickerControllerDelegate)
