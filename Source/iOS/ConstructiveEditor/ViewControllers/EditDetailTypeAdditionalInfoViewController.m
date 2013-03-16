@@ -1,9 +1,7 @@
 //
 //  ViewController.m
 //  ConstructiveEditor
-//
-//  Copyright (c) 2012 Openminded. All rights reserved.
-//
+
 
 #import "EditDetailTypeAdditionalInfoViewController.h"
 #import "Constants.h"

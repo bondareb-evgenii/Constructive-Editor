@@ -1,9 +1,7 @@
 //
 //  StandardActionsPerformer.m
 //  ConstructiveEditor
-//
-//  Copyright (c) 2012 Openminded. All rights reserved.
-//
+
 
 #import "StandardActionsPerformer.h"
 #import "Assembly.h"

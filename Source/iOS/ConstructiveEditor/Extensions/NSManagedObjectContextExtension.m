@@ -1,9 +1,7 @@
 //
 //  NSManagedObjectContextExtension.m
 //  ConstructiveEditor
-//
-//  Copyright (c) 2012 Openminded. All rights reserved.
-//
+
 
 #import "NSManagedObjectContextExtension.h"
 #import "Constants.h"

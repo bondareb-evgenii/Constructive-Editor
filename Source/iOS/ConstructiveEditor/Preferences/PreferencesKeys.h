@@ -1,9 +1,7 @@
 //
 //  PreferencesKeys.h
 //  ConstructiveEditor
-//
-//  Copyright (c) 2012 Openminded. All rights reserved.
-//
+
 
 #ifndef ConstructiveEditor_PreferencesKeys_h
 #define ConstructiveEditor_PreferencesKeys_h

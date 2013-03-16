@@ -1,9 +1,7 @@
 //
 //  DetailType.m
 //  ConstructiveEditor
-//
-//  Copyright (c) 2012 Openminded. All rights reserved.
-//
+
 
 #import "DetailType.h"
 #import "Detail.h"

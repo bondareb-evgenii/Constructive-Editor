@@ -1,9 +1,7 @@
 //
 //  PreferencesKeys.m
 //  ConstructiveEditor
-//
-//  Copyright (c) 2012 Openminded. All rights reserved.
-//
+
 
 NSString* const preferredAskAboutImplicitPartsDeletion = @"preferredAskAboutImplicitPartsDeletion";
   BOOL const preferredAskAboutImplicitPartsDeletion_Default = YES;

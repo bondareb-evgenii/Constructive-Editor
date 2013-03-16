@@ -1,9 +1,7 @@
 //
 //  StartMenuViewController.m
 //  ConstructiveEditor
-//
-//  Copyright (c) 2012 Openminded. All rights reserved.
-//
+
 
 #import "StartMenuViewController.h"
 #import "Assembly.h"

@@ -1,9 +1,7 @@
 //
 //  UIColorToDataTransformer.m
 //  ConstructiveEditor
-//
-//  Copyright (c) 2012 Openminded. All rights reserved.
-//
+
 
 #import "UIColorToDataTransformer.h"
 

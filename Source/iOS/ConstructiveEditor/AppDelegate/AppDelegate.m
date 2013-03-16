@@ -1,9 +1,7 @@
 //
 //  AppDelegate.m
 //  ConstructiveEditor
-//
-//  Copyright (c) 2012 Openminded. All rights reserved.
-//
+
 
 #import "AppDelegate.h"
 #import "Constants.h"

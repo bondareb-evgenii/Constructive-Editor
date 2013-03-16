@@ -1,9 +1,7 @@
 //
 //  Constants.h
 //  ConstructiveEditor
-//
-//  Copyright (c) 2012 Openminded. All rights reserved.
-//
+
 
 #ifndef Constants_h
 #define Constants_h

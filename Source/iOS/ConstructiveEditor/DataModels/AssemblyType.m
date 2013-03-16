@@ -1,9 +1,7 @@
 //
 //  AssemblyType.m
 //  ConstructiveEditor
-//
-//  Copyright (c) 2012 Openminded. All rights reserved.
-//
+
 
 #import "AssemblyType.h"
 #import "Assembly.h"
