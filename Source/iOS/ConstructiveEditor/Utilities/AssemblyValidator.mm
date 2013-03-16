@@ -13,6 +13,7 @@
 #import "Detail.h"
 #import "DetailType.h"
 #import "NSManagedObjectContextExtension.h"
+#import "RootAssemblyReference.h"
 
 #import <vector>
 
@@ -35,36 +36,41 @@ struct SmallerAssembliesEnumerationCache
    Fetch existing assemblies.
    Create a fetch request, add a sort descriptor, then execute the fetch.
    */
-  NSFetchRequest *assembliesRequest = [[NSFetchRequest alloc] init];
-  NSEntityDescription *assemblyEntity = [NSEntityDescription entityForName:@"Assembly" inManagedObjectContext:managedObjectContext];
-  [assembliesRequest setEntity:assemblyEntity];
-  [assembliesRequest setPredicate:[NSPredicate predicateWithFormat:@"(assemblyToInstallTo = nil) AND (assemblyExtended = nil) AND (assemblyTransformed = nil) AND (assemblyRotated = nil)"]];
+  NSFetchRequest *request = [[NSFetchRequest alloc] init];
+  NSEntityDescription *entity = [NSEntityDescription entityForName:@"RootAssemblyReference" inManagedObjectContext:managedObjectContext];
+  [request setEntity:entity];
   
   // Execute the fetch -- create a mutable copy of the result.
-  NSError *assembliesError = nil;
-  NSArray* rootAssemblies = [[managedObjectContext executeFetchRequest:assembliesRequest error:&assembliesError] mutableCopy];
-  if (rootAssemblies == nil)
+  NSError *error = nil;
+  NSArray* rootAssemblyReferences = [managedObjectContext executeFetchRequest:request error:&error];
+  if (rootAssemblyReferences == nil)
     {
-    NSLog(@"Error: %@", assembliesError.debugDescription);
+    NSLog(@"Error: %@", error.debugDescription);
     return nil;
     }
 
-  if (1 == rootAssemblies.count)
-    rootAssembly = [rootAssemblies objectAtIndex:0];
-  else if (rootAssemblies.count > 1)
-    NSLog(@"There is more then one root assembly in model: %@", rootAssemblies);
-  else if (0 == rootAssemblies.count)
+  if (1 == rootAssemblyReferences.count)
+    rootAssembly = [[rootAssemblyReferences objectAtIndex:0] rootAssembly];
+  else if (rootAssemblyReferences.count > 1)
     {
+    NSLog(@"There is more then one root assembly in model: %@", rootAssemblyReferences);
+    assert(0);
+    }
+  else if (0 == rootAssemblyReferences.count)
+    {
+    //create a root assembly ans save a reference for it
+    RootAssemblyReference* rootAssemblyReference = (RootAssemblyReference*)[NSEntityDescription insertNewObjectForEntityForName:@"RootAssemblyReference" inManagedObjectContext:managedObjectContext];
     rootAssembly = (Assembly*)[NSEntityDescription insertNewObjectForEntityForName:@"Assembly" inManagedObjectContext:managedObjectContext];
     AssemblyType* assemblyType = (AssemblyType*)[NSEntityDescription insertNewObjectForEntityForName:@"AssemblyType" inManagedObjectContext:managedObjectContext];
     rootAssembly.type = assemblyType;
     rootAssembly.assemblyExtended = nil;
     rootAssembly.type.assemblyBase = nil;
+    rootAssemblyReference.rootAssembly = rootAssembly;
     
     // Commit the change.
     [managedObjectContext saveAsyncAndHandleError];
     }
-  rootAssemblies = nil;
+  rootAssemblyReferences = nil;
   return rootAssembly;
   }
 

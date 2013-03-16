@@ -48,6 +48,7 @@
 		75A26DA215218B2200449686 /* camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 75A26D9E15218B2200449686 /* camera.png */; };
 		75B7DA441521796100C02F18 /* AssemblyCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 75B7DA431521796100C02F18 /* AssemblyCellView.m */; };
 		75CF686116B58D2900DEE4B4 /* InstructionPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75CF686016B58D2900DEE4B4 /* InstructionPreviewViewController.m */; };
+		75D58E6716F4C1DC000B231C /* RootAssemblyReference.m in Sources */ = {isa = PBXBuildFile; fileRef = 75D58E6616F4C1DC000B231C /* RootAssemblyReference.m */; };
 		75E28A4116DBDBDA004FBCF5 /* EditDetailTypeAdditionalInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75E28A4016DBDBDA004FBCF5 /* EditDetailTypeAdditionalInfoViewController.m */; };
 		75E5F33415FDAF4900C363FA /* AssemblyTypesShelf.m in Sources */ = {isa = PBXBuildFile; fileRef = 75E5F33315FDAF4900C363FA /* AssemblyTypesShelf.m */; };
 		75E5F36E16013BCD00C363FA /* convertDocument_Highlighted_iPhone.png in Resources */ = {isa = PBXBuildFile; fileRef = 75E5F36616013BCC00C363FA /* convertDocument_Highlighted_iPhone.png */; };
@@ -177,6 +178,8 @@
 		75B7DA431521796100C02F18 /* AssemblyCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AssemblyCellView.m; sourceTree = "<group>"; };
 		75CF685F16B58D2900DEE4B4 /* InstructionPreviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstructionPreviewViewController.h; sourceTree = "<group>"; };
 		75CF686016B58D2900DEE4B4 /* InstructionPreviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstructionPreviewViewController.m; sourceTree = "<group>"; };
+		75D58E6516F4C1DC000B231C /* RootAssemblyReference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootAssemblyReference.h; sourceTree = "<group>"; };
+		75D58E6616F4C1DC000B231C /* RootAssemblyReference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootAssemblyReference.m; sourceTree = "<group>"; };
 		75E28A3F16DBDBDA004FBCF5 /* EditDetailTypeAdditionalInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditDetailTypeAdditionalInfoViewController.h; sourceTree = "<group>"; };
 		75E28A4016DBDBDA004FBCF5 /* EditDetailTypeAdditionalInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditDetailTypeAdditionalInfoViewController.m; sourceTree = "<group>"; };
 		75E5F33215FDAF4900C363FA /* AssemblyTypesShelf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AssemblyTypesShelf.h; sourceTree = "<group>"; };
@@ -298,6 +301,8 @@
 				7529F95315199C3200C13C90 /* UIImageToDataTransformer.m */,
 				75EB424216EC683C00FB7540 /* Picture.h */,
 				75EB424316EC683C00FB7540 /* Picture.m */,
+				75D58E6516F4C1DC000B231C /* RootAssemblyReference.h */,
+				75D58E6616F4C1DC000B231C /* RootAssemblyReference.m */,
 			);
 			path = DataModels;
 			sourceTree = "<group>";
@@ -720,6 +725,7 @@
 				75EB424F16EC93BD00FB7540 /* UIImage+Resize.m in Sources */,
 				75EB425416EC947E00FB7540 /* UIImage+Alpha.m in Sources */,
 				75EB425516EC947E00FB7540 /* UIImage+RoundedCorner.m in Sources */,
+				75D58E6716F4C1DC000B231C /* RootAssemblyReference.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
