@@ -21,12 +21,12 @@
 
 - (id)transformedValue:(id)value
   {
-	return UIImagePNGRepresentation(value);
+	return UIImageJPEGRepresentation(value, 1);//best quality, least compression
   }
 
 - (id)reverseTransformedValue:(id)value
   {
-	return [[UIImage alloc] initWithData:value];
+	return [UIImage imageWithData:(NSData *)value];
   }
 
 @end
