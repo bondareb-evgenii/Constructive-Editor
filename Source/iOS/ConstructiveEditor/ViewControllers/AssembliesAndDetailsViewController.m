@@ -53,11 +53,6 @@
 
 @synthesize assemblyType = _assemblyType;
 
-- (void)dealloc
-  {
-  NSLog(@"AssembliesAndDetailsViewController::dealloc");
-  }
-
 - (void)updateData
   {
   _assembliesGroups = [[NSMutableArray alloc] initWithCapacity:self.assemblyType.assembliesInstalled.count];
