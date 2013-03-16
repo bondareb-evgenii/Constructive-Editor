@@ -44,7 +44,7 @@
   return self.pictureThumbnail60x60AspectFit.image;
   }
   
-- (void)awakeFromInsert
+/*- (void)awakeFromInsert
   {
   NSLog(@"[AssemblyType awakeFromInsert]:   0x%x", self);
   [super awakeFromInsert];
@@ -58,7 +58,7 @@
   
 - (void)dealloc
   {
-  NSLog(@"[AssemblyType didTurnIntoFault]:   0x%x", self);
-  }
+  NSLog(@"[AssemblyType dealloc]:   0x%x", self);
+  }*/
 
 @end

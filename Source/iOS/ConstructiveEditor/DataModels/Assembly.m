@@ -19,7 +19,7 @@
 @dynamic assemblyTransformed;
 @dynamic assemblyRotated;
   
-- (void)awakeFromInsert
+/*- (void)awakeFromInsert
   {
   NSLog(@"[Asembly awakeFromInsert]:   0x%x", self);
   [super awakeFromInsert];
@@ -33,7 +33,7 @@
   
 - (void)dealloc
   {
-  NSLog(@"[Assembly didTurnIntoFault]:   0x%x", self);
-  }
+  NSLog(@"[Assembly dealloc]:   0x%x", self);
+  }*/
 
 @end

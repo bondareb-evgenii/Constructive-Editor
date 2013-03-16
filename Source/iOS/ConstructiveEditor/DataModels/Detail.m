@@ -16,7 +16,7 @@
 @dynamic assemblyToInstallTo;
 @dynamic type;
 
-- (void)awakeFromInsert
+/*- (void)awakeFromInsert
   {
   NSLog(@"[Detail awakeFromInsert]:   0x%x", self);
   [super awakeFromInsert];
@@ -31,6 +31,6 @@
 - (void)dealloc
   {
   NSLog(@"[Detail dealloc]:   0x%x", self);
-  }
+  }*/
   
 @end
