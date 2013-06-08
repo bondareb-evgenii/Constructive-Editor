@@ -164,12 +164,22 @@
     case 2://Technic Axle
     case 3://Technic Liftarm
     case 4://Technic Brick
+      {
+      //initialize length of the detail
+      int length = _detailType.length.intValue;
+      if (length < 2)
+        {
+        length = 2;
+        _detailType.length = [NSNumber numberWithInt:length];
+        [_detailType.managedObjectContext saveAsyncAndHandleError];
+        }
       _detailLabelTextField.hidden = YES;
       _detailLengthLabel.hidden = NO;
       _detailLengthStepper.hidden = NO;
       _detailType.identifier = nil;
       [self updateLengthControls];
       break;
+      }
 //    case 5://Technic Gear
 //      _detailLabelTextField.hidden = YES;
 //      _detailLengthLabel.hidden = NO;

@@ -45,42 +45,6 @@ static const float RulerImageLengthInPins = 14.8854449406065;//manually calculat
 @implementation EditDetailTypeViewController
 
 @synthesize detailType = _detailType;
-
-- (NSInteger)pickerRowByDetailClassIdentifier:(NSString*)classIdentifier
-  {
-  if ([detailClassCustomLabeled isEqualToString:classIdentifier])
-    return 0;
-  //if ([detailClassOther isEqualToString:classIdentifier])
-    //return 1;
-  if ([detailClassTechnicAxle isEqualToString:classIdentifier])
-    return 2;
-  if ([detailClassTechnicLiftarm isEqualToString:classIdentifier])
-    return 3;
-  if ([detailClassTechnicBrick isEqualToString:classIdentifier])
-    return 4;
-  return 1;//detailClassOther
-  }
-
-- (NSString*)detailClassIdentifierByPickerRow:(NSInteger)pickerRow
-  {
-  switch (pickerRow)
-    {
-    case 0:
-      return detailClassCustomLabeled;
-    
-    case 2:
-      return detailClassTechnicAxle;
-      
-    case 3:
-      return detailClassTechnicLiftarm;
-      
-    case 4:
-      return detailClassTechnicBrick;
-      
-    default://1
-      return detailClassOther;
-    }
-  }
     
 - (void)viewDidLoad
   {
@@ -168,16 +132,8 @@ static const float RulerImageLengthInPins = 14.8854449406065;//manually calculat
       label = NSLocalizedString(@"(Not specified)", @"detail type additional info");
     return [NSString stringWithFormat:formatString, label];
     }
-  //if ([detailClassOther isEqualToString:_detailType.classIdentifier])
-    //return  NSLocalizedString(@"No additional information", @"detail type additional info");
     
   int length = _detailType.length.intValue;
-  if (length < 2)
-    {
-    length = 2;
-    _detailType.length = [NSNumber numberWithInt:length];
-    [_detailType.managedObjectContext saveAsyncAndHandleError];
-    }
     
   if ([detailClassTechnicAxle isEqualToString:_detailType.classIdentifier])
     {
@@ -195,6 +151,7 @@ static const float RulerImageLengthInPins = 14.8854449406065;//manually calculat
     return [NSString stringWithFormat:formatString, length];
     }
 
+  //if ([detailClassOther isEqualToString:_detailType.classIdentifier])
   return  NSLocalizedString(@"No additional information", @"detail type additional info");//detailClassOther
   }
 
