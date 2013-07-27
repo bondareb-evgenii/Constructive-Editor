@@ -28,6 +28,11 @@
 		753270AD16C414A2005A1B83 /* ImageVisualFrameCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = 753270AC16C414A2005A1B83 /* ImageVisualFrameCalculator.m */; };
 		7532EBC315DFA3B600395B11 /* DetailTypesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7532EBC015DFA3B600395B11 /* DetailTypesViewController.m */; };
 		7532EBC415DFA3B600395B11 /* EditDetailTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7532EBC215DFA3B600395B11 /* EditDetailTypeViewController.m */; };
+		753BCF2417A4052F0038DA1B /* AssemblyValidatorGeneral.m in Sources */ = {isa = PBXBuildFile; fileRef = 753BCF2317A4052F0038DA1B /* AssemblyValidatorGeneral.m */; };
+		753BCF2D17A40D7F0038DA1B /* AssemblyValidatorRotated.m in Sources */ = {isa = PBXBuildFile; fileRef = 753BCF2617A408CE0038DA1B /* AssemblyValidatorRotated.m */; };
+		753BCF2E17A40D820038DA1B /* AssemblyValidatorSmallerPartsDetached.m in Sources */ = {isa = PBXBuildFile; fileRef = 753BCF2817A408CE0038DA1B /* AssemblyValidatorSmallerPartsDetached.m */; };
+		753BCF2F17A40D850038DA1B /* AssemblyValidatorSplitToDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 753BCF2A17A408CE0038DA1B /* AssemblyValidatorSplitToDetails.m */; };
+		753BCF3017A40D880038DA1B /* AssemblyValidatorTransformed.m in Sources */ = {isa = PBXBuildFile; fileRef = 753BCF2C17A408CE0038DA1B /* AssemblyValidatorTransformed.m */; };
 		754FF90D15FCD01400A2D555 /* AssemblyType.m in Sources */ = {isa = PBXBuildFile; fileRef = 754FF90C15FCD01400A2D555 /* AssemblyType.m */; };
 		756BA30615F143C0009F0C9D /* pin.png in Resources */ = {isa = PBXBuildFile; fileRef = 756BA30515F143C0009F0C9D /* pin.png */; };
 		757A153815E3BF8D00E89FBC /* AlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 757A153715E3BF8D00E89FBC /* AlertView.m */; };
@@ -144,6 +149,16 @@
 		7532EBC015DFA3B600395B11 /* DetailTypesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailTypesViewController.m; sourceTree = "<group>"; };
 		7532EBC115DFA3B600395B11 /* EditDetailTypeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditDetailTypeViewController.h; sourceTree = "<group>"; };
 		7532EBC215DFA3B600395B11 /* EditDetailTypeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditDetailTypeViewController.m; sourceTree = "<group>"; };
+		753BCF2217A4052F0038DA1B /* AssemblyValidatorGeneral.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AssemblyValidatorGeneral.h; path = Utilities/AssemblyValidation/AssemblyValidatorGeneral.h; sourceTree = "<group>"; };
+		753BCF2317A4052F0038DA1B /* AssemblyValidatorGeneral.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AssemblyValidatorGeneral.m; path = Utilities/AssemblyValidation/AssemblyValidatorGeneral.m; sourceTree = "<group>"; };
+		753BCF2517A408CE0038DA1B /* AssemblyValidatorRotated.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AssemblyValidatorRotated.h; path = Utilities/AssemblyValidation/AssemblyValidatorRotated.h; sourceTree = "<group>"; };
+		753BCF2617A408CE0038DA1B /* AssemblyValidatorRotated.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AssemblyValidatorRotated.m; path = Utilities/AssemblyValidation/AssemblyValidatorRotated.m; sourceTree = "<group>"; };
+		753BCF2717A408CE0038DA1B /* AssemblyValidatorSmallerPartsDetached.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AssemblyValidatorSmallerPartsDetached.h; path = Utilities/AssemblyValidation/AssemblyValidatorSmallerPartsDetached.h; sourceTree = "<group>"; };
+		753BCF2817A408CE0038DA1B /* AssemblyValidatorSmallerPartsDetached.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AssemblyValidatorSmallerPartsDetached.m; path = Utilities/AssemblyValidation/AssemblyValidatorSmallerPartsDetached.m; sourceTree = "<group>"; };
+		753BCF2917A408CE0038DA1B /* AssemblyValidatorSplitToDetails.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AssemblyValidatorSplitToDetails.h; path = Utilities/AssemblyValidation/AssemblyValidatorSplitToDetails.h; sourceTree = "<group>"; };
+		753BCF2A17A408CE0038DA1B /* AssemblyValidatorSplitToDetails.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AssemblyValidatorSplitToDetails.m; path = Utilities/AssemblyValidation/AssemblyValidatorSplitToDetails.m; sourceTree = "<group>"; };
+		753BCF2B17A408CE0038DA1B /* AssemblyValidatorTransformed.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AssemblyValidatorTransformed.h; path = Utilities/AssemblyValidation/AssemblyValidatorTransformed.h; sourceTree = "<group>"; };
+		753BCF2C17A408CE0038DA1B /* AssemblyValidatorTransformed.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AssemblyValidatorTransformed.m; path = Utilities/AssemblyValidation/AssemblyValidatorTransformed.m; sourceTree = "<group>"; };
 		754FF90B15FCD01300A2D555 /* AssemblyType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AssemblyType.h; sourceTree = "<group>"; };
 		754FF90C15FCD01400A2D555 /* AssemblyType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AssemblyType.m; sourceTree = "<group>"; };
 		756BA30515F143C0009F0C9D /* pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pin.png; sourceTree = "<group>"; };
@@ -360,6 +375,23 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		753BCF2117A404D80038DA1B /* AssemblyValidation */ = {
+			isa = PBXGroup;
+			children = (
+				753BCF2217A4052F0038DA1B /* AssemblyValidatorGeneral.h */,
+				753BCF2317A4052F0038DA1B /* AssemblyValidatorGeneral.m */,
+				753BCF2517A408CE0038DA1B /* AssemblyValidatorRotated.h */,
+				753BCF2617A408CE0038DA1B /* AssemblyValidatorRotated.m */,
+				753BCF2717A408CE0038DA1B /* AssemblyValidatorSmallerPartsDetached.h */,
+				753BCF2817A408CE0038DA1B /* AssemblyValidatorSmallerPartsDetached.m */,
+				753BCF2917A408CE0038DA1B /* AssemblyValidatorSplitToDetails.h */,
+				753BCF2A17A408CE0038DA1B /* AssemblyValidatorSplitToDetails.m */,
+				753BCF2B17A408CE0038DA1B /* AssemblyValidatorTransformed.h */,
+				753BCF2C17A408CE0038DA1B /* AssemblyValidatorTransformed.m */,
+			);
+			name = AssemblyValidation;
+			sourceTree = "<group>";
+		};
 		757A153A15ED1EBB00E89FBC /* Preferences */ = {
 			isa = PBXGroup;
 			children = (
@@ -380,6 +412,7 @@
 		757F600615EF8E590022FC67 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				753BCF2117A404D80038DA1B /* AssemblyValidation */,
 				75EE288B160B17C400050997 /* Constants.h */,
 				75EE288C160B17C400050997 /* Constants.m */,
 				75800F9015FC90A800E5262E /* DirectoryWatcher.h */,
@@ -689,6 +722,7 @@
 				7529F96515199C3200C13C90 /* Model.xcdatamodeld in Sources */,
 				7529F96615199C3200C13C90 /* UIColorToDataTransformer.m in Sources */,
 				7529F96715199C3200C13C90 /* UIImageToDataTransformer.m in Sources */,
+				753BCF2E17A40D820038DA1B /* AssemblyValidatorSmallerPartsDetached.m in Sources */,
 				7529F96C15199C3200C13C90 /* StartMenuViewController.m in Sources */,
 				7529F9741519A33A00C13C90 /* RootAssemblyViewController.m in Sources */,
 				7529F97A151AE69B00C13C90 /* DetailType.m in Sources */,
@@ -704,17 +738,21 @@
 				757A153815E3BF8D00E89FBC /* AlertView.m in Sources */,
 				757A153C15ED256E00E89FBC /* PreferencesKeys.m in Sources */,
 				757A153F15EE77B400E89FBC /* ActionSheet.m in Sources */,
+				753BCF2F17A40D850038DA1B /* AssemblyValidatorSplitToDetails.m in Sources */,
 				757F600A15EF8F490022FC67 /* StandardActionsPerformer.m in Sources */,
 				758520D215F395C50071A662 /* EditDetailViewController.m in Sources */,
+				753BCF2D17A40D7F0038DA1B /* AssemblyValidatorRotated.m in Sources */,
 				758520D615F3A68D0071A662 /* DetailTypeCellView.m in Sources */,
 				75800F9215FC90A800E5262E /* DirectoryWatcher.m in Sources */,
 				754FF90D15FCD01400A2D555 /* AssemblyType.m in Sources */,
 				75E5F33415FDAF4900C363FA /* AssemblyTypesShelf.m in Sources */,
 				75EE288D160B17C400050997 /* Constants.m in Sources */,
+				753BCF2417A4052F0038DA1B /* AssemblyValidatorGeneral.m in Sources */,
 				757B0CB6160DF82B008883C0 /* VisualSelectablePointer.m in Sources */,
 				757B0CBA160F137C008883C0 /* PreferencesViewController.m in Sources */,
 				757B0CBD160F5033008883C0 /* PreferenceOptionsViewController.m in Sources */,
 				751C5F65161054B20025AFA4 /* AssemblyValidator.mm in Sources */,
+				753BCF3017A40D880038DA1B /* AssemblyValidatorTransformed.m in Sources */,
 				75CF686116B58D2900DEE4B4 /* InstructionPreviewViewController.m in Sources */,
 				753270AD16C414A2005A1B83 /* ImageVisualFrameCalculator.m in Sources */,
 				75E28A4116DBDBDA004FBCF5 /* EditDetailTypeAdditionalInfoViewController.m in Sources */,
