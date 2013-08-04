@@ -46,4 +46,12 @@ extern NSString* const standardActionOnAssembly;
   extern NSString* const standardActionOnAssembly_Rotate;
   extern NSString* const standardActionOnAssembly_Transform;
   extern NSString* const standardActionOnAssembly_Default;
+extern NSString* const preferredPaperSize;
+  extern NSString* const preferredPaperSize_A4;
+  extern NSString* const preferredPaperSize_A3;
+  extern NSString* const preferredPaperSize_Default;
+extern NSString* const preferredPaperOrientation;
+  extern NSString* const preferredPaperOrientation_Portrait;
+  extern NSString* const preferredPaperOrientation_Landscape;
+  extern NSString* const preferredPaperOrientation_Default;
 #endif

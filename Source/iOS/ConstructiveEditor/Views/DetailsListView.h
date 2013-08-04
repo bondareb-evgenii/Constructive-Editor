@@ -6,6 +6,6 @@
 
 @interface DetailsListView : UICollectionView
 
-@property (nonatomic, strong) NSSet* details;
+- (void)setDetails:(NSSet*)details;
 
 @end

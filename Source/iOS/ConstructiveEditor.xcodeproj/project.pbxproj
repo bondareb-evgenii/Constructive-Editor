@@ -13,6 +13,7 @@
 		751D3CA917AC48BE0014CC80 /* DetailsListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 751D3CA817AC48BE0014CC80 /* DetailsListViewCell.m */; };
 		751D3CAC17ACEA9F0014CC80 /* ManagedObjectWithPicture.m in Sources */ = {isa = PBXBuildFile; fileRef = 751D3CAB17ACEA9E0014CC80 /* ManagedObjectWithPicture.m */; };
 		751D3CAF17ACFD320014CC80 /* PointsToPixelsTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 751D3CAE17ACFD320014CC80 /* PointsToPixelsTransformer.m */; };
+		751D3CB217AEAB580014CC80 /* PrintPaperManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 751D3CB117AEAB580014CC80 /* PrintPaperManager.m */; };
 		7526384215DFAD4300E2A8A9 /* DetailCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7526384115DFAD4300E2A8A9 /* DetailCellView.m */; };
 		7529F96115199C3200C13C90 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7529F94615199C3200C13C90 /* AppDelegate.m */; };
 		7529F96515199C3200C13C90 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7529F94E15199C3200C13C90 /* Model.xcdatamodeld */; };
@@ -128,6 +129,8 @@
 		751D3CAB17ACEA9E0014CC80 /* ManagedObjectWithPicture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ManagedObjectWithPicture.m; sourceTree = "<group>"; };
 		751D3CAD17ACFD320014CC80 /* PointsToPixelsTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PointsToPixelsTransformer.h; path = Utilities/PointsToPixelsTransformer.h; sourceTree = "<group>"; };
 		751D3CAE17ACFD320014CC80 /* PointsToPixelsTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PointsToPixelsTransformer.m; path = Utilities/PointsToPixelsTransformer.m; sourceTree = "<group>"; };
+		751D3CB017AEAB580014CC80 /* PrintPaperManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PrintPaperManager.h; path = Utilities/PrintPaperManager.h; sourceTree = "<group>"; };
+		751D3CB117AEAB580014CC80 /* PrintPaperManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PrintPaperManager.m; path = Utilities/PrintPaperManager.m; sourceTree = "<group>"; };
 		7526384015DFAD4300E2A8A9 /* DetailCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailCellView.h; sourceTree = "<group>"; };
 		7526384115DFAD4300E2A8A9 /* DetailCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailCellView.m; sourceTree = "<group>"; };
 		7529F94515199C3200C13C90 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -438,6 +441,8 @@
 				755A74D817A90926009224F1 /* InstructionBuilder.m */,
 				751D3CAD17ACFD320014CC80 /* PointsToPixelsTransformer.h */,
 				751D3CAE17ACFD320014CC80 /* PointsToPixelsTransformer.m */,
+				751D3CB017AEAB580014CC80 /* PrintPaperManager.h */,
+				751D3CB117AEAB580014CC80 /* PrintPaperManager.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -769,6 +774,7 @@
 				757B0CBA160F137C008883C0 /* PreferencesViewController.m in Sources */,
 				757B0CBD160F5033008883C0 /* PreferenceOptionsViewController.m in Sources */,
 				751C5F65161054B20025AFA4 /* AssemblyValidator.mm in Sources */,
+				751D3CB217AEAB580014CC80 /* PrintPaperManager.m in Sources */,
 				753BCF3017A40D880038DA1B /* AssemblyValidatorTransformed.m in Sources */,
 				75CF686116B58D2900DEE4B4 /* InstructionPreviewViewController.m in Sources */,
 				753270AD16C414A2005A1B83 /* ImageVisualFrameCalculator.m in Sources */,

@@ -5,6 +5,8 @@
 
 #import "InstructionPreviewViewController.h"
 #import "InstructionBuilder.h"
+#import "PrintPaperManager.h"
+
 @interface InstructionPreviewViewController ()
   {
   float _itemSpacing;
@@ -43,13 +45,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
   {
-  CGSize viewSize = self.collectionView.bounds.size;
-  CGFloat pageSide = MIN(viewSize.width, viewSize.height);
-  UICollectionViewFlowLayout* flowLayout = (UICollectionViewFlowLayout*)self.collectionView.collectionViewLayout;
-  flowLayout.itemSize = CGSizeMake(pageSide, pageSide);
-  flowLayout.minimumInteritemSpacing = _itemSpacing;
-  flowLayout.minimumLineSpacing = _itemSpacing;
-  flowLayout.scrollDirection = viewSize.width < viewSize.height ? UICollectionViewScrollDirectionVertical : UICollectionViewScrollDirectionHorizontal;
+  [self updateLayout];
   }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
@@ -59,10 +55,9 @@
   NSIndexPath* centerItemIndexPath = [self.collectionView indexPathForItemAtPoint:CGPointMake(contentOffset.x + viewSize.width/2, contentOffset.y + viewSize.height/2)];
   if (!centerItemIndexPath)
     centerItemIndexPath = [self.collectionView indexPathForItemAtPoint:CGPointMake(contentOffset.x + viewSize.width/2 - _itemSpacing, contentOffset.y + viewSize.height/2 - _itemSpacing)];
-  CGFloat pageSide = MIN(viewSize.width, viewSize.height);
-  UICollectionViewFlowLayout* flowLayout = (UICollectionViewFlowLayout*)self.collectionView.collectionViewLayout;
-  flowLayout.itemSize = CGSizeMake(pageSide, pageSide);
-  flowLayout.scrollDirection = viewSize.width < viewSize.height ? UICollectionViewScrollDirectionVertical : UICollectionViewScrollDirectionHorizontal;
+  
+  [self updateLayout];
+  
   [self.collectionView reloadData];//Hack to make collection view actually scroll (commented code below doesn't make it to scroll in most cases...) is this a bug???
   [self.collectionView scrollToItemAtIndexPath:centerItemIndexPath atScrollPosition:UICollectionViewScrollPositionCenteredVertically|UICollectionViewScrollPositionCenteredHorizontally animated:NO];
   //[self.collectionView layoutIfNeeded];
@@ -73,6 +68,24 @@
 //  {
 //  [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredVertically|UICollectionViewScrollPositionCenteredHorizontally animated:YES];
 //  }
+
+- (void)updateLayout
+  {
+  CGSize viewSize = self.collectionView.bounds.size;
+  BOOL portrait = viewSize.width < viewSize.height;
+  
+  CGSize pageSize = [PrintPaperManager preferedPaper].printableRect.size;
+  if (portrait)
+    pageSize = CGSizeMake(viewSize.width, pageSize.height*(viewSize.width - _itemSpacing*2)/pageSize.width);
+  else
+    pageSize = CGSizeMake(pageSize.width*(viewSize.height - _itemSpacing*2)/pageSize.height, viewSize.height);
+  
+  UICollectionViewFlowLayout* flowLayout = (UICollectionViewFlowLayout*)self.collectionView.collectionViewLayout;
+  flowLayout.minimumInteritemSpacing = 0;
+  flowLayout.minimumLineSpacing = _itemSpacing;
+  flowLayout.itemSize = pageSize;
+  flowLayout.scrollDirection = portrait ? UICollectionViewScrollDirectionVertical : UICollectionViewScrollDirectionHorizontal;
+  }
 
 - (void)setAssembly:(Assembly *)assembly
   {

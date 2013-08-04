@@ -85,6 +85,20 @@
     if ([preferenceStringValue isEqualToString:standardActionOnAssembly_Transform])
       return [NSIndexPath indexPathForRow:3 inSection:0];
     }
+  if ([self.preferenceKey isEqualToString:preferredPaperSize])
+    {
+    if ([preferenceStringValue isEqualToString:preferredPaperSize_A4])
+      return [NSIndexPath indexPathForRow:0 inSection:0];
+    if ([preferenceStringValue isEqualToString:preferredPaperSize_A3])
+      return [NSIndexPath indexPathForRow:1 inSection:0];
+    }
+  if ([self.preferenceKey isEqualToString:preferredPaperOrientation])
+    {
+    if ([preferenceStringValue isEqualToString:preferredPaperOrientation_Portrait])
+      return [NSIndexPath indexPathForRow:0 inSection:0];
+    if ([preferenceStringValue isEqualToString:preferredPaperOrientation_Landscape])
+      return [NSIndexPath indexPathForRow:1 inSection:0];
+    }
   return nil;
   }
 
@@ -208,6 +222,37 @@
         break;
       }
     }
+  else if ([self.preferenceKey isEqualToString:preferredPaperSize])
+    {
+    switch (row)
+      {
+      case 0:
+        return preferredPaperSize_A4;
+        break;
+      case 1:
+        return preferredPaperSize_A3;
+        break;
+      default://3
+        return preferredPaperSize_A4;
+        break;
+      }
+    }
+  else if ([self.preferenceKey isEqualToString:preferredPaperOrientation])
+    {
+    switch (row)
+      {
+      case 0:
+        return preferredPaperOrientation_Portrait;
+        break;
+      case 1:
+        return preferredPaperOrientation_Landscape;
+        break;
+      default://3
+        return preferredPaperOrientation_Portrait;
+        break;
+      }
+    }
+  
   return nil;
   }
 

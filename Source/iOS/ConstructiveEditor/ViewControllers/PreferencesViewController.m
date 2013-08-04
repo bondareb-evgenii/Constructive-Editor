@@ -17,6 +17,8 @@
     __weak IBOutlet UILabel*  _preferredActionOnReinterpretDetachedAsRotatedOrTransformedLabel;
     __weak IBOutlet UILabel*  _preferredActionOnReinterpretRotatedOrTransformedAsDetachedLabel;
     __weak IBOutlet UILabel*  _preferredActionOnReinterpretRotatedAsTransformedAndViceVersaLabel;
+    __weak IBOutlet UILabel*  _preferredPaperSizeLabel;
+    __weak IBOutlet UILabel*  _preferredPaperOrientationLabel;
   }
 @end
 
@@ -35,19 +37,19 @@
   
   NSString* preferredPicturesSourceStringValue = [preferences stringForKey:preferredPicturesSource];
   if ([preferredPicturesSourceStringValue isEqualToString:preferredPicturesSource_Camera])
-    _preferredPicturesSourceLabel.text = NSLocalizedString(@"Camera", @"Camera");
+    _preferredPicturesSourceLabel.text = NSLocalizedString(@"Camera", @"Table view label text");
   else if ([preferredPicturesSourceStringValue isEqualToString:preferredPicturesSource_PhotoLibrary])
-    _preferredPicturesSourceLabel.text = NSLocalizedString(@"Photo library", @"Photo library");
+    _preferredPicturesSourceLabel.text = NSLocalizedString(@"Photo library", @"Table view label text");
     
   NSString* standardActionOnAssemblyStringValue = [preferences stringForKey:standardActionOnAssembly];
   if ([standardActionOnAssemblyStringValue isEqualToString:standardActionOnAssembly_DetachSmallerParts])
-    _standardActionOnAssemblyLabel.text = NSLocalizedString(@"Detach smaller parts", @"Detach smaller parts");
+    _standardActionOnAssemblyLabel.text = NSLocalizedString(@"Detach smaller parts", @"Table view label text");
   else if ([standardActionOnAssemblyStringValue isEqualToString:standardActionOnAssembly_SplitToDetails])
-    _standardActionOnAssemblyLabel.text = NSLocalizedString(@"Split to details", @"Split to details");
+    _standardActionOnAssemblyLabel.text = NSLocalizedString(@"Split to details", @"Table view label text");
   else if ([standardActionOnAssemblyStringValue isEqualToString:standardActionOnAssembly_Rotate])
-    _standardActionOnAssemblyLabel.text = NSLocalizedString(@"Rotate", @"Rotate");
+    _standardActionOnAssemblyLabel.text = NSLocalizedString(@"Rotate", @"Table view label text");
   else if ([standardActionOnAssemblyStringValue isEqualToString:standardActionOnAssembly_Transform])
-    _standardActionOnAssemblyLabel.text = NSLocalizedString(@"Transform", @"Trnasform");
+    _standardActionOnAssemblyLabel.text = NSLocalizedString(@"Transform", @"Table view label text");
   
   NSString* preferredActionOnReinterpretSplitAsDetachedStringValue = [preferences stringForKey:preferredActionOnReinterpretSplitAsDetached];
   if ([preferredActionOnReinterpretSplitAsDetachedStringValue isEqualToString:preferredActionOnReinterpretSplitAsDetached_AskMe])
@@ -96,7 +98,20 @@
     _preferredActionOnReinterpretRotatedAsTransformedAndViceVersaLabel.text = NSLocalizedString(@"Remove rotated/transformed", @"Table view label text");
   else if ([preferredActionOnReinterpretRotatedAsTransformedAndViceVersaStringValue isEqualToString:preferredActionOnReinterpretRotatedAsTransformedAndViceVersa_TransformeOrRotateRotatedOrTransformedAssembly])
     _preferredActionOnReinterpretRotatedAsTransformedAndViceVersaLabel.text = NSLocalizedString(@"Transform rotated and vice versa", @"Table view label text");
+    
+  NSString* preferredPaperSizeStringValue = [preferences stringForKey:preferredPaperSize];
+  if ([preferredPaperSizeStringValue isEqualToString:preferredPaperSize_A4])
+    _preferredPaperSizeLabel.text = NSLocalizedString(@"A4", @"Table view label text");
+  else if ([preferredPaperSizeStringValue isEqualToString:preferredPaperSize_A3])
+    _preferredPaperSizeLabel.text = NSLocalizedString(@"A3", @"Table view label text");
+    
+  NSString* preferredPaperOrientationStringValue = [preferences stringForKey:preferredPaperOrientation];
+  if ([preferredPaperOrientationStringValue isEqualToString:preferredPaperOrientation_Portrait])
+    _preferredPaperOrientationLabel.text = NSLocalizedString(@"Portrait", @"Table view label text");
+  else if ([preferredPaperOrientationStringValue isEqualToString:preferredPaperOrientation_Landscape])
+    _preferredPaperOrientationLabel.text = NSLocalizedString(@"Landscape", @"Table view label text");
   }
+  
 - (IBAction)onAskAboutImplicitPartsDeletionChanged:(id)sender
   {
   [[NSUserDefaults standardUserDefaults] setBool:_preferredAskAboutImplicitPartsDeletionSwitch.on forKey:preferredAskAboutImplicitPartsDeletion];

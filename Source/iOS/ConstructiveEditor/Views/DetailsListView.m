@@ -13,7 +13,9 @@ NSString* const DetailCellID = @"DetailCellID";
 
 @interface DetailsListView ()
   {
-  float _itemSpacing;
+  float                 _itemSpacing;
+  NSSet*                _details;
+  NSMutableArray*       _detailsGroups;
   }
 @end
 
@@ -45,6 +47,34 @@ NSString* const DetailCellID = @"DetailCellID";
   return self;
   }
 
+- (void)setDetails:(NSSet*)details
+  {
+  if (_details == details)
+    return;
+  _details = details;
+  [self updateData];
+  }
+
+- (void)updateData
+  {
+  _detailsGroups = [[NSMutableArray alloc] initWithCapacity:_details.count];
+  NSMutableDictionary* detailsGroupsDictionary = [[NSMutableDictionary alloc] initWithCapacity:_details.count];
+  for (Detail* detail in _details)
+    {
+    NSValue* key = [NSValue valueWithNonretainedObject:detail.type];
+    NSMutableArray* details = [detailsGroupsDictionary objectForKey:key];
+    if (details.count)
+      [details addObject:detail];
+    else
+      {
+      details = [[NSMutableArray alloc] initWithCapacity:1];
+      [details addObject:detail];
+      [_detailsGroups addObject:key];
+      [detailsGroupsDictionary setObject:details forKey:key];
+      }
+    }
+  }
+
 @end
 
 @implementation DetailsListView (DataSource)
@@ -57,7 +87,7 @@ NSString* const DetailCellID = @"DetailCellID";
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
   {
   if (0 == section)
-    return _details.count;
+    return _detailsGroups.count;
   return 0;
   }
 
@@ -66,7 +96,7 @@ NSString* const DetailCellID = @"DetailCellID";
   UICollectionViewCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:DetailCellID forIndexPath:indexPath];
   [[cell.contentView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
   UIImageView* detailTypeImageView = [[UIImageView alloc] initWithFrame:cell.contentView.bounds];
-  detailTypeImageView.image = [((Detail*)[_details anyObject]).type pictureBestForSize:[PointsToPixelsTransformer sizeInPixelsOnMainScreenForSize:cell.contentView.bounds.size]];
+  detailTypeImageView.image = [((DetailType*)[[_detailsGroups objectAtIndex:indexPath.item] nonretainedObjectValue]) pictureBestForSize:[PointsToPixelsTransformer sizeInPixelsOnMainScreenForSize:cell.contentView.bounds.size]];
   [cell.contentView addSubview:detailTypeImageView];
   return cell;
   }
