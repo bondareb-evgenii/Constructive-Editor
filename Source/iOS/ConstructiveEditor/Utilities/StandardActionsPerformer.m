@@ -18,20 +18,20 @@
 + (BOOL)isAnythingChangedInAssemblyType:(AssemblyType*)assemblyTypeToCheck
   {
   BOOL isAnythingChanged = NO;
-  if (assemblyTypeToCheck.assemblyBase.type.pictureToShowThumbnail60x60AspectFit ||
-      assemblyTypeToCheck.assemblyBeforeRotation.type.pictureToShowThumbnail60x60AspectFit ||
-      assemblyTypeToCheck.assemblyBeforeTransformation.type.pictureToShowThumbnail60x60AspectFit)
+  if (assemblyTypeToCheck.assemblyBase.type.isPictureSelected.boolValue ||
+      assemblyTypeToCheck.assemblyBeforeRotation.type.isPictureSelected.boolValue ||
+      assemblyTypeToCheck.assemblyBeforeTransformation.type.isPictureSelected.boolValue)
     isAnythingChanged = YES;
   else
     {
     for (Assembly* assembly in assemblyTypeToCheck.assembliesInstalled)
-      if (assembly.type.pictureToShowThumbnail60x60AspectFit)
+      if (assembly.type.isPictureSelected.boolValue)
         {
         isAnythingChanged = YES;
         break;
         }
     for (Detail* detail in assemblyTypeToCheck.detailsInstalled)
-      if (detail.type.pictureToShowThumbnail60x60AspectFit)
+      if (detail.type.isPictureSelected.boolValue)
         {
         isAnythingChanged = YES;
         break;

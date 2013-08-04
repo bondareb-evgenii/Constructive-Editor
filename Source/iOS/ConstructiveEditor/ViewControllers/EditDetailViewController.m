@@ -13,6 +13,7 @@
 #import "DetailTypesViewController.h"
 #import "ImageVisualFrameCalculator.h"
 #import "NSManagedObjectContextExtension.h"
+#import "PointsToPixelsTransformer.h"
 #import "VisualSelectablePointer.h"
 
 @interface EditDetailViewController ()
@@ -101,7 +102,7 @@
 
 - (void)showPinAnimated:(BOOL)animated
   {
-  if (![self.detail.assemblyToInstallTo pictureToShow])
+  if (!self.detail.assemblyToInstallTo.isPictureSelected.boolValue)
     return;
   if (animated)
     {
@@ -158,14 +159,12 @@
 - (void)viewWillAppear:(BOOL)animated
   {
   //moved to here from viewDidLoad because detail type updates when go back from DetailTypesViewController
-  _imageView.image = [self.detail.type
-                     pictureToShowThumbnail60x60AspectFit]
-                   ? [self.detail.type pictureToShowThumbnail60x60AspectFit]
+  _imageView.image = self.detail.type.isPictureSelected.boolValue
+                   ? [self.detail.type pictureBestForSize:[PointsToPixelsTransformer sizeInPixelsOnMainScreenForSize:_imageView.bounds.size]]
                    : [UIImage imageNamed:@"NoPhotoBig.png"];
-                   
-  UIImage* parentPicture = [self.detail.assemblyToInstallTo pictureToShow];
-  _imageViewParent.image = parentPicture
-                         ? parentPicture
+    
+  _imageViewParent.image = self.detail.assemblyToInstallTo.isPictureSelected.boolValue
+                         ? [self.detail.assemblyToInstallTo pictureBestForSize:[PointsToPixelsTransformer sizeInPixelsOnMainScreenForSize:_imageViewParent.bounds.size]]
                          : [UIImage imageNamed:@"NoPhotoBig.png"];
                         
   _countLabel.text = [NSString stringWithFormat:@"%d", _details.count];
@@ -175,8 +174,7 @@
   for (UIView* pin in _pins)
     pin.alpha = 0;
   
-  _tapOnParentImageGestureRecognizer.enabled = nil != parentPicture;
-  _dragOnParentImageGestureRecognizer.enabled = nil != parentPicture;
+  _tapOnParentImageGestureRecognizer.enabled = _dragOnParentImageGestureRecognizer.enabled = self.detail.assemblyToInstallTo.isPictureSelected.boolValue;
   [self updateDoneButton];
   }
   

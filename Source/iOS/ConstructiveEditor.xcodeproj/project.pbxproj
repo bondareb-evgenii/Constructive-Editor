@@ -9,11 +9,13 @@
 /* Begin PBXBuildFile section */
 		7517F5AA15217494000EF32F /* EditAssemblyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7517F5A915217494000EF32F /* EditAssemblyViewController.m */; };
 		751C5F65161054B20025AFA4 /* AssemblyValidator.mm in Sources */ = {isa = PBXBuildFile; fileRef = 751C5F64161054B20025AFA4 /* AssemblyValidator.mm */; };
+		751D3CA617AC3C600014CC80 /* DetailsListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 751D3CA517AC3C600014CC80 /* DetailsListView.m */; };
+		751D3CA917AC48BE0014CC80 /* DetailsListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 751D3CA817AC48BE0014CC80 /* DetailsListViewCell.m */; };
+		751D3CAC17ACEA9F0014CC80 /* ManagedObjectWithPicture.m in Sources */ = {isa = PBXBuildFile; fileRef = 751D3CAB17ACEA9E0014CC80 /* ManagedObjectWithPicture.m */; };
+		751D3CAF17ACFD320014CC80 /* PointsToPixelsTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 751D3CAE17ACFD320014CC80 /* PointsToPixelsTransformer.m */; };
 		7526384215DFAD4300E2A8A9 /* DetailCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7526384115DFAD4300E2A8A9 /* DetailCellView.m */; };
 		7529F96115199C3200C13C90 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7529F94615199C3200C13C90 /* AppDelegate.m */; };
-		7529F96215199C3200C13C90 /* NSValueToDataTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7529F94915199C3200C13C90 /* NSValueToDataTransformer.m */; };
 		7529F96515199C3200C13C90 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7529F94E15199C3200C13C90 /* Model.xcdatamodeld */; };
-		7529F96615199C3200C13C90 /* UIColorToDataTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7529F95115199C3200C13C90 /* UIColorToDataTransformer.m */; };
 		7529F96715199C3200C13C90 /* UIImageToDataTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7529F95315199C3200C13C90 /* UIImageToDataTransformer.m */; };
 		7529F96915199C3200C13C90 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7529F95715199C3200C13C90 /* InfoPlist.strings */; };
 		7529F96A15199C3200C13C90 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7529F95915199C3200C13C90 /* MainStoryboard_iPad.storyboard */; };
@@ -34,6 +36,7 @@
 		753BCF2F17A40D850038DA1B /* AssemblyValidatorSplitToDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 753BCF2A17A408CE0038DA1B /* AssemblyValidatorSplitToDetails.m */; };
 		753BCF3017A40D880038DA1B /* AssemblyValidatorTransformed.m in Sources */ = {isa = PBXBuildFile; fileRef = 753BCF2C17A408CE0038DA1B /* AssemblyValidatorTransformed.m */; };
 		754FF90D15FCD01400A2D555 /* AssemblyType.m in Sources */ = {isa = PBXBuildFile; fileRef = 754FF90C15FCD01400A2D555 /* AssemblyType.m */; };
+		755A74D917A90926009224F1 /* InstructionBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 755A74D817A90926009224F1 /* InstructionBuilder.m */; };
 		756BA30615F143C0009F0C9D /* pin.png in Resources */ = {isa = PBXBuildFile; fileRef = 756BA30515F143C0009F0C9D /* pin.png */; };
 		757A153815E3BF8D00E89FBC /* AlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 757A153715E3BF8D00E89FBC /* AlertView.m */; };
 		757A153C15ED256E00E89FBC /* PreferencesKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = 757A153B15ED256E00E89FBC /* PreferencesKeys.m */; };
@@ -117,15 +120,19 @@
 		7517F5A915217494000EF32F /* EditAssemblyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditAssemblyViewController.m; sourceTree = "<group>"; };
 		751C5F63161054B20025AFA4 /* AssemblyValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AssemblyValidator.h; path = Utilities/AssemblyValidator.h; sourceTree = "<group>"; };
 		751C5F64161054B20025AFA4 /* AssemblyValidator.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AssemblyValidator.mm; path = Utilities/AssemblyValidator.mm; sourceTree = "<group>"; };
+		751D3CA417AC3C600014CC80 /* DetailsListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailsListView.h; sourceTree = "<group>"; };
+		751D3CA517AC3C600014CC80 /* DetailsListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailsListView.m; sourceTree = "<group>"; };
+		751D3CA717AC48BE0014CC80 /* DetailsListViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailsListViewCell.h; sourceTree = "<group>"; };
+		751D3CA817AC48BE0014CC80 /* DetailsListViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailsListViewCell.m; sourceTree = "<group>"; };
+		751D3CAA17ACEA9E0014CC80 /* ManagedObjectWithPicture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManagedObjectWithPicture.h; sourceTree = "<group>"; };
+		751D3CAB17ACEA9E0014CC80 /* ManagedObjectWithPicture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ManagedObjectWithPicture.m; sourceTree = "<group>"; };
+		751D3CAD17ACFD320014CC80 /* PointsToPixelsTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PointsToPixelsTransformer.h; path = Utilities/PointsToPixelsTransformer.h; sourceTree = "<group>"; };
+		751D3CAE17ACFD320014CC80 /* PointsToPixelsTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PointsToPixelsTransformer.m; path = Utilities/PointsToPixelsTransformer.m; sourceTree = "<group>"; };
 		7526384015DFAD4300E2A8A9 /* DetailCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailCellView.h; sourceTree = "<group>"; };
 		7526384115DFAD4300E2A8A9 /* DetailCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailCellView.m; sourceTree = "<group>"; };
 		7529F94515199C3200C13C90 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		7529F94615199C3200C13C90 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		7529F94815199C3200C13C90 /* NSValueToDataTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSValueToDataTransformer.h; sourceTree = "<group>"; };
-		7529F94915199C3200C13C90 /* NSValueToDataTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSValueToDataTransformer.m; sourceTree = "<group>"; };
 		7529F94F15199C3200C13C90 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
-		7529F95015199C3200C13C90 /* UIColorToDataTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIColorToDataTransformer.h; sourceTree = "<group>"; };
-		7529F95115199C3200C13C90 /* UIColorToDataTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIColorToDataTransformer.m; sourceTree = "<group>"; };
 		7529F95215199C3200C13C90 /* UIImageToDataTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIImageToDataTransformer.h; sourceTree = "<group>"; };
 		7529F95315199C3200C13C90 /* UIImageToDataTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIImageToDataTransformer.m; sourceTree = "<group>"; };
 		7529F95815199C3200C13C90 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -161,6 +168,8 @@
 		753BCF2C17A408CE0038DA1B /* AssemblyValidatorTransformed.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AssemblyValidatorTransformed.m; path = Utilities/AssemblyValidation/AssemblyValidatorTransformed.m; sourceTree = "<group>"; };
 		754FF90B15FCD01300A2D555 /* AssemblyType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AssemblyType.h; sourceTree = "<group>"; };
 		754FF90C15FCD01400A2D555 /* AssemblyType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AssemblyType.m; sourceTree = "<group>"; };
+		755A74D717A90926009224F1 /* InstructionBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InstructionBuilder.h; path = Utilities/InstructionBuilder.h; sourceTree = "<group>"; };
+		755A74D817A90926009224F1 /* InstructionBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InstructionBuilder.m; path = Utilities/InstructionBuilder.m; sourceTree = "<group>"; };
 		756BA30515F143C0009F0C9D /* pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pin.png; sourceTree = "<group>"; };
 		757A153615E3BF8D00E89FBC /* AlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlertView.h; sourceTree = "<group>"; };
 		757A153715E3BF8D00E89FBC /* AlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlertView.m; sourceTree = "<group>"; };
@@ -308,16 +317,14 @@
 				7529F97C151AE73100C13C90 /* Detail.m */,
 				7529F978151AE69A00C13C90 /* DetailType.h */,
 				7529F979151AE69A00C13C90 /* DetailType.m */,
-				7529F94815199C3200C13C90 /* NSValueToDataTransformer.h */,
-				7529F94915199C3200C13C90 /* NSValueToDataTransformer.m */,
-				7529F95015199C3200C13C90 /* UIColorToDataTransformer.h */,
-				7529F95115199C3200C13C90 /* UIColorToDataTransformer.m */,
 				7529F95215199C3200C13C90 /* UIImageToDataTransformer.h */,
 				7529F95315199C3200C13C90 /* UIImageToDataTransformer.m */,
 				75EB424216EC683C00FB7540 /* Picture.h */,
 				75EB424316EC683C00FB7540 /* Picture.m */,
 				75D58E6516F4C1DC000B231C /* RootAssemblyReference.h */,
 				75D58E6616F4C1DC000B231C /* RootAssemblyReference.m */,
+				751D3CAA17ACEA9E0014CC80 /* ManagedObjectWithPicture.h */,
+				751D3CAB17ACEA9E0014CC80 /* ManagedObjectWithPicture.m */,
 			);
 			path = DataModels;
 			sourceTree = "<group>";
@@ -371,6 +378,10 @@
 				758520D515F3A68D0071A662 /* DetailTypeCellView.m */,
 				75EB423C16EA9DB300FB7540 /* MBProgressHUD.h */,
 				75EB423D16EA9DB300FB7540 /* MBProgressHUD.m */,
+				751D3CA417AC3C600014CC80 /* DetailsListView.h */,
+				751D3CA517AC3C600014CC80 /* DetailsListView.m */,
+				751D3CA717AC48BE0014CC80 /* DetailsListViewCell.h */,
+				751D3CA817AC48BE0014CC80 /* DetailsListViewCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -423,6 +434,10 @@
 				751C5F64161054B20025AFA4 /* AssemblyValidator.mm */,
 				753270AB16C414A2005A1B83 /* ImageVisualFrameCalculator.h */,
 				753270AC16C414A2005A1B83 /* ImageVisualFrameCalculator.m */,
+				755A74D717A90926009224F1 /* InstructionBuilder.h */,
+				755A74D817A90926009224F1 /* InstructionBuilder.m */,
+				751D3CAD17ACFD320014CC80 /* PointsToPixelsTransformer.h */,
+				751D3CAE17ACFD320014CC80 /* PointsToPixelsTransformer.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -718,9 +733,7 @@
 			files = (
 				84EA63BA1514C4AF00C7177E /* main.m in Sources */,
 				7529F96115199C3200C13C90 /* AppDelegate.m in Sources */,
-				7529F96215199C3200C13C90 /* NSValueToDataTransformer.m in Sources */,
 				7529F96515199C3200C13C90 /* Model.xcdatamodeld in Sources */,
-				7529F96615199C3200C13C90 /* UIColorToDataTransformer.m in Sources */,
 				7529F96715199C3200C13C90 /* UIImageToDataTransformer.m in Sources */,
 				753BCF2E17A40D820038DA1B /* AssemblyValidatorSmallerPartsDetached.m in Sources */,
 				7529F96C15199C3200C13C90 /* StartMenuViewController.m in Sources */,
@@ -733,6 +746,7 @@
 				84F883EB1535B53A00EA0438 /* AssembliesAndDetailsViewController.m in Sources */,
 				75823399154177BF009BBA8B /* NSManagedObjectContextExtension.m in Sources */,
 				7532EBC315DFA3B600395B11 /* DetailTypesViewController.m in Sources */,
+				755A74D917A90926009224F1 /* InstructionBuilder.m in Sources */,
 				7532EBC415DFA3B600395B11 /* EditDetailTypeViewController.m in Sources */,
 				7526384215DFAD4300E2A8A9 /* DetailCellView.m in Sources */,
 				757A153815E3BF8D00E89FBC /* AlertView.m in Sources */,
@@ -740,14 +754,17 @@
 				757A153F15EE77B400E89FBC /* ActionSheet.m in Sources */,
 				753BCF2F17A40D850038DA1B /* AssemblyValidatorSplitToDetails.m in Sources */,
 				757F600A15EF8F490022FC67 /* StandardActionsPerformer.m in Sources */,
+				751D3CA617AC3C600014CC80 /* DetailsListView.m in Sources */,
 				758520D215F395C50071A662 /* EditDetailViewController.m in Sources */,
 				753BCF2D17A40D7F0038DA1B /* AssemblyValidatorRotated.m in Sources */,
 				758520D615F3A68D0071A662 /* DetailTypeCellView.m in Sources */,
 				75800F9215FC90A800E5262E /* DirectoryWatcher.m in Sources */,
+				751D3CAF17ACFD320014CC80 /* PointsToPixelsTransformer.m in Sources */,
 				754FF90D15FCD01400A2D555 /* AssemblyType.m in Sources */,
 				75E5F33415FDAF4900C363FA /* AssemblyTypesShelf.m in Sources */,
 				75EE288D160B17C400050997 /* Constants.m in Sources */,
 				753BCF2417A4052F0038DA1B /* AssemblyValidatorGeneral.m in Sources */,
+				751D3CA917AC48BE0014CC80 /* DetailsListViewCell.m in Sources */,
 				757B0CB6160DF82B008883C0 /* VisualSelectablePointer.m in Sources */,
 				757B0CBA160F137C008883C0 /* PreferencesViewController.m in Sources */,
 				757B0CBD160F5033008883C0 /* PreferenceOptionsViewController.m in Sources */,
@@ -758,6 +775,7 @@
 				75E28A4116DBDBDA004FBCF5 /* EditDetailTypeAdditionalInfoViewController.m in Sources */,
 				75EB423E16EA9DB300FB7540 /* MBProgressHUD.m in Sources */,
 				75EB424416EC683C00FB7540 /* Picture.m in Sources */,
+				751D3CAC17ACEA9F0014CC80 /* ManagedObjectWithPicture.m in Sources */,
 				75EB424716EC814200FB7540 /* UINavigationControllerExtension.m in Sources */,
 				75EB424A16EC83BC00FB7540 /* UIImagePickerControllerExtension.m in Sources */,
 				75EB424F16EC93BD00FB7540 /* UIImage+Resize.m in Sources */,

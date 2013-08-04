@@ -14,8 +14,10 @@
 #import "Detail.h"
 #import "DetailType.h"
 #import "EditAssemblyViewController.h"
+#import "InstructionPreviewViewController.h"
 #import "NSManagedObjectContextExtension.h"
 #import "Picture.h"
+#import "PointsToPixelsTransformer.h"
 #import "PreferencesKeys.h"
 #import "StandardActionsPerformer.h"
 #import "UIImage+Resize.h"
@@ -82,7 +84,8 @@
     }
   else if ([@"PreviewInstructionFromRootAssemblyVC" isEqualToString:segue.identifier])
     {
-    //Fill the instruction preview view controller with the data required
+    InstructionPreviewViewController* instructionPreviewVC = (InstructionPreviewViewController*)segue.destinationViewController;
+    instructionPreviewVC.assembly = _rootAssembly;
     }
   }
 
@@ -93,7 +96,7 @@
     [self performSegueWithIdentifier:@"PreviewInstructionFromRootAssemblyVC" sender:self];
     };
     
-  [AssemblyValidator showExportMenuForRootAssembly:_rootAssembly currentAssembly:_rootAssembly inView:self.view previewInstructionBlock:previewInstructionBlock];
+  [AssemblyValidator showExportMenuForRootAssembly:_rootAssembly inView:self.view previewInstructionBlock:previewInstructionBlock];
   }
   
 @end
@@ -125,16 +128,19 @@
   {
   if (tableView != _rootAssemblyTable || indexPath.section != 0 || indexPath.row != 0)
     return nil;
-  
-  UIImage* pictureToShowThumbnail60x60AspectFit = _rootAssembly.type.pictureToShowThumbnail60x60AspectFit;
     
-  BOOL isPhotoSet = nil != pictureToShowThumbnail60x60AspectFit;
-  AssemblyCellView* cell = (AssemblyCellView*)[tableView dequeueReusableCellWithIdentifier: isPhotoSet
-                         ? @"AssemblyWithPhotoCell"
-                         : @"AssemblyNoPhotoCell"];
-  cell.picture.image = isPhotoSet
-                     ? pictureToShowThumbnail60x60AspectFit
-                     : [UIImage imageNamed:@"camera.png"];
+  AssemblyCellView* cell = (AssemblyCellView*)[tableView dequeueReusableCellWithIdentifier: @"AssemblyCell"];
+  
+  if (_rootAssembly.type.isPictureSelected.boolValue)
+    {
+    cell.accessoryType = cell.editingAccessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+    cell.picture.image = [_rootAssembly.type pictureBestForSize:[PointsToPixelsTransformer sizeInPixelsOnMainScreenForSize:cell.picture.bounds.size]];
+    }
+  else
+    {
+    cell.accessoryType = cell.editingAccessoryType = UITableViewCellAccessoryNone;
+    cell.picture.image = [UIImage imageNamed:@"camera.png"];
+    }
   return cell;
   }
   
@@ -170,19 +176,7 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)selectedImage editingInfo:(NSDictionary *)editingInfo
   {
-  if (nil == _rootAssembly.type.picture)
-    {
-    Picture* picture = (Picture*)[NSEntityDescription insertNewObjectForEntityForName:@"Picture" inManagedObjectContext:_rootAssembly.type.managedObjectContext];
-    _rootAssembly.type.picture = picture;
-    }
-  if (nil == _rootAssembly.type.pictureThumbnail60x60AspectFit)
-    {
-    Picture* picture = (Picture*)[NSEntityDescription insertNewObjectForEntityForName:@"Picture" inManagedObjectContext:_rootAssembly.type.managedObjectContext];
-    _rootAssembly.type.pictureThumbnail60x60AspectFit = picture;
-    }
-  _rootAssembly.type.picture.image = selectedImage;
-  _rootAssembly.type.pictureThumbnail60x60AspectFit.image = [selectedImage resizedImageWithContentMode:UIViewContentModeScaleAspectFit bounds:CGSizeMake(60, 60) interpolationQuality:kCGInterpolationHigh];
-  
+  [_rootAssembly.type setPictureImage:selectedImage];
   // Commit the change.
 	[_rootAssembly.managedObjectContext saveAsyncAndHandleError];
 

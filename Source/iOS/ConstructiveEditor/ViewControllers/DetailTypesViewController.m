@@ -12,7 +12,8 @@
 #import "EditDetailTypeViewController.h"
 #import "DetailTypeCellView.h"
 #import "NSManagedObjectContextExtension.h"
-#import "CoreData/CoreData.h"
+#import "PointsToPixelsTransformer.h"
+#import <CoreData/CoreData.h>
 
 @interface DetailTypesViewController (UITableViewDataSource) <UITableViewDataSource>
 @end
@@ -69,7 +70,7 @@
   
   //detail type should have a picture to be selected
   DetailType* selectedDetailType = self.detail.type;
-  if (selectedDetailType && !selectedDetailType.pictureToShowThumbnail60x60AspectFit)
+  if (selectedDetailType && !selectedDetailType.isPictureSelected.boolValue)
     {
     self.detail.type = nil;
     [_detailTypes removeObject:selectedDetailType];
@@ -190,8 +191,8 @@
       --detailTypeIndex;
     DetailType* detailType = [_detailTypes objectAtIndex:detailTypeIndex];
     DetailTypeCellView* cell = (DetailTypeCellView*)[tableView dequeueReusableCellWithIdentifier:@"DetailTypeCell"];
-    cell.picture.image = [detailType pictureToShowThumbnail60x60AspectFit]
-                       ? [detailType pictureToShowThumbnail60x60AspectFit]
+    cell.picture.image = detailType.isPictureSelected.boolValue
+                       ? [detailType pictureBestForSize:[PointsToPixelsTransformer sizeInPixelsOnMainScreenForSize:cell.picture.bounds.size]]
                        : [UIImage imageNamed:@"camera.png"];
     NSString* formatString = NSLocalizedString(@"Used %d times", @"Usage count label text");
     cell.usageCountLabel.text = [NSString stringWithFormat:formatString, detailType.details.count];

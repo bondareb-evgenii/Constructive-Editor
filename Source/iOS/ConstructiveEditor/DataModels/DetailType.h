@@ -3,12 +3,12 @@
 //  ConstructiveEditor
 
 
+#import "ManagedObjectWithPicture.h"
 #import <Foundation/Foundation.h>
-#import <CoreData/CoreData.h>
 
 @class Detail, Picture;
 
-@interface DetailType : NSManagedObject
+@interface DetailType : ManagedObjectWithPicture
 
 @property (nonatomic, retain) UIColor*  color;
 @property (nonatomic, retain) NSString* identifier;
@@ -27,17 +27,10 @@
 @property (nonatomic, retain) NSNumber* rulerImageAnchorPointY;
 
 //relations
-@property (nonatomic, retain) Picture*  picture;
-@property (nonatomic, retain) Picture*  pictureThumbnail60x60AspectFit;
-@property (nonatomic, retain) Picture*  picturePrepared;
-@property (nonatomic, retain) Picture*  picturePreparedThumbnail60x60AspectFit;
 @property (nonatomic, retain) NSSet*    details;
 @end
 
 @interface DetailType (CoreDataGeneratedAccessors)
-
-- (UIImage*)pictureToShow;
-- (UIImage*)pictureToShowThumbnail60x60AspectFit;
 
 - (void)addDetailsObject:(Detail *)value;
 - (void)removeDetailsObject:(Detail *)value;

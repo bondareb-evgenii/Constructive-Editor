@@ -24,6 +24,6 @@ typedef void (^PreviewInstructionBlock)(Assembly* assembly);
 
 + (Assembly*)rootAssemblyInContext:(NSManagedObjectContext*)context;
 + (BOOL)isAssemblyComplete:(Assembly*)assemblyToCheck withError:(NSError**)error;
-+ (void)showExportMenuForRootAssembly:(Assembly*)rootAssembly currentAssembly:(Assembly*)currentAssembly inView:(UIView *)view previewInstructionBlock:(PreviewInstructionBlock)previewInstructionBlock;
++ (void)showExportMenuForRootAssembly:(Assembly*)rootAssembly inView:(UIView *)view previewInstructionBlock:(PreviewInstructionBlock)previewInstructionBlock;
 
 @end

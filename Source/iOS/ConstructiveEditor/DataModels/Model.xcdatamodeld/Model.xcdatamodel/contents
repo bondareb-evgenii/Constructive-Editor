@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2057" systemVersion="11G63" minimumToolsVersion="Xcode 4.1" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3383" systemVersion="12E55" minimumToolsVersion="Xcode 4.1" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Assembly" representedClassName="Assembly" syncable="YES">
-        <attribute name="connectionPoint" optional="YES" attributeType="Transformable" valueTransformerName="NSValueToDataTransformer" syncable="YES"/>
+        <attribute name="connectionPoint" optional="YES" attributeType="Transformable" valueTransformerName="" syncable="YES"/>
         <relationship name="assemblyExtended" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="AssemblyType" inverseName="assemblyBase" inverseEntity="AssemblyType" syncable="YES"/>
         <relationship name="assemblyRotated" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="AssemblyType" inverseName="assemblyBeforeRotation" inverseEntity="AssemblyType" syncable="YES"/>
         <relationship name="assemblyToInstallTo" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="AssemblyType" inverseName="assembliesInstalled" inverseEntity="AssemblyType" syncable="YES"/>
@@ -9,6 +9,7 @@
         <relationship name="type" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="AssemblyType" inverseName="assemblies" inverseEntity="AssemblyType" syncable="YES"/>
     </entity>
     <entity name="AssemblyType" representedClassName="AssemblyType" syncable="YES">
+        <attribute name="isPictureSelected" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="preparedPicturePoint0_0X" optional="YES" attributeType="Float" syncable="YES"/>
         <attribute name="preparedPicturePoint0_0Y" optional="YES" attributeType="Float" syncable="YES"/>
         <attribute name="preparedPicturePoint1_1X" optional="YES" attributeType="Float" syncable="YES"/>
@@ -22,21 +23,24 @@
         <relationship name="picture" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Picture" syncable="YES"/>
         <relationship name="picturePrepared" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Picture" syncable="YES"/>
         <relationship name="picturePreparedThumbnail60x60AspectFit" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Picture" syncable="YES"/>
+        <relationship name="picturePreparedThumbnail120x120AspectFit" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Picture" syncable="YES"/>
         <relationship name="pictureThumbnail60x60AspectFit" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Picture" syncable="YES"/>
+        <relationship name="pictureThumbnail120x120AspectFit" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Picture" syncable="YES"/>
         <relationship name="shelf" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="AssemblyTypesShelf" inverseName="assemblyTypes" inverseEntity="AssemblyTypesShelf" syncable="YES"/>
     </entity>
     <entity name="AssemblyTypesShelf" representedClassName="AssemblyTypesShelf" syncable="YES">
         <relationship name="assemblyTypes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="AssemblyType" inverseName="shelf" inverseEntity="AssemblyType" syncable="YES"/>
     </entity>
     <entity name="Detail" representedClassName="Detail" syncable="YES">
-        <attribute name="connectionPoint" optional="YES" attributeType="Transformable" valueTransformerName="NSValueToDataTransformer" syncable="YES"/>
+        <attribute name="connectionPoint" optional="YES" attributeType="Transformable" valueTransformerName="" syncable="YES"/>
         <relationship name="assemblyToInstallTo" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="AssemblyType" inverseName="detailsInstalled" inverseEntity="AssemblyType" syncable="YES"/>
         <relationship name="type" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DetailType" inverseName="details" inverseEntity="DetailType" syncable="YES"/>
     </entity>
     <entity name="DetailType" representedClassName="DetailType" syncable="YES">
         <attribute name="classIdentifier" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="color" optional="YES" attributeType="Transformable" valueTransformerName="UIIColorToDataTransformer" syncable="YES"/>
+        <attribute name="color" optional="YES" attributeType="Transformable" valueTransformerName="" syncable="YES"/>
         <attribute name="identifier" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isPictureSelected" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="length" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="pictureWidthInPins" optional="YES" attributeType="Float" minValueString="0" syncable="YES"/>
         <attribute name="preparedPicturePoint0_0X" optional="YES" attributeType="Float" syncable="YES"/>
@@ -53,7 +57,9 @@
         <relationship name="picture" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Picture" syncable="YES"/>
         <relationship name="picturePrepared" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Picture" syncable="YES"/>
         <relationship name="picturePreparedThumbnail60x60AspectFit" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Picture" syncable="YES"/>
+        <relationship name="picturePreparedThumbnail120x120AspectFit" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Picture" syncable="YES"/>
         <relationship name="pictureThumbnail60x60AspectFit" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Picture" syncable="YES"/>
+        <relationship name="pictureThumbnail120x120AspectFit" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Picture" syncable="YES"/>
     </entity>
     <entity name="Picture" syncable="YES">
         <attribute name="image" optional="YES" attributeType="Transformable" valueTransformerName="UIImageToDataTransformer" syncable="YES"/>
@@ -62,12 +68,12 @@
         <relationship name="rootAssembly" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Assembly" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Assembly" positionX="0" positionY="0" width="128" height="135"/>
-        <element name="AssemblyType" positionX="241" positionY="-9" width="128" height="270"/>
-        <element name="AssemblyTypesShelf" positionX="133" positionY="-315" width="128" height="60"/>
-        <element name="Detail" positionX="-297" positionY="-207" width="128" height="90"/>
-        <element name="DetailType" positionX="-344" positionY="126" width="128" height="345"/>
-        <element name="Picture" positionX="160" positionY="192" width="128" height="60"/>
-        <element name="RootAssemblyReference" positionX="160" positionY="192" width="128" height="60"/>
+        <element name="Assembly" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="AssemblyType" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="AssemblyTypesShelf" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Detail" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="DetailType" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Picture" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="RootAssemblyReference" positionX="0" positionY="0" width="0" height="0"/>
     </elements>
 </model>

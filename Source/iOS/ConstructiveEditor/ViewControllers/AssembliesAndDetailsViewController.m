@@ -15,8 +15,10 @@
 #import "EditAssemblyViewController.h"
 #import "EditDetailViewController.h"
 #import "DetailTypesViewController.h"
+#import "InstructionPreviewViewController.h"
 #import "NSManagedObjectContextExtension.h"
 #import "Picture.h"
+#import "PointsToPixelsTransformer.h"
 #import "PreferencesKeys.h"
 #import "StandardActionsPerformer.h"
 #import "UIImage+Resize.h"
@@ -335,7 +337,8 @@
     }
   else if ([@"PreviewInstructionFromAssembliesAndDetailsVC" isEqualToString:segue.identifier])
     {
-    //Fill the instruction preview view controller with the data required
+    InstructionPreviewViewController* instructionPreviewVC = (InstructionPreviewViewController*)segue.destinationViewController;
+    instructionPreviewVC.assembly = [AssemblyValidator rootAssemblyInContext:_assemblyType.managedObjectContext];
     }
   }
   
@@ -386,7 +389,7 @@
     [self performSegueWithIdentifier:@"PreviewInstructionFromAssembliesAndDetailsVC" sender:self];
     };
     
-  [AssemblyValidator showExportMenuForRootAssembly:[AssemblyValidator rootAssemblyInContext:_assemblyType.managedObjectContext] currentAssembly:[_assemblyType.assemblies anyObject] inView:self.view previewInstructionBlock:previewInstructionBlock];
+  [AssemblyValidator showExportMenuForRootAssembly:[AssemblyValidator rootAssemblyInContext:_assemblyType.managedObjectContext] inView:self.view previewInstructionBlock:previewInstructionBlock];
   }
   
 - (IBAction)onAssembliesCountChanged:(UIStepper*)stepper
@@ -529,13 +532,19 @@
   Assembly* assembly = [assemblies lastObject];
   if (assembly)
     {
-    BOOL isAssemblyPhotoSelected = nil != assembly.type.pictureToShowThumbnail60x60AspectFit;
-    AssemblyCellView* cell = (AssemblyCellView*)[_assembliesAndDetailsTable dequeueReusableCellWithIdentifier: isAssemblyPhotoSelected
-                           ? @"AssemblyWithPhotoCell"
-                           : @"AssemblyNoPhotoCell"];
-    cell.picture.image = isAssemblyPhotoSelected
-                       ? [assembly.type pictureToShowThumbnail60x60AspectFit]
-                       : [UIImage imageNamed:@"camera.png"];
+    AssemblyCellView* cell = (AssemblyCellView*)[_assembliesAndDetailsTable dequeueReusableCellWithIdentifier: @"AssemblyCell"];
+    if (assembly.type.isPictureSelected.boolValue)
+      {
+      cell.accessoryType = cell.editingAccessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+      cell.picture.image = [assembly.type pictureBestForSize:[PointsToPixelsTransformer sizeInPixelsOnMainScreenForSize:cell.picture.bounds.size]];
+      cell.countLabel.hidden = cell.countStepper.hidden = NO;
+      }
+    else
+      {
+      cell.accessoryType = cell.editingAccessoryType = UITableViewCellAccessoryNone;
+      cell.picture.image = [UIImage imageNamed:@"camera.png"];
+      cell.countLabel.hidden = cell.countStepper.hidden = YES;
+      }
     BOOL isBaseTransformedOrRotatedAsssembly = nil != assembly.assemblyExtended || nil != assembly.assemblyTransformed || nil != assembly.assemblyRotated;
     cell.countLabel.hidden = isBaseTransformedOrRotatedAsssembly;
     cell.countStepper.hidden = isBaseTransformedOrRotatedAsssembly;
@@ -552,8 +561,9 @@
   if (detail)
     {
     DetailCellView* cell = (DetailCellView*)[tableView dequeueReusableCellWithIdentifier:@"DetailCell"];
-    cell.picture.image = [detail.type pictureToShowThumbnail60x60AspectFit]
-                       ? [detail.type pictureToShowThumbnail60x60AspectFit]
+    UIImage*  thumbnail = [detail.type pictureBestForSize:[PointsToPixelsTransformer sizeInPixelsOnMainScreenForSize:cell.picture.bounds.size]];
+    cell.picture.image = thumbnail
+                       ? thumbnail
                        : [UIImage imageNamed:@"camera.png"];
     cell.countLabel.text = [NSString stringWithFormat:@"%d", details.count];
     cell.countStepper.value = details.count;
@@ -631,7 +641,7 @@
         [self selectPhoto];
       else
         {
-        if (!assembly.type.pictureToShowThumbnail60x60AspectFit)
+        if (!assembly.type.isPictureSelected.boolValue)
           [self selectPhoto];
         else
           [self performSegueWithIdentifier:@"EditAssemblyPhotoSet" sender:nil];
@@ -764,21 +774,7 @@
   NSIndexPath* selectedIndexPath = [_assembliesAndDetailsTable indexPathForSelectedRow];
 	NSMutableArray* selectedAssemblies = [self assembliesForRowAtIndexPath:selectedIndexPath];
   for (Assembly* assembly in selectedAssemblies)
-    {
-    if (nil == assembly.type.picture)
-      {
-      Picture* picture = (Picture*)[NSEntityDescription insertNewObjectForEntityForName:@"Picture" inManagedObjectContext:assembly.type.managedObjectContext];
-      assembly.type.picture = picture;
-      }
-    if (nil == assembly.type.pictureThumbnail60x60AspectFit)
-      {
-      Picture* picture = (Picture*)[NSEntityDescription insertNewObjectForEntityForName:@"Picture" inManagedObjectContext:assembly.type.managedObjectContext];
-      assembly.type.pictureThumbnail60x60AspectFit = picture;
-      }
-    
-    assembly.type.picture.image = selectedImage;
-    assembly.type.pictureThumbnail60x60AspectFit.image = [selectedImage resizedImageWithContentMode:UIViewContentModeScaleAspectFit bounds:CGSizeMake(60, 60) interpolationQuality:kCGInterpolationHigh];
-    }
+    [assembly.type setPictureImage:selectedImage];
   // Commit the change.
 	[_assemblyType.managedObjectContext saveAsyncAndHandleError];
   
@@ -806,7 +802,7 @@
   {
   NSIndexPath* selectedIndexPath = [_assembliesAndDetailsTable indexPathForSelectedRow];
   Assembly* assembly = [self assemblyForRowAtIndexPath:selectedIndexPath];
-  if (assembly && !assembly.assemblyExtended && !assembly.type.pictureToShowThumbnail60x60AspectFit)//remove the assembly added if there is no picture selected for it
+  if (assembly && !assembly.assemblyExtended && !assembly.type.isPictureSelected.boolValue)//remove the assembly added if there is no picture selected for it
     [self removeSmallerAssembliesAtIndexPath:selectedIndexPath];
 	[self dismissModalViewControllerAnimated:YES];
   }

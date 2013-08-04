@@ -10,6 +10,7 @@
 #import "ImageVisualFrameCalculator.h"
 #import "NSManagedObjectContextExtension.h"
 #import "Picture.h"
+#import "PointsToPixelsTransformer.h"
 #import "PreferencesKeys.h"
 #import "UIImage+Resize.h"
 #import <QuartzCore/QuartzCore.h>
@@ -51,8 +52,7 @@ static const float RulerImageLengthInPins = 14.8854449406065;//manually calculat
   _rulerImage = [self liftarmImageOfLength:LiftarmLengthInPins];
   _pictureImageVisualFrameCalculator = [[ImageVisualFrameCalculator alloc] initWithImageView:_pictureImageView];
   [super viewDidLoad];
-  UIImage* picture = _detailType.pictureToShow;
-  _pictureImageView.image = picture ? picture : [UIImage imageNamed:@"NoPhotoBig.png"];
+  _pictureImageView.image = _detailType.isPictureSelected.boolValue ? [_detailType pictureBestForSize:[PointsToPixelsTransformer sizeInPixelsOnMainScreenForSize:_pictureImageView.bounds.size]] : [UIImage imageNamed:@"NoPhotoBig.png"];
   }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -64,7 +64,7 @@ static const float RulerImageLengthInPins = 14.8854449406065;//manually calculat
 
 - (void)showRuler
   {
-  if (_rulerImageView || !_detailType.pictureToShow)
+  if (_rulerImageView || !_detailType.isPictureSelected.boolValue)
     return;
   
   _rulerImageView = [[UIImageView alloc] initWithImage:_rulerImage];
@@ -352,22 +352,12 @@ static const float RulerImageLengthInPins = 14.8854449406065;//manually calculat
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)selectedImage editingInfo:(NSDictionary *)editingInfo
   {
-  if (nil == _detailType.picture)
-    {
-    Picture* picture = (Picture*)[NSEntityDescription insertNewObjectForEntityForName:@"Picture" inManagedObjectContext:_detailType.managedObjectContext];
-    _detailType.picture = picture;
-    }
-  if (nil == _detailType.pictureThumbnail60x60AspectFit)
-    {
-    Picture* picture = (Picture*)[NSEntityDescription insertNewObjectForEntityForName:@"Picture" inManagedObjectContext:_detailType.managedObjectContext];
-    _detailType.pictureThumbnail60x60AspectFit = picture;
-    }
-	_detailType.picture.image = selectedImage;
-  _detailType.pictureThumbnail60x60AspectFit.image = [selectedImage resizedImageWithContentMode:UIViewContentModeScaleAspectFit bounds:CGSizeMake(60, 60) interpolationQuality:kCGInterpolationHigh];;
+	[_detailType setPictureImage:selectedImage];
   // Commit the change.
 	[_detailType.managedObjectContext saveAsyncAndHandleError];
-  _pictureImageView.image = [_detailType pictureToShow]
-                  ? [_detailType pictureToShow]
+  
+  _pictureImageView.image = _detailType.isPictureSelected.boolValue
+                  ? [_detailType pictureBestForSize:[PointsToPixelsTransformer sizeInPixelsOnMainScreenForSize:_pictureImageView.bounds.size]]
                   : [UIImage imageNamed:@"NoPhotoBig.png"];
 
   [self dismissModalViewControllerAnimated:YES];

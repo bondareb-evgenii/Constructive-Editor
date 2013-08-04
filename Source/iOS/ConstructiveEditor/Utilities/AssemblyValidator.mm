@@ -78,7 +78,7 @@ struct SmallerAssembliesEnumerationCache
   return [[AssemblyValidatorGeneral validatorWitAssemblyType:assemblyToCheck.type] isCompleteWithError:error];
   }
 
-+ (void)showExportMenuForRootAssembly:(Assembly*)rootAssembly currentAssembly:(Assembly*)currentAssembly inView:(UIView *)view previewInstructionBlock:(PreviewInstructionBlock)previewInstructionBlock
++ (void)showExportMenuForRootAssembly:(Assembly*)rootAssembly inView:(UIView *)view previewInstructionBlock:(PreviewInstructionBlock)previewInstructionBlock
   {
   //model is OK and can be exported if only one validation rule is broken: some assemblies are not broken up yet, all the other rules should be satisfied. For example if some assembly is split to 1 detail (less then 2) then the model cannot be expoted until the user removes the detail
   NSError* error = nil;
