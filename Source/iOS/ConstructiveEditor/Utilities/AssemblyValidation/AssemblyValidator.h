@@ -16,14 +16,23 @@ typedef enum
   kModelValidationErrorCodeSubassemblyHasNoConnectionPoint,
   } ModelValidationErrorCode;
 
-@class Assembly;
+typedef enum
+  {
+  kExportFileFormatPDF
+  } ExportFileFormat;
 
-typedef void (^PreviewInstructionBlock)(Assembly* assembly);
+@class Assembly;
+@class AssemblyType;
+@class InstructionStep;
+
+typedef void (^PreviewInstructionBlock)(Assembly* assembly, ExportFileFormat exportFileFormat, NSArray* steps);
 
 @interface AssemblyValidator : NSObject
 
 + (Assembly*)rootAssemblyInContext:(NSManagedObjectContext*)context;
-+ (BOOL)isAssemblyComplete:(Assembly*)assemblyToCheck withError:(NSError**)error;
++ (BOOL)canDisassemble:(Assembly*)assemblyToCheck withError:(NSError**)error andSteps:(NSMutableArray*)steps;
 + (void)showExportMenuForRootAssembly:(Assembly*)rootAssembly inView:(UIView *)view previewInstructionBlock:(PreviewInstructionBlock)previewInstructionBlock;
++ (void)calculateInstalledAssembliesGroupsForAssemblyType:(AssemblyType*)assemblyType intoArray:(NSMutableArray**)assembliesGroups andDictionary:(NSMutableDictionary**)assembliesGroupsDictionary;
++ (void)calculateInstalledDetailsGroupsForAssemblyType:(AssemblyType*)assemblyType intoArray:(NSMutableArray**)detailsGroups andDictionary:(NSMutableDictionary**)detailsGroupsDictionary;
 
 @end

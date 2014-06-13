@@ -54,8 +54,10 @@
 		758DA6B216DAC136005D59A4 /* liftarm_bottom_left.png in Resources */ = {isa = PBXBuildFile; fileRef = 758DA6AF16DAC135005D59A4 /* liftarm_bottom_left.png */; };
 		758DA6B316DAC136005D59A4 /* liftarm_center.png in Resources */ = {isa = PBXBuildFile; fileRef = 758DA6B016DAC135005D59A4 /* liftarm_center.png */; };
 		758DA6B416DAC136005D59A4 /* liftarm_top_right.png in Resources */ = {isa = PBXBuildFile; fileRef = 758DA6B116DAC136005D59A4 /* liftarm_top_right.png */; };
+		759B0B4917BF5EDB0010818F /* InstructionLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 759B0B4817BF5EDB0010818F /* InstructionLayoutManager.m */; };
 		75A26DA215218B2200449686 /* camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 75A26D9E15218B2200449686 /* camera.png */; };
 		75B7DA441521796100C02F18 /* AssemblyCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 75B7DA431521796100C02F18 /* AssemblyCellView.m */; };
+		75B91BDB19264205006717FE /* InstructionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 75B91BDA19264205006717FE /* InstructionStep.m */; };
 		75CF686116B58D2900DEE4B4 /* InstructionPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75CF686016B58D2900DEE4B4 /* InstructionPreviewViewController.m */; };
 		75D58E6716F4C1DC000B231C /* RootAssemblyReference.m in Sources */ = {isa = PBXBuildFile; fileRef = 75D58E6616F4C1DC000B231C /* RootAssemblyReference.m */; };
 		75E28A4116DBDBDA004FBCF5 /* EditDetailTypeAdditionalInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75E28A4016DBDBDA004FBCF5 /* EditDetailTypeAdditionalInfoViewController.m */; };
@@ -119,8 +121,8 @@
 /* Begin PBXFileReference section */
 		7517F5A815217494000EF32F /* EditAssemblyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditAssemblyViewController.h; sourceTree = "<group>"; };
 		7517F5A915217494000EF32F /* EditAssemblyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditAssemblyViewController.m; sourceTree = "<group>"; };
-		751C5F63161054B20025AFA4 /* AssemblyValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AssemblyValidator.h; path = Utilities/AssemblyValidator.h; sourceTree = "<group>"; };
-		751C5F64161054B20025AFA4 /* AssemblyValidator.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AssemblyValidator.mm; path = Utilities/AssemblyValidator.mm; sourceTree = "<group>"; };
+		751C5F63161054B20025AFA4 /* AssemblyValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AssemblyValidator.h; path = Utilities/AssemblyValidation/AssemblyValidator.h; sourceTree = "<group>"; };
+		751C5F64161054B20025AFA4 /* AssemblyValidator.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AssemblyValidator.mm; path = Utilities/AssemblyValidation/AssemblyValidator.mm; sourceTree = "<group>"; };
 		751D3CA417AC3C600014CC80 /* DetailsListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailsListView.h; sourceTree = "<group>"; };
 		751D3CA517AC3C600014CC80 /* DetailsListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailsListView.m; sourceTree = "<group>"; };
 		751D3CA717AC48BE0014CC80 /* DetailsListViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailsListViewCell.h; sourceTree = "<group>"; };
@@ -171,8 +173,8 @@
 		753BCF2C17A408CE0038DA1B /* AssemblyValidatorTransformed.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AssemblyValidatorTransformed.m; path = Utilities/AssemblyValidation/AssemblyValidatorTransformed.m; sourceTree = "<group>"; };
 		754FF90B15FCD01300A2D555 /* AssemblyType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AssemblyType.h; sourceTree = "<group>"; };
 		754FF90C15FCD01400A2D555 /* AssemblyType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AssemblyType.m; sourceTree = "<group>"; };
-		755A74D717A90926009224F1 /* InstructionBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InstructionBuilder.h; path = Utilities/InstructionBuilder.h; sourceTree = "<group>"; };
-		755A74D817A90926009224F1 /* InstructionBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InstructionBuilder.m; path = Utilities/InstructionBuilder.m; sourceTree = "<group>"; };
+		755A74D717A90926009224F1 /* InstructionBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InstructionBuilder.h; path = Utilities/BuildInstructionGeneration/InstructionBuilder.h; sourceTree = "<group>"; };
+		755A74D817A90926009224F1 /* InstructionBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InstructionBuilder.m; path = Utilities/BuildInstructionGeneration/InstructionBuilder.m; sourceTree = "<group>"; };
 		756BA30515F143C0009F0C9D /* pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pin.png; sourceTree = "<group>"; };
 		757A153615E3BF8D00E89FBC /* AlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlertView.h; sourceTree = "<group>"; };
 		757A153715E3BF8D00E89FBC /* AlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlertView.m; sourceTree = "<group>"; };
@@ -180,8 +182,8 @@
 		757A153B15ED256E00E89FBC /* PreferencesKeys.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreferencesKeys.m; path = Preferences/PreferencesKeys.m; sourceTree = "<group>"; };
 		757A153D15EE77B400E89FBC /* ActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionSheet.h; sourceTree = "<group>"; };
 		757A153E15EE77B400E89FBC /* ActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionSheet.m; sourceTree = "<group>"; };
-		757B0CB4160DF82B008883C0 /* VisualSelectablePointer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VisualSelectablePointer.h; path = ConstructiveEditor/Utilities/VisualSelectablePointer.h; sourceTree = "<group>"; };
-		757B0CB5160DF82B008883C0 /* VisualSelectablePointer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VisualSelectablePointer.m; path = ConstructiveEditor/Utilities/VisualSelectablePointer.m; sourceTree = "<group>"; };
+		757B0CB4160DF82B008883C0 /* VisualSelectablePointer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VisualSelectablePointer.h; path = Utilities/VisualSelectablePointer.h; sourceTree = "<group>"; };
+		757B0CB5160DF82B008883C0 /* VisualSelectablePointer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VisualSelectablePointer.m; path = Utilities/VisualSelectablePointer.m; sourceTree = "<group>"; };
 		757B0CB8160F137C008883C0 /* PreferencesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferencesViewController.h; sourceTree = "<group>"; };
 		757B0CB9160F137C008883C0 /* PreferencesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferencesViewController.m; sourceTree = "<group>"; };
 		757B0CBB160F5033008883C0 /* PreferenceOptionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferenceOptionsViewController.h; sourceTree = "<group>"; };
@@ -200,9 +202,13 @@
 		758DA6AF16DAC135005D59A4 /* liftarm_bottom_left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = liftarm_bottom_left.png; sourceTree = "<group>"; };
 		758DA6B016DAC135005D59A4 /* liftarm_center.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = liftarm_center.png; sourceTree = "<group>"; };
 		758DA6B116DAC136005D59A4 /* liftarm_top_right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = liftarm_top_right.png; sourceTree = "<group>"; };
+		759B0B4717BF5EDB0010818F /* InstructionLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InstructionLayoutManager.h; path = Utilities/BuildInstructionGeneration/InstructionLayoutManager.h; sourceTree = "<group>"; };
+		759B0B4817BF5EDB0010818F /* InstructionLayoutManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InstructionLayoutManager.m; path = Utilities/BuildInstructionGeneration/InstructionLayoutManager.m; sourceTree = "<group>"; };
 		75A26D9E15218B2200449686 /* camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera.png; sourceTree = "<group>"; };
 		75B7DA421521796100C02F18 /* AssemblyCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AssemblyCellView.h; sourceTree = "<group>"; };
 		75B7DA431521796100C02F18 /* AssemblyCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AssemblyCellView.m; sourceTree = "<group>"; };
+		75B91BD919264205006717FE /* InstructionStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InstructionStep.h; path = Utilities/BuildInstructionGeneration/InstructionStep.h; sourceTree = "<group>"; };
+		75B91BDA19264205006717FE /* InstructionStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InstructionStep.m; path = Utilities/BuildInstructionGeneration/InstructionStep.m; sourceTree = "<group>"; };
 		75CF685F16B58D2900DEE4B4 /* InstructionPreviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstructionPreviewViewController.h; sourceTree = "<group>"; };
 		75CF686016B58D2900DEE4B4 /* InstructionPreviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstructionPreviewViewController.m; sourceTree = "<group>"; };
 		75D58E6516F4C1DC000B231C /* RootAssemblyReference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootAssemblyReference.h; sourceTree = "<group>"; };
@@ -392,6 +398,8 @@
 		753BCF2117A404D80038DA1B /* AssemblyValidation */ = {
 			isa = PBXGroup;
 			children = (
+				751C5F63161054B20025AFA4 /* AssemblyValidator.h */,
+				751C5F64161054B20025AFA4 /* AssemblyValidator.mm */,
 				753BCF2217A4052F0038DA1B /* AssemblyValidatorGeneral.h */,
 				753BCF2317A4052F0038DA1B /* AssemblyValidatorGeneral.m */,
 				753BCF2517A408CE0038DA1B /* AssemblyValidatorRotated.h */,
@@ -426,23 +434,22 @@
 		757F600615EF8E590022FC67 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				759B0B4A17BF9CD40010818F /* BuildInstructionGeneration */,
 				753BCF2117A404D80038DA1B /* AssemblyValidation */,
 				75EE288B160B17C400050997 /* Constants.h */,
 				75EE288C160B17C400050997 /* Constants.m */,
 				75800F9015FC90A800E5262E /* DirectoryWatcher.h */,
 				75800F9115FC90A800E5262E /* DirectoryWatcher.m */,
-				757F600815EF8F490022FC67 /* StandardActionsPerformer.h */,
-				757F600915EF8F490022FC67 /* StandardActionsPerformer.m */,
-				751C5F63161054B20025AFA4 /* AssemblyValidator.h */,
-				751C5F64161054B20025AFA4 /* AssemblyValidator.mm */,
 				753270AB16C414A2005A1B83 /* ImageVisualFrameCalculator.h */,
 				753270AC16C414A2005A1B83 /* ImageVisualFrameCalculator.m */,
-				755A74D717A90926009224F1 /* InstructionBuilder.h */,
-				755A74D817A90926009224F1 /* InstructionBuilder.m */,
 				751D3CAD17ACFD320014CC80 /* PointsToPixelsTransformer.h */,
 				751D3CAE17ACFD320014CC80 /* PointsToPixelsTransformer.m */,
 				751D3CB017AEAB580014CC80 /* PrintPaperManager.h */,
 				751D3CB117AEAB580014CC80 /* PrintPaperManager.m */,
+				757F600815EF8F490022FC67 /* StandardActionsPerformer.h */,
+				757F600915EF8F490022FC67 /* StandardActionsPerformer.m */,
+				757B0CB4160DF82B008883C0 /* VisualSelectablePointer.h */,
+				757B0CB5160DF82B008883C0 /* VisualSelectablePointer.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -468,6 +475,19 @@
 				75EB424916EC83BC00FB7540 /* UIImagePickerControllerExtension.m */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		759B0B4A17BF9CD40010818F /* BuildInstructionGeneration */ = {
+			isa = PBXGroup;
+			children = (
+				75B91BD919264205006717FE /* InstructionStep.h */,
+				75B91BDA19264205006717FE /* InstructionStep.m */,
+				755A74D717A90926009224F1 /* InstructionBuilder.h */,
+				755A74D817A90926009224F1 /* InstructionBuilder.m */,
+				759B0B4717BF5EDB0010818F /* InstructionLayoutManager.h */,
+				759B0B4817BF5EDB0010818F /* InstructionLayoutManager.m */,
+			);
+			name = BuildInstructionGeneration;
 			sourceTree = "<group>";
 		};
 		75B7DA761521872D00C02F18 /* Images */ = {
@@ -523,8 +543,6 @@
 			children = (
 				75EB424B16EC906E00FB7540 /* ImageIO.framework */,
 				753270A416BEE7E5005A1B83 /* QuartzCore.framework */,
-				757B0CB4160DF82B008883C0 /* VisualSelectablePointer.h */,
-				757B0CB5160DF82B008883C0 /* VisualSelectablePointer.m */,
 				7529F96D15199CBD00C13C90 /* CoreData.framework */,
 				84EA63B31514C4AF00C7177E /* ConstructiveEditor */,
 				84EA63D41514C4AF00C7177E /* ConstructiveEditorTests */,
@@ -635,7 +653,7 @@
 			name = ConstructiveEditorTests;
 			productName = ConstructiveEditorTests;
 			productReference = 84EA63CD1514C4AF00C7177E /* ConstructiveEditorTests.octest */;
-			productType = "com.apple.product-type.bundle";
+			productType = "com.apple.product-type.bundle.ocunit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -739,8 +757,10 @@
 				84EA63BA1514C4AF00C7177E /* main.m in Sources */,
 				7529F96115199C3200C13C90 /* AppDelegate.m in Sources */,
 				7529F96515199C3200C13C90 /* Model.xcdatamodeld in Sources */,
+				759B0B4917BF5EDB0010818F /* InstructionLayoutManager.m in Sources */,
 				7529F96715199C3200C13C90 /* UIImageToDataTransformer.m in Sources */,
 				753BCF2E17A40D820038DA1B /* AssemblyValidatorSmallerPartsDetached.m in Sources */,
+				75B91BDB19264205006717FE /* InstructionStep.m in Sources */,
 				7529F96C15199C3200C13C90 /* StartMenuViewController.m in Sources */,
 				7529F9741519A33A00C13C90 /* RootAssemblyViewController.m in Sources */,
 				7529F97A151AE69B00C13C90 /* DetailType.m in Sources */,

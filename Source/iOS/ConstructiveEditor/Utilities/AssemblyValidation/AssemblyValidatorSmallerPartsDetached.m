@@ -11,6 +11,8 @@
 #import "AssemblyValidatorSplitToDetails.h"
 #import "AssemblyValidatorTransformed.h"
 #import "Detail.h"
+#import "DetailType.h"
+#import "InstructionStep.h"
 
 @interface AssemblyValidatorSmallerPartsDetached ()
   {
@@ -38,7 +40,7 @@
   return [[self alloc] initWithAssemblyType:assemblyType];
   }
 
-- (BOOL)isCompleteWithError:(NSError**)error
+- (BOOL)canDisassembleWithError:(NSError**)error steps:(NSMutableArray*)steps andCurrentStep:(InstructionStep*)currentStep
   {
   BOOL isAssemblySplit = _assemblyType.detailsInstalled.count && !_assemblyType.assemblyBase;
   BOOL isAssemblyTransformed = nil != _assemblyType.assemblyBeforeTransformation;
@@ -73,6 +75,7 @@
       problematicDetail = detail;
       break;
       }
+    currentStep.resultingAssemblyVolumeInCubicPins += detail.type.addedVolumeInCubicPins.floatValue;
     }
     
   if (!allDetailsHaveConnectionPoint)
@@ -104,14 +107,27 @@
   
   //Assembly and it's details are OK, let's check subassemblies
   //Base assembly:
-  if(![[AssemblyValidatorGeneral validatorWitAssemblyType:_assemblyType.assemblyBase.type] isCompleteWithError:error] && (*error).code != kModelValidationErrorCodeAssemblyNotBrokenUp)
+  BOOL canSplitBaseAssembly = [[AssemblyValidatorGeneral validatorWitAssemblyType:_assemblyType.assemblyBase.type] canDisassembleWithError:error andSteps:steps];
+  
+  if (!canSplitBaseAssembly && (*error).code != kModelValidationErrorCodeAssemblyNotBrokenUp)
     return NO;
+    
+  currentStep.resultingAssemblyVolumeInCubicPins += [steps.lastObject resultingAssemblyVolumeInCubicPins];
+  [steps addObject:currentStep];
   
   //Smaller assemblies
-  for (Assembly* assembly in _assemblyType.assembliesInstalled)
+  NSMutableArray* assembliesGroups = nil;
+  NSMutableDictionary* assembliesGroupsDictionary = nil;
+  [AssemblyValidator calculateInstalledAssembliesGroupsForAssemblyType:_assemblyType intoArray:&assembliesGroups andDictionary:&assembliesGroupsDictionary];
+  
+  for (NSValue* assemblyTypeVallue in assembliesGroups)
     {
-    if(![[AssemblyValidatorGeneral validatorWitAssemblyType:assembly.type] isCompleteWithError:error] && (*error).code != kModelValidationErrorCodeAssemblyNotBrokenUp)
+    AssemblyType* assemblyType = assemblyTypeVallue.nonretainedObjectValue;
+    //InstructionStep* substep = [[InstructionStep alloc] initWithAssemblyType:_assemblyType];
+    BOOL canSplitSubassembly = [[AssemblyValidatorGeneral validatorWitAssemblyType:assemblyType] canDisassembleWithError:error andSteps:currentStep.substeps];
+    if(!canSplitSubassembly && (*error).code != kModelValidationErrorCodeAssemblyNotBrokenUp)
       return NO;
+    currentStep.resultingAssemblyVolumeInCubicPins += [currentStep.substeps.lastObject resultingAssemblyVolumeInCubicPins]*[[assembliesGroupsDictionary objectForKey:assemblyTypeVallue] count];
     }
   
   return nil == *error;

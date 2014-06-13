@@ -73,16 +73,17 @@ struct SmallerAssembliesEnumerationCache
   return rootAssembly;
   }
 
-+ (BOOL)isAssemblyComplete:(Assembly*)assemblyToCheck withError:(NSError**)error
++ (BOOL)canDisassemble:(Assembly*)assemblyToCheck withError:(NSError**)error andSteps:(NSMutableArray*)steps;
   {
-  return [[AssemblyValidatorGeneral validatorWitAssemblyType:assemblyToCheck.type] isCompleteWithError:error];
+  return [[AssemblyValidatorGeneral validatorWitAssemblyType:assemblyToCheck.type] canDisassembleWithError:error andSteps:steps];
   }
 
 + (void)showExportMenuForRootAssembly:(Assembly*)rootAssembly inView:(UIView *)view previewInstructionBlock:(PreviewInstructionBlock)previewInstructionBlock
   {
   //model is OK and can be exported if only one validation rule is broken: some assemblies are not broken up yet, all the other rules should be satisfied. For example if some assembly is split to 1 detail (less then 2) then the model cannot be expoted until the user removes the detail
   NSError* error = nil;
-  BOOL isEntireModelValid = [self isAssemblyComplete:rootAssembly withError:&error];
+  NSMutableArray* globalStepsArray = [[NSMutableArray alloc] initWithCapacity:10];
+  BOOL isEntireModelValid = [self canDisassemble:rootAssembly withError:&error andSteps:globalStepsArray];
   
   if (isEntireModelValid)
     {
@@ -94,7 +95,7 @@ struct SmallerAssembliesEnumerationCache
           {
           case 0://PDF document
             {
-            previewInstructionBlock(rootAssembly);
+            previewInstructionBlock(rootAssembly, kExportFileFormatPDF, globalStepsArray);
             break;
             }
           case 1://cancel
@@ -122,7 +123,7 @@ destructiveButtonTitle: nil
               {
               case 0://PDF document
                 {
-                previewInstructionBlock(rootAssembly);
+                previewInstructionBlock(rootAssembly, kExportFileFormatPDF, globalStepsArray);
                 break;
                 }
               case 1://cancel
@@ -150,6 +151,49 @@ destructiveButtonTitle: nil
         break;
       }
     }
+  }
+
++ (void)calculateInstalledAssembliesGroupsForAssemblyType:(AssemblyType*)assemblyType intoArray:(NSMutableArray**)assembliesGroups andDictionary:(NSMutableDictionary**)assembliesGroupsDictionary
+  {
+  *assembliesGroups = [[NSMutableArray alloc] initWithCapacity:assemblyType.assembliesInstalled.count];
+  *assembliesGroupsDictionary = [[NSMutableDictionary alloc] initWithCapacity:assemblyType.assembliesInstalled.count];
+  NSArray* assembliesInstalled = [assemblyType.assembliesInstalled allObjects];
+  for (Assembly* assembly in assembliesInstalled)
+    {
+    NSValue* key = [NSValue valueWithNonretainedObject:assembly.type];
+    NSMutableArray* assemblies = [*assembliesGroupsDictionary objectForKey:key];
+    if (assemblies.count)
+      [assemblies addObject:assembly];
+    else
+      {
+      assemblies = [[NSMutableArray alloc] initWithCapacity:1];
+      [assemblies addObject:assembly];
+      [*assembliesGroups addObject:key];
+      [*assembliesGroupsDictionary setObject:assemblies forKey:key];
+      }
+    }
+  }
+
++ (void)calculateInstalledDetailsGroupsForAssemblyType:(AssemblyType*)assemblyType intoArray:(NSMutableArray**)detailsGroups andDictionary:(NSMutableDictionary**)detailsGroupsDictionary
+  {
+  *detailsGroups = [[NSMutableArray alloc] initWithCapacity:assemblyType.detailsInstalled.count];
+  *detailsGroupsDictionary = [[NSMutableDictionary alloc] initWithCapacity:assemblyType.detailsInstalled.count];
+  NSArray* detailsInstalled = [assemblyType.detailsInstalled allObjects];
+  for (Detail* detail in detailsInstalled)
+    {
+    NSValue* key = [NSValue valueWithNonretainedObject:detail.type];
+    NSMutableArray* details = [*detailsGroupsDictionary objectForKey:key];
+    if (details.count)
+      [details addObject:detail];
+    else
+      {
+      details = [[NSMutableArray alloc] initWithCapacity:1];
+      [details addObject:detail];
+      [*detailsGroups addObject:key];
+      [*detailsGroupsDictionary setObject:details forKey:key];
+      }
+    }
+
   }
 
 @end

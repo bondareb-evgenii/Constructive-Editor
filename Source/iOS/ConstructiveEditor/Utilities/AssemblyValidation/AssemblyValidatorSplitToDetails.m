@@ -10,6 +10,8 @@
 #import "AssemblyValidatorSmallerPartsDetached.h"
 #import "AssemblyValidatorTransformed.h"
 #import "Detail.h"
+#import "DetailType.h"
+#import "InstructionStep.h"
 
 @interface AssemblyValidatorSplitToDetails ()
   {
@@ -37,7 +39,7 @@
   return [[self alloc] initWithAssemblyType:assemblyType];
   }
 
-- (BOOL)isCompleteWithError:(NSError**)error
+- (BOOL)canDisassembleWithError:(NSError**)error steps:(NSMutableArray*)steps andCurrentStep:(InstructionStep*)currentStep
   {
   BOOL arePartsDetachedFromAssembly = nil != _assemblyType.assemblyBase;
   BOOL isAssemblyTransformed = nil != _assemblyType.assemblyBeforeTransformation;
@@ -72,6 +74,7 @@
       problematicDetail = detail;
       break;
       }
+    currentStep.resultingAssemblyVolumeInCubicPins += detail.type.addedVolumeInCubicPins.floatValue;
     }
   if (!allDetailsHaveConnectionPoint)
     {
@@ -83,6 +86,8 @@
     *error = [NSError errorWithDomain:@"Assembly description is incomplete" code:kModelValidationErrorCodeDetailHasNoConnectionPoint userInfo:[NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"At least one detail some assembly is split to has no type selected", @"Model validation error message"), NSLocalizedDescriptionKey, _assemblyType, @"assemblyType", problematicDetail, @"problematicDetail", nil]];
     return NO;
     }
+  
+  [steps addObject:currentStep];
   
   return YES;
   }

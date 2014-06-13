@@ -15,6 +15,7 @@
 #import "DetailType.h"
 #import "EditAssemblyViewController.h"
 #import "InstructionPreviewViewController.h"
+#import "InstructionStep.h"
 #import "NSManagedObjectContextExtension.h"
 #import "Picture.h"
 #import "PointsToPixelsTransformer.h"
@@ -91,7 +92,7 @@
 
 - (IBAction)exportDocument:(id)sender
   {
-  PreviewInstructionBlock previewInstructionBlock = ^(Assembly* assembly)
+  PreviewInstructionBlock previewInstructionBlock = ^(Assembly* assembly, ExportFileFormat exportFileFormat, NSArray* steps)
     {
     [self performSegueWithIdentifier:@"PreviewInstructionFromRootAssemblyVC" sender:self];
     };

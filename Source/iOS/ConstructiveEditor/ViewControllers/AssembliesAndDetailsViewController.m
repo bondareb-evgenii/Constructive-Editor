@@ -16,6 +16,7 @@
 #import "EditDetailViewController.h"
 #import "DetailTypesViewController.h"
 #import "InstructionPreviewViewController.h"
+#import "InstructionStep.h"
 #import "NSManagedObjectContextExtension.h"
 #import "Picture.h"
 #import "PointsToPixelsTransformer.h"
@@ -57,41 +58,17 @@
 
 - (void)updateData
   {
-  _assembliesGroups = [[NSMutableArray alloc] initWithCapacity:self.assemblyType.assembliesInstalled.count];
-  _assembliesGroupsDictionary = [[NSMutableDictionary alloc] initWithCapacity:self.assemblyType.assembliesInstalled.count];
-  NSArray* assembliesInstalled = [self.assemblyType.assembliesInstalled allObjects];
-  for (Assembly* assembly in assembliesInstalled)
-    {
-    NSValue* key = [NSValue valueWithNonretainedObject:assembly.type];
-    NSMutableArray* assemblies = [_assembliesGroupsDictionary objectForKey:key];
-    if (assemblies.count)
-      [assemblies addObject:assembly];
-    else
-      {
-      assemblies = [[NSMutableArray alloc] initWithCapacity:1];
-      [assemblies addObject:assembly];
-      [_assembliesGroups addObject:key];
-      [_assembliesGroupsDictionary setObject:assemblies forKey:key];
-      }
-    }
+  NSMutableArray* assembliesGroups = nil;
+  NSMutableDictionary* assembliesGroupsDictionary = nil;
+  [AssemblyValidator calculateInstalledAssembliesGroupsForAssemblyType:self.assemblyType intoArray:&assembliesGroups andDictionary:&assembliesGroupsDictionary];
+  _assembliesGroups = assembliesGroups;
+  _assembliesGroupsDictionary = assembliesGroupsDictionary;
   
-  _detailsGroups = [[NSMutableArray alloc] initWithCapacity:self.assemblyType.detailsInstalled.count];
-  _detailsGroupsDictionary = [[NSMutableDictionary alloc] initWithCapacity:self.assemblyType.detailsInstalled.count];
-  NSArray* detailsInstalled = [self.assemblyType.detailsInstalled allObjects];
-  for (Detail* detail in detailsInstalled)
-    {
-    NSValue* key = [NSValue valueWithNonretainedObject:detail.type];
-    NSMutableArray* details = [_detailsGroupsDictionary objectForKey:key];
-    if (details.count)
-      [details addObject:detail];
-    else
-      {
-      details = [[NSMutableArray alloc] initWithCapacity:1];
-      [details addObject:detail];
-      [_detailsGroups addObject:key];
-      [_detailsGroupsDictionary setObject:details forKey:key];
-      }
-    }
+  NSMutableArray* detailsGroups = nil;
+  NSMutableDictionary* detailsGroupsDictionary = nil;
+  [AssemblyValidator calculateInstalledDetailsGroupsForAssemblyType:self.assemblyType intoArray:&detailsGroups andDictionary:&detailsGroupsDictionary];
+  _detailsGroups = detailsGroups;
+  _detailsGroupsDictionary = detailsGroupsDictionary;
   }
   
 - (void)reloadTableViewAnimated:(BOOL)animated
@@ -384,7 +361,7 @@
   
 - (IBAction)exportDocument:(id)sender
   {
-  PreviewInstructionBlock previewInstructionBlock = ^(Assembly* assembly)
+  PreviewInstructionBlock previewInstructionBlock = ^(Assembly* assembly , ExportFileFormat exportFileFormat, NSArray* steps)
     {
     [self performSegueWithIdentifier:@"PreviewInstructionFromAssembliesAndDetailsVC" sender:self];
     };

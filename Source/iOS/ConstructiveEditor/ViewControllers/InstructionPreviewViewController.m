@@ -74,16 +74,16 @@
   CGSize viewSize = self.collectionView.bounds.size;
   BOOL portrait = viewSize.width < viewSize.height;
   
-  CGSize pageSize = [PrintPaperManager preferedPaper].printableRect.size;
+  CGSize stepSize = [PrintPaperManager preferedPaper].printableRect.size;
   if (portrait)
-    pageSize = CGSizeMake(viewSize.width, pageSize.height*(viewSize.width - _itemSpacing*2)/pageSize.width);
+    stepSize = CGSizeMake(viewSize.width, stepSize.height*(viewSize.width - _itemSpacing*2)/stepSize.width);
   else
-    pageSize = CGSizeMake(pageSize.width*(viewSize.height - _itemSpacing*2)/pageSize.height, viewSize.height);
+    stepSize = CGSizeMake(stepSize.width*(viewSize.height - _itemSpacing*2)/stepSize.height, viewSize.height);
   
   UICollectionViewFlowLayout* flowLayout = (UICollectionViewFlowLayout*)self.collectionView.collectionViewLayout;
   flowLayout.minimumInteritemSpacing = 0;
   flowLayout.minimumLineSpacing = _itemSpacing;
-  flowLayout.itemSize = pageSize;
+  flowLayout.itemSize = stepSize;
   flowLayout.scrollDirection = portrait ? UICollectionViewScrollDirectionVertical : UICollectionViewScrollDirectionHorizontal;
   }
 
@@ -111,7 +111,7 @@
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
   {
   if (0 == section)
-    return [_instructionBuilder pagesCount];
+    return [_instructionBuilder stepsCount];
   return 0;
   }
 
@@ -119,7 +119,7 @@
   {
   UICollectionViewCell* cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"DetailCell" forIndexPath:indexPath];
   [[cell.contentView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
-  [_instructionBuilder prepareCell:cell forItemAtPage:indexPath.item];
+  [_instructionBuilder prepareCell:cell forItemAtStep:indexPath.item];
   return cell;
   }
 
@@ -130,8 +130,8 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
   {
   CGSize viewSize = self.collectionView.bounds.size;
-  CGFloat pageSide = MIN(viewSize.width, viewSize.height);
-  return CGSizeMake(pageSide, pageSide);
+  CGFloat stepSide = MIN(viewSize.width, viewSize.height);
+  return CGSizeMake(stepSide, stepSide);
   }
 
 @end*/

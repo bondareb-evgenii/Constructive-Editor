@@ -11,7 +11,7 @@
 - (id)initWithAssembly:(Assembly*)assembly;
 + (id)builderWithAssembly:(Assembly*)assembly;
 
-- (NSUInteger)pagesCount;
-- (void)prepareCell:(UICollectionViewCell*)cell forItemAtPage:(NSUInteger)page;
+- (NSUInteger)stepsCount;
+- (void)prepareCell:(UICollectionViewCell*)cell forItemAtStep:(NSUInteger)step;
 
 @end

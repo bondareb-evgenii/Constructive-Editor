@@ -10,6 +10,7 @@
 #import "AssemblyValidatorSmallerPartsDetached.h"
 #import "AssemblyValidatorSplitToDetails.h"
 #import "AssemblyValidatorTransformed.h"
+#import "InstructionStep.h"
 
 @interface AssemblyValidatorRotated ()
   {
@@ -37,7 +38,7 @@
   return [[self alloc] initWithAssemblyType:assemblyType];
   }
 
-- (BOOL)isCompleteWithError:(NSError**)error
+- (BOOL)canDisassembleWithError:(NSError**)error steps:(NSMutableArray*)steps andCurrentStep:(InstructionStep*)currentStep
   {
   BOOL isAssemblySplit = _assemblyType.detailsInstalled.count && !_assemblyType.assemblyBase;
   BOOL arePartsDetachedFromAssembly = nil != _assemblyType.assemblyBase;
@@ -49,7 +50,15 @@
     return NO;
     }
     
-  return [[AssemblyValidatorGeneral validatorWitAssemblyType:_assemblyType.assemblyBeforeRotation.type] isCompleteWithError:error];
+  BOOL result = [[AssemblyValidatorGeneral validatorWitAssemblyType:_assemblyType.assemblyBeforeRotation.type] canDisassembleWithError:error andSteps:steps];
+  
+  if (!result && (*error).code != kModelValidationErrorCodeAssemblyNotBrokenUp)
+    return NO;
+
+  currentStep.resultingAssemblyVolumeInCubicPins += [steps.lastObject resultingAssemblyVolumeInCubicPins];
+  [steps addObject:currentStep];
+  
+  return result;
   }
 
 @end
