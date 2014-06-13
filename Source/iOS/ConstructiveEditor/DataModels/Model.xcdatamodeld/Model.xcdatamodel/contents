@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3383" systemVersion="12E55" minimumToolsVersion="Xcode 4.1" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13C64" minimumToolsVersion="Xcode 4.1" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Assembly" representedClassName="Assembly" syncable="YES">
         <attribute name="connectionPoint" optional="YES" attributeType="Transformable" valueTransformerName="" syncable="YES"/>
         <relationship name="assemblyExtended" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="AssemblyType" inverseName="assemblyBase" inverseEntity="AssemblyType" syncable="YES"/>
@@ -10,6 +10,9 @@
     </entity>
     <entity name="AssemblyType" representedClassName="AssemblyType" syncable="YES">
         <attribute name="isPictureSelected" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="pictureSizeInitial" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="pictureSizePrepared" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="pictureWidthInPins" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="preparedPicturePoint0_0X" optional="YES" attributeType="Float" syncable="YES"/>
         <attribute name="preparedPicturePoint0_0Y" optional="YES" attributeType="Float" syncable="YES"/>
         <attribute name="preparedPicturePoint1_1X" optional="YES" attributeType="Float" syncable="YES"/>
@@ -42,6 +45,8 @@
         <attribute name="identifier" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="isPictureSelected" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="length" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="pictureSizeInitial" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="pictureSizePrepared" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="pictureWidthInPins" optional="YES" attributeType="Float" minValueString="0" syncable="YES"/>
         <attribute name="preparedPicturePoint0_0X" optional="YES" attributeType="Float" syncable="YES"/>
         <attribute name="preparedPicturePoint0_0Y" optional="YES" attributeType="Float" syncable="YES"/>
@@ -68,12 +73,12 @@
         <relationship name="rootAssembly" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Assembly" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Assembly" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="AssemblyType" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="AssemblyTypesShelf" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Detail" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="DetailType" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Picture" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="RootAssemblyReference" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Assembly" positionX="0" positionY="0" width="128" height="135"/>
+        <element name="AssemblyType" positionX="0" positionY="0" width="128" height="358"/>
+        <element name="AssemblyTypesShelf" positionX="0" positionY="0" width="128" height="60"/>
+        <element name="Detail" positionX="0" positionY="0" width="128" height="90"/>
+        <element name="DetailType" positionX="0" positionY="0" width="128" height="418"/>
+        <element name="Picture" positionX="0" positionY="0" width="128" height="60"/>
+        <element name="RootAssemblyReference" positionX="0" positionY="0" width="128" height="60"/>
     </elements>
 </model>

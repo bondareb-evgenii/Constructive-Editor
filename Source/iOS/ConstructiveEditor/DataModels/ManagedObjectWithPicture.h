@@ -9,6 +9,9 @@
 @interface ManagedObjectWithPicture : NSManagedObject
 
   @property (nonatomic, retain) NSNumber*           isPictureSelected;
+  @property (nonatomic, retain) NSValue*            pictureSizeInitial;
+  @property (nonatomic, retain) NSValue*            pictureSizePrepared;
+
   //relations
   @property (nonatomic, retain) Picture*  picture;
   @property (nonatomic, retain) Picture*  pictureThumbnail60x60AspectFit;
@@ -20,5 +23,6 @@
   - (void)setPictureImage:(UIImage*)image;
   - (void)setPicturePreparedImage:(UIImage*)image;
   - (UIImage*)pictureBestForSize:(CGSize)size;
+  - (CGSize)pictureSize;
 
 @end

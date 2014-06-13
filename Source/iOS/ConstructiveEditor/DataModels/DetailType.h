@@ -28,6 +28,9 @@
 
 //relations
 @property (nonatomic, retain) NSSet*    details;
+
+//calculated properties
+@property (nonatomic, readonly, strong) NSNumber* addedVolumeInCubicPins;
 @end
 
 @interface DetailType (CoreDataGeneratedAccessors)

@@ -54,4 +54,6 @@ extern NSString* const preferredPaperOrientation;
   extern NSString* const preferredPaperOrientation_Portrait;
   extern NSString* const preferredPaperOrientation_Landscape;
   extern NSString* const preferredPaperOrientation_Default;
+extern NSString* const averageDetailAddedVolumeInCubicPins;
+  extern float const averageDetailAddedVolumeInCubicPinsDefault;
 #endif

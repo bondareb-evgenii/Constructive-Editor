@@ -14,6 +14,7 @@
 @property (nonatomic, retain) NSNumber*           preparedPicturePoint0_0Y;
 @property (nonatomic, retain) NSNumber*           preparedPicturePoint1_1X;
 @property (nonatomic, retain) NSNumber*           preparedPicturePoint1_1Y;
+@property (nonatomic, retain) NSNumber*           pictureWidthInPins;
 
 //relations
 @property (nonatomic, retain) NSSet*              assemblies;

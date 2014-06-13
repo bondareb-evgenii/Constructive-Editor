@@ -40,6 +40,7 @@
       }
     self.isPictureSelected = [NSNumber numberWithBool:YES];
     self.picture.image = image;
+    self.pictureSizeInitial = [NSValue valueWithCGSize:image.size];
     self.pictureThumbnail60x60AspectFit.image = [image resizedImageWithContentMode:UIViewContentModeScaleAspectFit bounds:CGSizeMake(60, 60) interpolationQuality:kCGInterpolationHigh];
     self.pictureThumbnail120x120AspectFit.image = [image resizedImageWithContentMode:UIViewContentModeScaleAspectFit bounds:CGSizeMake(120, 120) interpolationQuality:kCGInterpolationHigh];
     }
@@ -50,6 +51,7 @@
     }
   //clear prepared picture which should always depend on the original one
   self.picturePrepared.image = self.picturePreparedThumbnail60x60AspectFit.image = self.picturePreparedThumbnail120x120AspectFit.image = nil;
+  self.pictureSizePrepared = [NSValue valueWithCGSize:CGSizeZero];
   }
 
 - (void)setPicturePreparedImage:(UIImage*)image
@@ -90,6 +92,15 @@
     }
   //no else here
   return [self pictureToShow];
+  }
+
+- (CGSize)pictureSize
+  {
+  if (self.pictureSizePrepared && !CGSizeEqualToSize(CGSizeZero, self.pictureSizePrepared.CGSizeValue))
+    return self.pictureSizePrepared.CGSizeValue;
+  if (self.pictureSizeInitial/* && !CGSizeEqualToSize(CGSizeZero, self.pictureSizeInitial.CGSizeValue)*/)//additional check makes no sense here as the return value is CGSizeZero anyway
+   return self.pictureSizeInitial.CGSizeValue;
+  return CGSizeZero;
   }
 
 - (UIImage*)pictureToShow

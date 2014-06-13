@@ -51,3 +51,5 @@ NSString* const preferredPaperOrientation = @"preferredPaperOrientation";
   NSString* const preferredPaperOrientation_Portrait = @"preferredPaperOrientation_Portrait";
   NSString* const preferredPaperOrientation_Landscape = @"preferredPaperOrientation_Landscape";
   NSString* const preferredPaperOrientation_Default = @"preferredPaperOrientation_Portrait";
+NSString* const averageDetailAddedVolumeInCubicPins = @"averageDetailAddedVolumeInCubicPins";
+  float const averageDetailAddedVolumeInCubicPinsDefault = 6.3;

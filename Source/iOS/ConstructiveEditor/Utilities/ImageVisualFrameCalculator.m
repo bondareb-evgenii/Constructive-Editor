@@ -1,10 +1,6 @@
 //
 //  ImageVisualFrameCalculator.m
 //  ConstructiveEditor
-//
-//  Created by 007 on 2/7/13.
-//
-//
 
 #import "ImageVisualFrameCalculator.h"
 
